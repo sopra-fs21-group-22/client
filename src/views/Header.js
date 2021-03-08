@@ -1,44 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ReactLogo } from "./ReactLogo";
+import { Nav, Navbar } from "react-bootstrap";
+import Register from "../components/register/Register";
+import Login from "../components/login/Login";
+import { Link, useHistory } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
-/**
- * Using styled-components you can visual HTML primitives and use props with it!
- * The idea behind this external package, it's to have a better structure and overview for your HTML and CSS
- * Using styled-components, you can have styling conditions using the following syntax: ${props => ...}
- * https://www.styled-components.com/
- */
-const Container = styled.div`
-  height: ${props => props.height}px;
-  background: ${props => props.background};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+function Header({ user, updateUser }) {
+  const history = useHistory();
 
-const Title = styled.h1`
-  font-weight: bold;
-  color: white;
-  text-align: center;
-`;
-/**
- * This is an example of a Functional and stateless component (View) in React. Functional components are not classes and thus don't handle internal state changes.
- * Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called “props”) and return React elements describing what should appear on the screen.
- * They are reusable pieces, and think about each piece in isolation.
- * Functional components have to return always something. However, they don't need a "render()" method.
- * https://reactjs.org/docs/components-and-props.html
- * @FunctionalComponent
- */
-const Header = props => {
+  const handleLogin = () => {
+    updateUser(null);
+    localStorage.removeItem('token');
+    history.push("/login");
+  }
+
+  const handleRegister = () => {
+    if (user == null) {
+
+    } else {
+
+    }
+
+  }
+
+
   return (
-    <Container height={props.height}>
-      <Title>SoPra FS21 rocks with React!</Title>
-      <ReactLogo width={60} height={60} />
-    </Container>
+
+    <Navbar bg="light">
+      <Navbar.Brand href="#home">BANG!</Navbar.Brand>
+      <Navbar.Collapse className="justify-content-end">
+        <Nav.Link onClick={() => handleRegister()}>{user == null ? "Register" : "View Profile"}</Nav.Link>
+        <Nav.Link onClick={() => handleLogin()}>{user == null ? "Login" : "Logout"}</Nav.Link>
+      </Navbar.Collapse>
+    </Navbar>
+
   );
 };
 
-/**
- * Don't forget to export your component!
- */
 export default Header;

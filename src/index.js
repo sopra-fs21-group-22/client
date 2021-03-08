@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 /**
  * This is the entry point of your React application where the root element is in the public/index.html.
  * We call this a “root” DOM node because everything inside it will be managed by React DOM.
