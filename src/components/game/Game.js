@@ -7,7 +7,7 @@ import { withRouter, useHistory, Link } from 'react-router-dom';
 import { Button, Container, Row, Col, ListGroup, } from 'react-bootstrap';
 
 
-function Game() {
+function Game({ currUser }) {
   const [users, setUsers] = useState();
 
 
@@ -25,13 +25,13 @@ function Game() {
 
       // This is just some data for you to see what is available.
       // Feel free to remove it.
-      console.log('request to:', response.request.responseURL);
-      console.log('status code:', response.status);
-      console.log('status text:', response.statusText);
-      console.log('requested data:', response.data);
+      // console.log('request to:', response.request.responseURL);
+      // console.log('status code:', response.status);
+      // console.log('status text:', response.statusText);
+      // console.log('requested data:', response.data);
 
-      // See here to get more data.
-      console.log(response);
+      // // See here to get more data.
+      // console.log(response);
     } catch (error) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
@@ -51,21 +51,41 @@ function Game() {
             <ListGroup.Item>
               <Row>
                 <Col>Username</Col>
+                <Col>ID</Col>
+                <Col>Join Date</Col>
                 <Col>Status</Col>
               </Row>
             </ListGroup.Item>
 
-            {users.map((user) => (
+            {// showing the currently logged in user
+            }
+            <ListGroup.Item variant="primary">
+              <Row>
+                <Col>
+                  <Link to={`/game/dashboard/${currUser.id}`}>{currUser.username} (You)</Link>
+                </Col>
+                <Col>{currUser.id}</Col>
+                <Col>{currUser.creationDate}</Col>
+                <Col>{currUser.status}</Col>
+              </Row>
+            </ListGroup.Item>
 
-              <ListGroup.Item >
-                <Row>
-                  <Col>
-                    <Link to={`/game/dashboard/${user.id}`}>{user.username}</Link>
-                  </Col>
-                  <Col>{user.status}</Col>
-                </Row>
-              </ListGroup.Item>
-            ))}
+            {
+              // removing logged in user as they already are in the list
+              users.filter((user) => user.username != currUser.username)
+                .map((user) => (
+                  <ListGroup.Item key={user.id}>
+                    <Row>
+                      <Col>
+                        <Link to={`/game/dashboard/${user.id}`}>{user.username}</Link>
+                      </Col>
+                      <Col>{user.id}</Col>
+                      <Col>{user.creationDate}</Col>
+                      <Col>{user.status}</Col>
+
+                    </Row>
+                  </ListGroup.Item>
+                ))}
           </ListGroup>
         </div>
 

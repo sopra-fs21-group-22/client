@@ -8,27 +8,26 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-class GameRouter extends React.Component {
-  render() {
-    /**
-     * "this.props.base" is "/app" because as been passed as a prop in the parent of GameRouter, i.e., App.js
-     */
-    return (
-      <Container>
-        <Route
-          exact
-          path={`${this.props.base}/dashboard`}
-          render={() => <Game />}
-        />
+function GameRouter({ currUser, base }) {
 
-        <Route
-          exact
-          path={`${this.props.base}`}
-          render={() => <Redirect to={`${this.props.base}/dashboard`} />}
-        />
-      </Container>
-    );
-  }
+  /**
+   * "base" is "/app" because as been passed as a prop in the parent of GameRouter, i.e., App.js
+   */
+  return (
+    <Container>
+      <Route
+        exact
+        path={`${base}/dashboard`}
+        render={() => <Game currUser={currUser} />}
+      />
+
+      <Route
+        exact
+        path={`${base}`}
+        render={() => <Redirect to={`${base}/dashboard`} />}
+      />
+    </Container>
+  );
 }
 /*
 * Don't forget to export your component!

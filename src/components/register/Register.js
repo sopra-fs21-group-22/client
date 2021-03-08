@@ -21,7 +21,7 @@ const Form = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 60%;
-  height: 580px;
+  height: 440px;
   font-size: 16px;
   font-weight: 300;
   padding-left: 37px;
@@ -61,13 +61,12 @@ export default function Register() {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [passwordConf, setPasswordConf] = useState();
-    const [birthday, setBirthday] = useState();
     const history = useHistory();
 
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const users = await api.get('/auth/users');
+        const users = await api.get('/users');
 
         const usernames = users.data.map(userdata => userdata.username);
         if (usernames.includes(username)) {
@@ -78,10 +77,10 @@ export default function Register() {
         const requestBody = JSON.stringify({
             "username": username,
             "password": password,
-            "birthday": birthday,
+
         })
 
-        const response = await api.post("/auth/users", requestBody);
+        const response = await api.post("/users", requestBody);
 
         const user = new User(response.data);
         console.log(user);
@@ -114,14 +113,6 @@ export default function Register() {
                             handleSetUsername(e);
                         }}
                     />
-                    <Label>Birthday</Label>
-                    <InputField
-                        type="date"
-                        placeholder="Enter here.."
-                        onChange={e => {
-                            setBirthday(e.target.value);
-                        }}
-                    />
                     <Label>Password</Label>
                     <InputField
                         required
@@ -139,8 +130,6 @@ export default function Register() {
                             setPasswordConf(e.target.value);
                         }}
                     />
-
-                    <p><a href="/ auth/authenticate">Click here to Login</a></p>
 
                     <ButtonContainer>
                         <Button

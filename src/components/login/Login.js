@@ -20,7 +20,7 @@ const Form = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 60%;
-  height: 375px;
+  height: 350px;
   font-size: 16px;
   font-weight: 300;
   padding-left: 37px;
@@ -78,16 +78,16 @@ function Login({ user, updateUser }) {
         password: password,
       });
       // TODO
-      const response = await api.post('/auth/authenticate', requestBody);
+      const response = await api.post('/authenticate', requestBody);
 
       user = new User(response.data);
-
-      user.username = username;
 
       // udate the parent Component
       updateUser(user);
 
       // Store the token into the local storage.
+      localStorage.setItem('user', JSON.stringify(user));
+
       localStorage.setItem('token', user.token);
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
@@ -116,7 +116,6 @@ function Login({ user, updateUser }) {
             onChange={e => setPassword(e.target.value)}
 
           />
-          <a href="/register">Click here to register</a>
           <ButtonContainer>
             <Button
               disabled={!username || !password}

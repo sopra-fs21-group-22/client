@@ -13,14 +13,16 @@ function Header({ user, updateUser }) {
   const handleLogin = () => {
     updateUser(null);
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     history.push("/login");
   }
 
   const handleRegister = () => {
     if (user == null) {
-
+      history.push("/register");
     } else {
-
+      // TODO fetch actual id from user
+      history.push("/game/dashboard/1");
     }
 
   }
