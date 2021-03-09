@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
-import { api, handleError } from '../../helpers/api';
+import { api, authApi, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { Redirect, withRouter, useHistory } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
@@ -57,7 +57,7 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-export default function Register() {
+export default function Register({ currUser, updateUser }) {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [passwordConf, setPasswordConf] = useState();
@@ -65,32 +65,35 @@ export default function Register() {
 
 
     const handleSubmit = async e => {
-        e.preventDefault();
-        const users = await api.get('/users');
+        try {
+            e.preventDefault();
 
-        const usernames = users.data.map(userdata => userdata.username);
-        if (usernames.includes(username)) {
-            alert("Username already taken!");
-            return
+
+            const requestBody = JSON.stringify({
+                "username": username,
+                "password": password,
+
+            })
+
+            await api.post("/users", requestBody);
+
+            const response = await api.post("/authenticate", requestBody);
+
+            const user = new User(response.data);
+
+            updateUser(user);
+
+            localStorage.setItem("token", user.jwt);
+
+            localStorage.setItem("user", JSON.stringify(user));
+
+            history.push('/game');
+
+        } catch (error) {
+            // TODO
+            alert(error)
         }
 
-        const requestBody = JSON.stringify({
-            "username": username,
-            "password": password,
-
-        })
-
-        const response = await api.post("/users", requestBody);
-
-        const user = new User(response.data);
-        console.log(user);
-
-        localStorage.setItem("token", user.token);
-
-        history.push('/game');
-
-        // TODO
-        // save user data
 
     }
 
