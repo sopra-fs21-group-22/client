@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { api, handleError } from '../../helpers/api';
+import { api, authApi, handleError } from '../../helpers/api';
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { withRouter, useHistory, Link } from 'react-router-dom';
@@ -14,7 +14,7 @@ function Game({ currUser }) {
   useEffect(async () => {
 
     try {
-      const response = await api.get('/auth/users');
+      const response = await authApi().get('/users');
       // delays continuous execution of an async operation for 1 second.
       // This is just a fake async call, so that the spinner can be displayed
       // feel free to remove it :)

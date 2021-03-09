@@ -5,9 +5,19 @@ export const api = axios.create({
   baseURL: getDomain(),
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + localStorage.getItem('token')
+
   }
 });
+
+export const authApi = () => {
+  return axios.create({
+    baseURL: getDomain(),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+  })
+}
 
 export const handleError = error => {
   const response = error.response;

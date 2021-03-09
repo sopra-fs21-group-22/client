@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
-import { api, handleError } from '../../helpers/api';
+import { authApi, handleError } from '../../helpers/api';
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
@@ -27,13 +27,13 @@ import { Col, Row, Container } from 'react-bootstrap';
 
 
 
-export default function ProfilePage({ match }) {
+export default function ProfilePage({ match, user }) {
     const [user, setUser] = useState();
     const history = useHistory();
 
     useEffect(async () => {
         try {
-            const response = await api.get(`/auth/users/${match.params.id}`);
+            const response = await authApi().get(`/users/${match.params.id}`);
             // delays continuous execution of an async operation for 1 second.
             // This is just a fake async call, so that the spinner can be displayed
             // feel free to remove it :)

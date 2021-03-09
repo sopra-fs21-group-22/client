@@ -88,7 +88,7 @@ function Login({ user, updateUser }) {
       // Store the token into the local storage.
       localStorage.setItem('user', JSON.stringify(user));
 
-      localStorage.setItem('token', user.token);
+      localStorage.setItem('token', user.jwt);
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       history.push(`/game`);
