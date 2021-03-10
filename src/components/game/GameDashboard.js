@@ -20,6 +20,7 @@ function GameDashboard({ currUser }) {
       // Get the returned users and update the state.
       setUsers(response.data);
 
+
     } catch (error) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
