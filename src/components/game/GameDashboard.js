@@ -5,9 +5,10 @@ import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { withRouter, useHistory, Link } from 'react-router-dom';
 import { Button, Container, Row, Col, ListGroup, } from 'react-bootstrap';
+import UserStatus from '../../views/design/UserStatus';
 
 
-function Game({ currUser }) {
+function GameDashboard({ currUser }) {
   const [users, setUsers] = useState();
 
 
@@ -15,23 +16,10 @@ function Game({ currUser }) {
 
     try {
       const response = await authApi().get('/users');
-      // delays continuous execution of an async operation for 1 second.
-      // This is just a fake async call, so that the spinner can be displayed
-      // feel free to remove it :)
-      await new Promise(resolve => setTimeout(resolve, 1000));
 
       // Get the returned users and update the state.
       setUsers(response.data);
 
-      // This is just some data for you to see what is available.
-      // Feel free to remove it.
-      // console.log('request to:', response.request.responseURL);
-      // console.log('status code:', response.status);
-      // console.log('status text:', response.statusText);
-      // console.log('requested data:', response.data);
-
-      // // See here to get more data.
-      // console.log(response);
     } catch (error) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
@@ -66,7 +54,7 @@ function Game({ currUser }) {
                 </Col>
                 <Col>{currUser.id}</Col>
                 <Col>{currUser.creationDate}</Col>
-                <Col>{currUser.status}</Col>
+                <Col><UserStatus user={currUser} /></Col>
               </Row>
             </ListGroup.Item>
 
@@ -81,7 +69,7 @@ function Game({ currUser }) {
                       </Col>
                       <Col>{user.id}</Col>
                       <Col>{user.creationDate}</Col>
-                      <Col>{user.status}</Col>
+                      <Col><UserStatus user={currUser} /></Col>
 
                     </Row>
                   </ListGroup.Item>
@@ -95,4 +83,4 @@ function Game({ currUser }) {
   )
 }
 
-export default withRouter(Game);
+export default withRouter(GameDashboard);

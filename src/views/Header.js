@@ -29,15 +29,16 @@ function Header({ user, updateUser }) {
 
 
   return (
-
-    <Navbar bg="light">
-      <Navbar.Brand href="#home">BANG!</Navbar.Brand>
-      <Navbar.Collapse className="justify-content-end">
-        <Nav.Link onClick={() => handleRegister()}>{user == null ? "Register" : "View Profile"}</Nav.Link>
-        <Nav.Link onClick={() => handleLogin()}>{user == null ? "Login" : "Logout"}</Nav.Link>
-      </Navbar.Collapse>
-    </Navbar>
-
+    <>
+      <Navbar bg="light">
+        <Navbar.Brand onClick={() => history.push("/game/dashboard")}>BANG!</Navbar.Brand>
+        <Navbar.Collapse className="justify-content-end">
+          <Nav.Link onClick={() => handleRegister()}>{user == null ? "Register" : "View Profile"}</Nav.Link>
+          <Nav.Link onClick={() => handleLogin()}>{user == null ? "Login" : "Logout"}</Nav.Link>
+        </Navbar.Collapse>
+      </Navbar>
+      <br></br>
+    </>
   );
 };
 

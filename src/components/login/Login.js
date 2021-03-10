@@ -5,56 +5,7 @@ import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { useHistory, withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
-
-const FormContainer = styled.div`
-  margin-top: 2em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 300px;
-  justify-content: center;
-`;
-
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 60%;
-  height: 350px;
-  font-size: 16px;
-  font-weight: 300;
-  padding-left: 37px;
-  padding-right: 37px;
-  border-radius: 5px;
-  background: linear-gradient(rgb(27, 124, 186), rgb(2, 46, 101));
-  transition: opacity 0.5s ease, transform 0.5s ease;
-`;
-
-const InputField = styled.input`
-  &::placeholder {
-    color: rgba(255, 255, 255, 1.0);
-  }
-  height: 35px;
-  padding-left: 15px;
-  margin-left: -4px;
-  border: none;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-`;
-
-const Label = styled.label`
-  color: white;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
+import { Form, Container } from 'react-bootstrap';
 
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
@@ -69,9 +20,14 @@ function Login({ user, updateUser }) {
 
   const [password, setPassword] = useState();
   const [username, setUsername] = useState();
+  const [formState, setFormState] = useState({
+    passValidity: null,
+    nameValidity: null
+  })
   const history = useHistory();
 
-  const login = async () => {
+  const login = async (e) => {
+    e.preventDefault();
     try {
       const requestBody = JSON.stringify({
         username: username,
@@ -81,6 +37,7 @@ function Login({ user, updateUser }) {
       const response = await api.post('/authenticate', requestBody);
 
       user = new User(response.data);
+
 
       // udate the parent Component
       updateUser(user);
@@ -93,43 +50,51 @@ function Login({ user, updateUser }) {
       // Login successfully worked --> navigate to the route /game in the GameRouter
       history.push(`/game`);
     } catch (error) {
-      alert("Username or password is incorrect!");
-      alert(error);
+      setFormState({
+        passValidity: true,
+        nameValidity: true
+      })
     }
   }
 
 
   return (
-    <BaseContainer>
-      <FormContainer>
-        <Form>
-          <Label>Username</Label>
-          <InputField
-            placeholder="Enter here.."
+
+    <Container>
+      <Form>
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            placeholder="Enter here..."
             onChange={e => setUsername(e.target.value)}
-
+            isInvalid={formState.nameValidity}
           />
-          <Label>Password</Label>
-          <InputField
+          <Form.Control.Feedback type="invalid">
+            Wrong username or password!
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             type="password"
-            placeholder="Enter here.."
+            placeholder="Password"
             onChange={e => setPassword(e.target.value)}
-
+            isInvalid={formState.passValidity}
           />
-          <ButtonContainer>
-            <Button
-              disabled={!username || !password}
-              width="50%"
-              onClick={() => {
-                login();
-              }}
-            >
-              Login
-              </Button>
-          </ButtonContainer>
-        </Form>
-      </FormContainer>
-    </BaseContainer>
+        </Form.Group>
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={!username || !password}
+          onClick={(e) => {
+            login(e);
+          }}
+        >
+          Submit
+        </Button>
+      </Form>
+    </Container>
   );
 
 }

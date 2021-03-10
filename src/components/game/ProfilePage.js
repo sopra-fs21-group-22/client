@@ -5,8 +5,9 @@ import { authApi, handleError } from '../../helpers/api';
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
-import { withRouter, useHistory, Link, } from 'react-router-dom';
-import { Col, Row, Container } from 'react-bootstrap';
+import { withRouter, useHistory, Link, useRouteMatch, } from 'react-router-dom';
+import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck } from 'react-bootstrap';
+import UserStatus from '../../views/design/UserStatus';
 
 // const Container = styled(BaseContainer)`
 //   color: white;
@@ -27,17 +28,14 @@ import { Col, Row, Container } from 'react-bootstrap';
 
 
 
-export default function ProfilePage({ match, user }) {
+function ProfilePage({ currUser, match }) {
     const [user, setUser] = useState();
     const history = useHistory();
 
     useEffect(async () => {
         try {
+
             const response = await authApi().get(`/users/${match.params.id}`);
-            // delays continuous execution of an async operation for 1 second.
-            // This is just a fake async call, so that the spinner can be displayed
-            // feel free to remove it :)
-            await new Promise(resolve => setTimeout(resolve, 1000));
 
             // Get the returned users and update the state.
             setUser(response.data);
@@ -50,10 +48,71 @@ export default function ProfilePage({ match, user }) {
 
     return (
         <Container>
-            <Row>
-                <Col><h1>Hello World</h1></Col>
-            </Row>
-        </Container>
+            <CardDeck>
+                {user ? (
+                    <Card>
+                        {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
+
+                        <Card.Body>
+                            <Card.Title>
+                                <Row>
+                                    <Col className="text-center">
+                                        <h2>{user.username + " "}
+                                            <UserStatus user={user}></UserStatus>
+                                        </h2>
+                                    </Col>
+                                    {user.id == currUser.id ?
+                                        (
+                                            <i className="fas fa-edit text" onClick={() => history.push(`/game/dashboard/${user.id}/edit`)}></i>
+                                        ) : (
+                                            null
+                                        )
+                                    }
+
+                                </Row>
+                            </Card.Title>
+                            <Card.Text className="text-center">Birthday: {user.birthday ? user.birthday : "Unknown"}</Card.Text>
+                            <Card.Text className="text-center">Joined on: {user.creationDate}</Card.Text>
+                            {/* <Card.Text>
+                            {user.signature ? user.signature : "(No signature yet)"}
+                        </Card.Text> */}
+
+                        </Card.Body>
+                        <Card.Footer>
+                            <small className="text-muted"></small>
+                        </Card.Footer>
+                    </Card>
+                ) : (<Spinner />)}
+                {/* <Card>
+                    <Card.Img variant="top" src="holder.js/100px160" />
+                    <Card.Body>
+                        <Card.Title>Card title</Card.Title>
+                        <Card.Text>
+                            This card has supporting text below as a natural lead-in to additional
+        content.{' '}
+                        </Card.Text>
+                    </Card.Body>
+                    <Card.Footer>
+                        <small className="text-muted">Last updated 3 mins ago</small>
+                    </Card.Footer>
+                </Card>
+                <Card>
+                    <Card.Img variant="top" src="holder.js/100px160" />
+                    <Card.Body>
+                        <Card.Title>Card title</Card.Title>
+                        <Card.Text>
+                            This is a wider card with supporting text below as a natural lead-in to
+                            additional content. This card has even longer content than the first to
+                            show that equal height action.
+      </Card.Text>
+                    </Card.Body>
+                    <Card.Footer>
+                        <small className="text-muted">Last updated 3 mins ago</small>
+                    </Card.Footer>
+                </Card> */}
+            </CardDeck>
+        </Container >
     );
 }
 
+export default withRouter(ProfilePage);

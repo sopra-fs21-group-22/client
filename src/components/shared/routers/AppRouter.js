@@ -27,15 +27,14 @@ function AppRouter() {
   }
 
   useEffect(() => {
+    // TODO check if json token expired as well
+
+    // check if user is still logged in and store user if that's the case
     const userData = JSON.parse(localStorage.getItem('user'));
-    console.log("USERDATA");
     const currentUser = new User(userData);
 
-    console.log(currentUser);
     if (currentUser) {
       updateUser(currentUser);
-    } else {
-      console.log("Not updating user.");
     }
   }, [])
 
@@ -48,7 +47,7 @@ function AppRouter() {
             path="/game"
             render={() => (
               <GameGuard>
-                <GameRouter currUser={user} base={"/game"} />
+                <GameRouter updateUser={updateUser} currUser={user} base={"/game"} />
               </GameGuard>
             )}
           />
@@ -66,12 +65,16 @@ function AppRouter() {
             exact
             render={() => (
               <LoginGuard>
-                <Register user={user} />
+                <Register currUser={user} updateUser={updateUser} />
               </LoginGuard>
             )}
           />
-          <Route path="/" exact render={() => <Redirect to={"/game"} />} />
-          <Route path="/game/dashboard/:id" component={ProfilePage} />
+          <Route
+            path="/"
+            exact
+            render={() => <Redirect to={"/game"} />}
+          />
+
         </div>
       </Switch>
     </BrowserRouter>
