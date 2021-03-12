@@ -32,14 +32,20 @@ function ProfilePageEdit({ currUser, match, updateUser }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await authApi().put(`/users/${currUser.id}`, {
+            const response = await authApi().put(`/users/${currUser.id}`, {
                 username: username,
                 birthday: birthday
             })
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            updateUser(null);
-            history.push("/login");
+            // TODO
+            if (!(username == currUser.username)) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                updateUser(null);
+                history.push("/login");
+            } else {
+                history.push(`/game/dashboard/${currUser.id}`)
+            }
+
         } catch (error) {
             alert(`Something went wrong: \n${handleError(error)}`)
         }
