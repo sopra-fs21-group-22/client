@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { getDomain } from './getDomain';
-
+/**
+ *  api used when page doesn't require the user to be logged in
+ */
 export const api = axios.create({
   baseURL: getDomain(),
   headers: {
@@ -8,13 +10,17 @@ export const api = axios.create({
 
   }
 });
-
+/**
+  * api used when authentication is required to visit a page
+  */
 export const authApi = () => {
+  const token = localStorage.getItem('token');
+  if (token == null) { throw "Token is null. Store the token in localstorage as 'token'."; }
   return axios.create({
     baseURL: getDomain(),
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
+      'Authorization': 'Bearer ' + token
     }
   })
 }
