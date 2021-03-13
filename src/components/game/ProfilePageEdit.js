@@ -38,7 +38,6 @@ function ProfilePageEdit({ currUser, match, updateUser }) {
             })
             // TODO
             if (!(username == currUser.username)) {
-                localStorage.removeItem("token");
                 localStorage.removeItem("user");
                 updateUser(null);
                 history.push("/login");

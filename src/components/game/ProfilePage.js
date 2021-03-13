@@ -4,9 +4,8 @@ import { BaseContainer } from '../../helpers/layout';
 import { authApi, handleError } from '../../helpers/api';
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
-import { Button } from '../../views/design/Button';
 import { withRouter, useHistory, Link, useRouteMatch, } from 'react-router-dom';
-import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck } from 'react-bootstrap';
+import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
 
 // const Container = styled(BaseContainer)`
@@ -51,11 +50,14 @@ function ProfilePage({ currUser, match }) {
             <CardDeck>
                 {user ? (
                     <Card>
+                        {/* Profile pic */}
                         {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
 
                         <Card.Body>
                             <Card.Title>
                                 <Row>
+
+                                    <Button size="lg" variant="light" onClick={() => history.push("/game/dashboard")}><i className="fas fa-angle-left" ></i></Button>
                                     <Col className="text-center">
                                         <h2>{user.username + " "}
                                             <UserStatus user={user}></UserStatus>

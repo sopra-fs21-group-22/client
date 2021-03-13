@@ -7,23 +7,27 @@ export const api = axios.create({
   baseURL: getDomain(),
   headers: {
     'Content-Type': 'application/json',
-
   }
 });
 /**
   * api used when authentication is required to visit a page
   */
 export const authApi = () => {
-  const token = localStorage.getItem('token');
-  if (token == null) { throw "Token is null. Store the token in localstorage as 'token'."; }
-  return axios.create({
-    baseURL: getDomain(),
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    }
-  })
+  const token = JSON.parse(localStorage.getItem('user')).jwt;
+  if (token == null) { throw "Token is null. Store the token in localstorage as 'user.jwt'."; }
+  try {
+    return axios.create({
+      baseURL: getDomain(),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }
+    })
+  } catch (e) {
+    throw "Token is invalid"
+  }
 }
+
 
 export const handleError = error => {
   const response = error.response;
@@ -43,12 +47,5 @@ export const handleError = error => {
 
     console.log('The request was made and answered but was unsuccessful.', error.response);
     return info;
-  } else {
-    if (error.message.match(/Network Error/)) {
-      alert('The server cannot be reached.\nDid you start it?');
-    }
-
-    console.log('Something else happened.', error);
-    return error.message;
   }
 };

@@ -38,8 +38,6 @@ export default function Register({ currUser, updateUser }) {
 
             updateUser(user);
 
-            localStorage.setItem("token", user.jwt);
-
             localStorage.setItem("user", JSON.stringify(user));
 
             history.push('/game');

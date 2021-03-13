@@ -8,6 +8,7 @@ import Login from "../../login/Login";
 import ProfilePage from "../../game/ProfilePage";
 import Header from "../../../views/Header";
 import User from "../models/User";
+import { authApi } from "../../../helpers/api";
 
 /**
  * Main router of your application.
@@ -26,17 +27,6 @@ function AppRouter() {
     setUser(newUser);
   }
 
-  useEffect(() => {
-    // TODO check if json token expired as well
-
-    // check if user is still logged in and store user if that's the case
-    const userData = JSON.parse(localStorage.getItem('user'));
-    const currentUser = new User(userData);
-
-    if (userData != null) {
-      updateUser(currentUser);
-    }
-  }, [])
 
   return (
     <BrowserRouter>

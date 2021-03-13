@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { useHistory, withRouter } from 'react-router-dom';
@@ -42,10 +41,8 @@ function Login({ user, updateUser }) {
       // udate the parent Component
       updateUser(user);
 
-      // Store the token into the local storage.
+      // Store the user in localstorage
       localStorage.setItem('user', JSON.stringify(user));
-
-      localStorage.setItem('token', user.jwt);
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       history.push(`/game`);

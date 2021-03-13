@@ -7,15 +7,16 @@ import Login from "../components/login/Login";
 import { Link, Prompt, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { authApi } from "../helpers/api";
+import User from "../components/shared/models/User";
 
 function Header({ user, updateUser }) {
   const history = useHistory();
 
-  const handleLogin = () => {
-    if (localStorage.getItem('token') != null) {
-      authApi().delete(`/users/${user.id}`)
+  const handleLoginLogout = () => {
+    if (localStorage.getItem('user') != null) {
+      // Logout
+      authApi().put(`/users/${user.id}`, { "status": "OFFLINE" })
     }
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
     updateUser(null);
     history.push("/login");
@@ -31,28 +32,49 @@ function Header({ user, updateUser }) {
 
   }
 
-  const handleUnload = (e) => {
-    e.preventDefault()
-    authApi().delete(`/users/${user.id}`)
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-  }
-
-
+  // this makes sure that a user is automatically logged out when they close the tab/window
   useEffect(() => {
-    window.addEventListener('beforeunload', handleUnload);
+    const handleUnload = (e) => {
+      authApi().put(`/users/${user.id}`, { "status": "OFFLINE" })
+    }
+    window.addEventListener('beforeunload', handleUnload)
+
     return () => {
       window.removeEventListener('beforeunload', handleUnload);
+
+    }
+  }, [user])
+
+
+  // runs when website opened first
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('user'));
+    if (userData == null) {
+      return
+    }
+    const currentUser = new User(userData);
+
+    try {
+      // try changing the online status
+      authApi().put(`/users/${currentUser.id}`, { "status": "ONLINE" });
+      updateUser(currentUser);
+    } catch (error) {
+      // if failed token is invalid and user is not logged in
+      localStorage.removeItem("user");
     }
   }, [])
+
+
+
+
 
   return (
     <>
       <Navbar bg="light">
         <Navbar.Brand onClick={() => history.push("/game/dashboard")}>BANG!</Navbar.Brand>
         <Navbar.Collapse className="justify-content-end">
-          <Nav.Link onClick={() => handleRegister()}>{user == null ? "Register" : "View Profile"}</Nav.Link>
-          <Nav.Link onClick={() => handleLogin()}>{user == null ? "Login" : "Logout"}</Nav.Link>
+          <Nav.Link onClick={() => handleRegister()}>{user == null ? "Register" : ""}</Nav.Link>
+          <Nav.Link onClick={() => handleLoginLogout()}>{user == null ? "Login" : "Logout"}</Nav.Link>
         </Navbar.Collapse>
       </Navbar>
       <br></br>

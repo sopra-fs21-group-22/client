@@ -70,7 +70,7 @@ function GameDashboard({ currUser }) {
                       </Col>
                       <Col>{user.id}</Col>
                       <Col>{user.creationDate}</Col>
-                      <Col><UserStatus user={currUser} /></Col>
+                      <Col><UserStatus user={user} /></Col>
 
                     </Row>
                   </ListGroup.Item>
