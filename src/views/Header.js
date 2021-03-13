@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ReactLogo } from "./ReactLogo";
 import { Nav, Navbar } from "react-bootstrap";
 import Register from "../components/register/Register";
 import Login from "../components/login/Login";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Prompt, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { authApi } from "../helpers/api";
 
 function Header({ user, updateUser }) {
   const history = useHistory();
 
   const handleLogin = () => {
-    updateUser(null);
+    if (localStorage.getItem('token') != null) {
+      authApi().delete(`/users/${user.id}`)
+    }
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    updateUser(null);
     history.push("/login");
   }
 
@@ -27,6 +31,20 @@ function Header({ user, updateUser }) {
 
   }
 
+  const handleUnload = (e) => {
+    e.preventDefault()
+    authApi().delete(`/users/${user.id}`)
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+  }
+
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', handleUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleUnload);
+    }
+  }, [])
 
   return (
     <>

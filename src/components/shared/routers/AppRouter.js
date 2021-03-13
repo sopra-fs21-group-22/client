@@ -33,7 +33,7 @@ function AppRouter() {
     const userData = JSON.parse(localStorage.getItem('user'));
     const currentUser = new User(userData);
 
-    if (currentUser) {
+    if (userData != null) {
       updateUser(currentUser);
     }
   }, [])
