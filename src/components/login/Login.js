@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { useHistory, withRouter } from 'react-router-dom';
-import { Button } from '../../views/design/Button';
-import { Form, Container } from 'react-bootstrap';
+import { Form, Container, Button } from 'react-bootstrap';
 
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
@@ -88,7 +87,7 @@ function Login({ user, updateUser }) {
             login(e);
           }}
         >
-          Submit
+          Login
         </Button>
       </Form>
     </Container>

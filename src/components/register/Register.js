@@ -90,7 +90,7 @@ export default function Register({ currUser, updateUser }) {
                         handleSubmit(e);
                     }}
                 >
-                    Submit
+                    Register
         </Button>
             </Form>
         </Container>
