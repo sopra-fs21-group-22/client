@@ -65,7 +65,7 @@ function ProfilePageEdit({ currUser, match, updateUser }) {
 
                     <Form.Group controlId="formBasicBirthday">
                         <Form.Label>Birthdate</Form.Label>
-                        <Form.Control type="date" value={currUser.birthday}
+                        <Form.Control type="date" placeholder={currUser.birthday}
                             onChange={(e) => setBirthday(new Date(e.target.value))} />
                     </Form.Group>
 
