@@ -10,16 +10,29 @@ import UserStatus from '../../views/design/UserStatus';
 
 function GameDashboard({ currUser }) {
   const [users, setUsers] = useState();
+  const [lobbies, setLobbies] = useState();
+
+  //TODO: remove this when lobbies are implemented. testing stuff
+  const lobby1 = {name:"lobbynameuno", player_count:"4/7", type:"public"};
+  const lobby2 = {name:"lobbynameduo", player_count:"3/7", type:"private"};
+  const lobbylist = [lobby1, lobby2];
+
+  //
 
 
   useEffect(async () => {
 
     try {
       const response = await authApi().get('/users');
-
       // Get the returned users and update the state.
       setUsers(response.data);
 
+      //TODO: add api.get for list of open lobbies OR merge it with the upper request
+      //const anotherresponse = await authApi().get(/*TODO: add a url*/);
+      //setLobbies(anotherresponse.data);
+
+      //TODO: testing stuff
+      setLobbies(lobbylist);
 
     } catch (error) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
@@ -34,6 +47,44 @@ function GameDashboard({ currUser }) {
       ) : (
 
         <div>
+          <h4>Join a lobby</h4>
+          <ListGroup>
+            <ListGroup.Item>
+              <Row>
+                <Col>Lobbyname</Col>
+                <Col>Players</Col>
+                <Col>Type</Col>
+              </Row>
+            </ListGroup.Item>
+
+            <ListGroup.Item variant="secondary">
+              <Row>
+                <Col>somelobbyname</Col>
+                <Col>4/7</Col>
+                <Col>public</Col>
+              </Row>
+            </ListGroup.Item>
+
+            {/* {
+              lobbies.map((lobby) => (
+                // <Link to={`/game/dashboard/gurke`}>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>{lobby.name}</Col>
+                      <Col>{lobby.player_count}</Col>
+                      <Col>{lobby.type}</Col>
+                    </Row>
+                  </ListGroup.Item>
+             //   </Link>
+              ))} */}
+
+          </ListGroup>
+
+
+
+
+
+
           <br></br>
           <h4>All Users</h4>
           <ListGroup>
