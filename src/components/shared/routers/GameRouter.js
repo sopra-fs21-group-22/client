@@ -4,6 +4,7 @@ import { Redirect, Route } from "react-router-dom";
 import GameDashboard from "../../game/GameDashboard";
 import ProfilePage from "../../game/ProfilePage";
 import ProfilePageEdit from "../../game/ProfilePageEdit";
+import Lobby from "../../game/Lobby";
 
 const Container = styled.div`
   display: flex;
@@ -43,6 +44,12 @@ function GameRouter({ currUser, base, updateUser }) {
         exact
         component={() => <ProfilePageEdit updateUser={updateUser} currUser={currUser} />}
       />
+      <Route
+        exact
+        path={`${base}/dashboard/lobby/:id`}
+        render={() => <Lobby/>}
+      />
+      
     </Container>
   );
 }

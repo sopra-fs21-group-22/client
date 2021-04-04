@@ -6,33 +6,31 @@ import { Spinner } from '../../views/design/Spinner';
 import { withRouter, useHistory, Link } from 'react-router-dom';
 import { Button, Container, Row, Col, ListGroup, } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
+import User from '../shared/models/User';
 
 
 function GameDashboard({ currUser }) {
   const [users, setUsers] = useState();
-  const [lobbies, setLobbies] = useState();
+  
+  const [lobby1, setLobby1] = useState({name:"lobbynameuno", player_count:"4/7", type:"public"});
+  const [lobby2, setLobby2] = useState({name:"lobbynameduo", player_count:"3/7", type:"private"});
+  const [lobbylist, setLobbylist] = useState([lobby1, lobby2]);
+  const [lobbies, setLobbies] = useState(lobbylist);
 
-  //TODO: remove this when lobbies are implemented. testing stuff
-  const lobby1 = {name:"lobbynameuno", player_count:"4/7", type:"public"};
-  const lobby2 = {name:"lobbynameduo", player_count:"3/7", type:"private"};
-  const lobbylist = [lobby1, lobby2];
-
-  //
 
 
   useEffect(async () => {
 
     try {
+      
       const response = await authApi().get('/users');
       // Get the returned users and update the state.
       setUsers(response.data);
-
       //TODO: add api.get for list of open lobbies OR merge it with the upper request
       //const anotherresponse = await authApi().get(/*TODO: add a url*/);
       //setLobbies(anotherresponse.data);
-
-      //TODO: testing stuff
-      setLobbies(lobbylist);
+      //TODO: remove this when lobbies are implemented. testing stuff
+      
 
     } catch (error) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
@@ -65,9 +63,9 @@ function GameDashboard({ currUser }) {
               </Row>
             </ListGroup.Item>
 
-            {/* {
+            {
               lobbies.map((lobby) => (
-                // <Link to={`/game/dashboard/gurke`}>
+                 <Link to={`/game/dashboard/lobby/${lobby.name}`}>
                   <ListGroup.Item>
                     <Row>
                       <Col>{lobby.name}</Col>
@@ -75,8 +73,8 @@ function GameDashboard({ currUser }) {
                       <Col>{lobby.type}</Col>
                     </Row>
                   </ListGroup.Item>
-             //   </Link>
-              ))} */}
+                </Link>
+              ))}
 
           </ListGroup>
 
