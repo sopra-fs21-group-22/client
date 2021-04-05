@@ -36,7 +36,17 @@ function GameDashboard({ currUser }) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
   }, []);
+  const join = async (e) => {
+    e.preventDefault();
+    /*response = api.get
 
+
+    if(lobbyavailable){
+      authApi().put("/lobbies");
+    }
+    history.push(`/game`);*/
+     
+  }
 
   return (
     <Container>
@@ -46,7 +56,8 @@ function GameDashboard({ currUser }) {
 
         <div>
           <h4>Join a lobby</h4>
-          <ListGroup>
+          {/*TODO: use this code for the private lobbies later on*/}
+          {/*<ListGroup>
             <ListGroup.Item>
               <Row>
                 <Col>Lobbyname</Col>
@@ -63,7 +74,7 @@ function GameDashboard({ currUser }) {
               </Row>
             </ListGroup.Item>
 
-            {
+            
               lobbies.map((lobby) => (
                  <Link to={`/game/dashboard/lobby/${lobby.name}`}>
                   <ListGroup.Item>
@@ -74,12 +85,15 @@ function GameDashboard({ currUser }) {
                     </Row>
                   </ListGroup.Item>
                 </Link>
-              ))}
+              ))
 
-          </ListGroup>
+          </ListGroup>*/}
           <br></br>
-          <Button>klik me</Button>
-
+          
+          <Button onClick={(e) => {
+            join(e);
+          }} block>join lobby</Button>
+          
 
 
 
