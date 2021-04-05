@@ -27,6 +27,7 @@ function Login({ user, updateUser }) {
   const login = async (e) => {
     e.preventDefault();
     try {
+      //create requestBody used to send infos to backend
       const requestBody = JSON.stringify({
         username: username,
         password: password,
