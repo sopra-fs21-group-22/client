@@ -77,6 +77,8 @@ function GameDashboard({ currUser }) {
               ))}
 
           </ListGroup>
+          <br></br>
+          <Button>klik me</Button>
 
 
 
