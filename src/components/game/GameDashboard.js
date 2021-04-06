@@ -7,6 +7,7 @@ import { withRouter, useHistory, Link } from 'react-router-dom';
 import { Button, Container, Row, Col, ListGroup, } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
 import User from '../shared/models/User';
+import { Redirect } from 'react-router-dom';
 
 
 function GameDashboard({ currUser }) {
@@ -36,17 +37,25 @@ function GameDashboard({ currUser }) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
   }, []);
-  const join = async (e) => {
+  /*async function Join(e) {
+    let history = useHistory();
+
     e.preventDefault();
-    /*response = api.get
-
-
-    if(lobbyavailable){
-      authApi().put("/lobbies");
-    }
-    history.push(`/game`);*/
+    //authApi().put("/lobbies");
+   // return <Redirect to='/profile' />;
+    history.push(`/game/gurkewasser`);
      
+  }*/
+
+  
+  let history = useHistory();
+  
+  function handleClick() {
+    const response = authApi().put("/lobbies");
+    console.log(response);
+    history.push("/game/dashboard/lobby/:lobbyid");
   }
+  
 
   return (
     <Container>
@@ -90,9 +99,7 @@ function GameDashboard({ currUser }) {
           </ListGroup>*/}
           <br></br>
           
-          <Button onClick={(e) => {
-            join(e);
-          }} block>join lobby</Button>
+          <Button onClick={handleClick} block>join lobby</Button>
           
 
 
