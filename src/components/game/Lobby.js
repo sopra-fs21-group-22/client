@@ -7,6 +7,8 @@ import { Spinner } from '../../views/design/Spinner';
 import { withRouter, useHistory, Link, useRouteMatch, } from 'react-router-dom';
 import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
+import Modal from 'react-bootstrap/Modal';
+import Image from 'react-bootstrap/Image';
 
 function Lobby() {
     const [user, setUser] = useState();
@@ -20,11 +22,43 @@ function Lobby() {
         }
     }, []);
 
-
+    function handleClick() {
+    history.push("/game/dashboard");
+    }
+    /*const [show, setShow] = useState(true);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);*/
     return (
         <Container>
-            <Button>klik me</Button>
-        </Container >
+        {/*
+            <Modal show={show} onHide={handleClose} centered backdrop="static" animation>
+                <Modal.Header closeButton>
+                    <Modal.Title>Choose a role card</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Image src="/images/back.jpeg"/>
+                    <Image src="/images/back.jpeg"/>
+                    <Image src="/images/back.jpeg"/>
+                    <Image src="/images/back.jpeg"/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        jetzt registrieren
+                    </Button>
+                </Modal.Footer>
+        </Modal>*/}
+        
+        
+        
+            
+                <h1>hello text</h1>
+                <Button onClick={handleClick} block>Leave</Button>
+            </Container >
+            
+        
     );
 }
 

@@ -10,8 +10,10 @@ import User from '../shared/models/User';
 import { Redirect } from 'react-router-dom';
 
 
+
 function GameDashboard({ currUser }) {
   const [users, setUsers] = useState();
+  const [lobbyid, setLobbyid] = useState();
   
   const [lobby1, setLobby1] = useState({name:"lobbynameuno", player_count:"4/7", type:"public"});
   const [lobby2, setLobby2] = useState({name:"lobbynameduo", player_count:"3/7", type:"private"});
@@ -51,13 +53,22 @@ function GameDashboard({ currUser }) {
   let history = useHistory();
   
   function handleClick() {
-    const response = authApi().put("/lobbies");
-    console.log(response);
-    history.push("/game/dashboard/lobby/:lobbyid");
+    authApi().put("/lobbies");
+    //TODO: create get mapping to get lobbyid
+    //const response = await authApi().get('/lobbies/id');
+    //id = response.id;
+
+    const id = "idToBeImplemented"; //remove this one once getid is implemented
+    const target = "/game/dashboard/lobby/public/" + id;
+    history.push(target);
   }
   
 
+
   return (
+  
+      
+
     <Container>
       {!users ? (
         <Spinner />
@@ -100,12 +111,7 @@ function GameDashboard({ currUser }) {
           <br></br>
           
           <Button onClick={handleClick} block>join lobby</Button>
-          
-
-
-
-
-
+        
           <br></br>
           <h4>All Users</h4>
           <ListGroup>
@@ -153,6 +159,7 @@ function GameDashboard({ currUser }) {
       )
       }
     </Container >
+    
   )
 }
 

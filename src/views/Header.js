@@ -70,7 +70,7 @@ function Header({ user, updateUser }) {
 
   return (
     <>
-      <Navbar bg="light">
+      <Navbar bg="s">
         <Navbar.Brand onClick={() => history.push("/game/dashboard")}>BANG!</Navbar.Brand>
         <Navbar.Collapse className="justify-content-end">
           <Nav.Link onClick={() => handleRegister()}>{user == null ? "Register" : ""}</Nav.Link>
