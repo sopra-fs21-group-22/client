@@ -23,25 +23,57 @@ function Lobby() {
     }, []);
 
     function handleClick() {
-    history.push("/game/dashboard");
+        history.push("/game/dashboard");
     }
-    /*const [show, setShow] = useState(true);
+    function handle_Rolecard_border() {
+        setRolecard_border(5);
+    }
+    const [show, setShow] = useState(true);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);*/
+    const handleShow = () => setShow(true);
+    const [rolecard_border, setRolecard_border] = useState(0);
+
+
     return (
         <Container>
-        {/*
-            <Modal show={show} onHide={handleClose} centered backdrop="static" animation>
-                <Modal.Header closeButton>
+        {
+            <Modal show={show} onHide={handleClose} centered backdrop="static" animation size="xl"style={{
+                width: 1000
+        }}
+                >
+                <Modal.Header closeButton style={{
+                    backgroundColor: "rgba(174, 136, 53, 0.7)"
+            }}>
                     <Modal.Title>Choose a role card</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Image src="/images/back.jpeg"/>
-                    <Image src="/images/back.jpeg"/>
-                    <Image src="/images/back.jpeg"/>
-                    <Image src="/images/back.jpeg"/>
+                <Modal.Body centered style={{
+                    backgroundColor: "rgba(174, 136, 53, 0.6)"
+            }}>
+                    <Row>
+                        <Col md="auto">
+                            <Image src="/images/back.jpeg" onClick={() => handle_Rolecard_border()} 
+                            style={{
+                                height: 250,
+                                borderWidth: rolecard_border,
+                                borderColor: "blueviolet",
+                                borderStyle: "solid"
+                              }}/>
+                        </Col>
+                        <Col md="auto">
+                            <Image src="/images/back.jpeg" height="250"/>
+                        </Col>
+                        <Col md="auto">
+                            <Image src="/images/back.jpeg" height="250"/>
+                        </Col>
+                        <Col md="auto">
+                            <Image src="/images/back.jpeg" height="250"/>
+                        </Col>
+                    </Row>
                 </Modal.Body>
-                <Modal.Footer>
+                <Modal.Footer style={{
+                    backgroundColor: "rgba(174, 136, 53, 0.6)",
+                    borderWidth:0
+            }}>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
@@ -49,12 +81,8 @@ function Lobby() {
                         jetzt registrieren
                     </Button>
                 </Modal.Footer>
-        </Modal>*/}
+        </Modal>}
         
-        
-        
-            
-                <h1>hello text</h1>
                 <Button onClick={handleClick} block>Leave</Button>
             </Container >
             

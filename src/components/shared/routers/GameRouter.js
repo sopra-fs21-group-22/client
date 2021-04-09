@@ -46,7 +46,7 @@ function GameRouter({ currUser, base, updateUser }) {
       />
       <Route
         exact
-        path={`${base}/dashboard/lobby/:id`}
+        path={`${base}/dashboard/lobby/:publicorprivate/:id`}
         render={() => <Lobby/>}
       />
       
