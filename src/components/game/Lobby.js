@@ -5,10 +5,11 @@ import { authApi, handleError } from '../../helpers/api';
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { withRouter, useHistory, Link, useRouteMatch, } from 'react-router-dom';
-import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button } from 'react-bootstrap';
+import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, ModalBody } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
 import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
+import "../../views/design/styling.css";
 
 function Lobby() {
     const [user, setUser] = useState();
@@ -21,71 +22,107 @@ function Lobby() {
             alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
         }
     }, []);
-
-    function handleClick() {
+//Buttons
+    function leaveGame() {
         history.push("/game/dashboard");
     }
-    function handle_Rolecard_border() {
-        setRolecard_border(5);
+    function startGame(){
+        setShow_rolechoose(true);
     }
-    const [show, setShow] = useState(true);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const [rolecard_border, setRolecard_border] = useState(0);
+
+//highlight role cards
+    function addBordertoImage1() {
+        setRolecard_border1(5);
+        setRolecard_border2(0);
+        setRolecard_border3(0);
+        setRolecard_border4(0);
+        setChoose_rolecard_disabled(false);
+    }
+    function addBordertoImage2() {
+        setRolecard_border1(0);
+        setRolecard_border2(5);
+        setRolecard_border3(0);
+        setRolecard_border4(0);
+        setChoose_rolecard_disabled(false);
+    }
+    function addBordertoImage3() {
+        setRolecard_border1(0);
+        setRolecard_border2(0);
+        setRolecard_border3(5);
+        setRolecard_border4(0);
+        setChoose_rolecard_disabled(false);
+    }
+    function addBordertoImage4() {
+        setRolecard_border1(0);
+        setRolecard_border2(0);
+        setRolecard_border3(0);
+        setRolecard_border4(5);
+        setChoose_rolecard_disabled(false);
+    }
+
+    const [show_rolechoose, setShow_rolechoose] = useState(false);
+    const chooseRole = () => {
+        setShow_rolechoose(false);
+    }
+    const [rolecard_border1, setRolecard_border1] = useState(0);
+    const [rolecard_border2, setRolecard_border2] = useState(0);
+    const [rolecard_border3, setRolecard_border3] = useState(0);
+    const [rolecard_border4, setRolecard_border4] = useState(0);
+    const [choose_rolecard_disabled, setChoose_rolecard_disabled] = useState(true);
 
 
     return (
+        <>
         <Container>
-        {
-            <Modal show={show} onHide={handleClose} centered backdrop="static" animation size="xl"style={{
-                width: 1000
-        }}
-                >
-                <Modal.Header closeButton style={{
-                    backgroundColor: "rgba(174, 136, 53, 0.7)"
-            }}>
+            {<Modal>
+                <Modal.Header>
+                    <Modal.Title>Your role:</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Image src="/images/back.jpeg"/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={chooseRole}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+            
+
+            {<Modal className="lobbymodal" show={show_rolechoose} centered backdrop="static" keyboard={false} animation size="xl">
+                <Modal.Header className="lobbymodalheader">
                     <Modal.Title>Choose a role card</Modal.Title>
                 </Modal.Header>
-                <Modal.Body centered style={{
-                    backgroundColor: "rgba(174, 136, 53, 0.6)"
-            }}>
+                <Modal.Body className="lobbymodalbody" centered >
                     <Row>
-                        <Col md="auto">
-                            <Image src="/images/back.jpeg" onClick={() => handle_Rolecard_border()} 
-                            style={{
-                                height: 250,
-                                borderWidth: rolecard_border,
-                                borderColor: "blueviolet",
-                                borderStyle: "solid"
-                              }}/>
+                        <Col className="lobbycolumn">
+                            <Image className="lobbyimage" id="1" src="/images/back.jpeg" onClick={() => addBordertoImage1()}
+                            style={{borderWidth: rolecard_border1}}/>
                         </Col>
-                        <Col md="auto">
-                            <Image src="/images/back.jpeg" height="250"/>
+                        <Col className="lobbycolumn">
+                            <Image className="lobbyimage" id="2" src="/images/back.jpeg" onClick={() => addBordertoImage2()}
+                            style={{borderWidth: rolecard_border2}}/>
                         </Col>
-                        <Col md="auto">
-                            <Image src="/images/back.jpeg" height="250"/>
+                        <Col className="lobbycolumn">
+                            <Image className="lobbyimage" id="3" src="/images/back.jpeg" onClick={() => addBordertoImage3()}
+                            style={{borderWidth: rolecard_border3}}/>
                         </Col>
-                        <Col md="auto">
-                            <Image src="/images/back.jpeg" height="250"/>
+                        <Col className="lobbycolumn">
+                            <Image className="lobbyimage" id="4" src="/images/back.jpeg" onClick={() => addBordertoImage4()}
+                            style={{borderWidth: rolecard_border4}}/>
                         </Col>
                     </Row>
                 </Modal.Body>
-                <Modal.Footer style={{
-                    backgroundColor: "rgba(174, 136, 53, 0.6)",
-                    borderWidth:0
-            }}>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        jetzt registrieren
+                <Modal.Footer className="lobbymodalfooter">
+                    <Button variant="primary" onClick={chooseRole} disabled={choose_rolecard_disabled}>
+                        Choose
                     </Button>
                 </Modal.Footer>
-        </Modal>}
-        
-                <Button onClick={handleClick} block>Leave</Button>
-            </Container >
-            
+            </Modal>}
+                <Button variant="primary" onClick={startGame}>Start Game</Button>
+                <Button onClick={leaveGame}>Leave</Button>
+        </Container >
+        </>
         
     );
 }
