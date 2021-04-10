@@ -7,10 +7,13 @@ import { withRouter, useHistory, Link } from 'react-router-dom';
 import { Button, Container, Row, Col, ListGroup, } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
 import User from '../shared/models/User';
+import { Redirect } from 'react-router-dom';
+
 
 
 function GameDashboard({ currUser }) {
   const [users, setUsers] = useState();
+  const [lobbyid, setLobbyid] = useState();
   
   const [lobby1, setLobby1] = useState({name:"lobbynameuno", player_count:"4/7", type:"public"});
   const [lobby2, setLobby2] = useState({name:"lobbynameduo", player_count:"3/7", type:"private"});
@@ -36,9 +39,36 @@ function GameDashboard({ currUser }) {
       alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
     }
   }, []);
+  /*async function Join(e) {
+    let history = useHistory();
+
+    e.preventDefault();
+    //authApi().put("/lobbies");
+   // return <Redirect to='/profile' />;
+    history.push(`/game/gurkewasser`);
+     
+  }*/
+
+  
+  let history = useHistory();
+  
+  function handleClick() {
+    authApi().put("/lobbies");
+    //TODO: create get mapping to get lobbyid
+    //const response = await authApi().get('/lobbies/id');
+    //id = response.id;
+
+    const id = "idToBeImplemented"; //remove this one once getid is implemented
+    const target = "/game/dashboard/lobby/public/" + id;
+    history.push(target);
+  }
+  
 
 
   return (
+  
+      
+
     <Container>
       {!users ? (
         <Spinner />
@@ -46,7 +76,8 @@ function GameDashboard({ currUser }) {
 
         <div>
           <h4>Join a lobby</h4>
-          <ListGroup>
+          {/*TODO: use this code for the private lobbies later on*/}
+          {/*<ListGroup>
             <ListGroup.Item>
               <Row>
                 <Col>Lobbyname</Col>
@@ -63,7 +94,7 @@ function GameDashboard({ currUser }) {
               </Row>
             </ListGroup.Item>
 
-            {
+            
               lobbies.map((lobby) => (
                  <Link to={`/game/dashboard/lobby/${lobby.name}`}>
                   <ListGroup.Item>
@@ -74,15 +105,13 @@ function GameDashboard({ currUser }) {
                     </Row>
                   </ListGroup.Item>
                 </Link>
-              ))}
+              ))
 
-          </ListGroup>
-
-
-
-
-
-
+          </ListGroup>*/}
+          <br></br>
+          
+          <Button onClick={handleClick} block>join lobby</Button>
+        
           <br></br>
           <h4>All Users</h4>
           <ListGroup>
@@ -130,6 +159,7 @@ function GameDashboard({ currUser }) {
       )
       }
     </Container >
+    
   )
 }
 
