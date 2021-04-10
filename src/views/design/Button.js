@@ -9,7 +9,7 @@ export const Button = styled.button`
   text-transform: uppercase;
   font-size: 13px;
   text-align: center;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(174, 136, 53, 1);
   width: ${props => props.width || null};
   height: 35px;
   border: none;

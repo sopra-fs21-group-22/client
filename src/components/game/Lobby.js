@@ -29,6 +29,13 @@ function Lobby() {
     function startGame(){
         setShow_rolechoose(true);
     }
+    const chooseRole = () => {
+        setShow_rolechoose(false);
+        setShow_roledisplay(true);
+    }
+    function roledisplayokay(){
+        setShow_roledisplay(false);
+    }
 
 //highlight role cards
     function addBordertoImage1() {
@@ -61,9 +68,8 @@ function Lobby() {
     }
 
     const [show_rolechoose, setShow_rolechoose] = useState(false);
-    const chooseRole = () => {
-        setShow_rolechoose(false);
-    }
+    const [show_roledisplay, setShow_roledisplay] = useState(false);
+    
     const [rolecard_border1, setRolecard_border1] = useState(0);
     const [rolecard_border2, setRolecard_border2] = useState(0);
     const [rolecard_border3, setRolecard_border3] = useState(0);
@@ -74,15 +80,15 @@ function Lobby() {
     return (
         <>
         <Container>
-            {<Modal>
-                <Modal.Header>
+            {<Modal show={show_roledisplay} centered animation size="sm"> 
+                <Modal.Header className="lobbymodalheader">
                     <Modal.Title>Your role:</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Image src="/images/back.jpeg"/>
+                <Modal.Body className="lobbymodalbody" centered>
+                    <Image src="/images/back.jpeg" className="lobbyimage"/>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={chooseRole}>
+                <Modal.Footer className="lobbymodalfooter">
+                    <Button variant="primary" onClick={roledisplayokay}>
                         Okay
                     </Button>
                 </Modal.Footer>
@@ -93,7 +99,7 @@ function Lobby() {
                 <Modal.Header className="lobbymodalheader">
                     <Modal.Title>Choose a role card</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="lobbymodalbody" centered >
+                <Modal.Body className="lobbymodalbody" centered>
                     <Row>
                         <Col className="lobbycolumn">
                             <Image className="lobbyimage" id="1" src="/images/back.jpeg" onClick={() => addBordertoImage1()}

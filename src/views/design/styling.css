@@ -4,6 +4,7 @@
 }
 .lobbymodalheader{
     background-color: rgba(174, 136, 53, 0.7);
+    border-color:rgba(174, 136, 53, 0.8) !important;
 }
 .lobbymodalbody{
     background-color: rgba(174, 136, 53, 0.6);
