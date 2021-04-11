@@ -37,6 +37,8 @@ function Lobby() {
     }
     function roledisplayokay(){
         setShow_roledisplay(false);
+        setHidden_startgame(true);
+        setHidden_gamefield(false);
     }
 
 //highlight role cards
@@ -71,6 +73,8 @@ function Lobby() {
 
     const [show_rolechoose, setShow_rolechoose] = useState(false);
     const [show_roledisplay, setShow_roledisplay] = useState(false);
+    const [hidden_gamefield, setHidden_gamefield] = useState(true);
+    const [hidden_startgame, setHidden_startgame] = useState(false);
     
     const [rolecard_border1, setRolecard_border1] = useState(0);
     const [rolecard_border2, setRolecard_border2] = useState(0);
@@ -127,41 +131,42 @@ function Lobby() {
                     </Button>
                 </Modal.Footer>
             </Modal>}
-            <Row>
-                <Col/>
-                <Col>
-                    <OpponentDeck user={null}/>
-                </Col>
-                <Col/>
-            </Row>
-            <Row>
-                <Col>
-                    <OpponentDeck user={null}/>
-                </Col>
-                <Col>
-                    <DeckDiscardPiles/>
-                </Col>
-                <Col>
-                    <OpponentDeck user={null}/>
-                </Col>
-            </Row>
-            <Row>
-                <Col/>
-                <Col>
-                    <PlayerDeck user={null}/>
-                </Col>
-                <Col/>
-            </Row>
-            <Row>
-                <Col/>
-                <Col xs={8}>
-                    <PlayerCards user={null}/>
-                </Col>
-                <Col>
-                    <Button variant="primary" onClick={startGame}>Start Game</Button>
-                    <Button onClick={leaveGame}>Leave</Button>
-                </Col>
-            </Row>
+            <Button variant="primary" onClick={startGame} hidden={hidden_startgame}>Start Game</Button>
+            <Button onClick={leaveGame}>Leave</Button>
+            <Container hidden={hidden_gamefield}>
+                <Row>
+                    <Col/>
+                    <Col>
+                        <OpponentDeck user={null}/>
+                    </Col>
+                    <Col/>
+                </Row>
+                <Row>
+                    <Col>
+                        <OpponentDeck user={null}/>
+                    </Col>
+                    <Col>
+                        <DeckDiscardPiles/>
+                    </Col>
+                    <Col>
+                        <OpponentDeck user={null}/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col/>
+                    <Col>
+                        <PlayerDeck user={null}/>
+                    </Col>
+                    <Col/>
+                </Row>
+                <Row>
+                    <Col/>
+                    <Col xs={8}>
+                        <PlayerCards user={null}/>
+                    </Col>
+                    <Col/>
+                </Row>
+            </Container>
         </Container >
         </>
         
