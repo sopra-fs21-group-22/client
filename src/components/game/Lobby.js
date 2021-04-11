@@ -5,11 +5,10 @@ import { authApi, handleError } from '../../helpers/api';
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { withRouter, useHistory, Link, useRouteMatch, } from 'react-router-dom';
-import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, ModalBody } from 'react-bootstrap';
+import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, Modal, Image, ModalBody } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
-import Modal from 'react-bootstrap/Modal';
-import Image from 'react-bootstrap/Image';
 import "../../views/design/styling.css";
+import OpponentDeck from "../../views/design/OpponentDeck";
 
 function Lobby() {
     const [user, setUser] = useState();
@@ -125,8 +124,32 @@ function Lobby() {
                     </Button>
                 </Modal.Footer>
             </Modal>}
-                <Button variant="primary" onClick={startGame}>Start Game</Button>
-                <Button onClick={leaveGame}>Leave</Button>
+            <Row>
+                <Col/>
+                <Col>
+                    <OpponentDeck user={null}/>
+                </Col>
+                <Col/>
+            </Row>
+            <Row>
+                <Col>
+                    <OpponentDeck user={null}/>
+                </Col>
+                <Col>
+
+                </Col>
+                <Col>
+                    <OpponentDeck user={null}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col/>
+                <Col/>
+                <Col>
+                    <Button variant="primary" onClick={startGame}>Start Game</Button>
+                    <Button onClick={leaveGame}>Leave</Button>
+                </Col>
+            </Row>
         </Container >
         </>
         

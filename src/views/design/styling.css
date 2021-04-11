@@ -25,3 +25,28 @@
     background-color: rgba(174, 136, 53, 0.6);
     border-style: none !important;
 }
+
+.card-container{
+    background: rgba(196, 196, 196, 0.5);
+}
+
+.profile-picture{
+    height: 80px;
+}
+
+.card{
+    height:150px;
+}
+
+.icon-dynamite{
+    height: 30px;
+    margin: 0 auto;
+}
+
+.icon-sheriff{
+    height: 80px;
+}
+
+.icon-bullet{
+    height: 20px;
+}
