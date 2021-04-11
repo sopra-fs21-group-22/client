@@ -8,12 +8,13 @@ import { Button, Container, Row, Col, ListGroup, } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
 import User from '../shared/models/User';
 import { Redirect } from 'react-router-dom';
+import PlayerTable from '../shared/models/PlayerTable';
 
 
 
 function GameDashboard({ currUser }) {
   const [users, setUsers] = useState();
-  const [lobbyid, setLobbyid] = useState();
+  const [playertable, setPlayertable] = useState();
   
   const [lobby1, setLobby1] = useState({name:"lobbynameuno", player_count:"4/7", type:"public"});
   const [lobby2, setLobby2] = useState({name:"lobbynameduo", player_count:"3/7", type:"private"});
@@ -54,10 +55,10 @@ function GameDashboard({ currUser }) {
   
   function handleClick() {
     authApi().put("/lobbies");
+    //setPlayertable(response.data);
     //TODO: create get mapping to get lobbyid
     //const response = await authApi().get('/lobbies/id');
     //id = response.id;
-
     const id = "idToBeImplemented"; //remove this one once getid is implemented
     const target = "/game/dashboard/lobby/public/" + id;
     history.push(target);
