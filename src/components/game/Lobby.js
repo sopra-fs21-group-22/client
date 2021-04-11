@@ -9,6 +9,9 @@ import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, 
 import UserStatus from '../../views/design/UserStatus';
 import "../../views/design/styling.css";
 import OpponentDeck from "../../views/design/OpponentDeck";
+import PlayerDeck from "../../views/design/PlayerDeck";
+import PlayerCards from "../../views/design/PlayerCards";
+import DeckDiscardPiles from "../../views/design/DeckDiscardPiles";
 
 function Lobby() {
     const [user, setUser] = useState();
@@ -136,7 +139,7 @@ function Lobby() {
                     <OpponentDeck user={null}/>
                 </Col>
                 <Col>
-
+                    <DeckDiscardPiles/>
                 </Col>
                 <Col>
                     <OpponentDeck user={null}/>
@@ -144,7 +147,16 @@ function Lobby() {
             </Row>
             <Row>
                 <Col/>
+                <Col>
+                    <PlayerDeck user={null}/>
+                </Col>
                 <Col/>
+            </Row>
+            <Row>
+                <Col/>
+                <Col xs={8}>
+                    <PlayerCards user={null}/>
+                </Col>
                 <Col>
                     <Button variant="primary" onClick={startGame}>Start Game</Button>
                     <Button onClick={leaveGame}>Leave</Button>

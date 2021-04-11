@@ -30,23 +30,29 @@
     background: rgba(196, 196, 196, 0.5);
 }
 
-.profile-picture{
-    height: 80px;
+.icon-bullet{
+    height: 20px;
+}
+
+.profile{
+    text-transform: uppercase;
+}
+
+.shelf{
+    /*background-image: url("/../../../public/images/shelf.jpg");*/
+    display: inline-flex;
+}
+
+.single-shelf{
+    /*background-image: url("/../../../public/images/shelf_single.png");*/
+    display: inline-flex;
 }
 
 .card{
-    height:150px;
+    height: 125px;
 }
 
-.icon-dynamite{
-    height: 30px;
-    margin: 0 auto;
-}
-
-.icon-sheriff{
-    height: 80px;
-}
-
-.icon-bullet{
-    height: 20px;
+.deck-discard{
+    display: inline-flex;
+    margin-top: 150px;
 }

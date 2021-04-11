@@ -61,15 +61,6 @@ export default function OpponentDeck({ user }) {
                         <Life/>
                     </Row>
                 </Col>
-                <Col>
-                    <Figure>
-                        <Figure.Image
-                            width={80}
-                            height={100}
-                            alt="80x100"
-                            src="/images/back.jpeg"/>
-                    </Figure>
-                </Col>
             </Row>
             {/*third row for blue cards*/}
             <Row className="justify-content-md-center align-items-center">
