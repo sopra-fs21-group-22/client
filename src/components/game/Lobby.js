@@ -10,6 +10,9 @@ import UserStatus from '../../views/design/UserStatus';
 import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
 import "../../views/design/styling.css";
+import Overlay from 'react-bootstrap/Overlay';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 function Lobby() {
     const [user, setUser] = useState();
@@ -76,10 +79,23 @@ function Lobby() {
     const [rolecard_border4, setRolecard_border4] = useState(0);
     const [choose_rolecard_disabled, setChoose_rolecard_disabled] = useState(true);
 
+    const role_information = (
+        <Popover>
+            <Popover.Title as="h3">Sheriff/Renegade/whatever</Popover.Title>
+            <Popover.Content>
+                Your goal is to win 5head
+            </Popover.Content>
+        </Popover>
+    );
+
 
     return (
         <>
         <Container>
+            <br></br>
+            <OverlayTrigger trigger="click" placement="top" overlay={role_information}>
+                <Button variant="success">Show role information</Button>
+            </OverlayTrigger>
             {<Modal show={show_roledisplay} centered animation size="sm"> 
                 <Modal.Header className="lobbymodalheader">
                     <Modal.Title>Your role:</Modal.Title>
