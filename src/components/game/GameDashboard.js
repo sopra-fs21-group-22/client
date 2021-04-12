@@ -54,7 +54,7 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
   let history = useHistory();
   
   function handleClick() {
-    const response = authApi().put("/lobbies");
+    const response = authApi().put("/games/lobbies");
     console.log("here:");
     console.log(response);
     console.log("there");
