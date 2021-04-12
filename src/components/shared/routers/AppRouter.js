@@ -9,6 +9,7 @@ import ProfilePage from "../../game/ProfilePage";
 import Header from "../../../views/Header";
 import User from "../models/User";
 import { authApi } from "../../../helpers/api";
+import PlayerModel from '../models/PlayerModel';
 
 /**
  * Main router of your application.
@@ -22,9 +23,13 @@ import { authApi } from "../../../helpers/api";
 function AppRouter() {
 
   const [user, setUser] = useState(null);
+  const [player, setPlayer] = useState(null);
 
   const updateUser = (newUser) => {
     setUser(newUser);
+  }
+  const updatePlayer = (newPlayer) => {
+    setPlayer(newPlayer);
   }
 
 
@@ -37,7 +42,7 @@ function AppRouter() {
             path="/game"
             render={() => (
               <GameGuard>
-                <GameRouter updateUser={updateUser} currUser={user} base={"/game"} />
+                <GameRouter updateUser={updateUser} currUser={user} base={"/game"} currPlayer={player} updatePlayer={updatePlayer} />
               </GameGuard>
             )}
           />

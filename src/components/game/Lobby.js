@@ -13,12 +13,23 @@ import "../../views/design/styling.css";
 import Overlay from 'react-bootstrap/Overlay';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import PlayerModel from '../shared/models/PlayerModel';
+import User from '../shared/models/User';
 
-function Lobby() {
-    const [user, setUser] = useState();
+function Lobby({currUser, currPlayer, updatePlayer}) {
     const history = useHistory();
+    const [player, setPlayer] = useState(null);
 
     useEffect(async () => {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        if (userData == null) {
+            return
+        }
+        const currentUser = new User(userData);
+        setPlayer(currentUser);
+        updatePlayer(currentUser)
+        console.log("incoming");
+        console.log(currPlayer);
         try {
 
         } catch (error) {
@@ -38,6 +49,13 @@ function Lobby() {
     }
     function roledisplayokay(){
         setShow_roledisplay(false);
+    }
+    function testbutton(){
+        console.log("before");
+        currUser = "sufe";
+        console.log(currUser);
+        console.log(localStorage.getItem('user'));
+        console.log("after");
     }
 
 //highlight role cards
@@ -78,12 +96,14 @@ function Lobby() {
     const [rolecard_border3, setRolecard_border3] = useState(0);
     const [rolecard_border4, setRolecard_border4] = useState(0);
     const [choose_rolecard_disabled, setChoose_rolecard_disabled] = useState(true);
+    const [player_role, setPlayer_role] = useState("defaultrole");
+    const [role_information_text, setRole_information_text] = useState("this is some default role information");
 
     const role_information = (
         <Popover>
-            <Popover.Title as="h3">Sheriff/Renegade/whatever</Popover.Title>
+            <Popover.Title as="h3">{player_role}</Popover.Title>
             <Popover.Content>
-                Your goal is to win 5head
+                {role_information_text}
             </Popover.Content>
         </Popover>
     );
@@ -143,6 +163,7 @@ function Lobby() {
             </Modal>}
                 <Button variant="primary" onClick={startGame}>Start Game</Button>
                 <Button onClick={leaveGame}>Leave</Button>
+                <Button onClick={testbutton}>test</Button>
         </Container >
         </>
         

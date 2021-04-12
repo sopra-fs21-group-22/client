@@ -62,7 +62,12 @@ function GameDashboard({ currUser }) {
     const target = "/game/dashboard/lobby/public/" + id;
     history.push(target);
   }
-  
+  function testbutton(){
+    console.log("before");
+    console.log(localStorage.getItem("user").username);
+    console.log(currUser.id);
+    console.log("after");
+  }
 
 
   return (
@@ -111,6 +116,7 @@ function GameDashboard({ currUser }) {
           <br></br>
           
           <Button onClick={handleClick} block>join lobby</Button>
+          <Button onClick={testbutton} block>test</Button>
         
           <br></br>
           <h4>All Users</h4>
