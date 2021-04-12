@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
-import { authApi, handleError } from '../../helpers/api';
+import { api, authApi, handleError } from '../../helpers/api';
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { withRouter, useHistory, Link, useRouteMatch, } from 'react-router-dom';
