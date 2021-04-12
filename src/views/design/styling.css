@@ -25,3 +25,11 @@
     background-color: rgba(174, 136, 53, 0.6);
     border-style: none !important;
 }
+.popovercontent{
+    background-color: rgba(174, 136, 53, 0.3) !important;
+}
+.popovertitle{
+    background-color: rgba(174, 136, 53, 0.6) !important;
+    text-align: center;
+    font-size: xx-large !important;
+}

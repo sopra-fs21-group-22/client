@@ -14,7 +14,6 @@ import PlayerTable from '../shared/models/PlayerTable';
 
 function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
   const [users, setUsers] = useState();
-  const [playertable, setPlayertable] = useState();
   
   const [lobby1, setLobby1] = useState({name:"lobbynameuno", player_count:"4/7", type:"public"});
   const [lobby2, setLobby2] = useState({name:"lobbynameduo", player_count:"3/7", type:"private"});
@@ -53,25 +52,18 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
   
   let history = useHistory();
   
-  function handleClick() {
-    const response = authApi().put("/games/lobbies");
-    console.log("here:");
-    console.log(response);
-    console.log("there");
+  async function handleClick() {
+    const response = await authApi().put("/games/lobbies");
     currPlayer_table = new PlayerTable(response.data);
     updatePlayer_table(currPlayer_table);
     localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
-    //setPlayertable(response.data);
-    //TODO: create get mapping to get lobbyid
-    //const response = await authApi().get('/lobbies/id');
-    //id = response.id;
-    const id = "idToBeImplemented"; //remove this one once getid is implemented
+    const id = currPlayer_table.id;
     const target = "/game/dashboard/lobby/public/" + id;
-    //history.push(target);
+    history.push(target);
   }
   function testbutton(){
     console.log("before");
-    console.log(currUser.id);
+    console.log(currPlayer_table.id);
     console.log("after");
   }
 
@@ -86,7 +78,7 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
       ) : (
 
         <div>
-          <h4>Join a lobby</h4>
+          <h4>Join public lobby</h4>
           {/*TODO: use this code for the private lobbies later on*/}
           {/*<ListGroup>
             <ListGroup.Item>
