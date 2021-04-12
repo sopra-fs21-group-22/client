@@ -12,7 +12,7 @@ import PlayerTable from '../shared/models/PlayerTable';
 
 
 
-function GameDashboard({ currUser }) {
+function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
   const [users, setUsers] = useState();
   const [playertable, setPlayertable] = useState();
   
@@ -54,18 +54,23 @@ function GameDashboard({ currUser }) {
   let history = useHistory();
   
   function handleClick() {
-    authApi().put("/lobbies");
+    const response = authApi().put("/lobbies");
+    console.log("here:");
+    console.log(response);
+    console.log("there");
+    currPlayer_table = new PlayerTable(response.data);
+    updatePlayer_table(currPlayer_table);
+    localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
     //setPlayertable(response.data);
     //TODO: create get mapping to get lobbyid
     //const response = await authApi().get('/lobbies/id');
     //id = response.id;
     const id = "idToBeImplemented"; //remove this one once getid is implemented
     const target = "/game/dashboard/lobby/public/" + id;
-    history.push(target);
+    //history.push(target);
   }
   function testbutton(){
     console.log("before");
-    console.log(localStorage.getItem("user").username);
     console.log(currUser.id);
     console.log("after");
   }

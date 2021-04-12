@@ -15,21 +15,23 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import PlayerModel from '../shared/models/PlayerModel';
 import User from '../shared/models/User';
+import PlayerTable from '../shared/models/PlayerTable';
 
-function Lobby({currUser, currPlayer, updatePlayer}) {
+function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
     const [player, setPlayer] = useState(null);
 
     useEffect(async () => {
-        const userData = JSON.parse(localStorage.getItem('user'));
+        const userData = JSON.parse(localStorage.getItem('player_table'));
         if (userData == null) {
             return
         }
-        const currentUser = new User(userData);
-        setPlayer(currentUser);
-        updatePlayer(currentUser)
-        console.log("incoming");
-        console.log(currPlayer);
+        const currentPlayer_table = new PlayerTable(userData);
+        updatePlayer_table(currentPlayer_table);
+        /*setPlayer(currentUser);
+        updatePlayer(currentUser)*/
+        console.log("player table:");
+        console.log(currPlayer_table.id);
         try {
 
         } catch (error) {
