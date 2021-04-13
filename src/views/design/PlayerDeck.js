@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstrap';
-import "./styling.css";
+import "./playing_field_styling.css";
 import Life from "./Life";
 
 export default function OpponentDeck({ player }) {

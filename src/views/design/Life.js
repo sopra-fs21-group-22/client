@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image} from 'react-bootstrap';
-import "./styling.css";
+import "./playing_field_styling.css";
 
 export default function Life(){
     return (
