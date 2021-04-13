@@ -31,7 +31,7 @@ function Header({ user, updateUser }) {
     }
 
   }
-
+//TODO: also remove 'player_table from the local storage
   // this makes sure that a user is automatically logged out when they close the tab/window
   useEffect(() => {
     const handleUnload = (e) => {

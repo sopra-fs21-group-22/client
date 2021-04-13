@@ -11,7 +11,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-function GameRouter({ currUser, base, updateUser }) {
+function GameRouter({ currUser, base, updateUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table }) {
 
   /**
    * "base" is "/app" because as been passed as a prop in the parent of GameRouter, i.e., App.js
@@ -21,7 +21,7 @@ function GameRouter({ currUser, base, updateUser }) {
       <Route
         exact
         path={`${base}/dashboard`}
-        render={() => <GameDashboard currUser={currUser} />}
+        render={() => <GameDashboard currUser={currUser} currPlayer_table={currPlayer_table} updatePlayer_table={updatePlayer_table} />}
       />
 
       <Route
@@ -47,7 +47,8 @@ function GameRouter({ currUser, base, updateUser }) {
       <Route
         exact
         path={`${base}/dashboard/lobby/:publicorprivate/:id`}
-        render={() => <Lobby/>}
+        render={() => <Lobby currUser={currUser} currPlayer={currPlayer} updatePlayer={updatePlayer} 
+        currPlayer_table={currPlayer_table} updatePlayer_table={updatePlayer_table} />}
       />
       
     </Container>
