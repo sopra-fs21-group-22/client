@@ -5,11 +5,12 @@ import Life from "./Life";
 
 export default function OpponentDeck({ opponent }) {
     return (
-        <Container className="opponent-player-deck-container-card">
+        <Container className="opponent-player-deck_container-card">
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>
-                    <Figure {/*hidden={!opponent.dynamite}*/}>
+                    <Figure>
+                    {/*<Figure hidden={!opponent.dynamite}>*/}
                         <Figure.Image
                             width={60}
                             height={30}
@@ -18,7 +19,8 @@ export default function OpponentDeck({ opponent }) {
                     </Figure>
                 </Col>
                 <Col>
-                    <Figure {/*hidden={!opponent.role === "sheriff"*/}>
+                    <Figure>
+                    {/*<Figure hidden={!opponent.gameRole === "Sheriff">*/}
                         <Figure.Image
                             width={80}
                             height={80}
@@ -31,7 +33,7 @@ export default function OpponentDeck({ opponent }) {
             {/*second row for profile, lives and amount of playable cards*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>
-                    <Figure id="opponent-player-deck_figure-profile-picture">
+                    <Figure>
                         {/*<Figure.Image
                             width={80}
                             height={80}
@@ -44,28 +46,34 @@ export default function OpponentDeck({ opponent }) {
                             src="/images/character_cards/black_jack_p.jpeg"
                         />
                         {/*<Figure.Caption>{user.username ? user.username : "undefined"}</Figure.Caption>*/}
-                        <Figure.Caption>undefined</Figure.Caption>
+                        <Figure.Caption id="opponent-player-deck_figure-profile-picture">undefined</Figure.Caption>
                     </Figure>
                 </Col>
                 <Col>
                     <Row>
-                        <Life {/*hidden={opponent.bullet < 5}*/}/>
+                        <Life/>
+                        {/*<Life hidden={opponent.bullet < 5}/>*/}
                     </Row>
                     <Row>
-                        <Life {/*hidden={opponent.bullet < 4}*/}/>
+                        <Life/>
+                        {/*<Life hidden={opponent.bullet < 4}/>*/}
                     </Row>
                     <Row>
-                        <Life {/*hidden={opponent.bullet < 3}*/}/>
+                        <Life/>
+                        {/*<Life hidden={opponent.bullet < 3}/>*/}
                     </Row>
                     <Row>
-                        <Life {/*hidden={opponent.bullet < 2}*/}/>
+                        <Life/>
+                        {/*<Life hidden={opponent.bullet < 2}/>*/}
                     </Row>
                     <Row>
-                        <Life {/*hidden={opponent.bullet < 1}*/}/>
+                        <Life/>
+                        {/*<Life hidden={opponent.bullet < 1}/>*/}
                     </Row>
                 </Col>
                 <Col>
-                    <Figure {/*hidden={opponent.cards === 0}*/}>
+                    <Figure>
+                    {/*<Figure hidden={opponent.cards === 0}>*/}
                         <Figure.Image
                             width={80}
                             height={100}

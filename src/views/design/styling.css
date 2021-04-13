@@ -33,6 +33,7 @@
 #opponent-player-deck_figure-profile-picture{
     text-transform: uppercase;
     color: white;
+    font-weight: bold;
 }
 
 .life_image-bullet{
@@ -54,6 +55,6 @@
 }
 
 .deck-discard-pile_container{
-    display: inline-flex;
+    display: flex;
     margin-top: 150px;
 }

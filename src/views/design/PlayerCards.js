@@ -7,22 +7,22 @@ export default function PlayerCards({ player }){
         <Container className="shelf">
             <Row>
                 <Col>
-                    <Image className="card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
                 </Col>
                 <Col>
-                    <Image className="card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
                 </Col>
                 <Col>
-                    <Image className="card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
                 </Col>
                 <Col>
-                    <Image className="card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
                 </Col>
                 <Col>
-                    <Image className="card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
                 </Col>
                 <Col>
-                    <Image className="card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
                 </Col>
             </Row>
         </Container>
