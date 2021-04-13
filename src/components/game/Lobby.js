@@ -5,7 +5,7 @@ import { api, authApi, handleError } from '../../helpers/api';
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { withRouter, useHistory, Link, useRouteMatch, } from 'react-router-dom';
-import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, ModalBody } from 'react-bootstrap';
+import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, Modal, Image, ModalBody } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
 import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
@@ -18,6 +18,10 @@ import User from '../shared/models/User';
 import PlayerTable from '../shared/models/PlayerTable';
 import ReactDOM from 'react-dom';
 import App from '../../App';
+import OpponentDeck from "../../views/design/OpponentDeck";
+import PlayerDeck from "../../views/design/PlayerDeck";
+import PlayerCards from "../../views/design/PlayerCards";
+import DeckDiscardPiles from "../../views/design/DeckDiscardPiles";
 
 function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
@@ -62,6 +66,8 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     }
     function roledisplayokay(){
         setShow_roledisplay(false);
+        setHidden_startgame(true);
+        setHidden_gamefield(false);
     }
     async function updateplayers(){
         const response = await authApi().get("/games/{game_id}/players");
@@ -134,7 +140,9 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     const [show_rolechoose, setShow_rolechoose] = useState(false);
     const [show_roledisplay, setShow_roledisplay] = useState(false);
     const [show_roleinformation, setShow_roleinformation] = useState(false);
-    
+    const [hidden_gamefield, setHidden_gamefield] = useState(true);
+    const [hidden_startgame, setHidden_startgame] = useState(false);
+
     const [rolecard_border1, setRolecard_border1] = useState(0);
     const [rolecard_border2, setRolecard_border2] = useState(0);
     const [rolecard_border3, setRolecard_border3] = useState(0);
@@ -158,17 +166,16 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
 
 
     return (
-        <>
         <Container>
             <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
 
-            
+
 
             <OverlayTrigger trigger="click" overlay={role_information} rootClose>
                 <Button variant="success" >Show role information</Button>
             </OverlayTrigger>
 
-            {<Modal show={show_roledisplay} centered animation size="sm" rootClose animation> 
+            {<Modal show={show_roledisplay} centered animation size="sm" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Your role:</b></Modal.Title>
                 </Modal.Header>
@@ -213,14 +220,45 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     </Button>
                 </Modal.Footer>
             </Modal>}
-            <Button variant="primary" onClick={startGame}>Start Game</Button>
+            <Container hidden={hidden_gamefield}>
+                <Row>
+                    <Col/>
+                    <Col>
+                        <OpponentDeck opponent={null}/>
+                    </Col>
+                    <Col/>
+                </Row>
+                <Row>
+                    <Col>
+                        <OpponentDeck opponent={null}/>
+                    </Col>
+                    <Col>
+                        <DeckDiscardPiles/>
+                    </Col>
+                    <Col>
+                        <OpponentDeck opponent={null}/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col/>
+                    <Col>
+                        <PlayerDeck player={null}/>
+                    </Col>
+                    <Col/>
+                </Row>
+                <Row>
+                    <Col/>
+                    <Col xs={8}>
+                        <PlayerCards player={null}/>
+                    </Col>
+                    <Col/>
+                </Row>
+            </Container>
+            <Button variant="primary" onClick={startGame} hidden={hidden_startgame}>Start Game</Button>
             <Button onClick={leaveGame}>Leave</Button>
             <br></br>
             <br></br>
-            
         </Container >
-        </>
-        
     );
 }
 

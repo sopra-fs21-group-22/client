@@ -1,0 +1,60 @@
+.lobbymodal{
+    /*width: 1000px !important;
+    height: 1000px !important;*/
+}
+.lobbymodalheader{
+    background-color: rgba(174, 136, 53, 0.7);
+    border-color:rgba(174, 136, 53, 0.8) !important;
+}
+.lobbymodalbody{
+    background-color: rgba(174, 136, 53, 0.6);
+    border-width: 0px;
+}
+.lobbycolumn{
+    left: 5%;
+    right: 5%;
+    border-width: 0px;
+}
+.lobbyimage{
+    height: 250px;
+    border-width: 0px;
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+}
+.lobbymodalfooter{
+    background-color: rgba(174, 136, 53, 0.6);
+    border-style: none !important;
+}
+
+.opponent-player-deck_container-card{
+    background: rgba(196, 196, 196, 0.5);
+}
+
+#opponent-player-deck_figure-profile-picture{
+    text-transform: uppercase;
+    color: white;
+    font-weight: bold;
+}
+
+.life_image-bullet{
+    height: 20px;
+}
+
+.shelf{
+    /*background-image: url("/../../../public/images/shelf.jpg");*/
+    display: inline-flex;
+}
+
+.single-shelf{
+    /*background-image: url("/../../../public/images/shelf_single.png");*/
+    display: inline-flex;
+}
+
+.deck-discard-pile_image-card{
+    height: 125px;
+}
+
+.deck-discard-pile_container{
+    display: flex;
+    margin-top: 150px;
+}
