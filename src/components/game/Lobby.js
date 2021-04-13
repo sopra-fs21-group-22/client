@@ -47,6 +47,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         history.push("/game/dashboard");
     }
     async function startGame(){
+        //authApi.put("/games/{game_id}/players/{player_id}/ready");
         //TODO: uncomment this once backend is implemented
         /*const response = await authApi().get('/games/{game_id}/players/{player_id}');
         currPlayer = new PlayerModel(response.data);
@@ -61,6 +62,12 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     }
     function roledisplayokay(){
         setShow_roledisplay(false);
+    }
+    async function updateplayers(){
+        const response = await authApi().get("/games/{game_id}/players");
+        currPlayer_table = new PlayerTable(response.data);
+        updatePlayer_table(currPlayer_table);
+        localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
     }
 
 //cardrole shinanigans
