@@ -51,7 +51,7 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
 
   
   let history = useHistory();
-  
+
   async function handleClick() {
     const response = await authApi().put("/games/lobbies");
     currPlayer_table = new PlayerTable(response.data);
