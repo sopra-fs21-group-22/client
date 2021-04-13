@@ -1,0 +1,73 @@
+/*////////////////////////////////////////////*/
+#chosen-role_modal_header, #choose-role_modal_header{
+    background-color: rgba(174, 136, 53, 0.7);
+    border-color:rgba(174, 136, 53, 0.8);
+}
+#chosen-role_modal_header_title{
+    font-size: x-large;
+    width: 100%;
+    text-align: center;
+}
+#chosen-role_modal_body{
+    background-color: rgba(174, 136, 53, 0.6);
+    
+}
+#chosen-role_modal_footer{
+    background-color: rgba(174, 136, 53, 0.6);
+    border: none;   
+}
+/*////////////////////////////////////////////*/
+#choose-role_modal{
+    
+}
+#choose-role_modal_body{
+    background-color: rgba(174, 136, 53, 0.6);
+ 
+}
+#chosen-role_modal_body_image{
+    border-width: 0px;
+    border-radius: 25px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 50%;
+}
+#choose-role_modal_footer{
+    background-color: rgba(174, 136, 53, 0.6);
+    border: none;
+}
+#choose-role_modal_body_row_col{
+    
+    width: fit-content;
+}
+#choose-role_modal_body_row_col_image{
+    height: 250px;
+    border-width: 0px;
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+    border-radius: 25px;
+    position: center;
+}
+/*////////////////////////////////////////////*/
+#role-info_popover{
+    width: 150px;
+    position: absolute;
+}
+#role-info_popover_title{
+    background-color: rgba(174, 136, 53, 0.6);
+    text-align: center;
+    font-size: x-large;
+}
+#role-info_popover_content{
+    background-color: rgba(174, 136, 53, 0.3);
+}
+#role-info_popover_content_card{
+    background-color: rgba(174, 136, 53, 0);
+    border: none;
+}
+#role-info_popover_content_card_cardimg{
+    border-radius: 15px;
+}
+/*////////////////////////////////////////////*/

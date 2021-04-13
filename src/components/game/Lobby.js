@@ -9,7 +9,7 @@ import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, 
 import UserStatus from '../../views/design/UserStatus';
 import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
-import "../../views/design/styling.css";
+import "../../views/design/lobby_styling.css";
 import Overlay from 'react-bootstrap/Overlay';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -47,14 +47,13 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         history.push("/game/dashboard");
     }
     async function startGame(){
+        //TODO: uncomment this once backend is implemented
         /*const response = await authApi().get('/games/{game_id}/players/{player_id}');
         currPlayer = new PlayerModel(response.data);
         updatePlayer(currPlayer);
-        localStorage.setItem('player', JSON.stringify(currPlayer));
-        setShow_rolechoose(true);*/
-        
-        //setupRole();
-
+        localStorage.setItem('player', JSON.stringify(currPlayer));*/
+        setupRole();
+        setShow_rolechoose(true);
     }
     const chooseRole = () => {
         setShow_rolechoose(false);
@@ -138,34 +137,38 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     const [role_information_text, setRole_information_text] = useState("this is some default role information");
     const [role_picture_source, setRole_picture_source] = useState();
 
-    function role_information(){
-        return (<Popover className="popovercontent" >
-            <Popover.Title className="popovertitle"  centered><b>{player_role}</b></Popover.Title>
-            <Popover.Content className="popovercontent" style={{width:160}}>
-                <Card>
-                    <Card.Img variant="top" src={role_picture_source} style={{width:140}}/>
+    const role_information = (
+        <Popover id="role-info_popover" >
+            <Popover.Title id="role-info_popover_title"><b>{player_role}</b></Popover.Title>
+            <Popover.Content id="role-info_popover_content">
+                <Card id="role-info_popover_content_card">
+                    <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered src={role_picture_source} />
                 </Card>
                 {role_information_text}
             </Popover.Content>
-        </Popover>);
-};
+        </Popover>
+    )
+
 
     return (
         <>
         <Container>
-            <br></br>
-            <OverlayTrigger onToggle={setupRole} trigger="click" overlay={role_information}>
+            <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+
+            
+
+            <OverlayTrigger trigger="click" overlay={role_information} rootClose>
                 <Button variant="success" >Show role information</Button>
             </OverlayTrigger>
 
-            {<Modal show={show_roledisplay} centered animation size="sm"> 
-                <Modal.Header className="lobbymodalheader">
-                    <Modal.Title>Your role:</Modal.Title>
+            {<Modal show={show_roledisplay} centered animation size="sm" rootClose animation> 
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your role:</b></Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="lobbymodalbody" centered>
-                    <Image src="/images/back.jpeg" className="lobbyimage"/>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
                 </Modal.Body>
-                <Modal.Footer className="lobbymodalfooter">
+                <Modal.Footer id="chosen-role_modal_footer">
                     <Button variant="primary" onClick={roledisplayokay}>
                         Okay
                     </Button>
@@ -173,31 +176,31 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             </Modal>}
             
 
-            {<Modal className="lobbymodal" show={show_rolechoose} centered backdrop="static" keyboard={false} animation size="xl">
-                <Modal.Header className="lobbymodalheader">
-                    <Modal.Title>Choose a role card</Modal.Title>
+            {<Modal id="choose-role_modal" show={show_rolechoose} centered backdrop="static" keyboard={false} animation>
+                <Modal.Header id="choose-role_modal_header">
+                    <Modal.Title><b>Choose a role card</b></Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="lobbymodalbody" centered>
+                <Modal.Body id="choose-role_modal_body">
                     <Row>
-                        <Col className="lobbycolumn">
-                            <Image className="lobbyimage" id="1" src="/images/back.jpeg" onClick={() => addBordertoImage1()}
+                        <Col id="choose-role_modal_body_row_col">
+                            <Image id="choose-role_modal_body_row_col_image" src="/images/back.jpeg" onClick={() => addBordertoImage1()}
                             style={{borderWidth: rolecard_border1}}/>
                         </Col>
-                        <Col className="lobbycolumn">
-                            <Image className="lobbyimage" id="2" src="/images/back.jpeg" onClick={() => addBordertoImage2()}
+                        <Col id="choose-role_modal_body_row_col">
+                            <Image id="choose-role_modal_body_row_col_image" src="/images/back.jpeg" onClick={() => addBordertoImage2()}
                             style={{borderWidth: rolecard_border2}}/>
                         </Col>
-                        <Col className="lobbycolumn">
-                            <Image className="lobbyimage" id="3" src="/images/back.jpeg" onClick={() => addBordertoImage3()}
+                        <Col id="choose-role_modal_body_row_col">
+                            <Image id="choose-role_modal_body_row_col_image" src="/images/back.jpeg" onClick={() => addBordertoImage3()}
                             style={{borderWidth: rolecard_border3}}/>
                         </Col>
-                        <Col className="lobbycolumn">
-                            <Image className="lobbyimage" id="4" src="/images/back.jpeg" onClick={() => addBordertoImage4()}
+                        <Col id="choose-role_modal_body_row_col">
+                            <Image id="choose-role_modal_body_row_col_image" src="/images/back.jpeg" onClick={() => addBordertoImage4()}
                             style={{borderWidth: rolecard_border4}}/>
                         </Col>
                     </Row>
                 </Modal.Body>
-                <Modal.Footer className="lobbymodalfooter">
+                <Modal.Footer id="choose-role_modal_footer">
                     <Button variant="primary" onClick={chooseRole} disabled={choose_rolecard_disabled}>
                         Choose
                     </Button>
