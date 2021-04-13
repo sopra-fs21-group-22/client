@@ -1,6 +1,6 @@
 import React from "react";
 import {Container, Row, Col, Image} from "react-bootstrap";
-import "./playing_field_styling.css";
+import "./styling/playing_field_styling.css";
 
 
 export default function PlayerCards({ player }){
