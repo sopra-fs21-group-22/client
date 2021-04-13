@@ -13,12 +13,12 @@
 }
 
 .shelf{
-    /*background-image: url("/../../../public/images/shelf.jpg");*/
+    /*background-image: url("/../../../../public/images/icons/shelf.jpg");*/
     display: inline-flex;
 }
 
 .single-shelf{
-    /*background-image: url("/../../../public/images/shelf_single.png");*/
+    /*background-image: url("/../../../../public/images/icons/shelf_single.png");*/
     display: inline-flex;
 }
 

@@ -7,7 +7,7 @@ import { Spinner } from '../../views/design/Spinner';
 import { withRouter, useHistory, Link, useRouteMatch, } from 'react-router-dom';
 import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, Modal, Image, ModalBody } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
-import "../../views/design/lobby_styling.css";
+import "../../views/design/styling/lobby_styling.css";
 import Overlay from 'react-bootstrap/Overlay';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';

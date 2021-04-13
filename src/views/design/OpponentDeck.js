@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstrap';
-import "./playing_field_styling.css";
+import "./styling/playing_field_styling.css";
 import Life from "./Life";
 
 export default function OpponentDeck({ opponent }) {
@@ -15,7 +15,7 @@ export default function OpponentDeck({ opponent }) {
                             width={60}
                             height={30}
                             alt="60x30"
-                            src="/images/dynamite.png"/>
+                            src="/images/icons/dynamite.png"/>
                     </Figure>
                 </Col>
                 <Col>
@@ -25,7 +25,7 @@ export default function OpponentDeck({ opponent }) {
                             width={80}
                             height={80}
                             alt="80x80"
-                            src="/images/sheriff.png"/>
+                            src="/images/icons/sheriff.png"/>
                     </Figure>
                 </Col>
                 <Col/>
