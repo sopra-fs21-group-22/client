@@ -84,7 +84,6 @@ function Lobby() {
 
 
     return (
-        <>
         <Container>
             {<Modal show={show_roledisplay} centered animation size="sm"> 
                 <Modal.Header className="lobbymodalheader">
@@ -131,45 +130,43 @@ function Lobby() {
                     </Button>
                 </Modal.Footer>
             </Modal>}
-            <Button variant="primary" onClick={startGame} hidden={hidden_startgame}>Start Game</Button>
-            <Button onClick={leaveGame}>Leave</Button>
             <Container hidden={hidden_gamefield}>
                 <Row>
                     <Col/>
                     <Col>
-                        <OpponentDeck user={null}/>
+                        <OpponentDeck opponent={null}/>
                     </Col>
                     <Col/>
                 </Row>
                 <Row>
                     <Col>
-                        <OpponentDeck user={null}/>
+                        <OpponentDeck opponent={null}/>
                     </Col>
                     <Col>
                         <DeckDiscardPiles/>
                     </Col>
                     <Col>
-                        <OpponentDeck user={null}/>
+                        <OpponentDeck opponent={null}/>
                     </Col>
                 </Row>
                 <Row>
                     <Col/>
                     <Col>
-                        <PlayerDeck user={null}/>
+                        <PlayerDeck player={null}/>
                     </Col>
                     <Col/>
                 </Row>
                 <Row>
                     <Col/>
                     <Col xs={8}>
-                        <PlayerCards user={null}/>
+                        <PlayerCards player={null}/>
                     </Col>
                     <Col/>
                 </Row>
             </Container>
+            <Button variant="primary" onClick={startGame} hidden={hidden_startgame}>Start Game</Button>
+            <Button onClick={leaveGame}>Leave</Button>
         </Container >
-        </>
-        
     );
 }
 

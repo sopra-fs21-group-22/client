@@ -26,16 +26,17 @@
     border-style: none !important;
 }
 
-.card-container{
+.opponent-player-deck_container-card{
     background: rgba(196, 196, 196, 0.5);
 }
 
-.icon-bullet{
-    height: 20px;
+#opponent-player-deck_figure-profile-picture{
+    text-transform: uppercase;
+    color: white;
 }
 
-.profile{
-    text-transform: uppercase;
+.life_image-bullet{
+    height: 20px;
 }
 
 .shelf{
@@ -48,11 +49,11 @@
     display: inline-flex;
 }
 
-.card{
+.deck-discard-pile_image-card{
     height: 125px;
 }
 
-.deck-discard{
+.deck-discard-pile_container{
     display: inline-flex;
     margin-top: 150px;
 }

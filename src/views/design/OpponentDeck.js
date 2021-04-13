@@ -3,13 +3,13 @@ import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstra
 import "./styling.css";
 import Life from "./Life";
 
-export default function OpponentDeck({ user }) {
+export default function OpponentDeck({ opponent }) {
     return (
-        <Container className="card-container">
+        <Container className="opponent-player-deck-container-card">
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>
-                    <Figure>
+                    <Figure {/*hidden={!opponent.dynamite}*/}>
                         <Figure.Image
                             width={60}
                             height={30}
@@ -18,7 +18,7 @@ export default function OpponentDeck({ user }) {
                     </Figure>
                 </Col>
                 <Col>
-                    <Figure>
+                    <Figure {/*hidden={!opponent.role === "sheriff"*/}>
                         <Figure.Image
                             width={80}
                             height={80}
@@ -31,7 +31,7 @@ export default function OpponentDeck({ user }) {
             {/*second row for profile, lives and amount of playable cards*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>
-                    <Figure className="profile">
+                    <Figure id="opponent-player-deck_figure-profile-picture">
                         {/*<Figure.Image
                             width={80}
                             height={80}
@@ -49,25 +49,29 @@ export default function OpponentDeck({ user }) {
                 </Col>
                 <Col>
                     <Row>
-                        <Life/>
+                        <Life {/*hidden={opponent.bullet < 5}*/}/>
                     </Row>
                     <Row>
-                        <Life/>
+                        <Life {/*hidden={opponent.bullet < 4}*/}/>
                     </Row>
                     <Row>
-                        <Life/>
+                        <Life {/*hidden={opponent.bullet < 3}*/}/>
                     </Row>
                     <Row>
-                        <Life/>
+                        <Life {/*hidden={opponent.bullet < 2}*/}/>
+                    </Row>
+                    <Row>
+                        <Life {/*hidden={opponent.bullet < 1}*/}/>
                     </Row>
                 </Col>
                 <Col>
-                    <Figure>
+                    <Figure {/*hidden={opponent.cards === 0}*/}>
                         <Figure.Image
                             width={80}
                             height={100}
                             alt="80x100"
                             src="/images/back.jpeg"/>
+                        <Figure.Caption>{/*opponent.cards*/} card(s) left</Figure.Caption>
                     </Figure>
                 </Col>
             </Row>

@@ -3,13 +3,13 @@ import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstra
 import "./styling.css";
 import Life from "./Life";
 
-export default function OpponentDeck({ user }) {
+export default function OpponentDeck({ player }) {
     return (
-        <Container className="card-container">
+        <Container className="opponent-player-deck-container-card">
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>
-                    <Figure>
+                    <Figure {/*hidden={!player.dynamite}*/}>
                         <Figure.Image
                             width={60}
                             height={30}
@@ -18,7 +18,7 @@ export default function OpponentDeck({ user }) {
                     </Figure>
                 </Col>
                 <Col>
-                    <Figure>
+                    <Figure {/*hidden={!player.role === "sheriff"*/}>
                         <Figure.Image
                             width={80}
                             height={80}
@@ -31,7 +31,7 @@ export default function OpponentDeck({ user }) {
             {/*second row for profile, lives and amount of playable cards*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>
-                    <Figure className="profile">
+                    <Figure id="opponent-player-deck_figure-profile-picture">
                         {/*<Figure.Image
                             width={80}
                             height={80}
@@ -49,16 +49,19 @@ export default function OpponentDeck({ user }) {
                 </Col>
                 <Col>
                     <Row>
-                        <Life/>
+                        <Life {/*hidden={player.bullet < 5}*/}/>
                     </Row>
                     <Row>
-                        <Life/>
+                        <Life {/*hidden={player.bullet < 4}*/}/>
                     </Row>
                     <Row>
-                        <Life/>
+                        <Life {/*hidden={player.bullet < 3}*/}/>
                     </Row>
                     <Row>
-                        <Life/>
+                        <Life {/*hidden={player.bullet < 2}*/}/>
+                    </Row>
+                    <Row>
+                        <Life {/*hidden={player.bullet < 1}*/}/>
                     </Row>
                 </Col>
             </Row>

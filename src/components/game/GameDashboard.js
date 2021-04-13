@@ -53,7 +53,7 @@ function GameDashboard({ currUser }) {
   let history = useHistory();
   
   function handleClick() {
-    authApi().put("/lobbies");
+    authApi().put("/games/lobbies");
     //TODO: create get mapping to get lobbyid
     //const response = await authApi().get('/lobbies/id');
     //id = response.id;

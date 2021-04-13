@@ -4,6 +4,6 @@ import "./styling.css";
 
 export default function Life(){
     return (
-        <Image className="icon-bullet" src="/images/bullet.png"/>
+        <Image className="life_image-bullet" src="/images/bullet.png"/>
     )
 }

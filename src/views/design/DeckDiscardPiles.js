@@ -3,13 +3,13 @@ import {Container, Row, Col, Image} from "react-bootstrap";
 
 export default function DeckDiscardPiles(){
     return (
-        <Container className="deck-discard">
+        <Container className="deck-discard-pile_container">
             <Row>
                 <Col>
-                    <Image className="card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
                 </Col>
                 <Col>
-                    <Image className="card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
                 </Col>
             </Row>
         </Container>
