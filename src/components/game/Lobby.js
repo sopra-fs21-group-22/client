@@ -46,6 +46,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         updatePlayer_table(currPlayer_table);
         // correctOrder();
         localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
+        console.log(currPlayer_table);
         
         }
         setCount(count + 1);  }, 5000);
@@ -59,6 +60,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         }
         const currentPlayer_table = new PlayerTable(userData);
         updatePlayer_table(currentPlayer_table);
+        console.log(currentPlayer_table);
         try {
 
         } catch (error) {
@@ -73,9 +75,14 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         updatePlayer(null);
         history.push("/game/dashboard");
     }
+    const [status, setStatus] = useState(true);
     async function startGame(){
+        console.log(currPlayer_table.id);
         
-        authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`);
+        const requestBody = JSON.stringify({
+            status: status
+          });
+        authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
         
         //TODO: uncomment this once backend is implemented
 //get information about user
