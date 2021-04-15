@@ -29,7 +29,7 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
       const response = await authApi().get('/users');
       // Get the returned users and update the state.
       setUsers(response.data);
-      //TODO: add api.get for list of open lobbies OR merge it with the upper request
+      //TODO: FOR PRIVATE LOBBIES add api.get for list of open lobbies OR merge it with the upper request
       //const anotherresponse = await authApi().get(/*TODO: add a url*/);
       //setLobbies(anotherresponse.data);
       //TODO: remove this when lobbies are implemented. testing stuff
@@ -52,7 +52,7 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
   
   let history = useHistory();
 
-  async function handleClick() {
+  async function join_public_lobby() {
     const response = await authApi().put("/games/lobbies");
     currPlayer_table = new PlayerTable(response.data);
     updatePlayer_table(currPlayer_table);
@@ -60,11 +60,6 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
     const id = currPlayer_table.id;
     const target = "/game/dashboard/lobby/public/" + id;
     history.push(target);
-  }
-  function testbutton(){
-    console.log("before");
-    console.log(currPlayer_table.id);
-    console.log("after");
   }
 
 
@@ -113,8 +108,7 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
           </ListGroup>*/}
           <br></br>
           
-          <Button onClick={handleClick} block>join lobby</Button>
-          <Button onClick={testbutton} block>test</Button>
+          <Button onClick={join_public_lobby} block>join lobby</Button>
         
           <br></br>
           <h4>All Users</h4>

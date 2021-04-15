@@ -20,22 +20,43 @@ import OpponentDeck from "../../views/design/OpponentDeck";
 import PlayerDeck from "../../views/design/PlayerDeck";
 import PlayerCards from "../../views/design/PlayerCards";
 import DeckDiscardPiles from "../../views/design/DeckDiscardPiles";
+import useInterval from "../game/useInterval.js";
+import LayoutSwitcher from '../game/LayoutSwitcher';
+import Layout4players from '../../views/design/Layouts/Layout4players';
+import Layout5players from '../../views/design/Layouts/Layout5players';
+import Layout6players from '../../views/design/Layouts/Layout6players';
+import Layout7players from '../../views/design/Layouts/Layout7players';
 
 function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
+    const [count, setCount] = useState(0);
+    const interval = useInterval(async () => {    
+//repeating requests to keep player_table and player up to date
+        //TODO: uncomment this once backend is ready
+        {
+        /*const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);     
+        currPlayer = new PlayerModel(response.data);
+        updatePlayer(currPlayer);
+        localStorage.setItem('player', JSON.stringify(currPlayer));*/
+
+        //get information about the other players
+        const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
+        currPlayer_table = new PlayerTable(playertable_response.data);
+        updatePlayer_table(currPlayer_table);
+        localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
+        
+        }
+        setCount(count + 1);  }, 5000);
+    const [allplayers, setallplayers] = useState(false);
+    
 
     useEffect(async () => {
-
-        /*const userData = JSON.parse(localStorage.getItem('player_table'));
+        const userData = JSON.parse(localStorage.getItem('player_table'));
         if (userData == null) {
             return
         }
         const currentPlayer_table = new PlayerTable(userData);
-        updatePlayer_table(currentPlayer_table);*/
-        /*setPlayer(currentUser);
-        updatePlayer(currentUser)*/
-        console.log("player table:");
-        console.log(currPlayer_table.id);
+        updatePlayer_table(currentPlayer_table);
         try {
 
         } catch (error) {
@@ -45,12 +66,17 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
 //Buttons
     async function leaveGame() {
         localStorage.removeItem('player_table');
+        localStorage.removeItem('player');
         updatePlayer_table(null);
+        updatePlayer(null);
         history.push("/game/dashboard");
     }
     async function startGame(){
-        //authApi.put("/games/{game_id}/players/{player_id}/ready");
+        
+        authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`);
+        
         //TODO: uncomment this once backend is implemented
+//get information about user
         /*const response = await authApi().get('/games/{game_id}/players/{player_id}');
         currPlayer = new PlayerModel(response.data);
         updatePlayer(currPlayer);
@@ -58,6 +84,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         setupRole();
         setShow_rolechoose(true);
     }
+    
     const chooseRole = () => {
         setShow_rolechoose(false);
         setShow_roledisplay(true);
@@ -66,12 +93,6 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         setShow_roledisplay(false);
         setHidden_startgame(true);
         setHidden_gamefield(false);
-    }
-    async function updateplayers(){
-        const response = await authApi().get("/games/{game_id}/players");
-        currPlayer_table = new PlayerTable(response.data);
-        updatePlayer_table(currPlayer_table);
-        localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
     }
 
 //cardrole shinanigans
@@ -161,11 +182,25 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             </Popover.Content>
         </Popover>
     )
-
-
-    return (
+//use this button to walk through the different layouts
+    async function changelayout(){
+        if(playeramount==7){
+            setPlayeramount(4);
+        }
+        else{
+            setPlayeramount(playeramount+1);
+        }
+    }
+    const [playeramount, setPlayeramount] = useState(4);
+        
+        return (
         <Container>
-            <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+            
+            <p1>constant updates counter. updates every 5 seconds: {count}</p1>
+            <Button onClick={changelayout}>change layout</Button>
+            
+
+            <br></br><br></br>
 
 
 
@@ -218,40 +253,9 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     </Button>
                 </Modal.Footer>
             </Modal>}
-            <Container hidden={hidden_gamefield}>
-                <Row>
-                    <Col/>
-                    <Col>
-                        <OpponentDeck opponent={null}/>
-                    </Col>
-                    <Col/>
-                </Row>
-                <Row>
-                    <Col>
-                        <OpponentDeck opponent={null}/>
-                    </Col>
-                    <Col>
-                        <DeckDiscardPiles/>
-                    </Col>
-                    <Col>
-                        <OpponentDeck opponent={null}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col/>
-                    <Col>
-                        <PlayerDeck player={null}/>
-                    </Col>
-                    <Col/>
-                </Row>
-                <Row>
-                    <Col/>
-                    <Col xs={8}>
-                        <PlayerCards player={null}/>
-                    </Col>
-                    <Col/>
-                </Row>
-            </Container>
+
+            <LayoutSwitcher playeramount={playeramount}/>
+            
             <Button variant="primary" onClick={startGame} hidden={hidden_startgame}>Start Game</Button>
             <Button onClick={leaveGame}>Leave</Button>
             <br></br>
