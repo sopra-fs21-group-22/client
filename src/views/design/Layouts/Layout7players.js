@@ -4,9 +4,61 @@ import PlayerDeck from "../PlayerDeck";
 import PlayerCards from "../PlayerCards";
 import DeckDiscardPiles from "../DeckDiscardPiles";
 
-function Layout7players({hidden_gamefield}){
-    return (<Container>
-            <p1>this is 7 player setup</p1>
+function Layout7players({visibility}){
+    return (<Container hidden={visibility}>
+        <Row>
+            <Col/>
+            <Col>
+                {/*<OpponentDeck opponent={orderarray[4]}/>*/}
+                <OpponentDeck opponent={null}/>
+            </Col>
+            <Col>
+                {/*<OpponentDeck opponent={orderarray[3]}/>*/}
+                <OpponentDeck opponent={null}/>
+            </Col>
+            <Col/>
+        </Row>
+        <Row>
+            <Col>
+                {/*<OpponentDeck opponent={orderarray[5]}/>*/}
+                <OpponentDeck opponent={null}/>
+            </Col>
+            <Col>
+                {/*<DeckDiscardPiles playertable={playertable}/>*/}
+                <DeckDiscardPiles/>
+            </Col>
+            <Col>
+                {/*<OpponentDeck opponent={orderarray[2]}/>*/}
+                <OpponentDeck opponent={null}/>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                {/*<OpponentDeck opponent={orderarray[6]}/>*/}
+                <OpponentDeck opponent={null}/>
+            </Col>
+            <Col/>
+            <Col>
+                {/*<OpponentDeck opponent={orderarray[1]}/>*/}
+                <OpponentDeck opponent={null}/>
+            </Col>
+        </Row>
+        <Row>
+            <Col/>
+            <Col>
+                {/*<PlayerDeck player={orderarray[0]}/>*/}
+                <PlayerDeck player={null}/>
+            </Col>
+            <Col/>
+        </Row>
+        <Row>
+            <Col/>
+            <Col xs={8}>
+                {/*<PlayerCards player={orderarray[0]}/>*/}
+                <PlayerCards player={null}/>
+            </Col>
+            <Col/>
+        </Row>
     </Container>);
 }
 export default Layout7players;
