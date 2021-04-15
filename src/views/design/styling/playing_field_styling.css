@@ -33,9 +33,9 @@
 
 /*styling for dead players*/
 #player-deck_div, #opponent-deck_div{
-    background-color: rgb(128, 128, 128, 0.8);
-    opacity: 0.8;
-    filter: blur(4px);
+    /*background-color: rgb(128, 128, 128, 0.8);
+    opacity: 0.8;*/
+    /*filter: blur(4px);*/
 }
 #player-deck_div_p1, #opponent-deck_div_p1{
     font-size: 48px;

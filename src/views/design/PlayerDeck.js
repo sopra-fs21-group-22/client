@@ -6,13 +6,25 @@ import React, { useState, useEffect } from 'react';
 
 export default function PlayerDeck({ player }) {
     const [deadmessage, setDeadmessage] = useState(true);
-    /*if (!deadmessage){
-        setDeadmessage(false);
+    /* function dead(){
+        if (player.bullets < 1){
+        return false;
+        }
+    }*/
+    /*function greyedout(){
+        if (player.bullets < 1){
+            return "rgb(128, 128, 128, 0.8)";
+        }
+    }*/
+    /*function opacity(){
+        if (player.bullets < 1){
+            return 0.8;
+        }
     }*/
     return (
         <div>
-            <p1 id="player-deck_div_p1" /*hidden={deadmessage}*/><b>You Dead</b></p1>
-            <div id="player-deck_div">
+            <p1 id="player-deck_div_p1" /*hidden={dead}*/><b>You Dead</b></p1>
+            <div id="player-deck_div" /*style={{opacity: {opacity}, backgroundColor={greyedout}}}*/>
         <Container className="opponent-player-deck_container-card">
         
             {/*first row for dynamite and sheriff star*/}

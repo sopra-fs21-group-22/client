@@ -75,9 +75,14 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         updatePlayer(null);
         history.push("/game/dashboard");
     }
+    const [status, setStatus] = useState(true);
     async function startGame(){
+        console.log(currPlayer_table.id);
         
-        authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`);
+        const requestBody = JSON.stringify({
+            status: status
+          });
+        authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
         
         //TODO: uncomment this once backend is implemented
 //get information about user

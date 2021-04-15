@@ -4,10 +4,25 @@ import "./styling/playing_field_styling.css";
 import Life from "./Life";
 
 export default function OpponentDeck({ opponent }) {
+    /* function dead(){
+        if (opponent.bullets < 1){
+        return false;
+        }
+    }*/
+    /*function greyedout(){
+        if (opponent.bullets < 1){
+            return "rgb(128, 128, 128, 0.8)";
+        }
+    }*/
+    /*function opacity(){
+        if (opponent.bullets < 1){
+            return 0.8;
+        }
+    }*/
     return (
         <div>
             <p1 id="opponent-deck_div_p1"><b>He Dead</b></p1>
-            <div id="opponent-deck_div">
+            <div id="opponent-deck_div" /*style={{opacity: {opacity}, backgroundColor={greyedout}}}*/>
         <Container className="opponent-player-deck_container-card">
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">
