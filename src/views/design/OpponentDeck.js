@@ -38,48 +38,48 @@ export default function OpponentDeck({ opponent }) {
                             width={80}
                             height={80}
                             alt="80x80"
-                            src={user.profilePicture ? user.profilePicture : "/images/character_cards/black_jack_p.jpeg"}/>*/}
+                            src={`/images/character_cards/${opponent.profilePicture.getId()}.jpeg`}/>*/}
                         <Figure.Image
                             width={80}
                             height={80}
                             alt="80x80"
                             src="/images/character_cards/black_jack_p.jpeg"
                         />
-                        {/*<Figure.Caption>{user.username ? user.username : "undefined"}</Figure.Caption>*/}
+                        {/*<Figure.Caption>{opponent.username}</Figure.Caption>*/}
                         <Figure.Caption id="opponent-player-deck_figure-profile-picture">undefined</Figure.Caption>
                     </Figure>
                 </Col>
                 <Col>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullet < 5}/>*/}
+                        {/*<Life hidden={opponent.bullets < 5}/>*/}
                     </Row>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullet < 4}/>*/}
+                        {/*<Life hidden={opponent.bullets < 4}/>*/}
                     </Row>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullet < 3}/>*/}
+                        {/*<Life hidden={opponent.bullets < 3}/>*/}
                     </Row>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullet < 2}/>*/}
+                        {/*<Life hidden={opponent.bullets < 2}/>*/}
                     </Row>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullet < 1}/>*/}
+                        {/*<Life hidden={opponent.bullets < 1}/>*/}
                     </Row>
                 </Col>
                 <Col>
                     <Figure>
-                    {/*<Figure hidden={opponent.cards === 0}>*/}
+                    {/*<Figure hidden={opponent.hand.getPlayCards.length === 0}>*/}
                         <Figure.Image
                             width={80}
                             height={100}
                             alt="80x100"
                             src="/images/back.jpeg"/>
-                        <Figure.Caption>{/*opponent.cards*/} card(s) left</Figure.Caption>
+                        <Figure.Caption>{/*opponent.hand.getPlayCards.length*/} card(s) left</Figure.Caption>
                     </Figure>
                 </Col>
             </Row>
@@ -91,7 +91,7 @@ export default function OpponentDeck({ opponent }) {
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={user.weapon ? user.weapon : "/images/back.jpeg"}/>*/}
+                            src={`/images/weapons/${opponent.weapon.getId()}.jpeg`}/>*/}
                         <Figure.Image
                             width={80}
                             height={100}
@@ -106,7 +106,7 @@ export default function OpponentDeck({ opponent }) {
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={user.horse ? user.horse : "/images/back.jpeg"}/>*/}
+                            src={`/images/horses/${opponent.horse.getId()}.jpeg`}/>*/}
                         <Figure.Image
                             width={80}
                             height={100}
@@ -121,7 +121,7 @@ export default function OpponentDeck({ opponent }) {
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={user.barrel ? user.barrel : "/images/back.jpeg"}/>*/}
+                            src={user.barrel ? user.barrel : "/images/barrel.jpeg"}/>*/}
                         <Figure.Image
                             width={80}
                             height={100}

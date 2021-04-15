@@ -26,6 +26,7 @@ import Layout4players from '../../views/design/Layouts/Layout4players';
 import Layout5players from '../../views/design/Layouts/Layout5players';
 import Layout6players from '../../views/design/Layouts/Layout6players';
 import Layout7players from '../../views/design/Layouts/Layout7players';
+import {forEach} from "react-bootstrap/ElementChildren";
 
 function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
@@ -43,6 +44,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
         currPlayer_table = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPlayer_table);
+        // correctOrder();
         localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
         
         }
@@ -94,6 +96,22 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         setHidden_startgame(true);
         setHidden_gamefield(false);
     }
+
+    const [orderArray, setOrderArray] = useState([]);
+
+    // function correctOrder(){
+    //     const current_array = [];
+    //     for (let player in currPlayer_table.players) {
+    //         if(currPlayer.id === player.id) {
+    //             current_array.join(currPlayer)
+    //         }
+    //     }
+    //     for (let i = 0; i < playeramount - 1; i++) {
+    //         current_array[i].rightNeighbor = current_array[i+1];
+    //     }
+    //
+    //     setOrderArray(current_array);
+    // }
 
 //cardrole shinanigans
     async function setupRole(){
@@ -254,8 +272,9 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                 </Modal.Footer>
             </Modal>}
 
-            <LayoutSwitcher playeramount={playeramount}/>
-            
+            {/*<LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield}/>*/}
+            <LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>
+
             <Button variant="primary" onClick={startGame} hidden={hidden_startgame}>Start Game</Button>
             <Button onClick={leaveGame}>Leave</Button>
             <br></br>
