@@ -97,6 +97,22 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         setHidden_gamefield(false);
     }
 
+    function openRules(){
+        setShow_rules(true);
+    }
+
+    function closeRules(){
+        setShow_rules(false);
+    }
+
+    function resign(){
+        //put mapping to set bullets = 0
+    }
+
+    function endTurn() {
+        //put mapping to end turn
+    }
+
     const [orderArray, setOrderArray] = useState([]);
 
     // function correctOrder(){
@@ -179,6 +195,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     const [show_roleinformation, setShow_roleinformation] = useState(false);
     const [hidden_gamefield, setHidden_gamefield] = useState(true);
     const [hidden_startgame, setHidden_startgame] = useState(false);
+    const [show_rules, setShow_rules] = useState(false);
 
     const [rolecard_border1, setRolecard_border1] = useState(0);
     const [rolecard_border2, setRolecard_border2] = useState(0);
@@ -239,6 +256,20 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     </Button>
                 </Modal.Footer>
             </Modal>}
+
+            {<Modal show={show_rules} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Rules</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <Image src="/images/back.jpeg" id="chosen-role_modal_body_image"/>
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button variant="primary" onClick={closeRules}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
             
 
             {<Modal id="choose-role_modal" show={show_rolechoose} centered backdrop="static" keyboard={false} animation>
@@ -276,6 +307,9 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             <LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>
 
             <Button variant="primary" onClick={startGame} hidden={hidden_startgame}>Start Game</Button>
+            <Button onClick={endTurn}>End Turn</Button>
+            <Button onClick={resign}>Resign</Button>
+            <Button onClick={openRules}>Rules</Button>
             <Button onClick={leaveGame}>Leave</Button>
             <br></br>
             <br></br>
