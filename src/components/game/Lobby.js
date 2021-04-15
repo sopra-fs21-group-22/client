@@ -21,11 +21,16 @@ import PlayerDeck from "../../views/design/PlayerDeck";
 import PlayerCards from "../../views/design/PlayerCards";
 import DeckDiscardPiles from "../../views/design/DeckDiscardPiles";
 import useInterval from "../game/useInterval.js";
+import LayoutSwitcher from '../game/LayoutSwitcher';
+import Layout4players from '../../views/design/Layouts/Layout4players';
+import Layout5players from '../../views/design/Layouts/Layout5players';
+import Layout6players from '../../views/design/Layouts/Layout6players';
+import Layout7players from '../../views/design/Layouts/Layout7players';
 
 function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
     const [count, setCount] = useState(0);
-    const interval = useInterval(() => {    
+    const interval = useInterval(async () => {    
 //repeating requests to keep player_table and player up to date
         //TODO: uncomment this once backend is ready
         {
@@ -35,11 +40,11 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         localStorage.setItem('player', JSON.stringify(currPlayer));*/
 
         //get information about the other players
-        /*const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
+        const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
         currPlayer_table = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPlayer_table);
         localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
-        */
+        
         }
         setCount(count + 1);  }, 5000);
     const [allplayers, setallplayers] = useState(false);
@@ -177,14 +182,25 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             </Popover.Content>
         </Popover>
     )
-
-
-    return (
+//use this button to walk through the different layouts
+    async function changelayout(){
+        if(playeramount==7){
+            setPlayeramount(4);
+        }
+        else{
+            setPlayeramount(playeramount+1);
+        }
+    }
+    const [playeramount, setPlayeramount] = useState(4);
+        
+        return (
         <Container>
-            <p1>counting: {count}</p1>
+            
+            <p1>constant updates counter. updates every 5 seconds: {count}</p1>
+            <Button onClick={changelayout}>change layout</Button>
             
 
-            <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+            <br></br><br></br>
 
 
 
@@ -237,40 +253,9 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     </Button>
                 </Modal.Footer>
             </Modal>}
-            <Container hidden={hidden_gamefield}>
-                <Row>
-                    <Col/>
-                    <Col>
-                        <OpponentDeck opponent={null}/>
-                    </Col>
-                    <Col/>
-                </Row>
-                <Row>
-                    <Col>
-                        <OpponentDeck opponent={null}/>
-                    </Col>
-                    <Col>
-                        <DeckDiscardPiles/>
-                    </Col>
-                    <Col>
-                        <OpponentDeck opponent={null}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col/>
-                    <Col>
-                        <PlayerDeck player={null}/>
-                    </Col>
-                    <Col/>
-                </Row>
-                <Row>
-                    <Col/>
-                    <Col xs={8}>
-                        <PlayerCards player={null}/>
-                    </Col>
-                    <Col/>
-                </Row>
-            </Container>
+
+            <LayoutSwitcher playeramount={playeramount}/>
+            
             <Button variant="primary" onClick={startGame} hidden={hidden_startgame}>Start Game</Button>
             <Button onClick={leaveGame}>Leave</Button>
             <br></br>

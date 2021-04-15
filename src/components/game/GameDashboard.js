@@ -29,7 +29,7 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
       const response = await authApi().get('/users');
       // Get the returned users and update the state.
       setUsers(response.data);
-      //TODO: add api.get for list of open lobbies OR merge it with the upper request
+      //TODO: FOR PRIVATE LOBBIES add api.get for list of open lobbies OR merge it with the upper request
       //const anotherresponse = await authApi().get(/*TODO: add a url*/);
       //setLobbies(anotherresponse.data);
       //TODO: remove this when lobbies are implemented. testing stuff
