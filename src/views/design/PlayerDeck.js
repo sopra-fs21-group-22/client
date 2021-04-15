@@ -5,6 +5,7 @@ import Life from "./Life";
 import React, { useState, useEffect } from 'react';
 
 export default function PlayerDeck({ player }) {
+
     const [deadmessage, setDeadmessage] = useState(true);
     /* function dead(){
         if (player.bullets < 1){
@@ -21,6 +22,7 @@ export default function PlayerDeck({ player }) {
             return 0.8;
         }
     }*/
+
     return (
         <div>
             <p1 id="player-deck_div_p1" /*hidden={dead}*/><b>You Dead</b></p1>

@@ -19,7 +19,6 @@
 
 .single-shelf{
     /*background-image: url("/../../../../public/images/icons/shelf_single.png");*/
-    display: inline-flex;
 }
 
 .deck-discard-pile_image-card{
