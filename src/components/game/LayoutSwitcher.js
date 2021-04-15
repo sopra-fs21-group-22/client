@@ -5,10 +5,12 @@ import Layout7players from '../../views/design/Layouts/Layout7players';
 
 
 
-function LayoutSwitcher({playeramount}){
+// function LayoutSwitcher({playeramount, playertable, orderarray, visibility}){
+function LayoutSwitcher({playeramount, visibility}){
     switch(playeramount){
         case 4:
-            return <Layout4players/>;
+            // return <Layout4players playertable= {playertable} orderarray={orderarray} visibility={visibility}/>;
+            return <Layout4players visibility={visibility}/>;
         case 5:
             return <Layout5players/>;
         case 6:
