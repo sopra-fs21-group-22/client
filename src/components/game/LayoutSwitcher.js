@@ -12,11 +12,11 @@ function LayoutSwitcher({playeramount, visibility}){
             // return <Layout4players playertable= {playertable} orderarray={orderarray} visibility={visibility}/>;
             return <Layout4players visibility={visibility}/>;
         case 5:
-            return <Layout5players/>;
+            return <Layout5players visibility={visibility}/>;
         case 6:
-            return <Layout6players/>;
+            return <Layout6players visibility={visibility}/>;
         case 7:
-            return <Layout7players/>;
+            return <Layout7players visibility={visibility}/>;
     }
 }
 export default LayoutSwitcher;

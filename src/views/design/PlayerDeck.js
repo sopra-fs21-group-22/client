@@ -3,7 +3,7 @@ import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstra
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 
-export default function OpponentDeck({ player }) {
+export default function PlayerDeck({ player }) {
     return (
         <Container className="opponent-player-deck_container-card">
             {/*first row for dynamite and sheriff star*/}
