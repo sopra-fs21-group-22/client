@@ -5,6 +5,9 @@ import Life from "./Life";
 
 export default function OpponentDeck({ opponent }) {
     return (
+        <div>
+            <p1 id="opponent-deck_div_p1"><b>He Dead</b></p1>
+            <div id="opponent-deck_div">
         <Container className="opponent-player-deck_container-card">
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">
@@ -20,7 +23,7 @@ export default function OpponentDeck({ opponent }) {
                 </Col>
                 <Col>
                     <Figure>
-                    {/*<Figure hidden={!opponent.gameRole === "Sheriff">*/}
+                    {/*<Figure hidden={!opponent.gameRole == "SHERIFF">*/}
                         <Figure.Image
                             width={80}
                             height={80}
@@ -132,5 +135,7 @@ export default function OpponentDeck({ opponent }) {
                 </Col>
             </Row>
         </Container>
+        </div>
+        </div>
     )
 }

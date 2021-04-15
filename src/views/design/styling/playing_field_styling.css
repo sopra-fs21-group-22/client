@@ -30,3 +30,37 @@
     display: flex;
     margin-top: 150px;
 }
+
+/*styling for dead players*/
+#player-deck_div, #opponent-deck_div{
+    background-color: rgb(128, 128, 128, 0.8);
+    opacity: 0.8;
+    filter: blur(4px);
+}
+#player-deck_div_p1, #opponent-deck_div_p1{
+    font-size: 48px;
+    animation: fadeIn ease 5s;
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+}
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      font-size: 48px;
+    }
+    25%{
+        font-size: 0px;
+    }
+    50%{
+        font-size: 48px;
+    }
+    75%{
+        font-size: 0px;
+    }
+    100% {
+      opacity: 1;
+      font-size: 48px;
+    }
+}

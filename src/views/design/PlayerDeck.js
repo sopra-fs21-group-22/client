@@ -1,11 +1,20 @@
-import React from 'react';
+
 import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
+import React, { useState, useEffect } from 'react';
 
-export default function OpponentDeck({ player }) {
+export default function PlayerDeck({ player }) {
+    const [deadmessage, setDeadmessage] = useState(true);
+    /*if (!deadmessage){
+        setDeadmessage(false);
+    }*/
     return (
+        <div>
+            <p1 id="player-deck_div_p1" /*hidden={deadmessage}*/><b>You Dead</b></p1>
+            <div id="player-deck_div">
         <Container className="opponent-player-deck_container-card">
+        
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>
@@ -20,7 +29,7 @@ export default function OpponentDeck({ player }) {
                 </Col>
                 <Col>
                     <Figure>
-                    {/*<Figure hidden={!opponent.gameRole === "Sheriff">*/}
+                    {/*<Figure hidden={!player.gameRole == "SHERIFF">*/}
                         <Figure.Image
                             width={80}
                             height={80}
@@ -52,23 +61,23 @@ export default function OpponentDeck({ player }) {
                 <Col>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 5}/>*/}
+                        {/*<Life hidden={player.bullets < 5}/>*/}
                     </Row>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 4}/>*/}
+                        {/*<Life hidden={player.bullets < 4}/>*/}
                     </Row>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 3}/>*/}
+                        {/*<Life hidden={player.bullets < 3}/>*/}
                     </Row>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 2}/>*/}
+                        {/*<Life hidden={player.bullets < 2}/>*/}
                     </Row>
                     <Row>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 1}/>*/}
+                        {/*<Life hidden={player.bullets < 1}/>*/}
                     </Row>
                 </Col>
             </Row>
@@ -121,5 +130,7 @@ export default function OpponentDeck({ player }) {
                 </Col>
             </Row>
         </Container>
+        </div>
+        </div>
     )
 }
