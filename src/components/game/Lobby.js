@@ -28,10 +28,11 @@ import "../../views/design/styling/custom_button_styling.css";
 function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
     const [count, setCount] = useState(0);
+    const [loopvar, setLoopvar] = useState(true);
     const interval = useInterval(async () => {    
 //repeating requests to keep player_table and player up to date
         //TODO: uncomment this once backend is ready
-        {
+        
         const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);    
         currPlayer = new PlayerModel(response.data);
         updatePlayer(currPlayer);
@@ -41,9 +42,20 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
         currPlayer_table = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPlayer_table);
-        // correctOrder();
         localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
-        }
+        // correctOrder();
+
+//this stops once the game starts
+//TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
+        /*if (loopvar){
+            if (currPlayer_table.gameHasStarted){
+                setupRole();
+                setShow_rolechoose(true);
+                setLoopvar(false);
+            }
+
+        }*/
+        
         setCount(count + 1);  }, 5000);
     
 
@@ -92,16 +104,9 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             })
             authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
         }
-        //TODO: uncomment this once backend is implemented
-//get information about user
-        
-
-        {const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
-        currPlayer = new PlayerModel(response.data);
-        updatePlayer(currPlayer);
-        localStorage.setItem('player', JSON.stringify(currPlayer));
+        //TODO: comment this to have a functioning game. this is only here to be able to reach the game screen without actually starting a game
         setupRole();
-        setShow_rolechoose(true);}
+        setShow_rolechoose(true);
     }
     
     const chooseRole = () => {
