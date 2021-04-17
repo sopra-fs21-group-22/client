@@ -9,6 +9,7 @@ import UserStatus from '../../views/design/UserStatus';
 import User from '../shared/models/User';
 import { Redirect } from 'react-router-dom';
 import PlayerTable from '../shared/models/PlayerTable';
+import "../../views/design/styling/custom_button_styling.css";
 
 
 
@@ -108,7 +109,7 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
           </ListGroup>*/}
           <br></br>
           
-          <Button onClick={join_public_lobby} block>join lobby</Button>
+          <Button id="custombutton" onClick={join_public_lobby} block>join lobby</Button>
         
           <br></br>
           <h4>All Users</h4>

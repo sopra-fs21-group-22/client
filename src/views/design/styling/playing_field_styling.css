@@ -31,11 +31,6 @@
 }
 
 /*styling for dead players*/
-#player-deck_div, #opponent-deck_div{
-    /*background-color: rgb(128, 128, 128, 0.8);
-    opacity: 0.8;*/
-    /*filter: blur(4px);*/
-}
 #player-deck_div_p1, #opponent-deck_div_p1{
     font-size: 48px;
     animation: fadeIn ease 5s;
@@ -63,4 +58,9 @@
       opacity: 1;
       font-size: 48px;
     }
+}
+/*styling to hightlight who's turn it is*/
+#character-image_FigureImage{
+    border-color: rgb(255, 251, 0);
+    border-width: 5px;
 }
