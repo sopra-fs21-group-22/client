@@ -22,10 +22,6 @@ import PlayerCards from "../../views/design/PlayerCards";
 import DeckDiscardPiles from "../../views/design/DeckDiscardPiles";
 import useInterval from "../game/useInterval.js";
 import LayoutSwitcher from '../game/LayoutSwitcher';
-import Layout4players from '../../views/design/Layouts/Layout4players';
-import Layout5players from '../../views/design/Layouts/Layout5players';
-import Layout6players from '../../views/design/Layouts/Layout6players';
-import Layout7players from '../../views/design/Layouts/Layout7players';
 import {forEach} from "react-bootstrap/ElementChildren";
 
 function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
