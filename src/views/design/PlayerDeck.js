@@ -1,32 +1,27 @@
-
+import useInterval from "../../components/game/useInterval.js";
 import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, { useState, useEffect } from 'react';
 
 export default function PlayerDeck({ player }) {
+    const interval = useInterval(async () => {    
+        //repeating requests to keep stuff up-to-date
+        /*if (player.bullets < 1){
+            setOpacity(0.8);
+            setHideDeadMessage(false);
+            setBackgroundColor("#808080");
+        }*/
+    }, 5000);
 
-    const [deadmessage, setDeadmessage] = useState(true);
-    /* function dead(){
-        if (player.bullets < 1){
-        return false;
-        }
-    }*/
-    /*function greyedout(){
-        if (player.bullets < 1){
-            return "rgb(128, 128, 128, 0.8)";
-        }
-    }*/
-    /*function opacity(){
-        if (player.bullets < 1){
-            return 0.8;
-        }
-    }*/
+    const [hidedeadmessage, setHideDeadmessage] = useState(true);
+    const [opacity, setOpacity] = useState(1);
+    const [backgroundColor, setBackgroundColor] = useState("none");
 
     return (
         <div>
-            <p1 id="player-deck_div_p1" /*hidden={dead}*/><b>You Dead</b></p1>
-            <div id="player-deck_div" /*style={{opacity: {opacity}, backgroundColor={greyedout}}}*/>
+            <p1 id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p1>
+            <div id="player-deck_div" style={{backgroundColor: backgroundColor,  opacity: opacity}}>
         <Container className="opponent-player-deck_container-card">
         
             {/*first row for dynamite and sheriff star*/}
