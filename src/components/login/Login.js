@@ -4,6 +4,7 @@ import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { useHistory, withRouter } from 'react-router-dom';
 import { Form, Container, Button } from 'react-bootstrap';
+import "../../views/design/styling/custom_button_styling.css";
 
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
@@ -81,7 +82,7 @@ function Login({ user, updateUser }) {
           />
         </Form.Group>
         <Button
-          variant="primary"
+          id="custombutton"
           type="submit"
           disabled={!username || !password}
           onClick={(e) => {

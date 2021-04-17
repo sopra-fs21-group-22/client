@@ -6,6 +6,7 @@ import User from '../shared/models/User';
 import { Redirect, withRouter, useHistory } from 'react-router-dom';
 import Login from '../login/Login';
 import { Button, Container, Form } from 'react-bootstrap';
+import "../../views/design/styling/custom_button_styling.css";
 
 
 export default function Register({ currUser, updateUser }) {
@@ -83,7 +84,7 @@ export default function Register({ currUser, updateUser }) {
                     />
                 </Form.Group>
                 <Button
-                    variant="primary"
+                    id="custombutton"
                     type="submit"
                     disabled={!username || !password || password != passwordConf}
                     onClick={(e) => {

@@ -4,23 +4,24 @@ import PlayerDeck from "../PlayerDeck";
 import PlayerCards from "../PlayerCards";
 import DeckDiscardPiles from "../DeckDiscardPiles";
 
+// function Layout4players({playertable, orderarray, visibility}){
 function Layout7players({visibility}){
     return (<Container hidden={visibility}>
         <Row>
             <Col/>
             <Col>
-                {/*<OpponentDeck opponent={orderarray[4]}/>*/}
+                {/*<OpponentDeck opponent={orderarray[4]} playeronturn={playertable.playerOnTurn}/>*/}
                 <OpponentDeck opponent={null}/>
             </Col>
             <Col>
-                {/*<OpponentDeck opponent={orderarray[3]}/>*/}
+                {/*<OpponentDeck opponent={orderarray[3]} playeronturn={playertable.playerOnTurn}/>*/}
                 <OpponentDeck opponent={null}/>
             </Col>
             <Col/>
         </Row>
         <Row>
             <Col>
-                {/*<OpponentDeck opponent={orderarray[5]}/>*/}
+                {/*<OpponentDeck opponent={orderarray[5]} playeronturn={playertable.playerOnTurn}/>*/}
                 <OpponentDeck opponent={null}/>
             </Col>
             <Col>
@@ -28,25 +29,25 @@ function Layout7players({visibility}){
                 <DeckDiscardPiles/>
             </Col>
             <Col>
-                {/*<OpponentDeck opponent={orderarray[2]}/>*/}
+                {/*<OpponentDeck opponent={orderarray[2]} playeronturn={playertable.playerOnTurn}/>*/}
                 <OpponentDeck opponent={null}/>
             </Col>
         </Row>
         <Row>
             <Col>
-                {/*<OpponentDeck opponent={orderarray[6]}/>*/}
+                {/*<OpponentDeck opponent={orderarray[6]} playeronturn={playertable.playerOnTurn}/>*/}
                 <OpponentDeck opponent={null}/>
             </Col>
             <Col/>
             <Col>
-                {/*<OpponentDeck opponent={orderarray[1]}/>*/}
+                {/*<OpponentDeck opponent={orderarray[1]} playeronturn={playertable.playerOnTurn}/>*/}
                 <OpponentDeck opponent={null}/>
             </Col>
         </Row>
         <Row>
             <Col/>
             <Col>
-                {/*<PlayerDeck player={orderarray[0]}/>*/}
+                {/*<PlayerDeck player={orderarray[0]} playeronturn={playertable.playerOnTurn}/>*/}
                 <PlayerDeck player={null}/>
             </Col>
             <Col/>

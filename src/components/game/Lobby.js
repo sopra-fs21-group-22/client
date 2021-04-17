@@ -23,30 +23,40 @@ import DeckDiscardPiles from "../../views/design/DeckDiscardPiles";
 import useInterval from "../game/useInterval.js";
 import LayoutSwitcher from '../game/LayoutSwitcher';
 import {forEach} from "react-bootstrap/ElementChildren";
+import "../../views/design/styling/custom_button_styling.css";
 
 function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
     const [count, setCount] = useState(0);
+    const [loopvar, setLoopvar] = useState(true);
     const interval = useInterval(async () => {    
 //repeating requests to keep player_table and player up to date
         //TODO: uncomment this once backend is ready
-        {
-        /*const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);     
+        
+        const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);    
         currPlayer = new PlayerModel(response.data);
         updatePlayer(currPlayer);
-        localStorage.setItem('player', JSON.stringify(currPlayer));*/
+        localStorage.setItem('player', JSON.stringify(currPlayer));
 
         //get information about the other players
         const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
         currPlayer_table = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPlayer_table);
-        // correctOrder();
         localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
-        console.log(currPlayer_table);
+        // correctOrder();
+
+//this stops once the game starts
+//TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
+        /*if (loopvar){
+            if (currPlayer_table.gameHasStarted){
+                setupRole();
+                setShow_rolechoose(true);
+                setLoopvar(false);
+            }
+
+        }*/
         
-        }
         setCount(count + 1);  }, 5000);
-    const [allplayers, setallplayers] = useState(false);
     
 
     useEffect(async () => {
@@ -71,21 +81,30 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         updatePlayer(null);
         history.push("/game/dashboard");
     }
-    const [status, setStatus] = useState(true);
-    async function startGame(){
-        console.log(currPlayer_table.id);
-        
-        const requestBody = JSON.stringify({
-            status: status
-          });
-        authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
-        
-        //TODO: uncomment this once backend is implemented
-//get information about user
-        /*const response = await authApi().get('/games/{game_id}/players/{player_id}');
-        currPlayer = new PlayerModel(response.data);
-        updatePlayer(currPlayer);
-        localStorage.setItem('player', JSON.stringify(currPlayer));*/
+
+    const [status, setStatus] = useState(false);
+    const [ready_button_text, setReady_button_text] = useState("Ready up");
+    const [ready_button_color, setReady_button_color] = useState("success");
+    async function toggleReady(){
+        if (status){
+            setStatus(false);
+            setReady_button_text("Ready up");
+            setReady_button_color("success");
+            const requestBody = JSON.stringify({
+                status: status
+            })
+            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
+        }
+        else{
+            setStatus(true);
+            setReady_button_text("Unready");
+            setReady_button_color("danger");
+            const requestBody = JSON.stringify({
+                status: status
+            })
+            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
+        }
+        //TODO: comment this to have a functioning game. this is only here to be able to reach the game screen without actually starting a game
         setupRole();
         setShow_rolechoose(true);
     }
@@ -235,16 +254,10 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         <Container>
             
             <p1>constant updates counter. updates every 5 seconds: {count}</p1>
-            <Button onClick={changelayout}>change layout</Button>
+            <Button id="custombutton" onClick={changelayout}>change layout</Button>
             
 
             <br></br><br></br>
-
-
-
-            <OverlayTrigger trigger="click" overlay={role_information} rootClose>
-                <Button variant="success" >Show role information</Button>
-            </OverlayTrigger>
 
             {<Modal show={show_roledisplay} centered animation size="sm" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
@@ -254,7 +267,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
-                    <Button variant="primary" onClick={roledisplayokay}>
+                    <Button id="custombutton" onClick={roledisplayokay}>
                         Okay
                     </Button>
                 </Modal.Footer>
@@ -268,7 +281,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     <Image src="/images/back.jpeg" id="chosen-role_modal_body_image"/>
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
-                    <Button variant="primary" onClick={closeRules}>
+                    <Button id="custombutton" onClick={closeRules}>
                         Okay
                     </Button>
                 </Modal.Footer>
@@ -300,7 +313,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     </Row>
                 </Modal.Body>
                 <Modal.Footer id="choose-role_modal_footer">
-                    <Button variant="primary" onClick={chooseRole} disabled={choose_rolecard_disabled}>
+                    <Button id="custombutton" onClick={chooseRole} disabled={choose_rolecard_disabled}>
                         Choose
                     </Button>
                 </Modal.Footer>
@@ -309,11 +322,14 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             {/*<LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield}/>*/}
             <LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>
 
-            <Button variant="primary" onClick={startGame} hidden={hidden_startgame}>Start Game</Button>
-            <Button onClick={endTurn}>End Turn</Button>
-            <Button onClick={resign}>Resign</Button>
-            <Button onClick={openRules}>Rules</Button>
-            <Button onClick={leaveGame}>Leave</Button>
+            <OverlayTrigger trigger="click" overlay={role_information} rootClose>
+                <Button id="custombutton" >Show role information</Button>
+            </OverlayTrigger>
+            <Button variant={ready_button_color} onClick={toggleReady} hidden={hidden_startgame}>{ready_button_text}</Button>
+            <Button onClick={endTurn} id="custombutton">End Turn</Button>
+            <Button onClick={resign} id="custombutton">Resign</Button>
+            <Button onClick={openRules} id="custombutton">Rules</Button>
+            <Button onClick={leaveGame} id="custombutton">Leave</Button>
             <br></br>
             <br></br>
         </Container >

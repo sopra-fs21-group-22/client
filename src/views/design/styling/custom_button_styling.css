@@ -1,0 +1,15 @@
+#custombutton{
+    background-color: #ae8835;
+    border-color: #ae8835;
+    color: #000000;
+}
+#custombutton:hover{
+    color: #000000;
+    background-color: #7c5d1b;
+    border-color: #46381671;
+}
+#custombutton:focus {
+    box-shadow: 0 0 0 0.2rem rgba(146, 141, 128, 0.384);
+    border-color: #46381671;
+    background-color: #7c5d1b;
+}

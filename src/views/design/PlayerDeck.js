@@ -4,24 +4,31 @@ import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, { useState, useEffect } from 'react';
 
-export default function PlayerDeck({ player }) {
+export default function PlayerDeck({ player, playeronturn }) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         /*if (player.bullets < 1){
             setOpacity(0.8);
             setHideDeadMessage(false);
             setBackgroundColor("#808080");
+        }
+        if (player.id==playeronturn.id){
+            setHighlightImage("solid");
+        }
+        if(player.id!=playeronturn.id){
+            setHighlightImage("none");
         }*/
     }, 5000);
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
+    const [highlightImage, setHighlightImage] = useState("none");
 
     return (
         <div>
             <p1 id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p1>
-            <div id="player-deck_div" style={{backgroundColor: backgroundColor,  opacity: opacity}}>
+            <div style={{backgroundColor: backgroundColor,  opacity: opacity}}>
         <Container className="opponent-player-deck_container-card">
         
             {/*first row for dynamite and sheriff star*/}
@@ -51,13 +58,13 @@ export default function PlayerDeck({ player }) {
             {/*second row for profile, lives and amount of playable cards*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>
-                    <Figure>
-                        {/*<Figure.Image
+                    <Figure > 
+                        {/*<Figure.Image id="character-image_FigureImage" style={{borderStyle: highlightImage}}
                             width={80}
                             height={80}
                             alt="80x80"
                             src={`/images/character_cards/${player.profilePicture.getId()}.jpeg`}/>*/}
-                        <Figure.Image
+                        <Figure.Image id="character-image_FigureImage" style={{borderStyle: highlightImage}}
                             width={80}
                             height={80}
                             alt="80x80"

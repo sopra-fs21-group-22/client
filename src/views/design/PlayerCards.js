@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Container, Row, Col, Image, Modal, Button} from "react-bootstrap";
 import "./styling/playing_field_styling.css";
 import "./styling/lobby_styling.css";
+import "../../views/design/styling/custom_button_styling.css";
 
 
 export default function PlayerCards({ player_table, player }){
@@ -61,10 +62,10 @@ export default function PlayerCards({ player_table, player }){
                     <Image src="/images/back.jpeg" id="chosen-role_modal_body_image"/>
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
-                    <Button variant="primary" onClick={closeCard}>
+                    <Button id="custombutton" onClick={closeCard}>
                         Return
                     </Button>
-                    <Button variant="primary" onClick={playCard}>
+                    <Button id="custombutton" onClick={playCard}>
                         Play
                     </Button>
                 </Modal.Footer>
