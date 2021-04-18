@@ -5,7 +5,7 @@ import "./styling/lobby_styling.css";
 import "../../views/design/styling/custom_button_styling.css";
 
 
-export default function PlayerCards({ player_table, player }){
+export default function PlayerCards({ player_table, player, updateborder, card_played, setCard_played }){
     function lookAtCard(){
         //if (player_table.playerOnTurn === player){
             setShow_card(true);
@@ -17,13 +17,14 @@ export default function PlayerCards({ player_table, player }){
     }
 
     function playCard(){
-        //put mapping to add card to discard pile and remove it from hand of player
         setShow_card(false);
-        setCard_played(true);
+        updateborder("solid");
     }
+    
 
     const [show_card, setShow_card] = useState(false);
-    const [card_played, setCard_played] = useState(false);
+    
+    const [playcard_disabled, setPlaycard_disabled] = useState(false);
 
     return (
         <Container className="shelf">
@@ -65,7 +66,7 @@ export default function PlayerCards({ player_table, player }){
                     <Button id="custombutton" onClick={closeCard}>
                         Return
                     </Button>
-                    <Button id="custombutton" onClick={playCard}>
+                    <Button id="custombutton" onClick={playCard} disabled={playcard_disabled}>
                         Play
                     </Button>
                 </Modal.Footer>

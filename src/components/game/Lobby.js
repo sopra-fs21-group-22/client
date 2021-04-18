@@ -45,6 +45,17 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
         // correctOrder();
 
+
+//start of user turn
+        if (startofturn_drawncards){
+            //if (currPlayer_table.playerOnTurn.id==currPlayer.id){
+            if (true){
+                setShow_turn_starts(true);
+                setStartofturn_drawncards(false); //TODO: setStartofturn_drawncards==true at the start of the next turn
+            }
+        }
+        
+
 //this stops once the game starts
 //TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
         /*if (loopvar){
@@ -212,12 +223,21 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         setChoose_rolecard_disabled(false);
     }
 
+//turn starts
+    const [startofturn_drawncards, setStartofturn_drawncards] = useState(true);
+    function closeDrawnCards(){
+        setShow_turn_starts(false);
+    }
+
+/////////////////////////////////////////////////
+
     const [show_rolechoose, setShow_rolechoose] = useState(false);
     const [show_roledisplay, setShow_roledisplay] = useState(false);
     const [show_roleinformation, setShow_roleinformation] = useState(false);
     const [hidden_gamefield, setHidden_gamefield] = useState(true);
     const [hidden_startgame, setHidden_startgame] = useState(false);
     const [show_rules, setShow_rules] = useState(false);
+    const [show_turn_starts, setShow_turn_starts] = useState(false);
 
     const [rolecard_border1, setRolecard_border1] = useState(0);
     const [rolecard_border2, setRolecard_border2] = useState(0);
@@ -315,6 +335,20 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                 <Modal.Footer id="choose-role_modal_footer">
                     <Button id="custombutton" onClick={chooseRole} disabled={choose_rolecard_disabled}>
                         Choose
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+
+            {<Modal show={show_turn_starts} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <Image src="/images/back.jpeg" id="chosen-role_modal_body_image"/>
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeDrawnCards}>
+                        Okay
                     </Button>
                 </Modal.Footer>
             </Modal>}

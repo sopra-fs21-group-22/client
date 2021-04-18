@@ -4,7 +4,7 @@ import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstra
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 
-export default function OpponentDeck({ opponent, playeronturn }) {
+export default function OpponentDeck({ opponent, playeronturn, border, updateborder, playertable, setCard_played }) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         /*if (opponent.bullets < 1){
@@ -19,6 +19,21 @@ export default function OpponentDeck({ opponent, playeronturn }) {
             setHighlightImage("none");
         }*/
     }, 5000);
+    function selecttarget(){
+        if (border=="solid"){
+            updateborder("none");
+            setCard_played(true);
+            //put mapping to add card to discard pile and remove it from hand of player
+            /*const target_list = ?????;
+            const requestBody = JSON.stringify({
+                target_list: target_list
+            });
+            authApi().put(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
+        }
+        else{
+            alert("stop clicking me");
+        }
+    }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
@@ -29,7 +44,7 @@ export default function OpponentDeck({ opponent, playeronturn }) {
         <div>
             <p1 id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p1>
             <div style={{backgroundColor: backgroundColor,  opacity: opacity}}>
-        <Container className="opponent-player-deck_container-card">
+        <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: 5, borderColor: "yellow", borderStyle: border}}>
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>
