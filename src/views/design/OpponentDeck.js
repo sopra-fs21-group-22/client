@@ -7,18 +7,33 @@ import Life from "./Life";
 export default function OpponentDeck({ opponent, playeronturn, border, updateborder, playertable, setCard_played }) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
+        setPlayersInReach(api.get(`/${playertable.id}/players/${player_id}/targets`));
+        if (isInReach){
+            
+        }
         /*if (opponent.bullets < 1){
             setOpacity(0.8);
             setHideDeadMessage(false);
             setBackgroundColor("#808080");
+            TODO: make bordercolor none
         }
         if (opponent.id==playeronturn.id){
             setHighlightImage("solid");
         }
         if(opponent.id!=playeronturn.id){
             setHighlightImage("none");
-        }*/
+        }
+        */
     }, 5000);
+    function isinreach(){
+        let x;
+        for (x of playersInReach){
+            if (x.id==opponent.id){
+                return true;
+            }
+        }
+        return false;
+    }
     function selecttarget(){
         if (border=="solid"){
             updateborder("none");
@@ -26,9 +41,9 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
             //put mapping to add card to discard pile and remove it from hand of player
             /*const target_list = ?????;
             const requestBody = JSON.stringify({
-                target_list: target_list
+                target_list: target_list //TODO: double check the name of the reqestBody parameter. also what are we getting back?
             });
-            authApi().put(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
+            authApi().post(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
         }
         else{
             alert("stop clicking me");
@@ -39,6 +54,8 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
+    const [playersInReach, setPlayersInReach] = useState(null);
+    const [isInReach, setIsInReach] = useState(false);
 
     return (
         <div>
