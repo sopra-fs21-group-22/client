@@ -4,7 +4,7 @@ import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, { useState, useEffect } from 'react';
 
-export default function PlayerDeck({ player, playeronturn, border, updateborder, playertable, setCard_played }) {
+export default function PlayerDeck({ player, playeronturn, border, updateborder, playertable, setCard_played, setHideCancel_PlayCard}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         /*if (player.bullets < 1){
@@ -21,18 +21,20 @@ export default function PlayerDeck({ player, playeronturn, border, updateborder,
     }, 5000);
     function selecttarget(){
         if (border=="solid"){
-            updateborder("none");
             setCard_played(true);
+            updateborder("none");
             //put mapping to add card to discard pile and remove it from hand of player
             /*const target_list = ?????;
             const requestBody = JSON.stringify({
                 target_list: target_list
             });
             authApi().put(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
+            setHideCancel_PlayCard(true);
         }
         else{
             alert("stop clicking me");
         }
+        
     }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
