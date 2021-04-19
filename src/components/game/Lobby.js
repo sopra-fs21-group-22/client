@@ -353,7 +353,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                 </Modal.Footer>
             </Modal>}
 
-            {/*<LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield}/>*/}
+            {/*<LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield} player_id={currUser.id}/>*/}
             <LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>
 
             <OverlayTrigger trigger="click" overlay={role_information} rootClose>

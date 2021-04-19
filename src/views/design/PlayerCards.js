@@ -5,7 +5,7 @@ import "./styling/lobby_styling.css";
 import "../../views/design/styling/custom_button_styling.css";
 
 
-export default function PlayerCards({ player_table, player, updateborder, card_played, setCard_played }){
+export default function PlayerCards({ player_table, player, updateborder, card_played, setCard_played, setShowCancelPlayCard, hideCancel_PlayCard, setHideCancel_PlayCard}){
     function lookAtCard(){
         //if (player_table.playerOnTurn === player){
             setShow_card(true);
@@ -19,6 +19,8 @@ export default function PlayerCards({ player_table, player, updateborder, card_p
     function playCard(){
         setShow_card(false);
         updateborder("solid");
+        setHideCancel_PlayCard(false);
+
     }
     
 
