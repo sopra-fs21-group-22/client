@@ -4,7 +4,9 @@ import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstra
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 
-export default function OpponentDeck({ opponent, playeronturn, border, updateborder, playertable, setCard_played, setHideCancel_PlayCard }) {
+export default function OpponentDeck({ opponent, playeronturn, border, updateborder, playertable, setCard_played, setHideCancel_PlayCard, 
+    ignoreRange, setIgnoreRange, targetSelf, setTargetSelf, targetEveryone, setTargetEveryone, targetOnlyEnemies, setTargetOnlyEnemies,
+    borderWidth, setBorderWidth}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         //setPlayersInReach(api.get(`/${playertable.id}/players/${player_id}/targets`));
@@ -27,16 +29,26 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
         if (isInReach){
             setBorderWidth(5);
         }
+        
         */
+        if (targetSelf){
+            setBorderWidth(0);
+        }
+        if (!targetSelf){
+            setBorderWidth(5);
+        }
+
     }, 5000);
     function isinreach(){
-        let x;
-        for (x of playersInReach){
-            if (x.id==opponent.id){
-                setPlayersInReach(true);
+        if (!ignoreRange){
+            let x;
+            for (x of playersInReach){
+                if (x.id==opponent.id){
+                    setPlayersInReach(true);
+                }
             }
+            setPlayersInReach(false);
         }
-        setPlayersInReach(false);
     }
     function selecttarget(){
         if (border=="solid" && borderWidth>0){
@@ -51,9 +63,9 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
             authApi().post(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
             setHideCancel_PlayCard(true);
         }
-        else{
-            alert("stop clicking me");
-        }
+        setTargetSelf(false);
+        setIgnoreRange(false);
+        setTargetOnlyEnemies(false);
     }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
@@ -62,7 +74,6 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
     const [highlightImage, setHighlightImage] = useState("none");
     const [playersInReach, setPlayersInReach] = useState(true);
     const [isInReach, setIsInReach] = useState(false);
-    const [borderWidth, setBorderWidth] = useState(5);
 
     return (
         <div>

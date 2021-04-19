@@ -4,7 +4,9 @@ import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, { useState, useEffect } from 'react';
 
-export default function PlayerDeck({ player, playeronturn, border, updateborder, playertable, setCard_played, setHideCancel_PlayCard}) {
+export default function PlayerDeck({ player, playeronturn, border, updateborder, playertable, setCard_played, setHideCancel_PlayCard,
+     ignoreRange, setIgnoreRange, targetSelf, setTargetSelf, targetEveryone, setTargetEveryone, targetOnlyEnemies, setTargetOnlyEnemies,
+    borderWidth, setBorderWidth}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         /*if (player.bullets < 1){
@@ -18,11 +20,18 @@ export default function PlayerDeck({ player, playeronturn, border, updateborder,
         if(player.id!=playeronturn.id){
             setHighlightImage("none");
         }*/
+        if (targetOnlyEnemies){
+            setBorderWidth(0);
+        }
+        if (!targetOnlyEnemies){
+            setBorderWidth(5);
+        }
     }, 5000);
     function selecttarget(){
         if (border=="solid"){
             setCard_played(true);
             updateborder("none");
+            setBorderWidth(5);
             //put mapping to add card to discard pile and remove it from hand of player
             /*const target_list = ?????;
             const requestBody = JSON.stringify({
@@ -31,10 +40,10 @@ export default function PlayerDeck({ player, playeronturn, border, updateborder,
             authApi().put(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
             setHideCancel_PlayCard(true);
         }
-        else{
-            alert("stop clicking me");
-        }
-        
+        setTargetSelf(false);
+        setIgnoreRange(false);
+        setTargetOnlyEnemies(false);
+
     }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
@@ -46,7 +55,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateborder,
         <div>
             <p1 id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p1>
             <div style={{backgroundColor: backgroundColor,  opacity: opacity}}>
-        <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: 5, borderColor: "yellow", borderStyle: border}}>
+        <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: borderWidth, borderColor: "yellow", borderStyle: border}}>
         
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">

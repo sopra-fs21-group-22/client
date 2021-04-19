@@ -1,25 +1,66 @@
 import React, {useState} from "react";
-import {Container, Row, Col, Image, Modal, Button} from "react-bootstrap";
+import {Container, Row, Col, Image, Modal, Button, Card} from "react-bootstrap";
 import "./styling/playing_field_styling.css";
 import "./styling/lobby_styling.css";
 import "../../views/design/styling/custom_button_styling.css";
+import useInterval from "../../components/game/useInterval.js";
 
 
-export default function PlayerCards({ player_table, player, updateborder, card_played, setCard_played, setShowCancelPlayCard, hideCancel_PlayCard, setHideCancel_PlayCard}){
+export default function PlayerCards({ player_table, player, updateborder, card_played, setCard_played, setShowCancelPlayCard, hideCancel_PlayCard, setHideCancel_PlayCard,
+     ignoreRange, setIgnoreRange, targetSelf, setTargetSelf, targetEveryone, setTargetEveryone, targetOnlyEnemies, setTargetOnlyEnemies}){
+    
+    const interval = useInterval(async () => {    
+        console.log(selectedCard);
+        
+    }, 100);
     function lookAtCard(){
         //if (player_table.playerOnTurn === player){
             setShow_card(true);
         //}
     }
-
+    
     function closeCard(){
         setShow_card(false);
     }
 
-    function playCard(){
+    async function setupTargetHighlighting(){
+        switch(selectedCard){
+            case "Beer":
+            case "StageCoach":
+            case "WellsFargo":
+                setTargetSelf(true);
+                break;
+            case "Indians":
+            case "Catling":
+            case "Bang":
+            case "Duel":
+            case "Panic":
+                setTargetOnlyEnemies(true);
+                break;
+            case "CatBalou":
+                setTargetOnlyEnemies(true);
+                setIgnoreRange(true);
+                break;
+            case "Saloon":
+            case "GeneralStore":
+                setTargetEveryone(true);
+                break;
+        }
+    }
+
+    async function playCard(){
+        setSelectedCard("Beer"); 
+        console.log(selectedCard);
+        setupTargetHighlighting();
+        /*
+        if(selectedCard.class=="Beer" || selectedCard.class=="Beer") //TODO: need some sort of intelligent implementation to figure out what kind of card it is
+        set
+        */
         setShow_card(false);
         updateborder("solid");
         setHideCancel_PlayCard(false);
+        console.log(selectedCard);
+        console.log(targetSelf);
 
     }
     
@@ -27,6 +68,7 @@ export default function PlayerCards({ player_table, player, updateborder, card_p
     const [show_card, setShow_card] = useState(false);
     
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
+    const [selectedCard, setSelectedCard] = useState(null);
 
     return (
         <Container className="shelf">
