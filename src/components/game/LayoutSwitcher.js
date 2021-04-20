@@ -21,14 +21,29 @@ function LayoutSwitcher({playeramount, visibility}){
     const [targetEveryone, setTargetEveryone] = useState(false);
     const [targetOnlyEnemies, setTargetOnlyEnemies] = useState(false);
 
+    const updateIgnoreRange = (value) => {
+        setIgnoreRange(value);
+    }
+    const updateTargetSelf = (value) => {
+        setTargetSelf(value);
+    }
+    const updateTargetEveryone = (value) => {
+        setTargetEveryone(value);
+    }
+    const updateTargetOnlyEnemies = (value) => {
+        setTargetOnlyEnemies(value);
+    }
+    const updateHideCancel_PlayCard = (value) => {
+        setHideCancel_PlayCard(value);
+    }
     
 
     switch(playeramount){
         case 4:
             /* return <Layout4players playertable={playertable} orderarray={orderarray} visibility={visibility} playersinreach={playersinreach} hideCancel_PlayCard={hideCancel_PlayCard} setHideCancel_PlayCard={setHideCancel_PlayCard}
             ignoreRange={ignoreRange} setIgnoreRange={setIgnoreRange} targetSelf={targetSelf} setTargetSelf={setTargetSelf} targetEveryone={targetEveryone} setTargetEveryone={setTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} setTargetOnlyEnemies={setTargetOnlyEnemies}/>;*/
-            return <Layout4players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} setHideCancel_PlayCard={setHideCancel_PlayCard}
-            ignoreRange={ignoreRange} setIgnoreRange={setIgnoreRange} targetSelf={targetSelf} setTargetSelf={setTargetSelf} targetEveryone={targetEveryone} setTargetEveryone={setTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} setTargetOnlyEnemies={setTargetOnlyEnemies}/>;
+            return <Layout4players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}/>;
         case 5:
             return <Layout5players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} setHideCancel_PlayCard={setHideCancel_PlayCard}/>;
         case 6:

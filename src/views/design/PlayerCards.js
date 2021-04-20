@@ -6,13 +6,14 @@ import "../../views/design/styling/custom_button_styling.css";
 import useInterval from "../../components/game/useInterval.js";
 
 
-export default function PlayerCards({ player_table, player, updateborder, card_played, setCard_played, setShowCancelPlayCard, hideCancel_PlayCard, setHideCancel_PlayCard,
-     ignoreRange, setIgnoreRange, targetSelf, setTargetSelf, targetEveryone, setTargetEveryone, targetOnlyEnemies, setTargetOnlyEnemies}){
+export default function PlayerCards({ player_table, player, updateBorder, card_played, updateCard_played, hideCancel_PlayCard, updateHideCancel_PlayCard,
+     ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies}){
     
     const interval = useInterval(async () => {    
         console.log(selectedCard);
+        console.log(targetSelf);
         
-    }, 100);
+    }, 1000);
     function lookAtCard(){
         //if (player_table.playerOnTurn === player){
             setShow_card(true);
@@ -24,26 +25,31 @@ export default function PlayerCards({ player_table, player, updateborder, card_p
     }
 
     async function setupTargetHighlighting(){
+        console.log("swicth");
+        console.log(selectedCard);
         switch(selectedCard){
+            
             case "Beer":
             case "StageCoach":
             case "WellsFargo":
-                setTargetSelf(true);
+                updateTargetSelf(true);
+                console.log("anotherswitch");
+                console.log(targetSelf);
                 break;
             case "Indians":
             case "Catling":
             case "Bang":
             case "Duel":
             case "Panic":
-                setTargetOnlyEnemies(true);
+                updateTargetOnlyEnemies(true);
                 break;
             case "CatBalou":
-                setTargetOnlyEnemies(true);
-                setIgnoreRange(true);
+                updateTargetOnlyEnemies(true);
+                updateIgnoreRange(true);
                 break;
             case "Saloon":
             case "GeneralStore":
-                setTargetEveryone(true);
+                updateTargetEveryone(true);
                 break;
         }
     }
@@ -57,10 +63,11 @@ export default function PlayerCards({ player_table, player, updateborder, card_p
         set
         */
         setShow_card(false);
-        updateborder("solid");
-        setHideCancel_PlayCard(false);
+        updateBorder("solid");
+        updateHideCancel_PlayCard(false);
         console.log(selectedCard);
         console.log(targetSelf);
+        setSelectedCard("lel");
 
     }
     
@@ -68,7 +75,7 @@ export default function PlayerCards({ player_table, player, updateborder, card_p
     const [show_card, setShow_card] = useState(false);
     
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
-    const [selectedCard, setSelectedCard] = useState(null);
+    const [selectedCard, setSelectedCard] = useState("");
 
     return (
         <Container className="shelf">
