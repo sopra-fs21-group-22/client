@@ -51,7 +51,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             //if (currPlayer_table.playerOnTurn.id==currPlayer.id){
             if (true){
                 setShow_turn_starts(true);
-                //drawCards();
+                //authApi().post(`/games/${currPlayer_table.id}/players/${currUser.id}/cards`);
                 setStartofturn_drawncards(false); //TODO: setStartofturn_drawncards==true at the start of the next turn
             }
         }
@@ -146,21 +146,6 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     function endTurn() {
         //authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/turn`)
     }
-
-    // function drawCards() {
-    //     if (currPlayer.dynamite) {
-    //         //boolean so cards aren't added to player but to discard pile
-    //         //card amount 1
-    //         authApi().post(`/games/${currPlayer_table.id}/players/${currUser.id}/cards`)
-    //     }
-    //     if (currPlayer.inJail) {
-    //         //boolean so cards aren't added to player but to discard pile
-    //         //card amount 1
-    //         authApi().post(`/games/${currPlayer_table.id}/players/${currUser.id}/cards`)
-    //     }
-    //     //card amount 2
-    //     authApi().post(`/games/${currPlayer_table.id}/players/${currUser.id}/cards`)
-    // }
 
     const [orderArray, setOrderArray] = useState([]);
 
