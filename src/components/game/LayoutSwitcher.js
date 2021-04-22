@@ -11,6 +11,10 @@ import React, { useState, useEffect } from 'react';
 function LayoutSwitcher({playeramount, visibility}){
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
+        /*console.log("repeat");
+        console.log(m);        
+        console.log("repeat");*/
+
         
     }, 5000);
     //to hide or show the cancel button when choosing a target
@@ -38,12 +42,18 @@ function LayoutSwitcher({playeramount, visibility}){
     }
     
 
+    const [m, setM] = useState();
+    const updateM = (value) => {
+        setM(value);
+    }
+
     switch(playeramount){
         case 4:
-            /* return <Layout4players playertable={playertable} orderarray={orderarray} visibility={visibility} playersinreach={playersinreach} hideCancel_PlayCard={hideCancel_PlayCard} setHideCancel_PlayCard={setHideCancel_PlayCard}
-            ignoreRange={ignoreRange} setIgnoreRange={setIgnoreRange} targetSelf={targetSelf} setTargetSelf={setTargetSelf} targetEveryone={targetEveryone} setTargetEveryone={setTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} setTargetOnlyEnemies={setTargetOnlyEnemies}/>;*/
+            /* return <Layout4players playertable={playertable} orderarray={orderarray} visibility={visibility} player_id={player_id} playersinreach={playersinreach} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies} updateM={updateM} m={m}/>;*/
             return <Layout4players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}/>;
+            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+            updateM={updateM} m={m}/>;
         case 5:
             return <Layout5players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} setHideCancel_PlayCard={setHideCancel_PlayCard}/>;
         case 6:
