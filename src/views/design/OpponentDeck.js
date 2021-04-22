@@ -4,15 +4,17 @@ import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstra
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 
-export default function OpponentDeck({ opponent, playeronturn, border, updateborder, playertable, setCard_played, setHideCancel_PlayCard }) {
+export default function OpponentDeck({ opponent, playeronturn, border, updateBorder, playertable, updateCard_played, updateHideCancel_PlayCard, 
+    ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateM, m}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
-        //setPlayersInReach(api.get(`/${playertable.id}/players/${player_id}/targets`));
+        setupTargetHighlighting(m);
+        //setPlayersInReach(await api.get(`/${playertable.id}/players/${player_id}/targets`));
         /*if (opponent.bullets < 1){
             setOpacity(0.8);
             setHideDeadMessage(false);
             setBackgroundColor("#808080");
-            setBorderWidth(0);
+            setWidth(0);
         }
         if (opponent.id==playeronturn.id){
             setHighlightImage("solid");
@@ -20,39 +22,97 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
         if(opponent.id!=playeronturn.id){
             setHighlightImage("none");
         }
-        isinreach();
-        if (!isInReach){
-            setBorderWidth(0);
-        }
-        if (isInReach){
-            setBorderWidth(5);
-        }
-        */
-    }, 5000);
-    function isinreach(){
-        let x;
-        for (x of playersInReach){
-            if (x.id==opponent.id){
-                setPlayersInReach(true);
+        while (!ignoreRange){
+            isinreach();
+            if (!isInReach){
+                setWidth(0);
+            }
+            if (isInReach){
+                setWidth(5);
             }
         }
-        setPlayersInReach(false);
+        
+        
+        */
+        /*while (opponent.bullets>0 && isInReach){
+//TODO: but below if-checks inside this while loop
+        }*/
+        if (targetSelf){
+            setWidth(0);
+        }
+        if (targetEveryone){
+            setWidth(5);
+        }
+        if (targetOnlyEnemies){
+            setWidth(5);
+        }
+
+    }, 1000);
+
+    async function setupTargetHighlighting(card){
+        //switch(selectedCard){
+        switch(card){
+            
+            case "Beer":
+            case "StageCoach":
+            case "WellsFargo":
+                updateTargetSelf(true);
+                break;
+            case "Indians":
+            case "Catling":
+            case "Bang":
+            case "Duel":
+            case "Panic":
+                updateTargetOnlyEnemies(true);
+                break;
+            case "CatBalou":
+                updateTargetOnlyEnemies(true);
+                updateIgnoreRange(true);
+                break;
+            case "Saloon":
+            case "GeneralStore":
+                updateTargetEveryone(true);
+                break;
+            default:
+                console.log("no valid card name opponentdeck");
+                break;
+        }
+    }
+
+
+
+    function isinreach(){
+        if (!ignoreRange){
+            let x;
+            for (x of playersInReach){
+                if (x.id==opponent.id){
+                    setIsInReach(true);
+                }
+            }
+            setIsInReach(false);
+        }
     }
     function selecttarget(){
-        if (border=="solid" && borderWidth>0){
-            updateborder("none");
-            setBorderWidth(5);
-            setCard_played(true);
+        console.log(m);
+        if (border=="solid" && width>0){
+            updateBorder("none");
+            setWidth(5);
+            updateCard_played(true);
             //put mapping to add card to discard pile and remove it from hand of player
             /*const target_list = ?????;
             const requestBody = JSON.stringify({
                 target_list: target_list //TODO: double check the name of the reqestBody parameter. also what are we getting back?
             });
             authApi().post(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
-            setHideCancel_PlayCard(true);
+            updateHideCancel_PlayCard(true);
+            updateTargetSelf(false);
+            updateIgnoreRange(false);
+            updateTargetOnlyEnemies(false);
+            updateTargetEveryone(false);
+            updateM("");
         }
         else{
-            alert("stop clicking me");
+            alert("this ain't clickable. try a highlighted one...");
         }
     }
 
@@ -62,13 +122,13 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
     const [highlightImage, setHighlightImage] = useState("none");
     const [playersInReach, setPlayersInReach] = useState(true);
     const [isInReach, setIsInReach] = useState(false);
-    const [borderWidth, setBorderWidth] = useState(5);
+    const [width, setWidth] = useState(5);
 
     return (
         <div>
             <p1 id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p1>
             <div style={{backgroundColor: backgroundColor,  opacity: opacity}}>
-        <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: borderWidth, borderColor: "yellow", borderStyle: border}}>
+        <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">
                 <Col>

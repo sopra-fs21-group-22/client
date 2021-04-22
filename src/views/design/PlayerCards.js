@@ -1,34 +1,57 @@
 import React, {useState} from "react";
-import {Container, Row, Col, Image, Modal, Button} from "react-bootstrap";
+import {Container, Row, Col, Image, Modal, Button, Card} from "react-bootstrap";
 import "./styling/playing_field_styling.css";
 import "./styling/lobby_styling.css";
 import "../../views/design/styling/custom_button_styling.css";
+import useInterval from "../../components/game/useInterval.js";
 
 
-export default function PlayerCards({ player_table, player, updateborder, card_played, setCard_played, setShowCancelPlayCard, hideCancel_PlayCard, setHideCancel_PlayCard}){
+export default function PlayerCards({ player_table, player, updateBorder, card_played, updateCard_played, updateHideCancel_PlayCard,
+    updateM, m}){
+    
+    /*const interval = useInterval(async () => {
+        
+    }, 1000);*/
+    
+    const [show_card, setShow_card] = useState(false);
+    
+    const [playcard_disabled, setPlaycard_disabled] = useState(false);
     function lookAtCard(){
         //if (player_table.playerOnTurn === player){
             setShow_card(true);
         //}
     }
-
+    
     function closeCard(){
         setShow_card(false);
     }
 
-    function playCard(){
-        setShow_card(false);
-        updateborder("solid");
-        setHideCancel_PlayCard(false);
-
+    //maybe useful somewhere else...
+    /*function waitsometime() {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve('resolved');
+          }, 5000);
+        });
     }
-    
+    function something(){
+        setSelectedCard((state) => {
+            console.log(state); // "React is awesome!"
+            
+            return state;
+          });
+    }*/
 
-    const [show_card, setShow_card] = useState(false);
-    
-    const [playcard_disabled, setPlaycard_disabled] = useState(false);
+    async function playCard(){
+        updateM("Beer");
+        setShow_card(false);
+        updateBorder("solid");
+        updateHideCancel_PlayCard(false);
+    }
+
 
     return (
+        <>
         <Container className="shelf">
             <Row>
                 <Col className="single-shelf">
@@ -74,5 +97,6 @@ export default function PlayerCards({ player_table, player, updateborder, card_p
                 </Modal.Footer>
             </Modal>}
         </Container>
+        </>
     )
 }

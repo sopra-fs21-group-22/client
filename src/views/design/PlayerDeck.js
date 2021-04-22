@@ -4,9 +4,11 @@ import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, { useState, useEffect } from 'react';
 
-export default function PlayerDeck({ player, playeronturn, border, updateborder, playertable, setCard_played, setHideCancel_PlayCard}) {
+export default function PlayerDeck({ player, playeronturn, border, updateBorder, playertable, updateCard_played, updateHideCancel_PlayCard,
+     ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateM, m}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
+        setupTargetHighlighting(m);
         /*if (player.bullets < 1){
             setOpacity(0.8);
             setHideDeadMessage(false);
@@ -18,35 +20,85 @@ export default function PlayerDeck({ player, playeronturn, border, updateborder,
         if(player.id!=playeronturn.id){
             setHighlightImage("none");
         }*/
-    }, 5000);
-    function selecttarget(){
-        if (border=="solid"){
-            setCard_played(true);
-            updateborder("none");
+        /*while (opponent.bullets>0 && isInReach){
+//TODO: but below if-checks inside this while loop
+        }*/
+        if (targetSelf){
+            setWidth(5);
+        }
+        if (targetEveryone){
+            setWidth(5);
+        }
+        if (targetOnlyEnemies){
+            setWidth(0);
+        }
+
+    }, 1000);
+    async function setupTargetHighlighting(card){
+        //switch(selectedCard){
+        switch(card){
+            
+            case "Beer":
+            case "StageCoach":
+            case "WellsFargo":
+                updateTargetSelf(true);
+                break;
+            case "Indians":
+            case "Catling":
+            case "Bang":
+            case "Duel":
+            case "Panic":
+                updateTargetOnlyEnemies(true);
+                break;
+            case "CatBalou":
+                updateTargetOnlyEnemies(true);
+                updateIgnoreRange(true);
+                break;
+            case "Saloon":
+            case "GeneralStore":
+                updateTargetEveryone(true);
+                break;
+            default:
+                console.log("no valid card name playerdeck");
+                break;
+        }
+    }
+    async function selecttarget(){
+        console.log(m);
+        if (border=="solid" && width>0){
+            updateCard_played(true);
+            updateBorder("none");
+            setWidth(5);
             //put mapping to add card to discard pile and remove it from hand of player
             /*const target_list = ?????;
             const requestBody = JSON.stringify({
                 target_list: target_list
             });
             authApi().put(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
-            setHideCancel_PlayCard(true);
+            updateHideCancel_PlayCard(true);
+            updateTargetSelf(false);
+            updateIgnoreRange(false);
+            updateTargetOnlyEnemies(false);
+            updateTargetEveryone(false);
+            updateM("Saloon");
         }
         else{
-            alert("stop clicking me");
+            alert("this ain't clickable. try a highlighted one...");
         }
-        
+
     }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
+    const [width, setWidth] = useState(5);
 
     return (
         <div>
             <p1 id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p1>
             <div style={{backgroundColor: backgroundColor,  opacity: opacity}}>
-        <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: 5, borderColor: "yellow", borderStyle: border}}>
+        <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
         
             {/*first row for dynamite and sheriff star*/}
             <Row className="justify-content-md-center align-items-center">
