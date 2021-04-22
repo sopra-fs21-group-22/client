@@ -51,6 +51,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             //if (currPlayer_table.playerOnTurn.id==currPlayer.id){
             if (true){
                 setShow_turn_starts(true);
+                //authApi().post(`/games/${currPlayer_table.id}/players/${currUser.id}/cards`);
                 setStartofturn_drawncards(false); //TODO: setStartofturn_drawncards==true at the start of the next turn
             }
         }
@@ -139,11 +140,11 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     }
 
     function resign(){
-        //put mapping to set bullets = 0
+        //put request to set bullets = 0
     }
 
     function endTurn() {
-        //put mapping to end turn
+        //authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/turn`)
     }
 
     const [orderArray, setOrderArray] = useState([]);
@@ -188,7 +189,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                 setRole_information_text("Someone has to implement this role information on the renegade...");
                 break;
             default:
-                setRole_picture_source("/images/back.jpeg");
+                setRole_picture_source("/images/back.png");
                 break;
         }
     }
@@ -298,7 +299,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Rules</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
-                    <Image src="/images/back.jpeg" id="chosen-role_modal_body_image"/>
+                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeRules}>
@@ -315,19 +316,19 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                 <Modal.Body id="choose-role_modal_body">
                     <Row>
                         <Col id="choose-role_modal_body_row_col">
-                            <Image id="choose-role_modal_body_row_col_image" src="/images/back.jpeg" onClick={() => addBordertoImage1()}
+                            <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage1()}
                             style={{borderWidth: rolecard_border1}}/>
                         </Col>
                         <Col id="choose-role_modal_body_row_col">
-                            <Image id="choose-role_modal_body_row_col_image" src="/images/back.jpeg" onClick={() => addBordertoImage2()}
+                            <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage2()}
                             style={{borderWidth: rolecard_border2}}/>
                         </Col>
                         <Col id="choose-role_modal_body_row_col">
-                            <Image id="choose-role_modal_body_row_col_image" src="/images/back.jpeg" onClick={() => addBordertoImage3()}
+                            <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage3()}
                             style={{borderWidth: rolecard_border3}}/>
                         </Col>
                         <Col id="choose-role_modal_body_row_col">
-                            <Image id="choose-role_modal_body_row_col_image" src="/images/back.jpeg" onClick={() => addBordertoImage4()}
+                            <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage4()}
                             style={{borderWidth: rolecard_border4}}/>
                         </Col>
                     </Row>
@@ -344,7 +345,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
-                    <Image src="/images/back.jpeg" id="chosen-role_modal_body_image"/>
+                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeDrawnCards}>

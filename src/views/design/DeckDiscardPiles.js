@@ -8,11 +8,11 @@ export default function DeckDiscardPiles(){
         <Container className="deck-discard-pile_container">
             <Row>
                 <Col>
-                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
                 <Col>
                     {/*<Image className="deck-discard-pile_image-card" src={`/images/cards/${playertable.discardPile.topCard.getId()}.jpeg`}/>*/}
-                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
             </Row>
         </Container>

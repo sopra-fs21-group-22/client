@@ -179,7 +179,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                             width={80}
                             height={100}
                             alt="80x100"
-                            src="/images/back.jpeg"/>
+                            src="/images/back.png"/>
                         <Figure.Caption>weapon</Figure.Caption>
                     </Figure>
                 </Col>
@@ -194,7 +194,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                             width={80}
                             height={100}
                             alt="80x100"
-                            src="/images/back.jpeg"/>
+                            src="/images/back.png"/>
                         <Figure.Caption>horse</Figure.Caption>
                     </Figure>
                 </Col>
@@ -209,7 +209,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                             width={80}
                             height={100}
                             alt="80x100"
-                            src="/images/back.jpeg"/>
+                            src="/images/back.png"/>
                         <Figure.Caption>barrel</Figure.Caption>
                     </Figure>
                 </Col>
