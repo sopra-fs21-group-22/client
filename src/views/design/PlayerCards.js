@@ -33,7 +33,7 @@ export default function PlayerCards({ player_table, player, updateborder, card_p
             <Row>
                 <Col className="single-shelf">
                     {/*<Image className="deck-discard-pile_image-card" src={`/images/role_cards/${player.gameRole}.jpeg`}/>*/}
-                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
                 {/*{player.hand.getPlayCards.map(currCard => (*/}
                 {/*    <Col>*/}
@@ -41,19 +41,19 @@ export default function PlayerCards({ player_table, player, updateborder, card_p
                 {/*    </Col>*/}
                 {/*))}*/}
                 <Col>
-                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
                 <Col>
-                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
                 <Col>
-                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
                 <Col>
-                    <Image className="deck-discard-pile_image-card" src="/images/back.jpeg"/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
                 <Col>
-                    <Image hidden={card_played} className="deck-discard-pile_image-card" src="/images/back.jpeg" onClick={lookAtCard}/>
+                    <Image hidden={card_played} className="deck-discard-pile_image-card" src="/images/back.png" onClick={lookAtCard}/>
                 </Col>
             </Row>
 

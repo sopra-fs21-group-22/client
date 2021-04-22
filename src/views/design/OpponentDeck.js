@@ -141,7 +141,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
                             width={80}
                             height={100}
                             alt="80x100"
-                            src="/images/back.jpeg"/>
+                            src="/images/back.png"/>
                         <Figure.Caption>{/*opponent.hand.getPlayCards.length*/} card(s) left</Figure.Caption>
                     </Figure>
                 </Col>
@@ -159,7 +159,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
                             width={80}
                             height={100}
                             alt="80x100"
-                            src="/images/back.jpeg"/>
+                            src="/images/back.png"/>
                         <Figure.Caption>weapon</Figure.Caption>
                     </Figure>
                 </Col>
@@ -174,7 +174,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
                             width={80}
                             height={100}
                             alt="80x100"
-                            src="/images/back.jpeg"/>
+                            src="/images/back.png"/>
                         <Figure.Caption>horse</Figure.Caption>
                     </Figure>
                 </Col>
@@ -189,7 +189,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updatebor
                             width={80}
                             height={100}
                             alt="80x100"
-                            src="/images/back.jpeg"/>
+                            src="/images/back.png"/>
                         <Figure.Caption>barrel</Figure.Caption>
                     </Figure>
                 </Col>
