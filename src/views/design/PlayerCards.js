@@ -16,6 +16,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
     const [show_card, setShow_card] = useState(false);
     
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
+
     function lookAtCard(){
         //if (player_table.playerOnTurn === player){
             setShow_card(true);
@@ -60,7 +61,8 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                 </Col>
                 {/*{player.hand.getPlayCards.map(currCard => (*/}
                 {/*    <Col>*/}
-                {/*        <Image className="deck-discard-pile_image-card" src={`/images/${currCard.getId()}.jpeg`}/>*/}
+                {/*        <Image className="deck-discard-pile_image-card" src={`/images/play_cards/${currCard.color}
+                            _${currCard.card}_${currCard.suit}_${currCard.rank}.png`}/>*/}
                 {/*    </Col>*/}
                 {/*))}*/}
                 <Col>
