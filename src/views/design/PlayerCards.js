@@ -10,19 +10,35 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
     updateM, m}){
     
     /*const interval = useInterval(async () => {
-        
+        curr = [];
+        for (let i of player.hand.getPlayCards) {
+            curr.push(false);
+        }
+        setShow_card(curr);
     }, 1000);*/
     
     const [show_card, setShow_card] = useState(false);
+
+    //const [show_card, setShow_card] = useState([]);
+    //const [curr_card, setCurr_card] = useState();
     
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
+
     function lookAtCard(){
         //if (player_table.playerOnTurn === player){
             setShow_card(true);
         //}
     }
+
+    /* function lookAtCard(index){
+            curr = show_card;
+            curr[index] = true;
+            setShow_card(curr);
+            getImageSource();
+    }*/
     
     function closeCard(){
+        //TODO set all entries to false once card has been closed
         setShow_card(false);
     }
 
@@ -42,6 +58,14 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
           });
     }*/
 
+    // function getImageSource(){
+    //     for (let i of show_card) {
+    //         if (show_card[i]) {
+    //             setCurr_card(player.hand.getPlayCards[i].imageSource);
+    //         }
+    //     }
+    // }
+
     async function playCard(){
         updateM("Beer");
         setShow_card(false);
@@ -58,9 +82,26 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                     {/*<Image className="deck-discard-pile_image-card" src={`/images/role_cards/${player.gameRole}.jpeg`}/>*/}
                     <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
-                {/*{player.hand.getPlayCards.map(currCard => (*/}
+                {/*{player.hand.getPlayCards.map((currCard, index) => (*/}
                 {/*    <Col>*/}
-                {/*        <Image className="deck-discard-pile_image-card" src={`/images/${currCard.getId()}.jpeg`}/>*/}
+                {/*        <Image className="deck-discard-pile_image-card" src={`/images/play_cards/${currCard.color}
+                            _${currCard.card}_${currCard.suit}_${currCard.rank}.png`} onClick={lookAtCard(index)}/>*/}
+                            {/*{<Modal show={show_card[index]} centered animation size="sm" rootClose animation>*/}
+                            {/*    <Modal.Header id="chosen-role_modal_header">*/}
+                            {/*        <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>*/}
+                            {/*    </Modal.Header>*/}
+                            {/*    <Modal.Body id="chosen-role_modal_body" centered>*/}
+                            {/*        <Image src={curr_card} id="chosen-role_modal_body_image"/>*/}
+                            {/*    </Modal.Body>*/}
+                            {/*    <Modal.Footer id="chosen-role_modal_footer">*/}
+                            {/*        <Button id="custombutton" onClick={closeCard}>*/}
+                            {/*            Return*/}
+                            {/*        </Button>*/}
+                            {/*        <Button id="custombutton" onClick={playCard} disabled={playcard_disabled}>*/}
+                            {/*            Play*/}
+                            {/*        </Button>*/}
+                            {/*    </Modal.Footer>*/}
+                            {/*</Modal>}*/}
                 {/*    </Col>*/}
                 {/*))}*/}
                 <Col>
@@ -85,7 +126,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
-                    <Image src="/images/back.jpeg" id="chosen-role_modal_body_image"/>
+                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeCard}>
