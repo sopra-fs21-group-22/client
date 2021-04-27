@@ -144,7 +144,17 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     }
 
     function endTurn() {
-        //authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/turn`)
+        //if (currPlayer.hand.playCards.length>currPlayer.bullets){
+        if (true){
+            setShow_too_many_cards(true);
+        }
+        else{
+            //authApi().put("games/${currPlayer_table.id}/player/{currPlayer.id}/turn")
+        }
+    }
+
+    function too_many_cards_okay(){
+        setShow_too_many_cards(false);
     }
 
     const [orderArray, setOrderArray] = useState([]);
@@ -248,6 +258,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     const [player_role, setPlayer_role] = useState("defaultrole");
     const [role_information_text, setRole_information_text] = useState("this is some default role information");
     const [role_picture_source, setRole_picture_source] = useState();
+    const [show_too_many_cards, setShow_too_many_cards] = useState(false);
 
     const role_information = (
         <Popover id="role-info_popover" >
@@ -270,6 +281,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         }
     }
     const [playeramount, setPlayeramount] = useState(4);
+    const [toomanycards, setToomanycards] = useState(5/*currPlayer.hand.playCards.length-currPlayer.bullets*/);//TODO uncomment this
         
         return (
         <Container>
@@ -279,6 +291,17 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             
 
             <br></br><br></br>
+
+            {<Modal show={show_too_many_cards} centered animation size="sm" rootClose animation>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <p1>You fucking donkey. You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some cards.</p1>
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={too_many_cards_okay}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
 
             {<Modal show={show_roledisplay} centered animation size="sm" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">

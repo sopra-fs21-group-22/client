@@ -5,10 +5,10 @@ import "./styling/playing_field_styling.css";
 import Life from "./Life";
 
 export default function OpponentDeck({ opponent, playeronturn, border, updateBorder, playertable, updateCard_played, updateHideCancel_PlayCard, 
-    ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateM, m}) {
+    ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
-        setupTargetHighlighting(m);
+        setupTargetHighlighting(curr_card);
         //setPlayersInReach(await api.get(`/${playertable.id}/players/${player_id}/targets`));
         /*if (opponent.bullets < 1){
             setOpacity(0.8);
@@ -50,27 +50,27 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
     }, 1000);
 
     async function setupTargetHighlighting(card){
-        //switch(selectedCard){
+        //TODO uncomment this: 
+        //switch(card.card){
         switch(card){
-            
-            case "Beer":
-            case "StageCoach":
-            case "WellsFargo":
+            case "BEER":
+            case "STAGECOACH":
+            case "WELLSFARGO":
                 updateTargetSelf(true);
                 break;
-            case "Indians":
-            case "Catling":
-            case "Bang":
-            case "Duel":
-            case "Panic":
+            case "INDIANS":
+            case "GATLING":
+            case "BANG":
+            case "DUEL":
+            case "PANIC":
                 updateTargetOnlyEnemies(true);
                 break;
-            case "CatBalou":
+            case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
                 break;
-            case "Saloon":
-            case "GeneralStore":
+            case "SALOON":
+            case "GENERALSTORE":
                 updateTargetEveryone(true);
                 break;
             default:
@@ -93,7 +93,6 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
         }
     }
     function selecttarget(){
-        console.log(m);
         if (border=="solid" && width>0){
             updateBorder("none");
             setWidth(5);
@@ -109,7 +108,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
             updateIgnoreRange(false);
             updateTargetOnlyEnemies(false);
             updateTargetEveryone(false);
-            updateM("");
+            updateCurr_card(null);
         }
         else{
             alert("this ain't clickable. try a highlighted one...");
@@ -161,7 +160,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                             width={80}
                             height={80}
                             alt="80x80"
-                            src={`/images/character_cards/${opponent.profilePicture.getId()}.jpeg`}/>*/}
+                            src={`/images/character_cards/${opponent.profilePicture.id()}.jpeg`}/>*/}
                         <Figure.Image id="character-image_FigureImage" style={{borderStyle: highlightImage}}
                             width={80}
                             height={80}
@@ -196,13 +195,13 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                 </Col>
                 <Col>
                     <Figure>
-                    {/*<Figure hidden={opponent.hand.getPlayCards.length === 0}>*/}
+                    {/*<Figure hidden={opponent.hand.playCards.length === 0}>*/}
                         <Figure.Image
                             width={80}
                             height={100}
                             alt="80x100"
                             src="/images/back.png"/>
-                        <Figure.Caption>{/*opponent.hand.getPlayCards.length*/} card(s) left</Figure.Caption>
+                        <Figure.Caption>{/*opponent.hand.playCards.length*/} card(s) left</Figure.Caption>
                     </Figure>
                 </Col>
             </Row>
@@ -214,7 +213,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={`/images/weapons/${opponent.weapon.getId()}.jpeg`}/>*/}
+                            src={`/images/weapons/${opponent.weapon.id()}.jpeg`}/>*/}
                         <Figure.Image
                             width={80}
                             height={100}
@@ -229,7 +228,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={`/images/horses/${opponent.horse.getId()}.jpeg`}/>*/}
+                            src={`/images/horses/${opponent.horse.id()}.jpeg`}/>*/}
                         <Figure.Image
                             width={80}
                             height={100}
