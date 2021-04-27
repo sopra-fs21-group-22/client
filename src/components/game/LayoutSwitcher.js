@@ -12,7 +12,7 @@ function LayoutSwitcher({playeramount, visibility}){
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         /*console.log("repeat");
-        console.log(m);        
+        console.log(curr_card);        
         console.log("repeat");*/
 
         
@@ -42,18 +42,19 @@ function LayoutSwitcher({playeramount, visibility}){
     }
     
 
-    const [m, setM] = useState();
-    const updateM = (value) => {
-        setM(value);
+    const [curr_card, setCurr_card] = useState();
+    const updateCurr_card = (value) => {
+        setCurr_card(value);
     }
 
     switch(playeramount){
         case 4:
             /* return <Layout4players playertable={playertable} orderarray={orderarray} visibility={visibility} player_id={player_id} playersinreach={playersinreach} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies} updateM={updateM} m={m}/>;*/
+            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies} 
+            updateCurr_card={updateCurr_card} curr_card={curr_card}/>;*/
             return <Layout4players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
             ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-            updateM={updateM} m={m}/>;
+            updateCurr_card={updateCurr_card} curr_card={curr_card}/>;
         case 5:
             return <Layout5players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} setHideCancel_PlayCard={setHideCancel_PlayCard}/>;
         case 6:

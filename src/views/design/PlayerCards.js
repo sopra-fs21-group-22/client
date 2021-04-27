@@ -7,11 +7,11 @@ import useInterval from "../../components/game/useInterval.js";
 
 
 export default function PlayerCards({ player_table, player, updateBorder, card_played, updateCard_played, updateHideCancel_PlayCard,
-    updateM, m}){
+    updateCurr_card, curr_card}){
     
     /*const interval = useInterval(async () => {
         curr = [];
-        for (let i of player.hand.getPlayCards) {
+        for (let i of player.hand.playCards) {
             curr.push(false);
         }
         setShow_card(curr);
@@ -20,7 +20,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
     const [show_card, setShow_card] = useState(false);
 
     //const [show_card, setShow_card] = useState([]);
-    //const [curr_card, setCurr_card] = useState();
+    //const [curr_card_image_source, setCurr_card_image_source] = useState();
     
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
 
@@ -39,11 +39,12 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
     
     function closeCard(){
         //TODO set all entries to false once card has been closed
+        updateCurr_card(null);
         setShow_card(false);
     }
 
     //maybe useful somewhere else...
-    /*function waitsometime() {
+    {/*function waitsometime() {
         return new Promise(resolve => {
           setTimeout(() => {
             resolve('resolved');
@@ -56,18 +57,19 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
             
             return state;
           });
-    }*/
+    }*/}
 
     // function getImageSource(){
     //     for (let i of show_card) {
     //         if (show_card[i]) {
-    //             setCurr_card(player.hand.getPlayCards[i].imageSource);
+    //             setCurr_card_image_source(player.hand.playCards[i].imageSource);
+    //             updateCurr_card(player.hand.playCards[i]);
     //         }
     //     }
     // }
 
     async function playCard(){
-        updateM("Beer");
+        updateCurr_card("Beer");//TODO REMOVE THIS WHEN NOT TESTING
         setShow_card(false);
         updateBorder("solid");
         updateHideCancel_PlayCard(false);
@@ -82,7 +84,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                     {/*<Image className="deck-discard-pile_image-card" src={`/images/role_cards/${player.gameRole}.jpeg`}/>*/}
                     <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
-                {/*{player.hand.getPlayCards.map((currCard, index) => (*/}
+                {/*{player.hand.playCards.map((currCard, index) => (*/}
                 {/*    <Col>*/}
                 {/*        <Image className="deck-discard-pile_image-card" src={`/images/play_cards/${currCard.color}
                             _${currCard.card}_${currCard.suit}_${currCard.rank}.png`} onClick={lookAtCard(index)}/>*/}
@@ -91,7 +93,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                             {/*        <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>*/}
                             {/*    </Modal.Header>*/}
                             {/*    <Modal.Body id="chosen-role_modal_body" centered>*/}
-                            {/*        <Image src={curr_card} id="chosen-role_modal_body_image"/>*/}
+                            {/*        <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>*/}
                             {/*    </Modal.Body>*/}
                             {/*    <Modal.Footer id="chosen-role_modal_footer">*/}
                             {/*        <Button id="custombutton" onClick={closeCard}>*/}
