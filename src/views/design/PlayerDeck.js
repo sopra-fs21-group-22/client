@@ -76,7 +76,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             const requestBody = JSON.stringify({
                 target_list: target_list
             });
-            api().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
+            api.post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);
