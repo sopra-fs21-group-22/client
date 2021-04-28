@@ -60,11 +60,13 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                 break;
             case "INDIANS":
             case "GATLING":
-            case "BANG":
             case "DUEL":
-            case "PANIC":
+                updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
                 break;
+            case "BANG":
+            case "PANIC":
+                updateTargetOnlyEnemies(true);
             case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
