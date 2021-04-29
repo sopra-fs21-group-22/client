@@ -27,7 +27,7 @@ import "../../views/design/styling/custom_button_styling.css";
 
 function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
-    const [currPlayer, setCurrPlayer] = useState();
+    const [currPlayer, setCurrPlayer] = useState(currUser);//TODO
     console.log(currPlayer);
     const [count, setCount] = useState(0);
     const [loopvar, setLoopvar] = useState(true);
