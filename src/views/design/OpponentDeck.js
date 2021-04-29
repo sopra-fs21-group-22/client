@@ -60,11 +60,13 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                 break;
             case "INDIANS":
             case "GATLING":
-            case "BANG":
             case "DUEL":
-            case "PANIC":
+                updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
                 break;
+            case "BANG":
+            case "PANIC":
+                updateTargetOnlyEnemies(true);
             case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
@@ -102,7 +104,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
             const requestBody = JSON.stringify({
                 target_list: target_list //TODO: double check the name of the reqestBody parameter. also what are we getting back?
             });
-            authApi().post(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
+            api.post(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);

@@ -45,11 +45,13 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 break;
             case "INDIANS":
             case "GATLING":
-            case "BANG":
             case "DUEL":
-            case "PANIC":
+                updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
                 break;
+            case "BANG":
+            case "PANIC":
+                updateTargetOnlyEnemies(true);
             case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
@@ -59,7 +61,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 updateTargetEveryone(true);
                 break;
             default:
-                console.log("no valid card name playerdeck");
+                console.log("no valid card name opponentdeck");
                 break;
         }
     }
@@ -74,7 +76,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             const requestBody = JSON.stringify({
                 target_list: target_list
             });
-            api().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
+            api.post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);
