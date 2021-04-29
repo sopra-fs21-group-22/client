@@ -3,23 +3,24 @@ import React, { useState, useEffect } from 'react';
 import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
+import { api, authApi } from '../../helpers/api';
 
-export default function OpponentDeck({ opponent, playeronturn, border, updateBorder, playertable, updateCard_played, updateHideCancel_PlayCard, 
-    ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}) {
+export default function OpponentDeck({ opponent, player, playeronturn, border, updateBorder, playertable, updateCard_played, updateHideCancel_PlayCard,
+    ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card, fill_array, updateFill_array}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         setupTargetHighlighting(curr_card);
-        //setPlayersInReach(await api.get(`/${playertable.id}/players/${player_id}/targets`));
-        /*if (opponent.bullets < 1){
+        setPlayersInReach(await api.get(`/${playertable.id}/players/${player.id}/targets`));
+        if (opponent.bullets < 1){
             setOpacity(0.8);
-            setHideDeadMessage(false);
+            setHideDeadmessage(false);
             setBackgroundColor("#808080");
             setWidth(0);
         }
-        if (opponent.id==playeronturn.id){
+        if (opponent.id === playeronturn.id){
             setHighlightImage("solid");
         }
-        if(opponent.id!=playeronturn.id){
+        if(opponent.id !== playeronturn.id){
             setHighlightImage("none");
         }
         while (!ignoreRange){
@@ -33,26 +34,27 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
         }
         
         
-        */
-        /*while (opponent.bullets>0 && isInReach){
-//TODO: but below if-checks inside this while loop
-        }*/
-        if (targetSelf){
-            setWidth(0);
+
+        while (opponent.bullets>0 && isInReach){
+            //TODO: but below if-checks inside this while loop
+            if (targetSelf){
+                setWidth(0);
+            }
+            if (targetEveryone){
+                setWidth(5);
+            }
+            if (targetOnlyEnemies){
+                setWidth(5);
+            }
         }
-        if (targetEveryone){
-            setWidth(5);
-        }
-        if (targetOnlyEnemies){
-            setWidth(5);
-        }
+
 
     }, 1000);
 
     async function setupTargetHighlighting(card){
         //TODO uncomment this: 
-        //switch(card.card){
-        switch(card){
+        switch(card.card){
+        // switch(card){
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
@@ -85,7 +87,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
         if (!ignoreRange){
             let x;
             for (x of playersInReach){
-                if (x.id==opponent.id){
+                if (x.id === opponent.id){
                     setIsInReach(true);
                 }
             }
@@ -109,6 +111,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
             updateTargetOnlyEnemies(false);
             updateTargetEveryone(false);
             updateCurr_card(null);
+            updateFill_array(true);
         }
         else{
             alert("this ain't clickable. try a highlighted one...");

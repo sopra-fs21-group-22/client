@@ -25,17 +25,15 @@ import LayoutSwitcher from '../game/LayoutSwitcher';
 import {forEach} from "react-bootstrap/ElementChildren";
 import "../../views/design/styling/custom_button_styling.css";
 
-function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
+function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
+    const [currPlayer, setCurrPlayer] = useState();
     const [count, setCount] = useState(0);
     const [loopvar, setLoopvar] = useState(true);
     const interval = useInterval(async () => {    
 //repeating requests to keep player_table and player up to date
-        //TODO: uncomment this once backend is ready
-        
         const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);    
-        currPlayer = new PlayerModel(response.data);
-        updatePlayer(currPlayer);
+        setCurrPlayer(new PlayerModel(response.data));
         localStorage.setItem('player', JSON.stringify(currPlayer));
 
         //get information about the other players
@@ -43,15 +41,14 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         currPlayer_table = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPlayer_table);
         localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
-        // correctOrder();
+        correctOrder();
 
 
 //start of user turn
         if (startofturn_drawncards){
-            //if (currPlayer_table.playerOnTurn.id==currPlayer.id){
-            if (true){
+            if (currPlayer_table.playerOnTurn.id === currPlayer.id){
+            // if (true){
                 setShow_turn_starts(true);
-                //authApi().post(`/games/${currPlayer_table.id}/players/${currUser.id}/cards`);
                 setStartofturn_drawncards(false); //TODO: setStartofturn_drawncards==true at the start of the next turn
             }
         }
@@ -59,14 +56,14 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
 
 //this stops once the game starts
 //TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
-        /*if (loopvar){
+        if (loopvar){
             if (currPlayer_table.gameHasStarted){
                 setupRole();
                 setShow_rolechoose(true);
                 setLoopvar(false);
             }
 
-        }*/
+        }
         
         setCount(count + 1);  }, 5000);
     
@@ -79,6 +76,10 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         const currentPlayer_table = new PlayerTable(userData);
         updatePlayer_table(currentPlayer_table);
         console.log(currentPlayer_table);
+
+        const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
+        setCurrPlayer(new PlayerModel(response.data));
+        localStorage.setItem('player', JSON.stringify(currPlayer));
         try {
 
         } catch (error) {
@@ -90,7 +91,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         localStorage.removeItem('player_table');
         localStorage.removeItem('player');
         updatePlayer_table(null);
-        updatePlayer(null);
+        setCurrPlayer(null);
         history.push("/game/dashboard");
     }
 
@@ -144,12 +145,12 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     }
 
     function endTurn() {
-        //if (currPlayer.hand.playCards.length>currPlayer.bullets){
-        if (true){
+        if (currPlayer.hand.playCards.length>currPlayer.bullets){
+        // if (true){
             setShow_too_many_cards(true);
         }
         else{
-            //authApi().put("games/${currPlayer_table.id}/player/{currPlayer.id}/turn")
+            authApi().put(`games/${currPlayer_table.id}/player/${currPlayer.id}/turn`)
         }
     }
 
@@ -159,24 +160,24 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
 
     const [orderArray, setOrderArray] = useState([]);
 
-    // function correctOrder(){
-    //     const current_array = [];
-    //     for (let player in currPlayer_table.players) {
-    //         if(currPlayer.id === player.id) {
-    //             current_array.join(currPlayer)
-    //         }
-    //     }
-    //     for (let i = 0; i < playeramount - 1; i++) {
-    //         current_array[i].rightNeighbor = current_array[i+1];
-    //     }
-    //
-    //     setOrderArray(current_array);
-    // }
+    function correctOrder(){
+        const current_array = [];
+        for (let player in currPlayer_table.players) {
+            if(currPlayer.id === player.id) {
+                current_array.join(currPlayer)
+            }
+        }
+        for (let i = 0; i < playeramount - 1; i++) {
+            current_array[i].rightNeighbor = current_array[i+1];
+        }
+
+        setOrderArray(current_array);
+    }
 
 //cardrole shinanigans
     async function setupRole(){
-        //const role = currPlayer.gameRole; TODO: uncomment this once authApi().get('/games/{game_id}/players/{player_id}') is implemented in the backend
-        const role="SHERIFF";
+        const role = currPlayer.gameRole; //TODO: uncomment this once authApi().get('/games/{game_id}/players/{player_id}') is implemented in the backend
+        // const role="SHERIFF";
         switch(role){
             case "SHERIFF":
                 setRole_picture_source("/images/role_cards/sheriff.png");
@@ -281,7 +282,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         }
     }
     const [playeramount, setPlayeramount] = useState(4);
-    const [toomanycards, setToomanycards] = useState(5/*currPlayer.hand.playCards.length-currPlayer.bullets*/);//TODO uncomment this
+    const [toomanycards, setToomanycards] = useState(currPlayer.hand.playCards.length-currPlayer.bullets);//TODO uncomment this
         
         return (
         <Container>
@@ -377,8 +378,8 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                 </Modal.Footer>
             </Modal>}
 
-            {/*<LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield} player_id={currUser.id}/>*/}
-            <LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>
+            <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield} player_id={currUser.id}/>
+            {/*<LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>*/}
 
             <OverlayTrigger trigger="click" overlay={role_information} rootClose>
                 <Button id="custombutton" >Show role information</Button>

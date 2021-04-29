@@ -5,13 +5,13 @@ import Life from "./Life";
 import React, { useState, useEffect } from 'react';
 
 export default function PlayerDeck({ player, playeronturn, border, updateBorder, playertable, updateCard_played, updateHideCancel_PlayCard,
-     ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}) {
+     ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card, fill_array, updateFill_array}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         setupTargetHighlighting(curr_card);
-        /*if (player.bullets < 1){
+        if (player.bullets < 1){
             setOpacity(0.8);
-            setHideDeadMessage(false);
+            setHideDeadmessage(false);
             setBackgroundColor("#808080");
         }
         if (player.id==playeronturn.id){
@@ -19,25 +19,25 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
         }
         if(player.id!=playeronturn.id){
             setHighlightImage("none");
-        }*/
-        /*while (opponent.bullets>0 && isInReach){
-//TODO: put below if-checks inside this while loop
-        }*/
-        if (targetSelf){
-            setWidth(5);
         }
-        if (targetEveryone){
-            setWidth(5);
-        }
-        if (targetOnlyEnemies){
-            setWidth(0);
-        }
+        // while (opponent.bullets>0 && isInReach){
+            //TODO: put below if-checks inside this while loop
+            if (targetSelf){
+                setWidth(5);
+            }
+            if (targetEveryone){
+                setWidth(5);
+            }
+            if (targetOnlyEnemies){
+                setWidth(0);
+            }
+        // }
 
     }, 1000);
     async function setupTargetHighlighting(card){
         //TODO uncomment this: 
-        //switch(card.card()){
-        switch(card){
+        switch(card.card()){
+        // switch(card){
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
@@ -81,6 +81,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             updateTargetOnlyEnemies(false);
             updateTargetEveryone(false);
             updateCurr_card(null);
+            updateFill_array(true);
         }
         else{
             alert("this ain't clickable. try a highlighted one...");
