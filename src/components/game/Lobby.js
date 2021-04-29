@@ -27,10 +27,11 @@ import "../../views/design/styling/custom_button_styling.css";
 
 function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
-    const [currPlayer, setCurrPlayer] = useState(currUser);//TODO
-    console.log(currPlayer);
+    const [currPlayer, setCurrPlayer] = useState();
     const [count, setCount] = useState(0);
     const [loopvar, setLoopvar] = useState(true);
+    const [playeramount, setPlayeramount] = useState(4/*currPlayer_table.players.length*/);
+    const [toomanycards, setToomanycards] = useState("loading");//TODO uncomment this
     const interval = useInterval(async () => {    
 //repeating requests to keep player_table and player up to date
         const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);    
@@ -44,6 +45,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
         updatePlayer_table(currPlayer_table);
         localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
         correctOrder();
+        setToomanycards(currPlayer.hand.playCards.length-currPlayer.bullets);
 
 
 //start of user turn
@@ -71,7 +73,6 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
     
 
     useEffect(async () => {
-        console.log(currPlayer);
         const userData = JSON.parse(localStorage.getItem('player_table'));
         if (userData == null) {
             return
@@ -84,6 +85,9 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
         let currpl = new PlayerModel(response.data);
         setCurrPlayer(response.data);
         //localStorage.setItem('player', JSON.stringify(currPlayer));
+        console.log(currPlayer_table);
+        correctOrder();
+        console.log(orderArray);
         try {
 
         } catch (error) {
@@ -163,12 +167,16 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
     }
 
     const [orderArray, setOrderArray] = useState([]);
+    
 
     function correctOrder(){
         const current_array = [];
-        for (let player in currPlayer_table.players) {
-            if(currPlayer.id === player.id) {
-                current_array.join(currPlayer)
+        for (let i=0; i<currPlayer_table.players.length; i++) {
+            //console.log(currPlayer_table.players[i].id);
+            console.log(currUser.id);
+            if(currUser.id == currPlayer_table.players[i].id) {
+                current_array.push(currPlayer);
+                console.log(current_array[i]);
             }
         }
         for (let i = 0; i < playeramount - 1; i++) {
@@ -285,13 +293,11 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
             setPlayeramount(playeramount+1);
         }
     }
-    const [playeramount, setPlayeramount] = useState(4);
-    const [toomanycards, setToomanycards] = useState(currPlayer.hand.playCards.length-currPlayer.bullets);//TODO uncomment this
+    
         
         return (
         <Container>
-            
-            <p1>constant updates counter. updates every 5 seconds: {count}</p1>
+            <p>constant updates counter. updates every 5 seconds: {count}</p>
             <Button id="custombutton" onClick={changelayout}>change layout</Button>
             
 
@@ -299,7 +305,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
 
             {<Modal show={show_too_many_cards} centered animation size="sm" rootClose animation>
                 <Modal.Body id="chosen-role_modal_body" centered>
-                    <p1>You fucking donkey. You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some cards.</p1>
+                    <p>You fucking donkey. You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some cards.</p>
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={too_many_cards_okay}>

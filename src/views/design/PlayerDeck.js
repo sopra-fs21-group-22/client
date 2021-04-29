@@ -97,7 +97,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
 
     return (
         <div>
-            <p1 id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p1>
+            <p id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p>
             <div style={{backgroundColor: backgroundColor,  opacity: opacity}}>
         <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
         

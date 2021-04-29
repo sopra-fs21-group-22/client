@@ -128,7 +128,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
 
     return (
         <div>
-            <p1 id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p1>
+            <p id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p>
             <div style={{backgroundColor: backgroundColor,  opacity: opacity}}>
         <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
             {/*first row for dynamite and sheriff star*/}
