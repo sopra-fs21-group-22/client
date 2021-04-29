@@ -28,13 +28,15 @@ import "../../views/design/styling/custom_button_styling.css";
 function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
     const history = useHistory();
     const [currPlayer, setCurrPlayer] = useState();
+    console.log(currPlayer);
     const [count, setCount] = useState(0);
     const [loopvar, setLoopvar] = useState(true);
     const interval = useInterval(async () => {    
 //repeating requests to keep player_table and player up to date
         const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);    
-        setCurrPlayer(new PlayerModel(response.data));
-        localStorage.setItem('player', JSON.stringify(currPlayer));
+        let currp = new PlayerModel(response.data);
+        setCurrPlayer(currp);
+        //localStorage.setItem('player', JSON.stringify(currPlayer));
 
         //get information about the other players
         const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
@@ -69,6 +71,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
     
 
     useEffect(async () => {
+        console.log(currPlayer);
         const userData = JSON.parse(localStorage.getItem('player_table'));
         if (userData == null) {
             return
@@ -78,8 +81,9 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
         console.log(currentPlayer_table);
 
         const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
-        setCurrPlayer(new PlayerModel(response.data));
-        localStorage.setItem('player', JSON.stringify(currPlayer));
+        let currpl = new PlayerModel(response.data);
+        setCurrPlayer(response.data);
+        //localStorage.setItem('player', JSON.stringify(currPlayer));
         try {
 
         } catch (error) {
