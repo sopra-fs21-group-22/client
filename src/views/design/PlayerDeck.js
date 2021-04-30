@@ -1,5 +1,5 @@
 import useInterval from "../../components/game/useInterval.js";
-import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstrap';
+import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, { useState, useEffect } from 'react';
@@ -35,7 +35,8 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
 
     }, 1000);
     async function setupTargetHighlighting(card){
-        //TODO uncomment this: 
+        //TODO uncomment this:
+        //setCurr_card_image_source(card.imageSource);
         //switch(card.card()){
         switch(card){
             case "BEER":
@@ -44,7 +45,13 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 updateTargetSelf(true);
                 break;
             case "INDIANS":
+                updateIgnoreRange(true);
+                updateTargetOnlyEnemies(true);
+                break;
             case "GATLING":
+                updateIgnoreRange(true);
+                updateTargetOnlyEnemies(true);
+                break;
             case "DUEL":
                 updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
@@ -52,6 +59,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             case "BANG":
             case "PANIC":
                 updateTargetOnlyEnemies(true);
+                break;
             case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
@@ -70,6 +78,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             updateCard_played(true);
             updateBorder("none");
             setWidth(5);
+            // const beforeDrawing = player.hand.playCards;
             //put mapping to add card to discard pile and remove it from hand of player
             //TODO: add targetlist depending on the backend implementation and depending on what card has been played
             /*const target_list = ?????;
@@ -77,6 +86,18 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 target_list: target_list
             });
             api.post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
+            // const afterDrawing = player.hand.playCards;
+            // const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
+            // setWellsfargo1of3(newCards[0])
+            // setWellsfargo2of3(newCards[1])
+            // setWellsfargo3of3(newCards[2]) //TODO: probably not best solution
+
+            if (targetOnlyEnemies || targetEveryone) {
+                setShow_action_card(true);
+            }
+            // if (targetSelf) {
+            //     setShow_wellsfargo(true);//TODO: change this for beer card
+            // }
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);
@@ -87,14 +108,26 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
         else{
             alert("this ain't clickable. try a highlighted one...");
         }
-
     }
+    function closeActionCard(){
+        setShow_action_card(false);
+    }
+    function closeWellsfargo(){
+        setShow_action_card(false);
+    }
+
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
     const [width, setWidth] = useState(5);
+    const [show_action_card, setShow_action_card] = useState(false);
+    const [curr_card_image_source, setCurr_card_image_source] = useState();
+    const [show_wellsfargo, setShow_wellsfargo] = useState(false);
+    const [wellsfargo1of3, setWellsfargo1of3] = useState();
+    const [wellsfargo2of3, setWellsfargo2of3] = useState();
+    const [wellsfargo3of3, setWellsfargo3of3] = useState(); //TODO: probably not best solution
 
     return (
         <div>
@@ -216,6 +249,37 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                     </Figure>
                 </Col>
             </Row>
+
+            {<Modal show={show_action_card} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
+                    {/*<Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>*/}
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeActionCard}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+
+            {/*{<Modal show={show_wellsfargo} centered animation size="sm" rootClose animation>*/}
+            {/*    <Modal.Header id="chosen-role_modal_header">*/}
+            {/*        <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>*/}
+            {/*    </Modal.Header>*/}
+            {/*    <Modal.Body id="chosen-role_modal_body" centered>*/}
+            {/*        <Image src={wellsfargo1of3} id="chosen-role_modal_body_image"/>*/}
+            {/*        <Image src={wellsfargo2of3} id="chosen-role_modal_body_image"/>*/}
+            {/*        <Image src={wellsfargo3of3} id="chosen-role_modal_body_image"/>*/}
+            {/*    </Modal.Body>*/}
+            {/*    <Modal.Footer id="chosen-role_modal_footer">*/}
+            {/*        <Button id="custombutton" onClick={closeWellsfargo}>*/}
+            {/*            Okay*/}
+            {/*        </Button>*/}
+            {/*    </Modal.Footer>*/}
+            {/*</Modal>}*/}
         </Container>
         </div>
         </div>
