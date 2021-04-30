@@ -1,6 +1,6 @@
 import useInterval from "../../components/game/useInterval.js";
 import React, { useState, useEffect } from 'react';
-import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstrap';
+import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 
@@ -59,7 +59,13 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                 updateTargetSelf(true);
                 break;
             case "INDIANS":
+                updateIgnoreRange(true);
+                updateTargetOnlyEnemies(true);
+                break;
             case "GATLING":
+                updateIgnoreRange(true);
+                updateTargetOnlyEnemies(true);
+                break;
             case "DUEL":
                 updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
@@ -67,6 +73,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
             case "BANG":
             case "PANIC":
                 updateTargetOnlyEnemies(true);
+                break;
             case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
@@ -105,6 +112,9 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                 target_list: target_list //TODO: double check the name of the reqestBody parameter. also what are we getting back?
             });
             api.post(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
+            if (targetOnlyEnemies || targetEveryone || targetSelf) {
+                setShow_action_card(true);
+            }
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);
@@ -116,6 +126,9 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
             alert("this ain't clickable. try a highlighted one...");
         }
     }
+    function closeActionCard(){
+        setShow_action_card(false);
+    }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
@@ -124,6 +137,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
     const [playersInReach, setPlayersInReach] = useState(true);
     const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
+    const [show_action_card, setShow_action_card] = useState(false);
 
     return (
         <div>
@@ -255,6 +269,20 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                     </Figure>
                 </Col>
             </Row>
+
+            {<Modal show={show_action_card} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeActionCard}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
         </Container>
         </div>
         </div>

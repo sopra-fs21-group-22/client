@@ -1,5 +1,5 @@
 import useInterval from "../../components/game/useInterval.js";
-import { Col, Row, Container, Card, Figure, Image, Button } from 'react-bootstrap';
+import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, { useState, useEffect } from 'react';
@@ -44,7 +44,13 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 updateTargetSelf(true);
                 break;
             case "INDIANS":
+                updateIgnoreRange(true);
+                updateTargetOnlyEnemies(true);
+                break;
             case "GATLING":
+                updateIgnoreRange(true);
+                updateTargetOnlyEnemies(true);
+                break;
             case "DUEL":
                 updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
@@ -52,6 +58,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             case "BANG":
             case "PANIC":
                 updateTargetOnlyEnemies(true);
+                break;
             case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
@@ -70,6 +77,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             updateCard_played(true);
             updateBorder("none");
             setWidth(5);
+            // const beforeDrawing = player.hand.playCards;
             //put mapping to add card to discard pile and remove it from hand of player
             //TODO: add targetlist depending on the backend implementation and depending on what card has been played
             /*const target_list = ?????;
@@ -77,6 +85,12 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 target_list: target_list
             });
             api.post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
+            // const afterDrawing = player.hand.playCards;
+            // const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
+
+            if (targetOnlyEnemies || targetEveryone || targetSelf) {
+                setShow_action_card(true);
+            }
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);
@@ -87,7 +101,9 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
         else{
             alert("this ain't clickable. try a highlighted one...");
         }
-
+    }
+    function closeActionCard(){
+        setShow_action_card(false);
     }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
@@ -95,6 +111,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
     const [width, setWidth] = useState(5);
+    const [show_action_card, setShow_action_card] = useState(false);
 
     return (
         <div>
@@ -216,6 +233,20 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                     </Figure>
                 </Col>
             </Row>
+
+            {<Modal show={show_action_card} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeActionCard}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
         </Container>
         </div>
         </div>
