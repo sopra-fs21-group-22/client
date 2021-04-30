@@ -368,7 +368,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
-                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
+                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/> {/*TODO: pass drawn cards to modal*/}
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeDrawnCards}>

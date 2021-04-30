@@ -50,7 +50,8 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
     }, 1000);
 
     async function setupTargetHighlighting(card){
-        //TODO uncomment this: 
+        //TODO uncomment this:
+        //setCurr_card_image_source(card.imageSource);
         //switch(card.card){
         switch(card){
             case "BEER":
@@ -112,6 +113,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                 target_list: target_list //TODO: double check the name of the reqestBody parameter. also what are we getting back?
             });
             api.post(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
+
             if (targetOnlyEnemies || targetEveryone || targetSelf) {
                 setShow_action_card(true);
             }
@@ -138,6 +140,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
     const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
     const [show_action_card, setShow_action_card] = useState(false);
+    const [curr_card_image_source, setCurr_card_image_source] = useState();
 
     return (
         <div>
@@ -276,6 +279,7 @@ export default function OpponentDeck({ opponent, playeronturn, border, updateBor
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
                     <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
+                    {/*<Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>*/}
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeActionCard}>
