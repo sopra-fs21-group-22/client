@@ -88,11 +88,16 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             api.post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
             // const afterDrawing = player.hand.playCards;
             // const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
-            //TODO: pass newCards to modal
+            // setWellsfargo1of3(newCards[0])
+            // setWellsfargo2of3(newCards[1])
+            // setWellsfargo3of3(newCards[2]) //TODO: probably not best solution
 
-            if (targetOnlyEnemies || targetEveryone || targetSelf) {
+            if (targetOnlyEnemies || targetEveryone) {
                 setShow_action_card(true);
             }
+            // if (targetSelf) {
+            //     setShow_wellsfargo(true);//TODO: change this for beer card
+            // }
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);
@@ -107,6 +112,10 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
     function closeActionCard(){
         setShow_action_card(false);
     }
+    function closeWellsfargo(){
+        setShow_action_card(false);
+    }
+
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
@@ -115,6 +124,10 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
     const [width, setWidth] = useState(5);
     const [show_action_card, setShow_action_card] = useState(false);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
+    const [show_wellsfargo, setShow_wellsfargo] = useState(false);
+    const [wellsfargo1of3, setWellsfargo1of3] = useState();
+    const [wellsfargo2of3, setWellsfargo2of3] = useState();
+    const [wellsfargo3of3, setWellsfargo3of3] = useState(); //TODO: probably not best solution
 
     return (
         <div>
@@ -251,6 +264,22 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                     </Button>
                 </Modal.Footer>
             </Modal>}
+
+            {/*{<Modal show={show_wellsfargo} centered animation size="sm" rootClose animation>*/}
+            {/*    <Modal.Header id="chosen-role_modal_header">*/}
+            {/*        <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>*/}
+            {/*    </Modal.Header>*/}
+            {/*    <Modal.Body id="chosen-role_modal_body" centered>*/}
+            {/*        <Image src={wellsfargo1of3} id="chosen-role_modal_body_image"/>*/}
+            {/*        <Image src={wellsfargo2of3} id="chosen-role_modal_body_image"/>*/}
+            {/*        <Image src={wellsfargo3of3} id="chosen-role_modal_body_image"/>*/}
+            {/*    </Modal.Body>*/}
+            {/*    <Modal.Footer id="chosen-role_modal_footer">*/}
+            {/*        <Button id="custombutton" onClick={closeWellsfargo}>*/}
+            {/*            Okay*/}
+            {/*        </Button>*/}
+            {/*    </Modal.Footer>*/}
+            {/*</Modal>}*/}
         </Container>
         </div>
         </div>
