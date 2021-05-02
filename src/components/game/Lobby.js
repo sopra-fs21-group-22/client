@@ -25,9 +25,8 @@ import LayoutSwitcher from '../game/LayoutSwitcher';
 import {forEach} from "react-bootstrap/ElementChildren";
 import "../../views/design/styling/custom_button_styling.css";
 
-function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, updateOrderArray}) {
+function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, updateOrderArray, currPlayer, updateCurrPlayer}) {
     const history = useHistory();
-    const [currPlayer, setCurrPlayer] = useState();
     const [count, setCount] = useState(0);
     const [loopvar, setLoopvar] = useState(true);
     const [playeramount, setPlayeramount] = useState(currPlayer_table.players.length);
@@ -36,7 +35,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
 //repeating requests to keep player_table and player up to date
         const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);    
         let currp = new PlayerModel(response.data);
-        setCurrPlayer(currp);
+        updateCurrPlayer(currp);
         //localStorage.setItem('player', JSON.stringify(currPlayer));
 
         //get information about the other players
@@ -81,7 +80,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
 
             const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
             let currpl = new PlayerModel(response.data);
-            setCurrPlayer(response.data);
+            updateCurrPlayer(currpl);
             //localStorage.setItem('player', JSON.stringify(currPlayer));
             //correctOrder();
         } catch (error) {
@@ -93,7 +92,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
         localStorage.removeItem('player_table');
         localStorage.removeItem('player');
         updatePlayer_table(null);
-        setCurrPlayer(null);
+        updateCurrPlayer(null);
         history.push("/game/dashboard");
     }
 
@@ -346,7 +345,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
                         </Modal.Footer>
                     </Modal>}
 
-                    <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield} player_id={currUser.id}/>
+                    <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield} player={currPlayer}/>
                     {/*<LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>*/}
 
                     <OverlayTrigger trigger="click" overlay={role_information} rootClose>

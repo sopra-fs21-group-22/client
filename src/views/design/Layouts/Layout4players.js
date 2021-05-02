@@ -6,7 +6,7 @@ import DeckDiscardPiles from "../DeckDiscardPiles";
 import React, { useState, useEffect } from 'react';
 import "../styling/custom_button_styling.css";
 
-function Layout4players({playertable, orderarray, visibility, player_id, hideCancel_PlayCard, updateHideCancel_PlayCard, ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}){
+function Layout4players({playertable, orderarray, visibility, player, hideCancel_PlayCard, updateHideCancel_PlayCard, ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}){
 // function Layout4players({visibility, hideCancel_PlayCard, updateHideCancel_PlayCard, ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}){
     const [border, setBorder] = useState("none");
     const [card_played, setCard_played] = useState(false);
@@ -74,7 +74,7 @@ function Layout4players({playertable, orderarray, visibility, player_id, hideCan
         <Row>
             <Col/>
             <Col>
-                <PlayerDeck player={orderarray[0]} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateborder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateborder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                 ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array} updateFill_array={updateFill_array}
                 />
@@ -87,7 +87,7 @@ function Layout4players({playertable, orderarray, visibility, player_id, hideCan
         <Row>
             <Col/>
             <Col xs={8}>
-                <PlayerCards playertable={playertable} player={orderarray[0]} updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                <PlayerCards playertable={playertable} player={player} updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array} updateFill_array={updateFill_array}/>
                 {/*<PlayerCards player_table={null} player={null} updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}*/}
                 {/*updateCurr_card={updateCurr_card} curr_card={curr_card}/>*/}

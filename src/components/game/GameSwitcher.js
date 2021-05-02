@@ -11,13 +11,18 @@ import PlayerModel from "../shared/models/PlayerModel";
 
 
 
-function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArray, updateOrderArray}){
+function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArray, updateOrderArray, currPlayer, updateCurrPlayer}){
     const interval = useInterval(async () => {
         if(loop){
             
             const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
             currPlayer_table = new PlayerTable(playertable_response.data);
             updatePlayer_table(currPlayer_table);
+
+            const currPlayer_response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
+            currPlayer = new PlayerModel(currPlayer_response.data);
+            updateCurrPlayer(currPlayer);
+
             var readycounter = 0;
             //readycounter=43;
             //console.log(`allplayersreadyyyyyyyy: ${readycounter}`);
@@ -41,7 +46,7 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
                 const id = currPlayer_table.id;
                 const target = "/game/dashboard/lobby/public/" + id;
                 correctOrder();
-                console.log(orderArray);
+                console.log(orderArray[0]);
                 setLoop(false);
                 history.push(target);
             }

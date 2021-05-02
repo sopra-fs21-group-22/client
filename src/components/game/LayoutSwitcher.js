@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 
 
 
-function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player_id}){
+function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player}){
 // function LayoutSwitcher({playeramount, visibility}){
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
@@ -49,7 +49,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
 
     switch(playeramount){
         case 4:
-            return <Layout4players playertable={playertable} orderarray={orderarray} visibility={visibility} player_id={player_id} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+            return <Layout4players playertable={playertable} orderarray={orderarray} visibility={visibility} player={player} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
             ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies} 
             updateCurr_card={updateCurr_card} curr_card={curr_card}/>;
             /*return <Layout4players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}

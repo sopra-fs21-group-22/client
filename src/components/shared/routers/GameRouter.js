@@ -19,8 +19,12 @@ function GameRouter({ currUser, base, updateUser, currPlayer_table, updatePlayer
    * "base" is "/app" because as been passed as a prop in the parent of GameRouter, i.e., App.js
    */
   const [orderArray, setOrderArray] = useState([]);
+  const [currPlayer, setCurrPlayer] = useState();
   const updateOrderArray = (newarray) => {
     setOrderArray(newarray);
+  }
+  const updateCurrPlayer = (currPlayer) => {
+      setCurrPlayer(currPlayer);
   }
   return (
     <Container>
@@ -53,12 +57,12 @@ function GameRouter({ currUser, base, updateUser, currPlayer_table, updatePlayer
       <Route
         exact
         path={`${base}/dashboard/lobby/:publicorprivate/:id`}
-        render={() => <Lobby currUser={currUser} currPlayer_table={currPlayer_table} updatePlayer_table={updatePlayer_table} orderArray={orderArray} updateOrderArray={updateOrderArray}/>}
+        render={() => <Lobby currUser={currUser} currPlayer_table={currPlayer_table} updatePlayer_table={updatePlayer_table} orderArray={orderArray} updateOrderArray={updateOrderArray} currPlayer={currPlayer} updateCurrPlayer={updateCurrPlayer}/>}
       />
       <Route
         exact
         path={`${base}/dashboard/lobby/:publicorprivate/waiting/:id`}
-        render={() => <GameSwitcher currUser={currUser} currPlayer_table={currPlayer_table} updatePlayer_table={updatePlayer_table} orderArray={orderArray} updateOrderArray={updateOrderArray}/>}
+        render={() => <GameSwitcher currUser={currUser} currPlayer_table={currPlayer_table} updatePlayer_table={updatePlayer_table} orderArray={orderArray} updateOrderArray={updateOrderArray} currPlayer={currPlayer} updateCurrPlayer={updateCurrPlayer}/>}
       />
       
     </Container>
