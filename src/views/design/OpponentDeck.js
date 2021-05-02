@@ -10,17 +10,18 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         setupTargetHighlighting(curr_card);
-        setPlayersInReach(await api.get(`/${playertable.id}/players/${player.id}/targets`));
+        console.log(player);
+        setPlayersInReach(await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`));
         if (opponent.bullets < 1){
             setOpacity(0.8);
             setHideDeadmessage(false);
             setBackgroundColor("#808080");
             setWidth(0);
         }
-        if (opponent.id === playeronturn.id){
+        if (playeronturn != null && opponent.id === playeronturn.id){
             setHighlightImage("solid");
         }
-        if(opponent.id !== playeronturn.id){
+        if(playeronturn != null && opponent.id !== playeronturn.id){
             setHighlightImage("none");
         }
         while (!ignoreRange){
@@ -51,8 +52,11 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
 
     }, 1000);
 
-    async function setupTargetHighlighting(card){
-        //TODO uncomment this: 
+    function setupTargetHighlighting(card){
+        if(!card) {
+            return;
+        }
+        //TODO uncomment this:
         switch(card.card){
         // switch(card){
             case "BEER":
@@ -85,8 +89,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
 
     function isinreach(){
         if (!ignoreRange){
-            let x;
-            for (x of playersInReach){
+            for (let x of playersInReach){
                 if (x.id === opponent.id){
                     setIsInReach(true);
                 }
@@ -122,7 +125,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
-    const [playersInReach, setPlayersInReach] = useState(true);
+    const [playersInReach, setPlayersInReach] = useState([]);
     const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
 

@@ -14,10 +14,10 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             setHideDeadmessage(false);
             setBackgroundColor("#808080");
         }
-        if (player.id==playeronturn.id){
+        if (playeronturn != null && player.id === playeronturn.id){
             setHighlightImage("solid");
         }
-        if(player.id!=playeronturn.id){
+        if(playeronturn != null && player.id !== playeronturn.id){
             setHighlightImage("none");
         }
         // while (opponent.bullets>0 && isInReach){
@@ -34,7 +34,10 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
         // }
 
     }, 1000);
-    async function setupTargetHighlighting(card){
+    function setupTargetHighlighting(card){
+        if(!card) {
+            return;
+        }
         //TODO uncomment this: 
         switch(card.card()){
         // switch(card){

@@ -73,7 +73,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
         }
     }
 
-    async function playCard(){
+    function playCard(){
         // updateCurr_card("Beer");//TODO REMOVE THIS WHEN NOT TESTING
         setShow_card(false);
         updateBorder("solid");
@@ -92,7 +92,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                 {player.hand.playCards.map((currCard, index) => (
                     <Col>
                             <Image className="deck-discard-pile_image-card" src={`/images/play_cards/${currCard.color}
-                            _${currCard.card}_${currCard.suit}_${currCard.rank}.png`} onClick={lookAtCard(index)}/>
+                            _${currCard.card}_${currCard.suit}_${currCard.rank}.png`} onClick={() => lookAtCard(index)}/>
                             {<Modal show={show_card[index]} centered animation size="sm" rootClose animation>
                                 <Modal.Header id="chosen-role_modal_header">
                                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>

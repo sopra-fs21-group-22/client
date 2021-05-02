@@ -25,7 +25,7 @@ function Layout4players({playertable, orderarray, visibility, player, hideCancel
 
     
 
-    async function back(){
+    function back(){
         console.log(curr_card);
         updateHideCancel_PlayCard(true);
         updateBorder("none");

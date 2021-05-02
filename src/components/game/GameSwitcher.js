@@ -45,7 +45,6 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
                 //setCondition(true);
                 
                 correctOrder();
-                console.log(orderArray[0]);
                 setLoop(false);
                 setHidden(false);
             }
@@ -62,7 +61,7 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
     const [hidden, setHidden] = useState(true);
     
 
-    async function correctOrder(){
+    function correctOrder(){
         let current_array = [];
         for (let i=0; i<currPlayer_table.players.length; i++) {
             if(currUser.id === currPlayer_table.players[i].id) {
@@ -72,27 +71,24 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
         for (let i = 0; i < currPlayer_table.players.length - 1; i++) {
             current_array[i+1] = searchbyid(current_array[i].rightNeighbor);
         }
-        console.log(`currentarray: ${current_array}`);
         updateOrderArray(current_array);
     }
 
-    async function searchbyid(id){
+    function searchbyid(id){
         for (let x=0; x<currPlayer_table.players.length; x++){
             if (currPlayer_table.players[x].id == id){
                 let a = new PlayerModel(currPlayer_table.players[x]);
-
-                console.log(`yeet: ${a.rightNeighbor}`);
                 return a;
             }
         }
     }
-    async function push(){
+    function push(){
         const id = currPlayer_table.id;
         const target = "/game/dashboard/lobby/public/" + id;
         history.push(target);
     }
 
-    async function toggleReady(){
+    function toggleReady(){
         if (status){
             setStatus(false);
             setReady_button_text("Ready up");
