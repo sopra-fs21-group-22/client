@@ -5,6 +5,7 @@ import GameDashboard from "../../game/GameDashboard";
 import ProfilePage from "../../game/ProfilePage";
 import ProfilePageEdit from "../../game/ProfilePageEdit";
 import Lobby from "../../game/Lobby";
+import GameSwitcher from "../../game/GameSwitcher";
 
 const Container = styled.div`
   display: flex;
@@ -48,6 +49,11 @@ function GameRouter({ currUser, base, updateUser, currPlayer_table, updatePlayer
         exact
         path={`${base}/dashboard/lobby/:publicorprivate/:id`}
         render={() => <Lobby currUser={currUser} currPlayer_table={currPlayer_table} updatePlayer_table={updatePlayer_table} />}
+      />
+      <Route
+        exact
+        path={`${base}/dashboard/lobby/:publicorprivate/waiting/:id`}
+        render={() => <GameSwitcher currUser={currUser} currPlayer_table={currPlayer_table} updatePlayer_table={updatePlayer_table} />}
       />
       
     </Container>

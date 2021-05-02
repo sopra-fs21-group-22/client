@@ -60,15 +60,14 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
 
 //this stops once the game starts
 //TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
-        if (loopvar){
+        while (loopvar){
             if (currPlayer_table.gameHasStarted){
                 setupRole();
                 setShow_rolechoose(true);
                 setLoopvar(false);
-            }
 
+            }
         }
-        
         setCount(count + 1);  }, 5000);
 
     useEffect(async () => {
@@ -98,32 +97,9 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
         history.push("/game/dashboard");
     }
 
-    const [status, setStatus] = useState(false);
-    const [ready_button_text, setReady_button_text] = useState("Ready up");
-    const [ready_button_color, setReady_button_color] = useState("success");
-    async function toggleReady(){
-        if (status){
-            setStatus(false);
-            setReady_button_text("Ready up");
-            setReady_button_color("success");
-            const requestBody = JSON.stringify({
-                status: status
-            })
-            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
-        }
-        else{
-            setStatus(true);
-            setReady_button_text("Unready");
-            setReady_button_color("danger");
-            const requestBody = JSON.stringify({
-                status: status
-            })
-            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
-        }
-        //TODO: comment this to have a functioning game. this is only here to be able to reach the game screen without actually starting a game
-        setupRole();
-        setShow_rolechoose(true);
-    }
+   
+    
+    
     
     const chooseRole = () => {
         setShow_rolechoose(false);
@@ -131,7 +107,6 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
     }
     function roledisplayokay(){
         setShow_roledisplay(false);
-        setHidden_startgame(true);
         setHidden_gamefield(false);
     }
 
@@ -250,7 +225,6 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
     const [show_roledisplay, setShow_roledisplay] = useState(false);
     const [show_roleinformation, setShow_roleinformation] = useState(false);
     const [hidden_gamefield, setHidden_gamefield] = useState(true);
-    const [hidden_startgame, setHidden_startgame] = useState(false);
     const [show_rules, setShow_rules] = useState(false);
     const [show_turn_starts, setShow_turn_starts] = useState(false);
 
@@ -389,7 +363,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
                     <OverlayTrigger trigger="click" overlay={role_information} rootClose>
                     <Button id="custombutton" >Show role information</Button>
                     </OverlayTrigger>
-                    <Button variant={ready_button_color} onClick={toggleReady} hidden={hidden_startgame}>{ready_button_text}</Button>
+                   
                     <Button onClick={endTurn} id="custombutton">End Turn</Button>
                     <Button onClick={resign} id="custombutton">Resign</Button>
                     <Button onClick={openRules} id="custombutton">Rules</Button>
