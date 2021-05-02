@@ -13,7 +13,7 @@ import PlayerModel from "../shared/models/PlayerModel";
 
 function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArray, updateOrderArray, currPlayer, updateCurrPlayer}){
     const interval = useInterval(async () => {
-        if(loop){
+        //if(loop){
             
             const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
             currPlayer_table = new PlayerTable(playertable_response.data);
@@ -43,14 +43,13 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
             //console.log(currPlayer_table.players[0].ready);
             if (allplayersready){
                 //setCondition(true);
-                const id = currPlayer_table.id;
-                const target = "/game/dashboard/lobby/public/" + id;
+                
                 correctOrder();
                 console.log(orderArray[0]);
                 setLoop(false);
-                history.push(target);
+                setHidden(false);
             }
-        }   
+        //}   
         
     }, 3000);
     const [condition, setCondition] = useState(false);
@@ -60,6 +59,7 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
     const history = useHistory();
     const [loop, setLoop] = useState(true);
     const [allplayersready, setAllplayersready] = useState(false);
+    const [hidden, setHidden] = useState(true);
     
 
     async function correctOrder(){
@@ -85,6 +85,11 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
                 return a;
             }
         }
+    }
+    async function push(){
+        const id = currPlayer_table.id;
+        const target = "/game/dashboard/lobby/public/" + id;
+        history.push(target);
     }
 
     async function toggleReady(){
@@ -136,6 +141,7 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
         <Spinner></Spinner>
         <br></br><br></br>
         <Button variant={ready_button_color} onClick={toggleReady}>{ready_button_text}</Button>
+        <Button onClick={push} hidden={hidden}>klik me</Button>
         </Container>
     );
 }
