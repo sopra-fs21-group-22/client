@@ -25,7 +25,7 @@ import LayoutSwitcher from '../game/LayoutSwitcher';
 import {forEach} from "react-bootstrap/ElementChildren";
 import "../../views/design/styling/custom_button_styling.css";
 
-function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
+function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, updateOrderArray}) {
     const history = useHistory();
     const [currPlayer, setCurrPlayer] = useState();
     const [count, setCount] = useState(0);
@@ -83,7 +83,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
             let currpl = new PlayerModel(response.data);
             setCurrPlayer(response.data);
             //localStorage.setItem('player', JSON.stringify(currPlayer));
-            correctOrder();
+            //correctOrder();
         } catch (error) {
             alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
         }
@@ -136,21 +136,10 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
         setShow_too_many_cards(false);
     }
 
-    const [orderArray, setOrderArray] = useState([]);
+    
     
 
-    async function correctOrder(){
-        let current_array = [];
-        for (let i=0; i<currPlayer_table.players.length; i++) {
-            if(currUser.id === currPlayer_table.players[i].id) {
-                current_array[0] = currPlayer;
-            }
-        }
-        for (let i = 0; i < playeramount - 1; i++) {
-            current_array[i+1] = current_array[i].rightNeighbor;
-        }
-        setOrderArray(current_array);
-    }
+    
 
 //cardrole shinanigans
     async function setupRole(){
@@ -262,9 +251,9 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
         
         return (
         <Container>
-            {!orderArray[0] ? (
+            {/*!orderArray[0] ? (
                 <Spinner/>
-            ):(
+            ):(*/
                 <div>
                     <p>constant updates counter. updates every 5 seconds: {count}</p>
                     <Button id="custombutton" onClick={changelayout}>change layout</Button>
@@ -371,7 +360,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table}) {
                     <br></br>
                     <br></br>
                 </div>
-            )}
+            /*)*/}
         </Container >
     );
 }

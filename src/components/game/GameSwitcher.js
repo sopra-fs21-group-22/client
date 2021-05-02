@@ -7,10 +7,11 @@ import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, 
 import { api, authApi, handleError } from '../../helpers/api';
 import { withRouter, useHistory, Link, useRouteMatch, } from 'react-router-dom';
 import PlayerTable from '../shared/models/PlayerTable';
+import PlayerModel from "../shared/models/PlayerModel";
 
 
 
-function GameSwitcher({currUser, currPlayer_table, updatePlayer_table}){
+function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArray, updateOrderArray}){
     const interval = useInterval(async () => {
         if(loop){
             
@@ -21,12 +22,9 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table}){
             //readycounter=43;
             //console.log(`allplayersreadyyyyyyyy: ${readycounter}`);
             if(currPlayer_table.players.length>3){
-                console.log("hello");
                 for (let x=0; x<currPlayer_table.players.length; x++){
-                    console.log(currPlayer_table.players[x].ready);
                     if(currPlayer_table.players[x].ready==true){
                         readycounter++;
-                        console.log(`allplayersready: ${readycounter}`);
                     }
                     /*else{
                         break;
@@ -39,9 +37,11 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table}){
             
             //console.log(currPlayer_table.players[0].ready);
             if (allplayersready){
-                setCondition(true);
+                //setCondition(true);
                 const id = currPlayer_table.id;
                 const target = "/game/dashboard/lobby/public/" + id;
+                correctOrder();
+                console.log(orderArray);
                 setLoop(false);
                 history.push(target);
             }
@@ -55,10 +55,35 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table}){
     const history = useHistory();
     const [loop, setLoop] = useState(true);
     const [allplayersready, setAllplayersready] = useState(false);
+    
+
+    async function correctOrder(){
+        let current_array = [];
+        for (let i=0; i<currPlayer_table.players.length; i++) {
+            if(currUser.id === currPlayer_table.players[i].id) {
+                current_array[0] = searchbyid(currUser.id);
+            }
+        }
+        for (let i = 0; i < currPlayer_table.players.length - 1; i++) {
+            current_array[i+1] = searchbyid(current_array[i].rightNeighbor);
+        }
+        console.log(`currentarray: ${current_array}`);
+        updateOrderArray(current_array);
+    }
+
+    async function searchbyid(id){
+        for (let x=0; x<currPlayer_table.players.length; x++){
+            if (currPlayer_table.players[x].id == id){
+                let a = new PlayerModel(currPlayer_table.players[x]);
+
+                console.log(`yeet: ${a.rightNeighbor}`);
+                return a;
+            }
+        }
+    }
 
     async function toggleReady(){
         if (status){
-            console.log(`status: ${status}`);
             setStatus(false);
             setReady_button_text("Ready up");
             setReady_button_color("success");
@@ -70,7 +95,6 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table}){
         }
         else{
             setStatus(true);
-            console.log(`status: ${status}`);
             setReady_button_text("Unready");
             setReady_button_color("danger");
             let justputthis = true; //setStatus doesn't update fast enough, so we just put this one in the requestBody
