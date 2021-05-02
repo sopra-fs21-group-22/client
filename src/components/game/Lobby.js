@@ -262,7 +262,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
 
                     {<Modal show={show_too_many_cards} centered animation size="sm" rootClose animation>
                         <Modal.Body id="chosen-role_modal_body" centered>
-                        <p>You fucking donkey. You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some cards.</p>
+                        <p>You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some cards.</p>
                         </Modal.Body>
                         <Modal.Footer id="chosen-role_modal_footer">
                         <Button id="custombutton" onClick={too_many_cards_okay}>
