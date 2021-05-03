@@ -59,7 +59,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
 
 //this stops once the game starts
 //TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
-        while (loopvar){
+        if (loopvar){
             if (currPlayer_table.gameHasStarted){
                 setupRole();
                 setShow_rolechoose(true);

@@ -24,7 +24,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
         if(playeronturn != null && opponent.id !== playeronturn.id){
             setHighlightImage("none");
         }
-        while (!ignoreRange){
+        if (!ignoreRange){
             isinreach();
             if (!isInReach){
                 setWidth(0);
@@ -36,7 +36,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
         
         
 
-        while (opponent.bullets>0 && isInReach){
+        if (opponent.bullets>0 && isInReach){
             //TODO: but below if-checks inside this while loop
             if (targetSelf){
                 setWidth(0);
