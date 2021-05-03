@@ -117,8 +117,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                     </Figure>
                 </Col>
                 <Col>
-                    <Figure>
-                    {/*<Figure hidden={!player.gameRole == "SHERIFF">*/}
+                    <Figure hidden={!(player.gameRole == "SHERIFF")}>
                         <Figure.Image
                             width={80}
                             height={80}
@@ -144,29 +143,24 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                             src="/images/character_cards/black_jack_p.jpeg"
                         />
                         {/*<Figure.Caption>{player.username}</Figure.Caption>*/}
-                        <Figure.Caption id="opponent-player-deck_figure-profile-picture">undefined</Figure.Caption>
+                        <Figure.Caption id="opponent-player-deck_figure-profile-picture">{player.user}</Figure.Caption>
                     </Figure>
                 </Col>
                 <Col>
-                    <Row>
+                    <Row hidden={player.bullets < 5}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 5}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={player.bullets < 4}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 4}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={player.bullets < 3}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 3}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={player.bullets < 2}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 2}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={player.bullets < 1}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 1}/>*/}
                     </Row>
                 </Col>
             </Row>

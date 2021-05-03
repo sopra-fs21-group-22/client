@@ -48,7 +48,6 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                 setWidth(5);
             }
         }
-        console.log(`opponent: ${opponent.user}`);
 
     }, 1000);
 
@@ -147,8 +146,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                     </Figure>
                 </Col>
                 <Col>
-                    <Figure>
-                    {/*<Figure hidden={!opponent.gameRole == "SHERIFF">*/}
+                    <Figure hidden={!(opponent.gameRole == "SHERIFF")}>
                         <Figure.Image
                             width={80}
                             height={80}
@@ -178,25 +176,20 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                     </Figure>
                 </Col>
                 <Col>
-                    <Row>
+                    <Row hidden={opponent.bullets < 5}>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 5}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={opponent.bullets < 4}>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 4}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={opponent.bullets < 3}>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 3}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={opponent.bullets < 2}>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 2}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={opponent.bullets < 1}>
                         <Life/>
-                        {/*<Life hidden={opponent.bullets < 1}/>*/}
                     </Row>
                 </Col>
                 <Col>
@@ -207,7 +200,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                             height={100}
                             alt="80x100"
                             src="/images/back.png"/>
-                        <Figure.Caption>{/*opponent.hand.playCards.length*/} card(s) left</Figure.Caption>
+                        <Figure.Caption>{opponent.hand.cardsInHand} card(s) left</Figure.Caption>
                     </Figure>
                 </Col>
             </Row>

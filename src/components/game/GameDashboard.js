@@ -58,7 +58,7 @@ function GameDashboard({ currUser, currPlayer_table, updatePlayer_table }) {
     let currPt = new PlayerTable(response.data);
     updatePlayer_table(currPt);
     //localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
-    const id = currPlayer_table.id;
+    const id = currPt.id;
     const target = "/game/dashboard/lobby/public/waiting/" + id;
     history.push(target);
   }

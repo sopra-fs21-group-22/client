@@ -36,13 +36,13 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
         const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);    
         let currp = new PlayerModel(response.data);
         updateCurrPlayer(currp);
+        setupRole();
         //localStorage.setItem('player', JSON.stringify(currPlayer));
 
         //get information about the other players
         const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
-        console.log(`players: ${currPt.players[0].bullets}`);
         //localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
         //correctOrder();
         setToomanycards(currPlayer.hand.playCards.length-currPlayer.bullets);
@@ -92,10 +92,10 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
     }, []);
 //Buttons
     async function leaveGame() {
-        localStorage.removeItem('player_table');
-        localStorage.removeItem('player');
-        updatePlayer_table(null);
-        updateCurrPlayer(null);
+        /*localStorage.removeItem('player_table');
+        localStorage.removeItem('player');*/
+        /*updatePlayer_table(null);
+        updateCurrPlayer(null);*/
         history.push("/game/dashboard");
     }
 
@@ -144,8 +144,8 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
     
 
 //cardrole shinanigans
-    async function setupRole(){
-        const role = currPlayer.gameRole; //TODO: uncomment this once authApi().get('/games/{game_id}/players/{player_id}') is implemented in the backend
+    function setupRole(){
+        let role = currPlayer.gameRole; //TODO: uncomment this once authApi().get('/games/{game_id}/players/{player_id}') is implemented in the backend
         // const role="SHERIFF";
         switch(role){
             case "SHERIFF":
@@ -288,14 +288,17 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
                         </Modal.Footer>
                     </Modal>}
 
-                    {<Modal show={show_rules} centered animation size="sm" rootClose animation>
+                    {<Modal show={show_rules} centered animation size="m" rootClose animation>
                         <Modal.Header id="chosen-role_modal_header">
                         <Modal.Title id="chosen-role_modal_header_title" centered><b>Rules</b></Modal.Title>
                         </Modal.Header>
                         <Modal.Body id="chosen-role_modal_body" centered>
-                        <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
+                            <Image src="/images/rule_card.png" width={400} height={258}></Image>
                         </Modal.Body>
                         <Modal.Footer id="chosen-role_modal_footer">
+                                <a href="http://www.dvgiochi.net/bang/bang_rules.pdf" target="_blank"><Image src="/images/rules_book.png" width={57}
+                                height={63}
+                                alt="80x100"></Image><figcaption>Learn More</figcaption></a>
                         <Button id="custombutton" onClick={closeRules}>
                         Okay
                         </Button>

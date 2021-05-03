@@ -91,8 +91,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                 </Col>
                 {player.hand.playCards.map((currCard, index) => (
                     <Col>
-                            <Image className="deck-discard-pile_image-card" src={`/images/play_cards/${currCard.color}
-                            _${currCard.card}_${currCard.suit}_${currCard.rank}.png`} onClick={() => lookAtCard(index)}/>
+                            <Image className="deck-discard-pile_image-card" src={`/images/play_cards/${currCard.color}_${currCard.card}_${currCard.suit}_${currCard.rank}.png`} onClick={() => lookAtCard(index)}/>
                             {<Modal show={show_card[index]} centered animation size="sm" rootClose animation>
                                 <Modal.Header id="chosen-role_modal_header">
                                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>
@@ -111,8 +110,8 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                             </Modal>}
                     </Col>
                 ))}
-                <Col>
-                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
+                {/*<Col>
+                    <Image className="deck-discard-pile_image-card" src="/images/play_cards/blue_JAIL_HEARTS_FOUR.png"/>
                 </Col>
                 <Col>
                     <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
@@ -124,8 +123,8 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                     <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
                 <Col>
-                    {/*<Image hidden={card_played} className="deck-discard-pile_image-card" src="/images/back.png" onClick={lookAtCard}/>*/}
-                </Col>
+                    {<Image hidden={card_played} className="deck-discard-pile_image-card" src="/images/back.png" onClick={lookAtCard}/>}
+                </Col>*/}
             </Row>
 
             {/*{<Modal show={show_card} centered animation size="sm" rootClose animation>*/}
