@@ -40,12 +40,13 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
 
         //get information about the other players
         const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
-        currPlayer_table = new PlayerTable(playertable_response.data);
-        updatePlayer_table(currPlayer_table);
-        localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
+        let currPt = new PlayerTable(playertable_response.data);
+        updatePlayer_table(currPt);
+        console.log(`players: ${currPt.players[0].bullets}`);
+        //localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
         //correctOrder();
         setToomanycards(currPlayer.hand.playCards.length-currPlayer.bullets);
-
+        
 
 //start of user turn
         if (startofturn_drawncards){
@@ -60,6 +61,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
 //this stops once the game starts
 //TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
         if (loopvar){
+
             if (currPlayer_table.gameHasStarted){
                 setupRole();
                 setShow_rolechoose(true);
@@ -67,16 +69,17 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
 
             }
         }
+        
         setCount(count + 1);  }, 5000);
 
     useEffect(async () => {
         try {
-            const userData = JSON.parse(localStorage.getItem('player_table'));
+            /*const userData = JSON.parse(localStorage.getItem('player_table'));
             if (userData == null) {
                 return
-            }
-            const currentPlayer_table = new PlayerTable(userData);
-            updatePlayer_table(currentPlayer_table);
+            }*/
+            /*const currentPlayer_table = new PlayerTable(userData);
+            updatePlayer_table(currentPlayer_table);*/
 
             const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
             let currpl = new PlayerModel(response.data);
@@ -212,7 +215,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
     const [show_rolechoose, setShow_rolechoose] = useState(false);
     const [show_roledisplay, setShow_roledisplay] = useState(false);
     const [show_roleinformation, setShow_roleinformation] = useState(false);
-    const [hidden_gamefield, setHidden_gamefield] = useState(true);
+    const [hidden_gamefield, setHidden_gamefield] = useState(false);
     const [show_rules, setShow_rules] = useState(false);
     const [show_turn_starts, setShow_turn_starts] = useState(false);
 

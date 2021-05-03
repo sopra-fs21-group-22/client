@@ -16,12 +16,12 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
         //if(loop){
             
             const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
-            currPlayer_table = new PlayerTable(playertable_response.data);
-            updatePlayer_table(currPlayer_table);
+            let currPt = new PlayerTable(playertable_response.data);
+            updatePlayer_table(currPt);
 
             const currPlayer_response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
-            currPlayer = new PlayerModel(currPlayer_response.data);
-            updateCurrPlayer(currPlayer);
+            let currP = new PlayerModel(currPlayer_response.data);
+            updateCurrPlayer(currP);
 
             var readycounter = 0;
             //readycounter=43;

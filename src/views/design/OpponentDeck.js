@@ -10,8 +10,8 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         setupTargetHighlighting(curr_card);
-        console.log(player);
-        setPlayersInReach(await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`));
+        let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
+        setPlayersInReach(response.data);
         if (opponent.bullets < 1){
             setOpacity(0.8);
             setHideDeadmessage(false);
@@ -48,7 +48,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                 setWidth(5);
             }
         }
-
+        console.log(`opponent: ${opponent.user}`);
 
     }, 1000);
 
@@ -174,7 +174,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                             src="/images/character_cards/black_jack_p.jpeg"
                         />
                         {/*<Figure.Caption>{opponent.username}</Figure.Caption>*/}
-                        <Figure.Caption id="opponent-player-deck_figure-profile-picture">undefined</Figure.Caption>
+                        <Figure.Caption id="opponent-player-deck_figure-profile-picture">{opponent.user}</Figure.Caption>
                     </Figure>
                 </Col>
                 <Col>
