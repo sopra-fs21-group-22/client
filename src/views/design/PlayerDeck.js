@@ -39,7 +39,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             return;
         }
         //TODO uncomment this: 
-        switch(card.card()){
+        switch(card.card){
         // switch(card){
             case "BEER":
             case "STAGECOACH":
