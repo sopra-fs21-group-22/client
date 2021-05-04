@@ -26,7 +26,6 @@ function Layout4players({playertable, orderarray, visibility, player, hideCancel
     
 
     function back(){
-        console.log(curr_card);
         updateHideCancel_PlayCard(true);
         updateBorder("none");
         updateTargetSelf(false);
@@ -40,7 +39,7 @@ function Layout4players({playertable, orderarray, visibility, player, hideCancel
         <Row>
             <Col/>
             <Col>
-                <OpponentDeck opponent={orderarray[2]} player={orderarray[0]} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateborder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                <OpponentDeck opponent={orderarray[2]} player={orderarray[0]} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateBorder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                 ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array} updateFill_array={updateFill_array}/>
                 {/*<OpponentDeck opponent={null} playeronturn={null} border={border} updateBorder={updateBorder} playertable={null} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
@@ -51,7 +50,7 @@ function Layout4players({playertable, orderarray, visibility, player, hideCancel
         </Row>
         <Row>
             <Col>
-                <OpponentDeck opponent={orderarray[3]} player={orderarray[0]} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateborder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                <OpponentDeck opponent={orderarray[3]} player={orderarray[0]} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateBorder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                 ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array} updateFill_array={updateFill_array}/>
                 {/*<OpponentDeck opponent={null} playeronturn={null} border={border} updateBorder={updateBorder} playertable={null} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}*/}
@@ -63,7 +62,7 @@ function Layout4players({playertable, orderarray, visibility, player, hideCancel
                 {/*<DeckDiscardPiles/>*/}
             </Col>
             <Col>
-                <OpponentDeck opponent={orderarray[1]} player={orderarray[0]} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateborder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                <OpponentDeck opponent={orderarray[1]} player={orderarray[0]} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateBorder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                 ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array} updateFill_array={updateFill_array}/>
                 {/*<OpponentDeck opponent={null} playeronturn={null} border={border} updateBorder={updateBorder} playertable={null} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}*/}
@@ -74,7 +73,7 @@ function Layout4players({playertable, orderarray, visibility, player, hideCancel
         <Row>
             <Col/>
             <Col>
-                <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateborder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable} border={border} updateBorder={updateBorder} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                 ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array} updateFill_array={updateFill_array}
                 />

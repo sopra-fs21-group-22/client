@@ -24,30 +24,27 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
         if(playeronturn != null && opponent.id !== playeronturn.id){
             setHighlightImage("none");
         }
-        if (!ignoreRange){
-            isinreach();
-            if (!isInReach){
-                setWidth(0);
+        if (opponent.bullets>0){
+            if (!ignoreRange){
+                isinreach();
+                if (!isInReach){
+                    setWidth(0);
+                }
+                if (isInReach){
+                    setWidth(5);
+                }
             }
-            if (isInReach){
+            if (targetEveryone && ignoreRange){
                 setWidth(5);
             }
-        }
-        
-        
-
-        if (opponent.bullets>0 && isInReach){
-            //TODO: but below if-checks inside this while loop
             if (targetSelf){
                 setWidth(0);
             }
-            if (targetEveryone){
-                setWidth(5);
-            }
-            if (targetOnlyEnemies){
+            if (targetOnlyEnemies && ignoreRange){
                 setWidth(5);
             }
         }
+        
 
     }, 1000);
 
@@ -57,7 +54,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
         }
         //TODO uncomment this:
         switch(card.card){
-        // switch(card){
+        //switch("STAGECOACH"){
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
@@ -65,18 +62,18 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                 break;
             case "INDIANS":
             case "GATLING":
-            case "BANG":
             case "DUEL":
             case "PANIC":
-                updateTargetOnlyEnemies(true);
-                break;
             case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
+            case "BANG":
+                updateTargetOnlyEnemies(true);
                 break;
             case "SALOON":
             case "GENERALSTORE":
                 updateTargetEveryone(true);
+                updateIgnoreRange(true);
                 break;
             default:
                 console.log("no valid card name opponentdeck");
@@ -89,10 +86,12 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
     function isinreach(){
         if (!ignoreRange){
             for (let x of playersInReach){
-                if (x.id === opponent.id){
+                if (x.id == opponent.id){
                     setIsInReach(true);
                 }
             }
+        }
+        else{
             setIsInReach(false);
         }
     }
@@ -114,6 +113,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
             updateTargetEveryone(false);
             updateCurr_card(null);
             updateFill_array(true);
+            //TODO: enable other player cards agains
         }
         else{
             alert("this ain't clickable. try a highlighted one...");

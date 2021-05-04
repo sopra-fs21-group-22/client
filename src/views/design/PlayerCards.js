@@ -18,7 +18,6 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
             setShow_card(curr);
             updateFill_array(false);
         }
-        console.log(show_card);
     }, 1000);
     
     // const [show_card, setShow_card] = useState(false);
@@ -65,7 +64,6 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
 
     function getImageSource(){
         for (let i=0; i<show_card.length; i++) {
-            console.log(`list: ${show_card[0]}`);
             if (show_card[i]) {
                 let curr = player.hand.playCards[i];
                 setCurr_card_image_source(`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`);
@@ -75,8 +73,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
     }
 
     function playCard(){
-        // updateCurr_card("Beer");//TODO REMOVE THIS WHEN NOT TESTING
-        //setShow_card(false);
+        //TODO: disable other player cards while choosing a target
         updateBorder("solid");
         updateHideCancel_PlayCard(false);
         updateFill_array(true);

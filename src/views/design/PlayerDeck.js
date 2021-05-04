@@ -20,8 +20,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
         if(playeronturn != null && player.id !== playeronturn.id){
             setHighlightImage("none");
         }
-        // while (opponent.bullets>0 && isInReach){
-            //TODO: put below if-checks inside this while loop
+        if (player.bullets>0){
             if (targetSelf){
                 setWidth(5);
             }
@@ -31,8 +30,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             if (targetOnlyEnemies){
                 setWidth(0);
             }
-        // }
-
+        }
     }, 1000);
     function setupTargetHighlighting(card){
         if(!card) {
@@ -40,7 +38,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
         }
         //TODO uncomment this: 
         switch(card.card){
-        // switch(card){
+        //switch("STAGECOACH"){
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
@@ -48,21 +46,21 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 break;
             case "INDIANS":
             case "GATLING":
-            case "BANG":
             case "DUEL":
             case "PANIC":
-                updateTargetOnlyEnemies(true);
-                break;
             case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
+            case "BANG":
+                updateTargetOnlyEnemies(true);
                 break;
             case "SALOON":
             case "GENERALSTORE":
                 updateTargetEveryone(true);
+                updateIgnoreRange(true);
                 break;
             default:
-                console.log("no valid card name playerdeck");
+                console.log("no valid card name opponentdeck");
                 break;
         }
     }
@@ -85,6 +83,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             updateTargetEveryone(false);
             updateCurr_card(null);
             updateFill_array(true);
+            //TODO: enable other player cards again
         }
         else{
             alert("this ain't clickable. try a highlighted one...");
