@@ -62,7 +62,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
 //TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
         if (loopvar){
 
-            if (currPlayer_table.gameHasStarted){
+            if (currPlayer_table.gameHasStarted=="ONGOING"){
                 setupRole();
                 setShow_rolechoose(true);
                 setLoopvar(false);

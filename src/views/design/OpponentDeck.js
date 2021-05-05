@@ -9,7 +9,15 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
     ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card, fill_array, updateFill_array}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
-        setupTargetHighlighting(curr_card);
+        if (curr_card!=null){
+            setupTargetHighlighting(curr_card);
+        }
+        if(curr_card==null){
+            updateIgnoreRange(false);
+            updateTargetEveryone(false);
+            updateTargetOnlyEnemies(false);
+            updateTargetSelf(false);
+        }
         let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
         setPlayersInReach(response.data);
         if (opponent.bullets < 1){
@@ -44,7 +52,6 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                 setWidth(5);
             }
         }
-
     }, 1000);
 
     function setupTargetHighlighting(card){
@@ -101,11 +108,22 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
             setWidth(5);
             updateCard_played(true);
             //put mapping to add card to discard pile and remove it from hand of player
-            /*const target_list = ?????;
-            const requestBody = JSON.stringify({
-                target_list: target_list //TODO: double check the name of the reqestBody parameter. also what are we getting back?
-            });
-            authApi().post(`/games/${player_table.id}/players/${player.id}/hand/${correct this one once cards have id's. card_id`, requestBody};*/
+            const target_id=null;
+            const requestBody=null;
+            if (curr_card.card=="CATBALOU" || curr_card.card=="PANIC"){
+                /*target_id = ?????;
+                requestBody = JSON.stringify({
+                target_CardId: target_id
+                )};*/
+            }
+            
+            if (requestBody!=null){
+                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};
+            }
+            if (requestBody==null){
+                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´}; //requestbody eventuell noch nötig
+            }
+            
 
             if (targetOnlyEnemies || targetEveryone || targetSelf) {
                 setShow_action_card(true);
