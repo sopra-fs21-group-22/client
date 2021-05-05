@@ -252,9 +252,6 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
         
         return (
         <Container>
-            {/*!orderArray[0] ? (
-                <Spinner/>
-            ):(*/
                 <div>
                     <p>constant updates counter. updates every 5 seconds: {count}</p>
                     <Button id="custombutton" onClick={changelayout}>change layout</Button>
@@ -364,7 +361,6 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
                     <br></br>
                     <br></br>
                 </div>
-            /*)*/}
         </Container >
     );
 }
