@@ -25,33 +25,34 @@ import LayoutSwitcher from '../game/LayoutSwitcher';
 import {forEach} from "react-bootstrap/ElementChildren";
 import "../../views/design/styling/custom_button_styling.css";
 
-function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlayer_table}) {
+function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, updateOrderArray, currPlayer, updateCurrPlayer}) {
     const history = useHistory();
     const [count, setCount] = useState(0);
     const [loopvar, setLoopvar] = useState(true);
-    const interval = useInterval(async () => {    
+    const [playeramount, setPlayeramount] = useState(currPlayer_table.players.length);
+    const [toomanycards, setToomanycards] = useState("loading");//TODO uncomment this
+    const interval = useInterval(async () => {
 //repeating requests to keep player_table and player up to date
-        //TODO: uncomment this once backend is ready
-        
         const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);    
-        currPlayer = new PlayerModel(response.data);
-        updatePlayer(currPlayer);
-        localStorage.setItem('player', JSON.stringify(currPlayer));
+        let currp = new PlayerModel(response.data);
+        updateCurrPlayer(currp);
+        setupRole();
+        //localStorage.setItem('player', JSON.stringify(currPlayer));
 
         //get information about the other players
         const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
-        currPlayer_table = new PlayerTable(playertable_response.data);
-        updatePlayer_table(currPlayer_table);
-        localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
-        // correctOrder();
+        let currPt = new PlayerTable(playertable_response.data);
+        updatePlayer_table(currPt);
+        //localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
+        //correctOrder();
+        setToomanycards(currPlayer.hand.playCards.length-currPlayer.bullets);
 
 
 //start of user turn
         if (startofturn_drawncards){
-            //if (currPlayer_table.playerOnTurn.id==currPlayer.id){
-            if (true){
+            if (currPlayer_table.playerOnTurn.id === currPlayer.id){
+            // if (true){
                 setShow_turn_starts(true);
-                //authApi().post(`/games/${currPlayer_table.id}/players/${currUser.id}/cards`);
                 setStartofturn_drawncards(false); //TODO: setStartofturn_drawncards==true at the start of the next turn
             }
         }
@@ -59,67 +60,47 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
 
 //this stops once the game starts
 //TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
-        /*if (loopvar){
+        if (loopvar){
+
             if (currPlayer_table.gameHasStarted){
                 setupRole();
                 setShow_rolechoose(true);
                 setLoopvar(false);
             }
-
-        }*/
+        }
         
         setCount(count + 1);  }, 5000);
-    
 
     useEffect(async () => {
-        const userData = JSON.parse(localStorage.getItem('player_table'));
-        if (userData == null) {
-            return
-        }
-        const currentPlayer_table = new PlayerTable(userData);
-        updatePlayer_table(currentPlayer_table);
-        console.log(currentPlayer_table);
         try {
+            /*const userData = JSON.parse(localStorage.getItem('player_table'));
+            if (userData == null) {
+                return
+            }*/
+            /*const currentPlayer_table = new PlayerTable(userData);
+            updatePlayer_table(currentPlayer_table);*/
 
+            const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
+            let currpl = new PlayerModel(response.data);
+            updateCurrPlayer(currpl);
+            //localStorage.setItem('player', JSON.stringify(currPlayer));
+            //correctOrder();
         } catch (error) {
             alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
         }
     }, []);
 //Buttons
     async function leaveGame() {
-        localStorage.removeItem('player_table');
-        localStorage.removeItem('player');
-        updatePlayer_table(null);
-        updatePlayer(null);
+        /*localStorage.removeItem('player_table');
+        localStorage.removeItem('player');*/
+        /*updatePlayer_table(null);
+        updateCurrPlayer(null);*/
         history.push("/game/dashboard");
     }
 
-    const [status, setStatus] = useState(false);
-    const [ready_button_text, setReady_button_text] = useState("Ready up");
-    const [ready_button_color, setReady_button_color] = useState("success");
-    async function toggleReady(){
-        if (status){
-            setStatus(false);
-            setReady_button_text("Ready up");
-            setReady_button_color("success");
-            const requestBody = JSON.stringify({
-                status: status
-            })
-            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
-        }
-        else{
-            setStatus(true);
-            setReady_button_text("Unready");
-            setReady_button_color("danger");
-            const requestBody = JSON.stringify({
-                status: status
-            })
-            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
-        }
-        //TODO: comment this to have a functioning game. this is only here to be able to reach the game screen without actually starting a game
-        setupRole();
-        setShow_rolechoose(true);
-    }
+
+
+
     
     const chooseRole = () => {
         setShow_rolechoose(false);
@@ -127,7 +108,6 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     }
     function roledisplayokay(){
         setShow_roledisplay(false);
-        setHidden_startgame(true);
         setHidden_gamefield(false);
     }
 
@@ -144,12 +124,12 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     }
 
     function endTurn() {
-        //if (currPlayer.hand.playCards.length>currPlayer.bullets){
-        if (true){
+        if (currPlayer.hand.playCards.length>currPlayer.bullets){
+        // if (true){
             setShow_too_many_cards(true);
         }
         else{
-            //authApi().put("games/${currPlayer_table.id}/player/{currPlayer.id}/turn")
+            authApi().put(`games/${currPlayer_table.id}/player/${currPlayer.id}/turn`)
         }
     }
 
@@ -157,26 +137,15 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
         setShow_too_many_cards(false);
     }
 
-    const [orderArray, setOrderArray] = useState([]);
 
-    // function correctOrder(){
-    //     const current_array = [];
-    //     for (let player in currPlayer_table.players) {
-    //         if(currPlayer.id === player.id) {
-    //             current_array.join(currPlayer)
-    //         }
-    //     }
-    //     for (let i = 0; i < playeramount - 1; i++) {
-    //         current_array[i].rightNeighbor = current_array[i+1];
-    //     }
-    //
-    //     setOrderArray(current_array);
-    // }
+
+
+
 
 //cardrole shinanigans
-    async function setupRole(){
-        //const role = currPlayer.gameRole; TODO: uncomment this once authApi().get('/games/{game_id}/players/{player_id}') is implemented in the backend
-        const role="SHERIFF";
+    function setupRole(){
+        let role = currPlayer.gameRole; //TODO: uncomment this once authApi().get('/games/{game_id}/players/{player_id}') is implemented in the backend
+        // const role="SHERIFF";
         switch(role){
             case "SHERIFF":
                 setRole_picture_source("/images/role_cards/sheriff.png");
@@ -245,8 +214,7 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
     const [show_rolechoose, setShow_rolechoose] = useState(false);
     const [show_roledisplay, setShow_roledisplay] = useState(false);
     const [show_roleinformation, setShow_roleinformation] = useState(false);
-    const [hidden_gamefield, setHidden_gamefield] = useState(true);
-    const [hidden_startgame, setHidden_startgame] = useState(false);
+    const [hidden_gamefield, setHidden_gamefield] = useState(false);
     const [show_rules, setShow_rules] = useState(false);
     const [show_turn_starts, setShow_turn_starts] = useState(false);
 
@@ -280,88 +248,93 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
             setPlayeramount(playeramount+1);
         }
     }
-    const [playeramount, setPlayeramount] = useState(4);
-    const [toomanycards, setToomanycards] = useState(5/*currPlayer.hand.playCards.length-currPlayer.bullets*/);//TODO uncomment this
+
         
         return (
         <Container>
-            
-            <p1>constant updates counter. updates every 5 seconds: {count}</p1>
-            <Button id="custombutton" onClick={changelayout}>change layout</Button>
-            
+            {/*!orderArray[0] ? (
+                <Spinner/>
+            ):(*/
+                <div>
+                    <p>constant updates counter. updates every 5 seconds: {count}</p>
+                    <Button id="custombutton" onClick={changelayout}>change layout</Button>
 
-            <br></br><br></br>
 
-            {<Modal show={show_too_many_cards} centered animation size="sm" rootClose animation>
-                <Modal.Body id="chosen-role_modal_body" centered>
-                    <p1>You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some cards.</p1>
-                </Modal.Body>
-                <Modal.Footer id="chosen-role_modal_footer">
-                    <Button id="custombutton" onClick={too_many_cards_okay}>
+                    <br></br><br></br>
+
+                    {<Modal show={show_too_many_cards} centered animation size="sm" rootClose animation>
+                        <Modal.Body id="chosen-role_modal_body" centered>
+                        <p>You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some cards.</p>
+                        </Modal.Body>
+                        <Modal.Footer id="chosen-role_modal_footer">
+                        <Button id="custombutton" onClick={too_many_cards_okay}>
                         Okay
-                    </Button>
-                </Modal.Footer>
-            </Modal>}
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>}
 
-            {<Modal show={show_roledisplay} centered animation size="sm" rootClose animation>
-                <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your role:</b></Modal.Title>
-                </Modal.Header>
-                <Modal.Body id="chosen-role_modal_body" centered>
-                    <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
-                </Modal.Body>
-                <Modal.Footer id="chosen-role_modal_footer">
-                    <Button id="custombutton" onClick={roledisplayokay}>
+                    {<Modal show={show_roledisplay} centered animation size="sm" rootClose animation>
+                        <Modal.Header id="chosen-role_modal_header">
+                        <Modal.Title id="chosen-role_modal_header_title" centered><b>Your role:</b></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body id="chosen-role_modal_body" centered>
+                        <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
+                        </Modal.Body>
+                        <Modal.Footer id="chosen-role_modal_footer">
+                        <Button id="custombutton" onClick={roledisplayokay}>
                         Okay
-                    </Button>
-                </Modal.Footer>
-            </Modal>}
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>}
 
-            {<Modal show={show_rules} centered animation size="sm" rootClose animation>
-                <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Rules</b></Modal.Title>
-                </Modal.Header>
-                <Modal.Body id="chosen-role_modal_body" centered>
-                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
-                </Modal.Body>
-                <Modal.Footer id="chosen-role_modal_footer">
-                    <Button id="custombutton" onClick={closeRules}>
+                    {<Modal show={show_rules} centered animation size="m" rootClose animation>
+                        <Modal.Header id="chosen-role_modal_header">
+                        <Modal.Title id="chosen-role_modal_header_title" centered><b>Rules</b></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body id="chosen-role_modal_body" centered>
+                            <Image src="/images/rule_card.png" width={400} height={258}/>
+                        </Modal.Body>
+                        <Modal.Footer id="chosen-role_modal_footer">
+                                <a href="http://www.dvgiochi.net/bang/bang_rules.pdf" target="_blank"><Image src="/images/rules_book.png" width={57}
+                                height={63}
+                                alt="80x100"/><figcaption>Learn More</figcaption></a>
+                        <Button id="custombutton" onClick={closeRules}>
                         Okay
-                    </Button>
-                </Modal.Footer>
-            </Modal>}
-            
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>}
 
-            {<Modal id="choose-role_modal" show={show_rolechoose} centered backdrop="static" keyboard={false} animation>
-                <Modal.Header id="choose-role_modal_header">
-                    <Modal.Title><b>Choose a role card</b></Modal.Title>
-                </Modal.Header>
-                <Modal.Body id="choose-role_modal_body">
-                    <Row>
-                        <Col id="choose-role_modal_body_row_col">
-                            <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage1()}
-                            style={{borderWidth: rolecard_border1}}/>
-                        </Col>
-                        <Col id="choose-role_modal_body_row_col">
-                            <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage2()}
-                            style={{borderWidth: rolecard_border2}}/>
-                        </Col>
-                        <Col id="choose-role_modal_body_row_col">
-                            <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage3()}
-                            style={{borderWidth: rolecard_border3}}/>
-                        </Col>
-                        <Col id="choose-role_modal_body_row_col">
-                            <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage4()}
-                            style={{borderWidth: rolecard_border4}}/>
-                        </Col>
-                    </Row>
-                </Modal.Body>
-                <Modal.Footer id="choose-role_modal_footer">
-                    <Button id="custombutton" onClick={chooseRole} disabled={choose_rolecard_disabled}>
+
+                    {<Modal id="choose-role_modal" show={show_rolechoose} centered backdrop="static" keyboard={false} animation>
+                        <Modal.Header id="choose-role_modal_header">
+                        <Modal.Title><b>Choose a role card</b></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body id="choose-role_modal_body">
+                        <Row>
+                            <Col id="choose-role_modal_body_row_col">
+                                <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage1()}
+                                style={{borderWidth: rolecard_border1}}/>
+                            </Col>
+                            <Col id="choose-role_modal_body_row_col">
+                                <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage2()}
+                                style={{borderWidth: rolecard_border2}}/>
+                            </Col>
+                            <Col id="choose-role_modal_body_row_col">
+                                <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage3()}
+                                style={{borderWidth: rolecard_border3}}/>
+                            </Col>
+                            <Col id="choose-role_modal_body_row_col">
+                                <Image id="choose-role_modal_body_row_col_image" src="/images/role_cards/back_role.png" onClick={() => addBordertoImage4()}
+                                style={{borderWidth: rolecard_border4}}/>
+                            </Col>
+                        </Row>
+                        </Modal.Body>
+                        <Modal.Footer id="choose-role_modal_footer">
+                        <Button id="custombutton" onClick={chooseRole} disabled={choose_rolecard_disabled}>
                         Choose
-                    </Button>
-                </Modal.Footer>
-            </Modal>}
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>}
 
             {<Modal show={show_turn_starts} centered animation size="sm" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
@@ -377,19 +350,21 @@ function Lobby({currUser, currPlayer, updatePlayer, currPlayer_table, updatePlay
                 </Modal.Footer>
             </Modal>}
 
-            {/*<LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield} player_id={currUser.id}/>*/}
-            <LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>
+                    <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray} visibility={hidden_gamefield} player={currPlayer}/>
+                    {/*<LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>*/}
 
-            <OverlayTrigger trigger="click" overlay={role_information} rootClose>
-                <Button id="custombutton" >Show role information</Button>
-            </OverlayTrigger>
-            <Button variant={ready_button_color} onClick={toggleReady} hidden={hidden_startgame}>{ready_button_text}</Button>
-            <Button onClick={endTurn} id="custombutton">End Turn</Button>
-            <Button onClick={resign} id="custombutton">Resign</Button>
-            <Button onClick={openRules} id="custombutton">Rules</Button>
-            <Button onClick={leaveGame} id="custombutton">Leave</Button>
-            <br></br>
-            <br></br>
+                    <OverlayTrigger trigger="click" overlay={role_information} rootClose>
+                    <Button id="custombutton" >Show role information</Button>
+                    </OverlayTrigger>
+
+                    <Button onClick={endTurn} id="custombutton">End Turn</Button>
+                    <Button onClick={resign} id="custombutton">Resign</Button>
+                    <Button onClick={openRules} id="custombutton">Rules</Button>
+                    <Button onClick={leaveGame} id="custombutton">Leave</Button>
+                    <br></br>
+                    <br></br>
+                </div>
+            /*)*/}
         </Container >
     );
 }

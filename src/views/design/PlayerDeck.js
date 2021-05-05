@@ -5,68 +5,61 @@ import Life from "./Life";
 import React, { useState, useEffect } from 'react';
 
 export default function PlayerDeck({ player, playeronturn, border, updateBorder, playertable, updateCard_played, updateHideCancel_PlayCard,
-     ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}) {
+     ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card, fill_array, updateFill_array}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
         setupTargetHighlighting(curr_card);
-        /*if (player.bullets < 1){
+        if (player.bullets < 1){
             setOpacity(0.8);
-            setHideDeadMessage(false);
+            setHideDeadmessage(false);
             setBackgroundColor("#808080");
         }
-        if (player.id==playeronturn.id){
+        if (playeronturn != null && player.id === playeronturn.id){
             setHighlightImage("solid");
         }
-        if(player.id!=playeronturn.id){
+        if(playeronturn != null && player.id !== playeronturn.id){
             setHighlightImage("none");
-        }*/
-        /*while (opponent.bullets>0 && isInReach){
-//TODO: put below if-checks inside this while loop
-        }*/
-        if (targetSelf){
-            setWidth(5);
         }
-        if (targetEveryone){
-            setWidth(5);
-        }
-        if (targetOnlyEnemies){
-            setWidth(0);
+        if (player.bullets>0){
+            if (targetSelf){
+                setWidth(5);
+            }
+            if (targetEveryone){
+                setWidth(5);
+            }
+            if (targetOnlyEnemies){
+                setWidth(0);
+            }
         }
 
     }, 1000);
-    async function setupTargetHighlighting(card){
+    function setupTargetHighlighting(card){
+        if(!card) {
+            return;
+        }
         //TODO uncomment this:
-        //setCurr_card_image_source(card.imageSource);
-        //switch(card.card()){
-        switch(card){
+        switch(card.card){
+            //switch("STAGECOACH"){
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
                 updateTargetSelf(true);
                 break;
             case "INDIANS":
-                updateIgnoreRange(true);
-                updateTargetOnlyEnemies(true);
-                break;
             case "GATLING":
-                updateIgnoreRange(true);
-                updateTargetOnlyEnemies(true);
-                break;
             case "DUEL":
-                updateIgnoreRange(true);
-                updateTargetOnlyEnemies(true);
-                break;
-            case "BANG":
             case "PANIC":
-                updateTargetOnlyEnemies(true);
-                break;
             case "CATBALOU":
                 updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
                 break;
+            case "BANG":
+                updateTargetOnlyEnemies(true);
+                break;
             case "SALOON":
             case "GENERALSTORE":
                 updateTargetEveryone(true);
+                updateIgnoreRange(true);
                 break;
             default:
                 console.log("no valid card name opponentdeck");
@@ -85,7 +78,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             const requestBody = JSON.stringify({
                 target_list: target_list
             });
-            api.post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
+            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
             // const afterDrawing = player.hand.playCards;
             // const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
             // setWellsfargo1of3(newCards[0])
@@ -104,6 +97,8 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             updateTargetOnlyEnemies(false);
             updateTargetEveryone(false);
             updateCurr_card(null);
+            updateFill_array(true);
+            //TODO: enable other player cards again
         }
         else{
             alert("this ain't clickable. try a highlighted one...");
@@ -115,7 +110,6 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
     function closeWellsfargo(){
         setShow_action_card(false);
     }
-
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
@@ -131,7 +125,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
 
     return (
         <div>
-            <p1 id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p1>
+            <p id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p>
             <div style={{backgroundColor: backgroundColor,  opacity: opacity}}>
         <Container onClick={selecttarget} className="opponent-player-deck_container-card" style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
         
@@ -148,8 +142,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                     </Figure>
                 </Col>
                 <Col>
-                    <Figure>
-                    {/*<Figure hidden={!player.gameRole == "SHERIFF">*/}
+                    <Figure hidden={!(player.gameRole == "SHERIFF")}>
                         <Figure.Image
                             width={80}
                             height={80}
@@ -175,29 +168,24 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                             src="/images/character_cards/black_jack_p.jpeg"
                         />
                         {/*<Figure.Caption>{player.username}</Figure.Caption>*/}
-                        <Figure.Caption id="opponent-player-deck_figure-profile-picture">undefined</Figure.Caption>
+                        <Figure.Caption id="opponent-player-deck_figure-profile-picture">{player.user}</Figure.Caption>
                     </Figure>
                 </Col>
                 <Col>
-                    <Row>
+                    <Row hidden={player.bullets < 5}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 5}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={player.bullets < 4}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 4}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={player.bullets < 3}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 3}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={player.bullets < 2}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 2}/>*/}
                     </Row>
-                    <Row>
+                    <Row hidden={player.bullets < 1}>
                         <Life/>
-                        {/*<Life hidden={player.bullets < 1}/>*/}
                     </Row>
                 </Col>
             </Row>

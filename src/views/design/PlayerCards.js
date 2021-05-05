@@ -7,40 +7,43 @@ import useInterval from "../../components/game/useInterval.js";
 
 
 export default function PlayerCards({ player_table, player, updateBorder, card_played, updateCard_played, updateHideCancel_PlayCard,
-    updateCurr_card, curr_card}){
+    updateCurr_card, curr_card, fill_array, updateFill_array}){
     
-    /*const interval = useInterval(async () => {
-        curr = [];
-        for (let i of player.hand.playCards) {
-            curr.push(false);
+    const interval = useInterval(async () => {
+        if (fill_array) {
+            let curr = [];
+            for (let i of player.hand.playCards) {
+                curr.push(false);
+            }
+            setShow_card(curr);
+            updateFill_array(false);
         }
-        setShow_card(curr);
-    }, 1000);*/
+    }, 1000);
     
-    const [show_card, setShow_card] = useState(false);
+    // const [show_card, setShow_card] = useState(false);
 
-    //const [show_card, setShow_card] = useState([]);
-    //const [curr_card_image_source, setCurr_card_image_source] = useState();
+    const [show_card, setShow_card] = useState([]);
+    const [curr_card_image_source, setCurr_card_image_source] = useState();
     
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
 
-    function lookAtCard(){
-        //if (player_table.playerOnTurn === player){
-            setShow_card(true);
-        //}
-    }
+    // function lookAtCard(){
+    //     if (player_table.playerOnTurn === player){
+    //         setShow_card(true);
+    //     }
+    // }
 
-    /* function lookAtCard(index){
-            curr = show_card;
+    function lookAtCard(index){
+            let curr = show_card;
             curr[index] = true;
             setShow_card(curr);
             getImageSource();
-    }*/
+    }
     
     function closeCard(){
         //TODO set all entries to false once card has been closed
         updateCurr_card(null);
-        setShow_card(false);
+        updateFill_array(true);
     }
 
     //maybe useful somewhere else...
@@ -59,20 +62,21 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
           });
     }*/}
 
-    // function getImageSource(){
-    //     for (let i of show_card) {
-    //         if (show_card[i]) {
-    //             setCurr_card_image_source(player.hand.playCards[i].imageSource);
-    //             updateCurr_card(player.hand.playCards[i]);
-    //         }
-    //     }
-    // }
+    function getImageSource(){
+        for (let i=0; i<show_card.length; i++) {
+            if (show_card[i]) {
+                let curr = player.hand.playCards[i];
+                setCurr_card_image_source(`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`);
+                updateCurr_card(player.hand.playCards[i]);
+            }
+        }
+    }
 
-    async function playCard(){
-        updateCurr_card("Beer");//TODO REMOVE THIS WHEN NOT TESTING
-        setShow_card(false);
+    function playCard(){
+        //TODO: disable other player cards while choosing a target
         updateBorder("solid");
         updateHideCancel_PlayCard(false);
+        updateFill_array(true);
     }
 
 
@@ -81,36 +85,32 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
         <Container className="shelf">
             <Row>
                 <Col className="single-shelf">
-                    {/*<Image className="deck-discard-pile_image-card" src={`/images/role_cards/${player.gameRole}.jpeg`}/>*/}
-                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
+                    <Image className="deck-discard-pile_image-card" src={`/images/role_cards/${player.gameRole}.png`}/>
+                    {/*<Image className="deck-discard-pile_image-card" src="/images/back.png"/>*/}
                 </Col>
-                {/*{player.hand.playCards.map((currCard, index) => (*/}
-                {/*    <Col>*/}
-                {/*        <Image className="deck-discard-pile_image-card" src={`/images/play_cards/${currCard.color}
-                            _${currCard.card}_${currCard.suit}_${currCard.rank}.png`} onClick={lookAtCard(index)}/>*/}
-                            {/*{<Modal show={show_card[index]} centered animation size="sm" rootClose animation>*/}
-                            {/*    <Modal.Header id="chosen-role_modal_header">*/}
-                            {/*        <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>*/}
-                            {/*    </Modal.Header>*/}
-                            {/*    <Modal.Body id="chosen-role_modal_body" centered>*/}
-                            {/*        <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>*/}
-                            {/*    </Modal.Body>*/}
-                            {/*    <Modal.Footer id="chosen-role_modal_footer">*/}
-                            {/*        <Button id="custombutton" onClick={closeCard}>*/}
-                            {/*            Return*/}
-                            {/*        </Button>*/}
-                            {/*        <Button id="custombutton" onClick={playCard} disabled={playcard_disabled}>*/}
-                            {/*            Play*/}
-                            {/*        </Button>*/}
-                            {/*    </Modal.Footer>*/}
-                            {/*</Modal>}*/}
-                {/*    </Col>*/}
-                {/*))}*/}
-                <Col>
-                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
-                </Col>
-                <Col>
-                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
+                {player.hand.playCards.map((currCard, index) => (
+                    <Col>
+                            <Image className="deck-discard-pile_image-card" src={`/images/play_cards/${currCard.color}_${currCard.card}_${currCard.suit}_${currCard.rank}.png`} onClick={() => lookAtCard(index)}/>
+                            {<Modal show={show_card[index]} centered animation size="sm" rootClose animation>
+                                <Modal.Header id="chosen-role_modal_header">
+                                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body id="chosen-role_modal_body" centered>
+                                    <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>
+                                </Modal.Body>
+                                <Modal.Footer id="chosen-role_modal_footer">
+                                    <Button id="custombutton" onClick={closeCard}>
+                                        Return
+                                    </Button>
+                                    <Button id="custombutton" onClick={playCard} disabled={playcard_disabled}>
+                                        Play
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>}
+                    </Col>
+                ))}
+                {/*<Col>
+                    <Image className="deck-discard-pile_image-card" src="/images/play_cards/blue_JAIL_HEARTS_FOUR.png"/>
                 </Col>
                 <Col>
                     <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
@@ -119,26 +119,29 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                     <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
                 <Col>
-                    <Image hidden={card_played} className="deck-discard-pile_image-card" src="/images/back.png" onClick={lookAtCard}/>
+                    <Image className="deck-discard-pile_image-card" src="/images/back.png"/>
                 </Col>
+                <Col>
+                    {<Image hidden={card_played} className="deck-discard-pile_image-card" src="/images/back.png" onClick={lookAtCard}/>}
+                </Col>*/}
             </Row>
 
-            {<Modal show={show_card} centered animation size="sm" rootClose animation>
-                <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>
-                </Modal.Header>
-                <Modal.Body id="chosen-role_modal_body" centered>
-                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
-                </Modal.Body>
-                <Modal.Footer id="chosen-role_modal_footer">
-                    <Button id="custombutton" onClick={closeCard}>
-                        Return
-                    </Button>
-                    <Button id="custombutton" onClick={playCard} disabled={playcard_disabled}>
-                        Play
-                    </Button>
-                </Modal.Footer>
-            </Modal>}
+            {/*{<Modal show={show_card} centered animation size="sm" rootClose animation>*/}
+            {/*    <Modal.Header id="chosen-role_modal_header">*/}
+            {/*        <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>*/}
+            {/*    </Modal.Header>*/}
+            {/*    <Modal.Body id="chosen-role_modal_body" centered>*/}
+            {/*        <Image src="/images/back.png" id="chosen-role_modal_body_image"/>*/}
+            {/*    </Modal.Body>*/}
+            {/*    <Modal.Footer id="chosen-role_modal_footer">*/}
+            {/*        <Button id="custombutton" onClick={closeCard}>*/}
+            {/*            Return*/}
+            {/*        </Button>*/}
+            {/*        <Button id="custombutton" onClick={playCard} disabled={playcard_disabled}>*/}
+            {/*            Play*/}
+            {/*        </Button>*/}
+            {/*    </Modal.Footer>*/}
+            {/*</Modal>}*/}
         </Container>
         </>
     )

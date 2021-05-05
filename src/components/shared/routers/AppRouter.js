@@ -23,14 +23,10 @@ import PlayerModel from '../models/PlayerModel';
 function AppRouter() {
 
   const [user, setUser] = useState(null);
-  const [player, setPlayer] = useState(null);
   const [player_table, setPlayer_table] = useState(null);
 
   const updateUser = (newUser) => {
     setUser(newUser);
-  }
-  const updatePlayer = (newPlayer) => {
-    setPlayer(newPlayer);
   }
   const updatePlayer_table = (newPlayer_table) => {
     setPlayer_table(newPlayer_table);
@@ -47,7 +43,7 @@ function AppRouter() {
             render={() => (
               <GameGuard>
                 <GameRouter updateUser={updateUser} currUser={user} base={"/game"} 
-                currPlayer={player} updatePlayer={updatePlayer} currPlayer_table={player_table} updatePlayer_table={updatePlayer_table} />
+               currPlayer_table={player_table} updatePlayer_table={updatePlayer_table} />
               </GameGuard>
             )}
           />
