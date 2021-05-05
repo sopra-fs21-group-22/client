@@ -137,7 +137,7 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
         <Spinner></Spinner>
         <br></br><br></br>
         <Button variant={ready_button_color} onClick={toggleReady}>{ready_button_text}</Button>
-        <Button onClick={push} hidden={hidden}>klik me</Button>
+        <Button onClick={push} hidden={hidden}>Go to game</Button>
         </Container>
     );
 }

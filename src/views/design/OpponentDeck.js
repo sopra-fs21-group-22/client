@@ -113,7 +113,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
             updateTargetEveryone(false);
             updateCurr_card(null);
             updateFill_array(true);
-            //TODO: enable other player cards agains
+            //TODO: enable other player cards again
         }
         else{
             alert("this ain't clickable. try a highlighted one...");
