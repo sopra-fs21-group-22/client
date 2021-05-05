@@ -8,7 +8,15 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
      ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card, fill_array, updateFill_array}) {
     const interval = useInterval(async () => {    
         //repeating requests to keep stuff up-to-date
-        setupTargetHighlighting(curr_card);
+        if (curr_card!=null){
+            setupTargetHighlighting(curr_card);
+        }
+        if(curr_card==null){
+            updateIgnoreRange(false);
+            updateTargetEveryone(false);
+            updateTargetOnlyEnemies(false);
+            updateTargetSelf(false);
+        }
         if (player.bullets < 1){
             setOpacity(0.8);
             setHideDeadmessage(false);
@@ -78,12 +86,15 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             const requestBody = JSON.stringify({
                 target_list: target_list
             });
-            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}´, requestBody};*/
+            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/
             // const afterDrawing = player.hand.playCards;
             // const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
             // setWellsfargo1of3(newCards[0])
             // setWellsfargo2of3(newCards[1])
             // setWellsfargo3of3(newCards[2]) //TODO: probably not best solution
+
+
+
 
             if (targetOnlyEnemies || targetEveryone) {
                 setShow_action_card(true);

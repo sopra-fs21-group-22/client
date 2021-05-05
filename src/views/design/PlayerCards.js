@@ -4,9 +4,10 @@ import "./styling/playing_field_styling.css";
 import "./styling/lobby_styling.css";
 import "../../views/design/styling/custom_button_styling.css";
 import useInterval from "../../components/game/useInterval.js";
+import { authApi } from "../../helpers/api";
 
 
-export default function PlayerCards({ player_table, player, updateBorder, card_played, updateCard_played, updateHideCancel_PlayCard,
+export default function PlayerCards({ playertable, player, updateBorder, card_played, updateCard_played, updateHideCancel_PlayCard,
     updateCurr_card, curr_card, fill_array, updateFill_array}){
     
     const interval = useInterval(async () => {
@@ -28,7 +29,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
 
     // function lookAtCard(){
-    //     if (player_table.playerOnTurn === player){
+    //     if (playertable.playerOnTurn === player){
     //         setShow_card(true);
     //     }
     // }
@@ -44,6 +45,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
         //TODO set all entries to false once card has been closed
         updateCurr_card(null);
         updateFill_array(true);
+        updateBorder("none");
     }
 
     //maybe useful somewhere else...
@@ -79,6 +81,12 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
         updateFill_array(true);
     }
 
+    function discardCard(){
+        authApi().delete(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}`);
+        updateCurr_card(null);
+        updateFill_array(true);
+    }
+
 
     return (
         <>
@@ -99,6 +107,7 @@ export default function PlayerCards({ player_table, player, updateBorder, card_p
                                     <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>
                                 </Modal.Body>
                                 <Modal.Footer id="chosen-role_modal_footer">
+                                    <Button variant="danger" onClick={discardCard}>Discard</Button>
                                     <Button id="custombutton" onClick={closeCard}>
                                         Return
                                     </Button>
