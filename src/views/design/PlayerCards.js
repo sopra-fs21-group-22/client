@@ -7,7 +7,7 @@ import useInterval from "../../components/game/useInterval.js";
 import { authApi } from "../../helpers/api";
 
 
-export default function PlayerCards({ playertable, player, updateBorder, card_played, updateCard_played, updateHideCancel_PlayCard,
+export default function PlayerCards({playeronturn, playertable, player, updateBorder, card_played, updateCard_played, updateHideCancel_PlayCard,
     updateCurr_card, curr_card, fill_array, updateFill_array}){
     
     const interval = useInterval(async () => {
@@ -35,10 +35,18 @@ export default function PlayerCards({ playertable, player, updateBorder, card_pl
     // }
 
     function lookAtCard(index){
-            let curr = show_card;
-            curr[index] = true;
-            setShow_card(curr);
-            getImageSource();
+        if (playeronturn.id!=player.id){
+            alert("it ain't your turn buddy");
+            return;
+        }
+        if (curr_card!=null){
+            alert("you already chose a card to play. press cancel to play another card.");
+            return;
+        }
+        let curr = show_card;
+        curr[index] = true;
+        setShow_card(curr);
+        getImageSource();
     }
     
     function closeCard(){
@@ -99,7 +107,7 @@ export default function PlayerCards({ playertable, player, updateBorder, card_pl
                 {player.hand.playCards.map((currCard, index) => (
                     <Col>
                             <Image className="deck-discard-pile_image-card" src={`/images/play_cards/${currCard.color}_${currCard.card}_${currCard.suit}_${currCard.rank}.png`} onClick={() => lookAtCard(index)}/>
-                            {<Modal show={show_card[index]} centered animation size="sm" rootClose animation>
+                            {<Modal show={show_card[index]} centered animation size="sm" backdrop="static" keyboard={false}>
                                 <Modal.Header id="chosen-role_modal_header">
                                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or Return</b></Modal.Title>
                                 </Modal.Header>

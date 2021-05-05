@@ -90,17 +90,10 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
         }
     }, []);
 //Buttons
-    async function leaveGame() {
-        /*localStorage.removeItem('player_table');
-        localStorage.removeItem('player');*/
-        /*updatePlayer_table(null);
-        updateCurrPlayer(null);*/
+    async function resign() {
+        //authApi().delete(`/games/${currUser.id}/players/${currPlayer_table.id}`); TODO: backend ain't ready yet
         history.push("/game/dashboard");
     }
-
-
-
-
     
     const chooseRole = () => {
         setShow_rolechoose(false);
@@ -119,14 +112,14 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
         setShow_rules(false);
     }
 
-    function resign(){
-        //put request to set bullets = 0
-    }
-
     function endTurn() {
         if (currPlayer.hand.playCards.length>currPlayer.bullets){
         // if (true){
             setShow_too_many_cards(true);
+        }
+        else if (currPlayer.id!=currPlayer_table.playerOnTurn.id){
+            alert("can't end your turn if it isn't your turn.")
+            return;
         }
         else{
             authApi().put(`games/${currPlayer_table.id}/player/${currPlayer.id}/turn`)
@@ -259,7 +252,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
 
                     <br></br><br></br>
 
-                    {<Modal show={show_too_many_cards} centered animation size="sm" rootClose animation>
+                    {<Modal show={show_too_many_cards} centered animation size="sm" backdrop="static" keyboard={false} animation>
                         <Modal.Body id="chosen-role_modal_body" centered>
                         <p>You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some cards.</p>
                         </Modal.Body>
@@ -270,7 +263,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
                         </Modal.Footer>
                     </Modal>}
 
-                    {<Modal show={show_roledisplay} centered animation size="sm" rootClose animation>
+                    {<Modal show={show_roledisplay} centered animation size="sm" backdrop="static" keyboard={false} animation>
                         <Modal.Header id="chosen-role_modal_header">
                         <Modal.Title id="chosen-role_modal_header_title" centered><b>Your role:</b></Modal.Title>
                         </Modal.Header>
@@ -284,7 +277,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
                         </Modal.Footer>
                     </Modal>}
 
-                    {<Modal show={show_rules} centered animation size="m" rootClose animation>
+                    {<Modal show={show_rules} centered size="m" backdrop="static" keyboard={false} animation>
                         <Modal.Header id="chosen-role_modal_header">
                         <Modal.Title id="chosen-role_modal_header_title" centered><b>Rules</b></Modal.Title>
                         </Modal.Header>
@@ -333,7 +326,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
                         </Modal.Footer>
                     </Modal>}
 
-            {<Modal show={show_turn_starts} centered animation size="sm" rootClose animation>
+            {<Modal show={show_turn_starts} centered animation size="sm" backdrop="static" keyboard={false} animation>
                 <Modal.Header id="chosen-role_modal_header">
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
                 </Modal.Header>
@@ -355,9 +348,8 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
                     </OverlayTrigger>
 
                     <Button onClick={endTurn} id="custombutton">End Turn</Button>
-                    <Button onClick={resign} id="custombutton">Resign</Button>
                     <Button onClick={openRules} id="custombutton">Rules</Button>
-                    <Button onClick={leaveGame} id="custombutton">Leave</Button>
+                    <Button onClick={resign} id="custombutton">Resign</Button>
                     <br></br>
                     <br></br>
                 </div>

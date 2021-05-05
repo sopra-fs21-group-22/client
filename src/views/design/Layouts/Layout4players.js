@@ -35,7 +35,6 @@ function Layout4players({playertable, orderarray, visibility, player, hideCancel
         updateCurr_card(null);
     }
     return (<Container hidden={visibility}>
-        <Button id="custombutton" hidden={hideCancel_PlayCard} block onClick={back}>Cancel</Button>
         <Row>
             <Col/>
             <Col>
@@ -86,13 +85,14 @@ function Layout4players({playertable, orderarray, visibility, player, hideCancel
         <Row>
             <Col/>
             <Col xs={8}>
-                <PlayerCards playertable={playertable} player={player} updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                <PlayerCards playeronturn={playertable.playerOnTurn} playertable={playertable} player={player} updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array} updateFill_array={updateFill_array}/>
                 {/*<PlayerCards player_table={null} player={null} updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played} updateHideCancel_PlayCard={updateHideCancel_PlayCard}*/}
                 {/*updateCurr_card={updateCurr_card} curr_card={curr_card}/>*/}
             </Col>
             <Col/>
         </Row>
+        <Button id="custombutton" hidden={hideCancel_PlayCard} block onClick={back}>Cancel</Button>
     </Container>);
 }
 export default Layout4players;
