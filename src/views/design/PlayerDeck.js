@@ -86,7 +86,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
             const requestBody = JSON.stringify({
                 target_list: target_list
             });
-            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/
+            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
             // const afterDrawing = player.hand.playCards;
             // const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
             // setWellsfargo1of3(newCards[0])
@@ -249,7 +249,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 </Col>
             </Row>
 
-            {<Modal show={show_action_card} centered animation size="sm" rootClose animation>
+            {<Modal show={show_action_card} centered animation size="sm" backdrop="static" keyboard={false}>
                 <Modal.Header id="chosen-role_modal_header">
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
                 </Modal.Header>
