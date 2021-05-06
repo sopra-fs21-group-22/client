@@ -126,10 +126,9 @@ export default function OpponentDeck({
             updateBorder("none");
             setWidth(5);
             updateCard_played(true);
-            //put mapping to add card to discard pile and remove it from hand of player
             const target_id = null;
             const requestBody = null;
-            //TODO: backend ain't ready yet
+            //TODO: backend ain't ready yet -> move to switch case below
             if (curr_card.card == "CATBALOU" || curr_card.card == "PANIC") {
                 /*target_id = ?????;
                 requestBody = JSON.stringify({
@@ -240,7 +239,6 @@ export default function OpponentDeck({
                                               alt="80x80"
                                               src="/images/character_cards/black_jack_p.jpeg"
                                 />
-                                {/*<Figure.Caption>{opponent.username}</Figure.Caption>*/}
                                 <Figure.Caption
                                     id="opponent-player-deck_figure-profile-picture">{opponent.user}</Figure.Caption>
                             </Figure>

@@ -176,7 +176,7 @@ export default function PlayerDeck({
     const [show_action_card, setShow_action_card] = useState(false);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
     const [show_drawnCards, setShow_drawnCards] = useState(false);
-    const [drawncards, setDrawnCards] = useState([]);
+    const [drawnCards, setDrawnCards] = useState([]);
 
     return (
         <div>
@@ -223,7 +223,6 @@ export default function PlayerDeck({
                                               alt="80x80"
                                               src="/images/character_cards/black_jack_p.jpeg"
                                 />
-                                {/*<Figure.Caption>{player.username}</Figure.Caption>*/}
                                 <Figure.Caption
                                     id="opponent-player-deck_figure-profile-picture">{player.user}</Figure.Caption>
                             </Figure>
@@ -314,7 +313,7 @@ export default function PlayerDeck({
                             <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn Cards</b></Modal.Title>
                         </Modal.Header>
                         <Modal.Body id="chosen-role_modal_body" centered>
-                            {drawncards.map((curr) => (
+                            {drawnCards.map((curr) => (
                                 <Image src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`} id="chosen-role_modal_body_image"/>
                                 ))}
                         </Modal.Body>
