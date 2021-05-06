@@ -126,8 +126,6 @@ export default function PlayerDeck({
                 case "BANG":
                 case "SALOON":
                 case "GENERALSTORE":
-                    getImageSource(curr_card);
-                    setShow_action_card(true);
                     break;
                 default:
                     console.log("no valid card name playerdeck");
@@ -145,14 +143,6 @@ export default function PlayerDeck({
         } else {
             alert("this ain't clickable. try a highlighted one...");
         }
-    }
-
-    function getImageSource(card) {
-        setCurr_card_image_source(`/images/play_cards/${card.color}_${card.card}_${card.suit}_${card.rank}.png`);
-    }
-
-    function closeActionCard() {
-        setShow_action_card(false);
     }
 
     function closeDrawnCards() {
@@ -173,8 +163,6 @@ export default function PlayerDeck({
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
     const [width, setWidth] = useState(5);
-    const [show_action_card, setShow_action_card] = useState(false);
-    const [curr_card_image_source, setCurr_card_image_source] = useState();
     const [show_drawnCards, setShow_drawnCards] = useState(false);
     const [drawnCards, setDrawnCards] = useState([]);
 
@@ -293,20 +281,6 @@ export default function PlayerDeck({
                             </Figure>
                         </Col>
                     </Row>
-
-                    {<Modal show={show_action_card} centered animation size="sm" backdrop="static" keyboard={false}>
-                        <Modal.Header id="chosen-role_modal_header">
-                            <Modal.Title id="chosen-role_modal_header_title" centered><b>Card played</b></Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body id="chosen-role_modal_body" centered>
-                            <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>
-                        </Modal.Body>
-                        <Modal.Footer id="chosen-role_modal_footer">
-                            <Button id="custombutton" onClick={closeActionCard}>
-                                Okay
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>}
 
                     {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
                         <Modal.Header id="chosen-role_modal_header">

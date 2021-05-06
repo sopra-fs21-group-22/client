@@ -128,7 +128,7 @@ export default function OpponentDeck({
             updateCard_played(true);
             const target_id = null;
             const requestBody = null;
-            //TODO: backend ain't ready yet -> move to switch case below
+            //TODO: backend ain't ready yet
             if (curr_card.card == "CATBALOU" || curr_card.card == "PANIC") {
                 /*target_id = ?????;
                 requestBody = JSON.stringify({
@@ -141,27 +141,6 @@ export default function OpponentDeck({
             }
             if (requestBody == null) {
                 //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´}; //requestbody eventuell noch nötig
-            }
-
-            switch (curr_card.card) {
-                case "WELLSFARGO":
-                case "STAGECOACH":
-                    break;
-                case "INDIANS":
-                case "BEER":
-                case "GATLING":
-                case "DUEL":
-                case "PANIC":
-                case "CATBALOU":
-                case "BANG":
-                case "SALOON":
-                case "GENERALSTORE":
-                    getImageSource(curr_card);
-                    setShow_action_card(true);
-                    break;
-                default:
-                    console.log("no valid card name opponentdeck");
-                    break;
             }
 
             updateHideCancel_PlayCard(true);
@@ -177,14 +156,6 @@ export default function OpponentDeck({
         }
     }
 
-    function getImageSource(card) {
-        setCurr_card_image_source(`/images/play_cards/${card.color}_${card.card}_${card.suit}_${card.rank}.png`);
-    }
-
-    function closeActionCard() {
-        setShow_action_card(false);
-    }
-
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -192,8 +163,6 @@ export default function OpponentDeck({
     const [playersInReach, setPlayersInReach] = useState([]);
     const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
-    const [show_action_card, setShow_action_card] = useState(false);
-    const [curr_card_image_source, setCurr_card_image_source] = useState();
 
     return (
         <div>
@@ -320,20 +289,6 @@ export default function OpponentDeck({
                             </Figure>
                         </Col>
                     </Row>
-
-                    {<Modal show={show_action_card} centered animation size="sm" backdrop="static" keyboard={false}>
-                        <Modal.Header id="chosen-role_modal_header">
-                            <Modal.Title id="chosen-role_modal_header_title" centered><b>Card played</b></Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body id="chosen-role_modal_body" centered>
-                            <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>
-                        </Modal.Body>
-                        <Modal.Footer id="chosen-role_modal_footer">
-                            <Button id="custombutton" onClick={closeActionCard}>
-                                Okay
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>}
 
                 </Container>
             </div>
