@@ -100,7 +100,7 @@ export default function PlayerDeck({
             updateCard_played(true);
             updateBorder("none");
             setWidth(5);
-            // const beforeDrawing = player.hand.playCards;
+            const beforeDrawing = player.hand.playCards;
             //TODO: add targetlist depending on the backend implementation and depending on what card has been played
             /*const target_list = ?????;
             const requestBody = JSON.stringify({
@@ -111,14 +111,14 @@ export default function PlayerDeck({
 
             switch (curr_card.card) {
                 case "WELLSFARGO":
+                case "STAGECOACH":
                     const afterDrawing = player.hand.playCards;
                     const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
-                    setWellsfargoCards(newCards);
-                    setShow_wellsfargo(true);
+                    setCards(newCards);
+                    setShow_drawnCards(true);
                     break;
                 case "INDIANS":
                 case "BEER":
-                case "STAGECOACH":
                 case "GATLING":
                 case "DUEL":
                 case "PANIC":
@@ -155,17 +155,17 @@ export default function PlayerDeck({
         setShow_action_card(false);
     }
 
-    function closeWellsfargo() {
-        setShow_action_card(false);
+    function closeDrawnCards() {
+        setShow_drawnCards(false);
     }
 
-    function setWellsfargoCards(newCards) {
+    function setCards(newCards) {
         let curr = [];
         for (let card of newCards) {
             curr.push(card);
         }
-        setWellsfargo(curr);
-        setShow_wellsfargo(true);
+        setDrawnCards(curr);
+        setShow_drawnCards(true);
     }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
@@ -175,8 +175,8 @@ export default function PlayerDeck({
     const [width, setWidth] = useState(5);
     const [show_action_card, setShow_action_card] = useState(false);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
-    const [show_wellsfargo, setShow_wellsfargo] = useState(false);
-    const [wellsfargo, setWellsfargo] = useState([]);
+    const [show_drawnCards, setShow_drawnCards] = useState(false);
+    const [drawncards, setDrawnCards] = useState([]);
 
     return (
         <div>
@@ -309,17 +309,17 @@ export default function PlayerDeck({
                         </Modal.Footer>
                     </Modal>}
 
-                    {<Modal show={show_wellsfargo} centered animation size="sm" rootClose animation>
+                    {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
                         <Modal.Header id="chosen-role_modal_header">
                             <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn Cards</b></Modal.Title>
                         </Modal.Header>
                         <Modal.Body id="chosen-role_modal_body" centered>
-                            {wellsfargo.map((curr) => (
+                            {drawncards.map((curr) => (
                                 <Image src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`} id="chosen-role_modal_body_image"/>
                                 ))}
                         </Modal.Body>
                         <Modal.Footer id="chosen-role_modal_footer">
-                            <Button id="custombutton" onClick={closeWellsfargo}>
+                            <Button id="custombutton" onClick={closeDrawnCards}>
                                 Okay
                             </Button>
                         </Modal.Footer>
