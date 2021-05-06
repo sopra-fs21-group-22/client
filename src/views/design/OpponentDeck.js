@@ -52,6 +52,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                 setWidth(5);
             }
         }
+        //isInJail();
     }, 1000);
 
     function setupTargetHighlighting(card){
@@ -78,6 +79,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                 updateTargetOnlyEnemies(true);
                 break;
             case "SALOON":
+            case "JAIL":
             case "GENERALSTORE":
                 updateTargetEveryone(true);
                 updateIgnoreRange(true);
@@ -146,6 +148,14 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
         setShow_action_card(false);
     }
 
+    function isInJail(){
+        if(opponent.onFieldCards.cards.some(curr_card => curr_card.card === "JAIL")) {
+            setInJail(true);
+        } else {
+            setInJail(false);
+        }
+    }
+
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -154,6 +164,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
     const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
     const [show_action_card, setShow_action_card] = useState(false);
+    const [inJail, setInJail] = useState(false);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
 
     return (
@@ -197,7 +208,7 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                             width={80}
                             height={80}
                             alt="80x80"
-                            src="/images/character_cards/black_jack_p.jpeg"
+                            src={inJail ? "/images/character_cards/black_jack_p_jail.png" : "/images/character_cards/black_jack_p.jpeg"}
                         />
                         {/*<Figure.Caption>{opponent.username}</Figure.Caption>*/}
                         <Figure.Caption id="opponent-player-deck_figure-profile-picture">{opponent.user}</Figure.Caption>

@@ -39,7 +39,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 setWidth(0);
             }
         }
-
+        //isInJail();
     }, 1000);
     function setupTargetHighlighting(card){
         if(!card) {
@@ -65,6 +65,7 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 updateTargetOnlyEnemies(true);
                 break;
             case "SALOON":
+            case "JAIL":
             case "GENERALSTORE":
                 updateTargetEveryone(true);
                 updateIgnoreRange(true);
@@ -122,12 +123,21 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
         setShow_action_card(false);
     }
 
+    function isInJail(){
+        if(player.onFieldCards.cards.some(curr_card => curr_card.card === "JAIL")) {
+            setInJail(true);
+        } else {
+            setInJail(false);
+        }
+    }
+
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
     const [width, setWidth] = useState(5);
     const [show_action_card, setShow_action_card] = useState(false);
+    const [inJail, setInJail] = useState(false);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
     const [show_wellsfargo, setShow_wellsfargo] = useState(false);
     const [wellsfargo1of3, setWellsfargo1of3] = useState();
@@ -170,13 +180,13 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                         {/*<Figure.Image id="character-image_FigureImage" style={{borderStyle: highlightImage}}
                             width={80}
                             height={80}
-                            alt="80x80"
+     1                       alt="80x80"
                             src={`/images/character_cards/${player.profilePicture.id()}.jpeg`}/>*/}
                         <Figure.Image id="character-image_FigureImage" style={{borderStyle: highlightImage}}
                             width={80}
                             height={80}
                             alt="80x80"
-                            src="/images/character_cards/black_jack_p.jpeg"
+                            src={inJail ? "/images/character_cards/black_jack_p_jail.png" : "/images/character_cards/black_jack_p.jpeg"}
                         />
                         {/*<Figure.Caption>{player.username}</Figure.Caption>*/}
                         <Figure.Caption id="opponent-player-deck_figure-profile-picture">{player.user}</Figure.Caption>
