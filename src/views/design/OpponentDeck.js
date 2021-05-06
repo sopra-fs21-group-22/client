@@ -52,6 +52,12 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                 setWidth(5);
             }
         }
+        if (searchForOn_FieldCards("BARREL")!=-1){
+            setBarrel(searchForOn_FieldCards("BARREL"));
+        }
+        
+        /*setHorse(searchForOn_FieldCards("MUSTANG"));
+        setWeapon(searchForOn_FieldCards("WEAPONNAME"));*/
     }, 1000);
 
     function setupTargetHighlighting(card){
@@ -119,10 +125,10 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
             }
             //TODO: backend ain't ready yet
             if (requestBody!=null){
-                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};
+                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}´, requestBody};
             }
             if (requestBody==null){
-                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´}; //requestbody eventuell noch nötig
+                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}´}; //requestbody eventuell noch nötig
             }
             
 
@@ -146,6 +152,18 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
         setShow_action_card(false);
     }
 
+    function searchForOn_FieldCards(cardtobefound){
+        if (opponent.onFieldCards.onFieldCards.length==0){
+            return -1;
+        }
+        for (let x=0; x < opponent.onFieldCards.onFieldCards.length; x++){
+            if (opponent.onFieldCards.onFieldCards[x].card==cardtobefound){
+                return x;
+            }
+        }
+        return -1;
+    }
+
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -155,6 +173,9 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
     const [width, setWidth] = useState(5);
     const [show_action_card, setShow_action_card] = useState(false);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
+    const [barrel, setBarrel] = useState(null);
+    const [weapon, setWeapon] = useState(null);
+    const [horse, setHorse] = useState(null);
 
     return (
         <div>
@@ -266,16 +287,11 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
                 </Col>
                 <Col>
                     <Figure>
-                        {/*<Figure.Image
+                    <Figure.Image
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={user.barrel ? user.barrel : "/images/barrel.jpeg"}/>*/}
-                        <Figure.Image
-                            width={80}
-                            height={100}
-                            alt="80x100"
-                            src="/images/back.png"/>
+                            src={(barrel==null) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].suit}.png`}/>
                         <Figure.Caption>barrel</Figure.Caption>
                     </Figure>
                 </Col>

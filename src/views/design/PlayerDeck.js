@@ -39,6 +39,12 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 setWidth(0);
             }
         }
+        if (searchForOn_FieldCards("BARREL")!=-1){
+            setBarrel(searchForOn_FieldCards("BARREL"));
+        }
+        
+        /*setHorse(searchForOn_FieldCards("MUSTANG"));
+        setWeapon(searchForOn_FieldCards("WEAPONNAME"));*/
 
     }, 1000);
     function setupTargetHighlighting(card){
@@ -122,6 +128,18 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
         setShow_action_card(false);
     }
 
+    function searchForOn_FieldCards(cardtobefound){
+        if (player.onFieldCards.onFieldCards.length==0){
+            return -1;
+        }
+        for (let x=0; x < player.onFieldCards.onFieldCards.length; x++){
+            if (player.onFieldCards.onFieldCards[x].card==cardtobefound){
+                return x;
+            }
+        }
+        return -1;
+    }
+
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -133,6 +151,9 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
     const [wellsfargo1of3, setWellsfargo1of3] = useState();
     const [wellsfargo2of3, setWellsfargo2of3] = useState();
     const [wellsfargo3of3, setWellsfargo3of3] = useState(); //TODO: probably not best solution
+    const [barrel, setBarrel] = useState(null);
+    const [weapon, setWeapon] = useState(null);
+    const [horse, setHorse] = useState(null);
 
     return (
         <div>
@@ -234,16 +255,11 @@ export default function PlayerDeck({ player, playeronturn, border, updateBorder,
                 </Col>
                 <Col>
                     <Figure>
-                        {/*<Figure.Image
+                        <Figure.Image
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={user.barrel ? user.barrel : "/images/barrel.jpeg"}/>*/}
-                        <Figure.Image
-                            width={80}
-                            height={100}
-                            alt="80x100"
-                            src="/images/back.png"/>
+                            src={(barrel==null) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].suit}.png`}/>
                         <Figure.Caption>barrel</Figure.Caption>
                     </Figure>
                 </Col>
