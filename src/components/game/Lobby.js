@@ -33,10 +33,14 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
     const [toomanycards, setToomanycards] = useState("loading");//TODO uncomment this
     const interval = useInterval(async () => {
 //repeating requests to keep player_table and player up to date
-        const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);    
-        let currp = new PlayerModel(response.data);
-        updateCurrPlayer(currp);
-        setupRole();
+        if (currPlayer.bullets>0){
+            const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`); 
+            let currp = new PlayerModel(response.data);
+            updateCurrPlayer(currp);
+            setupRole(); 
+        }
+          
+        
         //localStorage.setItem('player', JSON.stringify(currPlayer));
 
         //get information about the other players
@@ -80,9 +84,9 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
             /*const currentPlayer_table = new PlayerTable(userData);
             updatePlayer_table(currentPlayer_table);*/
 
-            const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
+            /*const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
             let currpl = new PlayerModel(response.data);
-            updateCurrPlayer(currpl);
+            updateCurrPlayer(currpl);*/
             //localStorage.setItem('player', JSON.stringify(currPlayer));
             //correctOrder();
         } catch (error) {

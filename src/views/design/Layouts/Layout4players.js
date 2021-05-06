@@ -5,9 +5,19 @@ import PlayerCards from "../PlayerCards";
 import DeckDiscardPiles from "../DeckDiscardPiles";
 import React, { useState, useEffect } from 'react';
 import "../styling/custom_button_styling.css";
+import useInterval from "../../../components/game/useInterval.js";
 
 function Layout4players({playertable, orderarray, visibility, player, hideCancel_PlayCard, updateHideCancel_PlayCard, ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}){
 // function Layout4players({visibility, hideCancel_PlayCard, updateHideCancel_PlayCard, ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}){
+    const interval = useInterval(async () => {    
+        /*console.log(`${orderarray[0].user}: ${orderarray[0].bullets}`);
+        console.log(`${orderarray[1].user}: ${orderarray[1].bullets}`);
+        console.log(`${orderarray[2].user}: ${orderarray[2].bullets}`);
+        console.log(`${orderarray[3].user}: ${orderarray[3].bullets}`);*/
+    }, 1000);    
+
+
+
     const [border, setBorder] = useState("none");
     const [card_played, setCard_played] = useState(false);
     const [fill_array, setFill_array] = useState(true);
