@@ -71,8 +71,7 @@ function Lobby({
 //start of user turn
         if (startofturn_drawncards) {
             if (currPlayer_table.playerOnTurn.id === currPlayer.id) {
-                // if (true){
-                setShow_turn_starts(true);
+                // setCards(newCards); //TODO: get drawn cards from backend somehow??
                 setStartofturn_drawncards(false); //TODO: setStartofturn_drawncards==true at the start of the next turn
             }
         }
@@ -218,9 +217,20 @@ function Lobby({
 
 //turn starts
     const [startofturn_drawncards, setStartofturn_drawncards] = useState(true);
+    const [show_drawnCards, setShow_drawnCards] = useState(false);
+    const [drawnCards, setDrawnCards] = useState([]);
+
+    function setCards(newCards) {
+        let curr = [];
+        for (let card of newCards) {
+            curr.push(card);
+        }
+        setDrawnCards(curr);
+        setShow_drawnCards(true);
+    }
 
     function closeDrawnCards() {
-        setShow_turn_starts(false);
+        setShow_drawnCards(false);
     }
 
 /////////////////////////////////////////////////
@@ -230,7 +240,6 @@ function Lobby({
     const [show_roleinformation, setShow_roleinformation] = useState(false);
     const [hidden_gamefield, setHidden_gamefield] = useState(false);
     const [show_rules, setShow_rules] = useState(false);
-    const [show_turn_starts, setShow_turn_starts] = useState(false);
 
     const [rolecard_border1, setRolecard_border1] = useState(0);
     const [rolecard_border2, setRolecard_border2] = useState(0);
@@ -359,14 +368,14 @@ function Lobby({
                     </Modal.Footer>
                 </Modal>}
 
-                {<Modal show={show_turn_starts} centered animation size="sm" backdrop="static" keyboard={false}
-                        animation>
+                {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
                     <Modal.Header id="chosen-role_modal_header">
-                        <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
+                        <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn Cards</b></Modal.Title>
                     </Modal.Header>
                     <Modal.Body id="chosen-role_modal_body" centered>
-                        <Image src="/images/back.png"
-                               id="chosen-role_modal_body_image"/> {/*TODO: pass drawn cards to modal*/}
+                        {drawnCards.map((curr) => (
+                            <Image src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`} id="chosen-role_modal_body_image"/>
+                        ))}
                     </Modal.Body>
                     <Modal.Footer id="chosen-role_modal_footer">
                         <Button id="custombutton" onClick={closeDrawnCards}>
