@@ -3,7 +3,7 @@ import {Container, Row, Col, Image} from "react-bootstrap";
 import "./styling/playing_field_styling.css";
 
 // export default function DeckDiscardPiles({playertable}){
-export default function DeckDiscardPiles(){
+export default function DeckDiscardPiles() {
     return (
         <Container className="deck-discard-pile_container">
             <Row>
