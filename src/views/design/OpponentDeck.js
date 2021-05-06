@@ -144,6 +144,27 @@ export default function OpponentDeck({
                 //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´}; //requestbody eventuell noch nötig
             }
 
+            switch (curr_card.card) {
+                case "WELLSFARGO":
+                case "STAGECOACH":
+                    break;
+                case "INDIANS":
+                case "BEER":
+                case "GATLING":
+                case "DUEL":
+                case "PANIC":
+                case "CATBALOU":
+                case "BANG":
+                case "SALOON":
+                case "GENERALSTORE":
+                    getImageSource(curr_card);
+                    setShow_action_card(true);
+                    break;
+                default:
+                    console.log("no valid card name opponentdeck");
+                    break;
+            }
+
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);
@@ -155,6 +176,10 @@ export default function OpponentDeck({
         } else {
             alert("this ain't clickable. try a highlighted one...");
         }
+    }
+
+    function getImageSource(card) {
+        setCurr_card_image_source(`/images/play_cards/${card.color}_${card.card}_${card.suit}_${card.rank}.png`);
     }
 
     function closeActionCard() {
@@ -298,13 +323,12 @@ export default function OpponentDeck({
                         </Col>
                     </Row>
 
-                    {<Modal show={show_action_card} centered size="sm" backdrop="static" keyboard={false} animation>
+                    {<Modal show={show_action_card} centered animation size="sm" backdrop="static" keyboard={false}>
                         <Modal.Header id="chosen-role_modal_header">
-                            <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
+                            <Modal.Title id="chosen-role_modal_header_title" centered><b>Card played</b></Modal.Title>
                         </Modal.Header>
                         <Modal.Body id="chosen-role_modal_body" centered>
-                            <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
-                            {/*<Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>*/}
+                            <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>
                         </Modal.Body>
                         <Modal.Footer id="chosen-role_modal_footer">
                             <Button id="custombutton" onClick={closeActionCard}>
@@ -312,6 +336,7 @@ export default function OpponentDeck({
                             </Button>
                         </Modal.Footer>
                     </Modal>}
+
                 </Container>
             </div>
         </div>
