@@ -19,7 +19,7 @@ export default function PlayerCards({playeronturn, playertable, player, updateBo
             setShow_card(curr);
             updateFill_array(false);
         }
-    }, 1000);
+    }, 2000);
     
     // const [show_card, setShow_card] = useState(false);
 

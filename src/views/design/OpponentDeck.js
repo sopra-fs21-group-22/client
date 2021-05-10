@@ -18,8 +18,11 @@ export default function OpponentDeck({ opponent, player, playeronturn, border, u
             updateTargetOnlyEnemies(false);
             updateTargetSelf(false);
         }
-        let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
-        setPlayersInReach(response.data);
+        if (opponent.bullets>0){
+            let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
+            setPlayersInReach(response.data);
+        }
+        
         if (opponent.bullets < 1){
             setOpacity(0.8);
             setHideDeadmessage(false);

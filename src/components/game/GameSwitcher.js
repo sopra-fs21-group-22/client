@@ -50,7 +50,7 @@ function GameSwitcher({currUser, currPlayer_table, updatePlayer_table, orderArra
             }
         //}   
         
-    }, 3000);
+    }, 1000);
     const [condition, setCondition] = useState(false);
     const [status, setStatus] = useState(false);
     const [ready_button_text, setReady_button_text] = useState("Ready up");

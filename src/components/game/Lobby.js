@@ -73,7 +73,7 @@ function Lobby({currUser, currPlayer_table, updatePlayer_table, orderArray, upda
             }
         }
         
-        setCount(count + 1);  }, 5000);
+        setCount(count + 1);  }, 2000);
 
     useEffect(async () => {
         try {
