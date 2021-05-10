@@ -30,8 +30,9 @@ export default function PlayerCards({
             setShow_card(curr);
             updateFill_array(false);
         }
-    }, 1000);
 
+    }, 2000);
+    
     // const [show_card, setShow_card] = useState(false);
 
     const [show_card, setShow_card] = useState([]);
@@ -94,8 +95,40 @@ export default function PlayerCards({
         }
     }
 
-    function playCard() {
+
+    function searchForOn_FieldCards(cardtobefound){
+        if (player.onFieldCards.onFieldCards.length==0){
+            return false;
+        }
+        let x;
+        for (x of player.onFieldCards.onFieldCards){
+            if (x.card==cardtobefound){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function playCard(){
+
         //TODO: disable other player cards while choosing a target
+        
+        if (curr_card.card=="BARREL"){
+            let inthere = searchForOn_FieldCards("BARREL");
+            if (inthere){
+                alert("you already have a barrel");
+                return;
+            }
+            /*const target_list = ?????;
+            const requestBody = JSON.stringify({
+                target_list: target_list
+            });
+            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
+            updateCurr_card(null);
+            updateFill_array(true);
+            updateBorder("none");
+            return;
+        }
         updateBorder("solid");
         updateHideCancel_PlayCard(false);
         updateFill_array(true);

@@ -58,6 +58,12 @@ export default function PlayerDeck({
                 setWidth(0);
             }
         }
+        if (searchForOn_FieldCards("BARREL")!=-1){
+            setBarrel(searchForOn_FieldCards("BARREL"));
+        }
+        
+        /*setHorse(searchForOn_FieldCards("MUSTANG"));
+        setWeapon(searchForOn_FieldCards("WEAPONNAME"));*/
 
     }, 1000);
 
@@ -158,13 +164,37 @@ export default function PlayerDeck({
         setShow_drawnCards(true);
     }
 
+    function searchForOn_FieldCards(cardtobefound){
+        if (player.onFieldCards.onFieldCards.length==0){
+            return -1;
+        }
+        for (let x=0; x < player.onFieldCards.onFieldCards.length; x++){
+            if (player.onFieldCards.onFieldCards[x].card==cardtobefound){
+                return x;
+            }
+        }
+        return -1;
+    }
+
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
     const [width, setWidth] = useState(5);
+
+    const [show_action_card, setShow_action_card] = useState(false);
+    const [curr_card_image_source, setCurr_card_image_source] = useState();
+    const [show_wellsfargo, setShow_wellsfargo] = useState(false);
+    const [wellsfargo1of3, setWellsfargo1of3] = useState();
+    const [wellsfargo2of3, setWellsfargo2of3] = useState();
+    const [wellsfargo3of3, setWellsfargo3of3] = useState(); //TODO: probably not best solution
+    const [barrel, setBarrel] = useState(null);
+    const [weapon, setWeapon] = useState(null);
+    const [horse, setHorse] = useState(null);
+
     const [show_drawnCards, setShow_drawnCards] = useState(false);
     const [drawnCards, setDrawnCards] = useState([]);
+
 
     return (
         <div>
@@ -257,30 +287,42 @@ export default function PlayerDeck({
                             height={100}
                             alt="150x100"
                             src={`/images/horses/${player.horse.id()}.jpeg`}/>*/}
-                                <Figure.Image
-                                    width={80}
-                                    height={100}
-                                    alt="80x100"
-                                    src="/images/back.png"/>
-                                <Figure.Caption>horse</Figure.Caption>
-                            </Figure>
-                        </Col>
-                        <Col>
-                            <Figure>
-                                {/*<Figure.Image
+
+                        <Figure.Image
+                            width={80}
+                            height={100}
+                            alt="80x100"
+                            src="/images/back.png"/>
+                        <Figure.Caption>horse</Figure.Caption>
+                    </Figure>
+                </Col>
+                <Col>
+                    <Figure>
+                        <Figure.Image
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={user.barrel ? user.barrel : "/images/barrel.jpeg"}/>*/}
-                                <Figure.Image
-                                    width={80}
-                                    height={100}
-                                    alt="80x100"
-                                    src="/images/back.png"/>
-                                <Figure.Caption>barrel</Figure.Caption>
-                            </Figure>
-                        </Col>
-                    </Row>
+                            src={(barrel==null) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].suit}.png`}/>
+                        <Figure.Caption>barrel</Figure.Caption>
+                    </Figure>
+                </Col>
+            </Row>
+
+            {<Modal show={show_action_card} centered animation size="sm" backdrop="static" keyboard={false}>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
+                    {/*<Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>*/}
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeActionCard}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+
 
                     {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
                         <Modal.Header id="chosen-role_modal_header">

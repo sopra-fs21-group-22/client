@@ -38,9 +38,14 @@ export default function OpponentDeck({
             updateTargetOnlyEnemies(false);
             updateTargetSelf(false);
         }
-        let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
-        setPlayersInReach(response.data);
-        if (opponent.bullets < 1) {
+
+        if (opponent.bullets>0){
+            let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
+            setPlayersInReach(response.data);
+        }
+        
+        if (opponent.bullets < 1){
+
             setOpacity(0.8);
             setHideDeadmessage(false);
             setBackgroundColor("#808080");
@@ -72,6 +77,12 @@ export default function OpponentDeck({
                 setWidth(5);
             }
         }
+        if (searchForOn_FieldCards("BARREL")!=-1){
+            setBarrel(searchForOn_FieldCards("BARREL"));
+        }
+        
+        /*setHorse(searchForOn_FieldCards("MUSTANG"));
+        setWeapon(searchForOn_FieldCards("WEAPONNAME"));*/
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -136,11 +147,13 @@ export default function OpponentDeck({
                 )};*/
             }
             //TODO: backend ain't ready yet
-            if (requestBody != null) {
-                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};
+
+            if (requestBody!=null){
+                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}´, requestBody};
             }
-            if (requestBody == null) {
-                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´}; //requestbody eventuell noch nötig
+            if (requestBody==null){
+                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}´}; //requestbody eventuell noch nötig
+
             }
 
             updateHideCancel_PlayCard(true);
@@ -156,6 +169,18 @@ export default function OpponentDeck({
         }
     }
 
+    function searchForOn_FieldCards(cardtobefound){
+        if (opponent.onFieldCards.onFieldCards.length==0){
+            return -1;
+        }
+        for (let x=0; x < opponent.onFieldCards.onFieldCards.length; x++){
+            if (opponent.onFieldCards.onFieldCards[x].card==cardtobefound){
+                return x;
+            }
+        }
+        return -1;
+    }
+
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -163,6 +188,13 @@ export default function OpponentDeck({
     const [playersInReach, setPlayersInReach] = useState([]);
     const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
+
+    const [show_action_card, setShow_action_card] = useState(false);
+    const [curr_card_image_source, setCurr_card_image_source] = useState();
+    const [barrel, setBarrel] = useState(null);
+    const [weapon, setWeapon] = useState(null);
+    const [horse, setHorse] = useState(null);
+
 
     return (
         <div>
@@ -265,30 +297,27 @@ export default function OpponentDeck({
                             height={100}
                             alt="150x100"
                             src={`/images/horses/${opponent.horse.id()}.jpeg`}/>*/}
-                                <Figure.Image
-                                    width={80}
-                                    height={100}
-                                    alt="80x100"
-                                    src="/images/back.png"/>
-                                <Figure.Caption>horse</Figure.Caption>
-                            </Figure>
-                        </Col>
-                        <Col>
-                            <Figure>
-                                {/*<Figure.Image
+
+                        <Figure.Image
+                            width={80}
+                            height={100}
+                            alt="80x100"
+                            src="/images/back.png"/>
+                        <Figure.Caption>horse</Figure.Caption>
+                    </Figure>
+                </Col>
+                <Col>
+                    <Figure>
+                    <Figure.Image
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={user.barrel ? user.barrel : "/images/barrel.jpeg"}/>*/}
-                                <Figure.Image
-                                    width={80}
-                                    height={100}
-                                    alt="80x100"
-                                    src="/images/back.png"/>
-                                <Figure.Caption>barrel</Figure.Caption>
-                            </Figure>
-                        </Col>
-                    </Row>
+                            src={(barrel==null) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].suit}.png`}/>
+                        <Figure.Caption>barrel</Figure.Caption>
+                    </Figure>
+                </Col>
+            </Row>
+
 
                 </Container>
             </div>

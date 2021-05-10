@@ -8,14 +8,18 @@ import React, {useState, useEffect} from 'react';
 
 function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player}) {
 // function LayoutSwitcher({playeramount, visibility}){
-    const interval = useInterval(async () => {
+
+    //const interval = useInterval(async () => {    
+
         //repeating requests to keep stuff up-to-date
         /*console.log("repeat");
         console.log(curr_card);        
         console.log("repeat");*/
 
 
-    }, 1000);
+        
+    //}, 1000);
+
     //to hide or show the cancel button when choosing a target
     const [hideCancel_PlayCard, setHideCancel_PlayCard] = useState(true);
     //to determine whether opponent decks or/and player deck should be lit up when choosing a target
