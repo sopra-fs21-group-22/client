@@ -3,20 +3,23 @@ import Layout5players from '../../views/design/Layouts/Layout5players';
 import Layout6players from '../../views/design/Layouts/Layout6players';
 import Layout7players from '../../views/design/Layouts/Layout7players';
 import useInterval from "../game/useInterval.js";
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
 
-
-function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player}){
+function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player}) {
 // function LayoutSwitcher({playeramount, visibility}){
+
     //const interval = useInterval(async () => {    
+
         //repeating requests to keep stuff up-to-date
         /*console.log("repeat");
         console.log(curr_card);        
         console.log("repeat");*/
 
+
         
     //}, 1000);
+
     //to hide or show the cancel button when choosing a target
     const [hideCancel_PlayCard, setHideCancel_PlayCard] = useState(true);
     //to determine whether opponent decks or/and player deck should be lit up when choosing a target
@@ -40,27 +43,37 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     const updateHideCancel_PlayCard = (value) => {
         setHideCancel_PlayCard(value);
     }
-    
+
 
     const [curr_card, setCurr_card] = useState();
     const updateCurr_card = (value) => {
         setCurr_card(value);
     }
 
-    switch(playeramount){
+    switch (playeramount) {
         case 4:
-            return <Layout4players playertable={playertable} orderarray={orderarray} visibility={visibility} player={player} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies} 
-            updateCurr_card={updateCurr_card} curr_card={curr_card}/>;
-            /*return <Layout4players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-            updateCurr_card={updateCurr_card} curr_card={curr_card}/>;*/
+            return <Layout4players playertable={playertable} orderarray={orderarray} visibility={visibility}
+                                   player={player} hideCancel_PlayCard={hideCancel_PlayCard}
+                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
+                                   targetSelf={targetSelf} updateTargetSelf={updateTargetSelf}
+                                   targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
+                                   targetOnlyEnemies={targetOnlyEnemies}
+                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card}/>;
+        /*return <Layout4players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+        ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+        updateCurr_card={updateCurr_card} curr_card={curr_card}/>;*/
         case 5:
-            return <Layout5players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} setHideCancel_PlayCard={setHideCancel_PlayCard}/>;
+            return <Layout5players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard}
+                                   setHideCancel_PlayCard={setHideCancel_PlayCard}/>;
         case 6:
-            return <Layout6players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} setHideCancel_PlayCard={setHideCancel_PlayCard}/>;
+            return <Layout6players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard}
+                                   setHideCancel_PlayCard={setHideCancel_PlayCard}/>;
         case 7:
-            return <Layout7players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} setHideCancel_PlayCard={setHideCancel_PlayCard}/>;
+            return <Layout7players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard}
+                                   setHideCancel_PlayCard={setHideCancel_PlayCard}/>;
     }
 }
+
 export default LayoutSwitcher;
