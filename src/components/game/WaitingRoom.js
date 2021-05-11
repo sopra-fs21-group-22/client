@@ -1,7 +1,7 @@
 import "../../views/design/styling/custom_button_styling.css";
-import useInterval from "../game/useInterval.js";
+import useInterval from "./useInterval.js";
 import React, {useState, useEffect} from 'react';
-import Lobby from '../game/Lobby';
+import Lobby from './Lobby';
 import {Spinner} from '../../views/design/Spinner';
 import {
     Col,
@@ -22,42 +22,39 @@ import PlayerTable from '../shared/models/PlayerTable';
 import PlayerModel from "../shared/models/PlayerModel";
 
 
-function GameSwitcher({
+function WaitingRoom({
                           currUser,
                           currPlayer_table,
                           updatePlayer_table,
                           orderArray,
                           updateOrderArray,
                           currPlayer,
-                          updateCurrPlayer
+                          updateCurrPlayer,
+                          tableId,
+                          playerId
                       }) {
     const interval = useInterval(async () => {
         //if(loop){
 
-        const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
+        const playertable_response = await authApi().get(`/games/${tableId}/players`);
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
 
-        const currPlayer_response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
+        const currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
         let currP = new PlayerModel(currPlayer_response.data);
         updateCurrPlayer(currP);
-
-        var readycounter = 0;
-        //readycounter=43;
-        //console.log(`allplayersreadyyyyyyyy: ${readycounter}`);
-        if (currPlayer_table.players.length > 3) {
-            for (let x = 0; x < currPlayer_table.players.length; x++) {
-                if (currPlayer_table.players[x].ready == true) {
-                    readycounter++;
+        if (!buffer){
+            var readycounter = 0;
+            if (currPlayer_table.players.length > 3) {
+                for (let x = 0; x < currPlayer_table.players.length; x++) {
+                    if (currPlayer_table.players[x].ready == true) {
+                        readycounter++;
+                    }
                 }
-                /*else{
-                    break;
-                }*/
+                if (currPlayer_table.players.length == readycounter) {
+                    setAllplayersready(true);
+                }
             }
-            if (currPlayer_table.players.length == readycounter) {
-                setAllplayersready(true);
-            }
-        }
 
         //console.log(currPlayer_table.players[0].ready);
         if (allplayersready) {
@@ -67,6 +64,9 @@ function GameSwitcher({
             setLoop(false);
             setHidden(false);
         }
+        }
+        
+        setBuffer(false);
         //}   
     }, 3000);
   
@@ -78,13 +78,14 @@ function GameSwitcher({
     const [loop, setLoop] = useState(true);
     const [allplayersready, setAllplayersready] = useState(false);
     const [hidden, setHidden] = useState(true);
+    const [buffer, setBuffer] = useState(true);
 
 
     function correctOrder() {
         let current_array = [];
         for (let i = 0; i < currPlayer_table.players.length; i++) {
-            if (currUser.id === currPlayer_table.players[i].id) {
-                current_array[0] = searchbyid(currUser.id);
+            if (playerId === currPlayer_table.players[i].id) {
+                current_array[0] = searchbyid(playerId);
             }
         }
         for (let i = 0; i < currPlayer_table.players.length - 1; i++) {
@@ -103,7 +104,7 @@ function GameSwitcher({
     }
 
     function push() {
-        const id = currPlayer_table.id;
+        const id = tableId;
         const target = "/game/dashboard/lobby/public/" + id;
         history.push(target);
     }
@@ -117,7 +118,7 @@ function GameSwitcher({
             const requestBody = JSON.stringify({
                 status: justputthis
             })
-            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
+            authApi().put(`/games/${tableId}/players/${playerId}/ready`, requestBody);
         } else {
             setStatus(true);
             setReady_button_text("Unready");
@@ -126,7 +127,7 @@ function GameSwitcher({
             const requestBody = JSON.stringify({
                 status: justputthis
             })
-            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
+            authApi().put(`/games/${tableId}/players/${playerId}/ready`, requestBody);
         }
         //TODO: comment this to have a functioning game. this is only here to be able to reach the game screen without actually starting a game
         //setupRole();
@@ -161,4 +162,4 @@ function GameSwitcher({
     );
 }
 
-export default GameSwitcher;
+export default WaitingRoom;

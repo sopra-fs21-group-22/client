@@ -28,6 +28,7 @@ export default function OpponentDeck({
                                          updateFill_array
                                      }) {
     const interval = useInterval(async () => {
+        //console.log(`${player.user}: ${player.bullets}`);
         //repeating requests to keep stuff up-to-date
         if (curr_card != null) {
             setupTargetHighlighting(curr_card);
@@ -83,7 +84,7 @@ export default function OpponentDeck({
         
         /*setHorse(searchForOn_FieldCards("MUSTANG"));
         setWeapon(searchForOn_FieldCards("WEAPONNAME"));*/
-    }, 1000);
+    }, 3000);
 
     function setupTargetHighlighting(card) {
         if (!card) {

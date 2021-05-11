@@ -5,7 +5,7 @@ import GameDashboard from "../../game/GameDashboard";
 import ProfilePage from "../../game/ProfilePage";
 import ProfilePageEdit from "../../game/ProfilePageEdit";
 import Lobby from "../../game/Lobby";
-import GameSwitcher from "../../game/GameSwitcher";
+import WaitingRoom from "../../game/WaitingRoom";
 
 
 const Container = styled.div`
@@ -20,11 +20,19 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
      */
     const [orderArray, setOrderArray] = useState([]);
     const [currPlayer, setCurrPlayer] = useState();
+    const [playerId, setPlayerId] = useState();
+    const [tableId, setTableId] = useState();
     const updateOrderArray = (newarray) => {
         setOrderArray(newarray);
     }
     const updateCurrPlayer = (currPlayer) => {
         setCurrPlayer(currPlayer);
+    }
+    const updateTableId = (newid) => {
+        setTableId(newid);
+    }
+    const updatePlayerId = (newid) => {
+        setPlayerId(newid);
     }
     return (
         <Container>
@@ -32,7 +40,9 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
                 exact
                 path={`${base}/dashboard`}
                 render={() => <GameDashboard currUser={currUser} currPlayer_table={currPlayer_table}
-                                             updatePlayer_table={updatePlayer_table}/>}
+                                             updatePlayer_table={updatePlayer_table}
+                                             updatePlayerId={updatePlayerId}
+                                             updateTableId={updateTableId}/>}
             />
 
             <Route
@@ -66,10 +76,12 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
             <Route
                 exact
                 path={`${base}/dashboard/lobby/:publicorprivate/waiting/:id`}
-                render={() => <GameSwitcher currUser={currUser} currPlayer_table={currPlayer_table}
+                render={() => <WaitingRoom currUser={currUser} currPlayer_table={currPlayer_table}
                                             updatePlayer_table={updatePlayer_table} orderArray={orderArray}
                                             updateOrderArray={updateOrderArray} currPlayer={currPlayer}
-                                            updateCurrPlayer={updateCurrPlayer}/>}
+                                            updateCurrPlayer={updateCurrPlayer}
+                                            tableId={tableId}
+                                            playerId={playerId}/>}
             />
 
         </Container>

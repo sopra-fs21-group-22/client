@@ -12,7 +12,7 @@ import PlayerTable from '../shared/models/PlayerTable';
 import "../../views/design/styling/custom_button_styling.css";
 
 
-function GameDashboard({currUser, currPlayer_table, updatePlayer_table}) {
+function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePlayerId, updateTableId}) {
     const [users, setUsers] = useState();
 
     const [lobby1, setLobby1] = useState({name: "lobbynameuno", player_count: "4/7", type: "public"});
@@ -53,10 +53,16 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table}) {
 
     async function join_public_lobby() {
         const response = await authApi().put("/games/lobbies");
-        let currPt = new PlayerTable(response.data);
+        console.log(`playerid:${response.data.player}`);
+        console.log(`tableid:${response.data.tableId}`);
+        updatePlayerId(response.data.player);
+        updateTableId(response.data.tableId);
+        const id = response.data.tableId;
+
+        /*let currPt = new PlayerTable(response.data);
         updatePlayer_table(currPt);
         //localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
-        const id = currPt.id;
+        const id = currPt.id;*/
         const target = "/game/dashboard/lobby/public/waiting/" + id;
         history.push(target);
     }
