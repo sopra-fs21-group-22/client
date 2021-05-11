@@ -1,7 +1,7 @@
 import "../../views/design/styling/custom_button_styling.css";
-import useInterval from "../game/useInterval.js";
+import useInterval from "./useInterval.js";
 import React, {useState, useEffect} from 'react';
-import Lobby from '../game/Lobby';
+import Lobby from './Lobby';
 import {Spinner} from '../../views/design/Spinner';
 import {
     Col,
@@ -22,7 +22,7 @@ import PlayerTable from '../shared/models/PlayerTable';
 import PlayerModel from "../shared/models/PlayerModel";
 
 
-function GameSwitcher({
+function WaitingRoom({
                           currUser,
                           currPlayer_table,
                           updatePlayer_table,
@@ -162,4 +162,4 @@ function GameSwitcher({
     );
 }
 
-export default GameSwitcher;
+export default WaitingRoom;
