@@ -64,9 +64,27 @@ export default function PlayerDeck({
         if (searchForOn_FieldCards("BARREL")!=-1){
             setBarrel(searchForOn_FieldCards("BARREL"));
         }
-        
-        /*setHorse(searchForOn_FieldCards("MUSTANG"));
-        setWeapon(searchForOn_FieldCards("WEAPONNAME"));*/
+        if (searchForOn_FieldCards("MUSTANG")!=-1){
+            setHorse("MUSTANG");
+        }
+        if (searchForOn_FieldCards("APPALOOSA")!=-1){
+            setHorse("APPALOOSA");
+        }
+        if (searchForOn_FieldCards("CARABINE")!=-1){
+            setWeapon("CARABINE");
+        }
+        if (searchForOn_FieldCards("REMINGTON")!=-1){
+            setWeapon("REMINGTON");
+        }
+        if (searchForOn_FieldCards("SCHOFIELD")!=-1){
+            setWeapon("SCHOFIELD");
+        }
+        if (searchForOn_FieldCards("WINCHESTER")!=-1){
+            setWeapon("WINCHESTER");
+        }
+        if (searchForOn_FieldCards("VOLCANIC")!=-1){
+            setWeapon("VOLCANIC");
+        }
 
     }, 1000);
 
@@ -179,6 +197,16 @@ export default function PlayerDeck({
         return -1;
     }
 
+    function showBarrel(){
+        alert("you clicked on a barrel. Congrats.");
+    }
+    function showHorse(){
+        alert("you clicked on a horse. Congrats.");
+    }
+    function showWeapon(){
+        alert("you clicked on a weapon. Congrats.");
+    }
+
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -191,9 +219,9 @@ export default function PlayerDeck({
     const [wellsfargo1of3, setWellsfargo1of3] = useState();
     const [wellsfargo2of3, setWellsfargo2of3] = useState();
     const [wellsfargo3of3, setWellsfargo3of3] = useState(); //TODO: probably not best solution
-    const [barrel, setBarrel] = useState(null);
-    const [weapon, setWeapon] = useState(null);
-    const [horse, setHorse] = useState(null);
+    const [barrel, setBarrel] = useState(-1);
+    const [weapon, setWeapon] = useState(-1);
+    const [horse, setHorse] = useState(-1);
 
     const [show_drawnCards, setShow_drawnCards] = useState(false);
     const [drawnCards, setDrawnCards] = useState([]);
@@ -270,61 +298,38 @@ export default function PlayerDeck({
                     <Row className="justify-content-md-center align-items-center">
                         <Col>
                             <Figure>
-                                {/*<Figure.Image
-                            width={150}
-                            height={100}
-                            alt="150x100"
-                            src={`/images/weapons/${player.weapon.id()}.jpeg`}/>*/}
                                 <Figure.Image
-                                    width={80}
+                                    onClick={showWeapon}
+                                    width={150}
                                     height={100}
-                                    alt="80x100"
-                                    src="/images/back.png"/>
+                                    alt="150x100"
+                                    src={(weapon==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[weapon].card}_${player.onFieldCards.onFieldCards[weapon].suit}_${player.onFieldCards.onFieldCards[weapon].suit}.png`}/>
                                 <Figure.Caption>weapon</Figure.Caption>
                             </Figure>
                         </Col>
                         <Col>
                             <Figure>
-                                {/*<Figure.Image
+                        <Figure.Image
+                            onClick={showHorse}
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={`/images/horses/${player.horse.id()}.jpeg`}/>*/}
-
-                        <Figure.Image
-                            width={80}
-                            height={100}
-                            alt="80x100"
-                            src="/images/back.png"/>
+                            src={(horse==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].suit}.png`}/>
                         <Figure.Caption>horse</Figure.Caption>
                     </Figure>
                 </Col>
                 <Col>
                     <Figure>
                         <Figure.Image
+                            onClick={showBarrel}
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={(barrel==null) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].suit}.png`}/>
+                            src={(barrel==-1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].suit}.png`}/>
                         <Figure.Caption>barrel</Figure.Caption>
                     </Figure>
                 </Col>
             </Row>
-
-            {/* {<Modal show={show_action_card} centered animation size="sm" backdrop="static" keyboard={false}>
-                <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
-                </Modal.Header>
-                <Modal.Body id="chosen-role_modal_body" centered>
-                    <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
-                    {//<Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>}
-                </Modal.Body>
-                <Modal.Footer id="chosen-role_modal_footer">
-                    <Button id="custombutton" onClick={closeActionCard}>
-                        Okay
-                    </Button>
-                </Modal.Footer>
-            </Modal>} */}
 
 
                     {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
