@@ -37,6 +37,7 @@ export default function PlayerCards({
 
     const [show_card, setShow_card] = useState([]);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
+    const [show_duplicateBlueCard, setShow_duplicateBlueCard] = useState(false);
 
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
 
@@ -116,7 +117,44 @@ export default function PlayerCards({
         if (curr_card.card=="BARREL"){
             let inthere = searchForOn_FieldCards("BARREL");
             if (inthere){
-                alert("you already have a barrel");
+                setShow_duplicateBlueCard(true);
+                return;
+            }
+            /*const target_list = ?????;
+            const requestBody = JSON.stringify({
+                target_list: target_list
+            });
+            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
+            updateCurr_card(null);
+            updateFill_array(true);
+            updateBorder("none");
+            return;
+        }
+        if (curr_card.card=="APPALOOSA" || curr_card.card=="MUSTANG"){
+            let inthere = searchForOn_FieldCards("APPALOOSA");
+            let inthere2 = searchForOn_FieldCards("MUSTANG");
+            if (inthere || inthere2){
+                setShow_duplicateBlueCard(true);
+                return;
+            }
+            /*const target_list = ?????;
+            const requestBody = JSON.stringify({
+                target_list: target_list
+            });
+            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
+            updateCurr_card(null);
+            updateFill_array(true);
+            updateBorder("none");
+            return;
+        }
+        if (curr_card.card=="CARABINE" || curr_card.card=="REMINGTON" || curr_card.card=="SCHOFIELD" || curr_card.card=="VOLCANIC" || curr_card.card=="WINCHESTER"){
+            let inthere = searchForOn_FieldCards("CARABINE");
+            let inthere2 = searchForOn_FieldCards("REMINGTON");
+            let inthere3 = searchForOn_FieldCards("SCHOFIELD");
+            let inthere4 = searchForOn_FieldCards("VOLCANIC");
+            let inthere5 = searchForOn_FieldCards("WINCHESTER");
+            if (inthere || inthere2 || inthere3 || inthere4 || inthere5){
+                setShow_duplicateBlueCard(true);
                 return;
             }
             /*const target_list = ?????;
@@ -140,10 +178,53 @@ export default function PlayerCards({
         updateFill_array(true);
     }
 
+    function dontReplaceCard(){
+        setShow_duplicateBlueCard(false);
+        updateCurr_card(null);
+        updateFill_array(true);
+        updateBorder("none");
+    }
+
+    function doReplaceCard(){
+        /*const target_list = ?????;
+        const requestBody = JSON.stringify({
+            target_list: target_list
+        });
+        authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
+        updateCurr_card(null);
+        updateFill_array(true);
+        updateBorder("none");
+        setShow_duplicateBlueCard(false);
+    }
+
 
     return (
         <>
             <Container className="shelf">
+            {!curr_card ? (
+                <Modal hidden={show_duplicateBlueCard}>loading</Modal>
+            ) : (<>
+                {<Modal show={true} centered animation size="sm" backdrop="static" keyboard={false}>
+                    <Modal.Header id="chosen-role_modal_header">
+                        <Modal.Title id="chosen-role_modal_header_title" centered>
+                            <b>you already have a {curr_card.card}</b></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body id="chosen-role_modal_body" centered>
+                        <p>Do you want to replace your {curr_card.card}?</p>
+                    </Modal.Body>
+                    <Modal.Footer id="chosen-role_modal_footer">
+                        <Button id="custombutton" onClick={dontReplaceCard}>
+                            No
+                        </Button>
+                        <Button id="custombutton" onClick={doReplaceCard}>
+                            Yes
+                        </Button>
+                    </Modal.Footer>
+                </Modal>}
+                </>)}
+
+
+
                 <Row>
                     <Col className="single-shelf">
                         <Image className="deck-discard-pile_image-card"
