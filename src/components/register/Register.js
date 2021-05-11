@@ -52,7 +52,7 @@ export default function Register({ currUser, updateUser }) {
 
     return (
         <Container>
-            <h>important message to the group which is testing our game: play the game with exactly 4 players only. it won't work otherwise</h>
+            <h1>important message to the group which is testing our game: play the game with exactly 4 players only. it won't work otherwise</h1>
             <Form>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Username</Form.Label>

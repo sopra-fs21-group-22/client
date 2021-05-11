@@ -29,16 +29,18 @@ function GameSwitcher({
                           orderArray,
                           updateOrderArray,
                           currPlayer,
-                          updateCurrPlayer
+                          updateCurrPlayer,
+                          tableId,
+                          playerId
                       }) {
     const interval = useInterval(async () => {
         //if(loop){
 
-        const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
+        const playertable_response = await authApi().get(`/games/${tableId}/players`);
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
 
-        const currPlayer_response = await authApi().get(`/games/${currPlayer_table.id}/players/${currUser.id}`);
+        const currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
         let currP = new PlayerModel(currPlayer_response.data);
         updateCurrPlayer(currP);
 
@@ -83,8 +85,8 @@ function GameSwitcher({
     function correctOrder() {
         let current_array = [];
         for (let i = 0; i < currPlayer_table.players.length; i++) {
-            if (currUser.id === currPlayer_table.players[i].id) {
-                current_array[0] = searchbyid(currUser.id);
+            if (playerId === currPlayer_table.players[i].id) {
+                current_array[0] = searchbyid(playerId);
             }
         }
         for (let i = 0; i < currPlayer_table.players.length - 1; i++) {
@@ -103,7 +105,7 @@ function GameSwitcher({
     }
 
     function push() {
-        const id = currPlayer_table.id;
+        const id = tableId;
         const target = "/game/dashboard/lobby/public/" + id;
         history.push(target);
     }
@@ -117,7 +119,7 @@ function GameSwitcher({
             const requestBody = JSON.stringify({
                 status: justputthis
             })
-            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
+            authApi().put(`/games/${tableId}/players/${playerId}/ready`, requestBody);
         } else {
             setStatus(true);
             setReady_button_text("Unready");
@@ -126,7 +128,7 @@ function GameSwitcher({
             const requestBody = JSON.stringify({
                 status: justputthis
             })
-            authApi().put(`/games/${currPlayer_table.id}/players/${currUser.id}/ready`, requestBody);
+            authApi().put(`/games/${tableId}/players/${playerId}/ready`, requestBody);
         }
         //TODO: comment this to have a functioning game. this is only here to be able to reach the game screen without actually starting a game
         //setupRole();

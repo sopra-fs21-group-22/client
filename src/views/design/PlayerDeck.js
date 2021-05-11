@@ -308,20 +308,20 @@ export default function PlayerDeck({
                 </Col>
             </Row>
 
-            {<Modal show={show_action_card} centered animation size="sm" backdrop="static" keyboard={false}>
+            {/* {<Modal show={show_action_card} centered animation size="sm" backdrop="static" keyboard={false}>
                 <Modal.Header id="chosen-role_modal_header">
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Your Turn</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
                     <Image src="/images/back.png" id="chosen-role_modal_body_image"/>
-                    {/*<Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>*/}
+                    {//<Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>}
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeActionCard}>
                         Okay
                     </Button>
                 </Modal.Footer>
-            </Modal>}
+            </Modal>} */}
 
 
                     {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
