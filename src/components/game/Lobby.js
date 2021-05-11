@@ -54,16 +54,10 @@ function Lobby({
     const interval = useInterval(async () => {
 //repeating requests to keep player_table and player up to date
 
-        //if (currPlayer.bullets>0){ //<TODO: maybe this has to be uncommented
-            const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currPlayer.id}`); 
-            let currp = new PlayerModel(response.data);
-            updateCurrPlayer(currp);
-            setupRole(); 
-        //}
-          
-        
-
-        //localStorage.setItem('player', JSON.stringify(currPlayer));
+        const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currPlayer.id}`); 
+        let currp = new PlayerModel(response.data);
+        updateCurrPlayer(currp);
+        setupRole(); 
 
         //get information about the other players
         const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
@@ -93,6 +87,7 @@ function Lobby({
                 setLoopvar(false);
             }
         }
+        
 
 
         setCount(count + 1);

@@ -5,7 +5,7 @@ import Life from "./Life";
 import React, {useState, useEffect} from 'react';
 
 export default function PlayerDeck({
-                                       player,
+                                       player, opponent,
                                        playeronturn,
                                        border,
                                        updateBorder,
@@ -26,6 +26,9 @@ export default function PlayerDeck({
                                        updateFill_array
                                    }) {
     const interval = useInterval(async () => {
+        /* console.log(`${player.user} other: ${player.bullets}`);
+        console.log(`${opponent.user} other: ${opponent.bullets}`); */
+
         //repeating requests to keep stuff up-to-date
         if (curr_card != null) {
             setupTargetHighlighting(curr_card);

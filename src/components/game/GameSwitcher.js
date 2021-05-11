@@ -43,23 +43,18 @@ function GameSwitcher({
         const currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
         let currP = new PlayerModel(currPlayer_response.data);
         updateCurrPlayer(currP);
-
-        var readycounter = 0;
-        //readycounter=43;
-        //console.log(`allplayersreadyyyyyyyy: ${readycounter}`);
-        if (currPlayer_table.players.length > 3) {
-            for (let x = 0; x < currPlayer_table.players.length; x++) {
-                if (currPlayer_table.players[x].ready == true) {
-                    readycounter++;
+        if (!buffer){
+            var readycounter = 0;
+            if (currPlayer_table.players.length > 3) {
+                for (let x = 0; x < currPlayer_table.players.length; x++) {
+                    if (currPlayer_table.players[x].ready == true) {
+                        readycounter++;
+                    }
                 }
-                /*else{
-                    break;
-                }*/
+                if (currPlayer_table.players.length == readycounter) {
+                    setAllplayersready(true);
+                }
             }
-            if (currPlayer_table.players.length == readycounter) {
-                setAllplayersready(true);
-            }
-        }
 
         //console.log(currPlayer_table.players[0].ready);
         if (allplayersready) {
@@ -69,6 +64,9 @@ function GameSwitcher({
             setLoop(false);
             setHidden(false);
         }
+        }
+        
+        setBuffer(false);
         //}   
     }, 3000);
   
@@ -80,6 +78,7 @@ function GameSwitcher({
     const [loop, setLoop] = useState(true);
     const [allplayersready, setAllplayersready] = useState(false);
     const [hidden, setHidden] = useState(true);
+    const [buffer, setBuffer] = useState(true);
 
 
     function correctOrder() {
