@@ -197,6 +197,16 @@ export default function PlayerDeck({
         return -1;
     }
 
+    function showBarrel(){
+        alert("you clicked on a barrel. Congrats.");
+    }
+    function showHorse(){
+        alert("you clicked on a horse. Congrats.");
+    }
+    function showWeapon(){
+        alert("you clicked on a weapon. Congrats.");
+    }
+
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -289,6 +299,7 @@ export default function PlayerDeck({
                         <Col>
                             <Figure>
                                 <Figure.Image
+                                    onClick={showWeapon}
                                     width={150}
                                     height={100}
                                     alt="150x100"
@@ -299,6 +310,7 @@ export default function PlayerDeck({
                         <Col>
                             <Figure>
                         <Figure.Image
+                            onClick={showHorse}
                             width={150}
                             height={100}
                             alt="150x100"
@@ -309,6 +321,7 @@ export default function PlayerDeck({
                 <Col>
                     <Figure>
                         <Figure.Image
+                            onClick={showBarrel}
                             width={150}
                             height={100}
                             alt="150x100"
