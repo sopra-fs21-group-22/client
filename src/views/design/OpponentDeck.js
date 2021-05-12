@@ -102,7 +102,9 @@ export default function OpponentDeck({
         if (searchForOn_FieldCards("VOLCANIC")!=-1){
             setWeapon("VOLCANIC");
         }
-        //isInJail();
+        if (searchForOn_FieldCards("JAIL")!=-1){
+            setInJail(true);
+        }
     }, 3000);
 
     function setupTargetHighlighting(card) {
@@ -212,14 +214,6 @@ export default function OpponentDeck({
         alert("you clicked on a weapon. Congrats.");
     }
 
-    function isInJail(){
-        if(opponent.onFieldCards.cards.some(curr_card => curr_card.card === "JAIL")) {
-            setInJail(true);
-        } else {
-            setInJail(false);
-        }
-    }
-
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -228,9 +222,7 @@ export default function OpponentDeck({
     const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
 
-    const [show_action_card, setShow_action_card] = useState(false);
     const [inJail, setInJail] = useState(false);
-    const [curr_card_image_source, setCurr_card_image_source] = useState();
     const [barrel, setBarrel] = useState(-1);
     const [weapon, setWeapon] = useState(-1);
     const [horse, setHorse] = useState(-1);
