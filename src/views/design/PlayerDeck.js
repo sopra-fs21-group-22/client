@@ -1,34 +1,34 @@
 import useInterval from "../../components/game/useInterval.js";
-import React, {useState, useEffect} from 'react';
 import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
-import {api, authApi} from '../../helpers/api';
+import React, {useState, useEffect} from 'react';
 
-export default function OpponentDeck({
-                                         opponent,
-                                         player,
-                                         playeronturn,
-                                         border,
-                                         updateBorder,
-                                         playertable,
-                                         updateCard_played,
-                                         updateHideCancel_PlayCard,
-                                         ignoreRange,
-                                         updateIgnoreRange,
-                                         targetSelf,
-                                         updateTargetSelf,
-                                         targetEveryone,
-                                         updateTargetEveryone,
-                                         targetOnlyEnemies,
-                                         updateTargetOnlyEnemies,
-                                         updateCurr_card,
-                                         curr_card,
-                                         fill_array,
-                                         updateFill_array
-                                     }) {
+export default function PlayerDeck({
+                                       player, opponent,
+                                       playeronturn,
+                                       border,
+                                       updateBorder,
+                                       playertable,
+                                       updateCard_played,
+                                       updateHideCancel_PlayCard,
+                                       ignoreRange,
+                                       updateIgnoreRange,
+                                       targetSelf,
+                                       updateTargetSelf,
+                                       targetEveryone,
+                                       updateTargetEveryone,
+                                       targetOnlyEnemies,
+                                       updateTargetOnlyEnemies,
+                                       updateCurr_card,
+                                       curr_card,
+                                       fill_array,
+                                       updateFill_array
+                                   }) {
     const interval = useInterval(async () => {
-        //console.log(`${player.user}: ${player.bullets}`);
+        /* console.log(`${player.user} other: ${player.bullets}`);
+        console.log(`${opponent.user} other: ${opponent.bullets}`); */
+
         //repeating requests to keep stuff up-to-date
         if (curr_card != null) {
             setupTargetHighlighting(curr_card);
@@ -39,43 +39,26 @@ export default function OpponentDeck({
             updateTargetOnlyEnemies(false);
             updateTargetSelf(false);
         }
-
-        if (opponent.bullets>0){
-            let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
-            setPlayersInReach(response.data);
-        }
-
-        if (opponent.bullets < 1){
-
+        if (player.bullets < 1) {
             setOpacity(0.8);
             setHideDeadmessage(false);
             setBackgroundColor("#808080");
-            setWidth(0);
         }
-        if (playeronturn != null && opponent.id === playeronturn.id) {
+        if (playeronturn != null && player.id === playeronturn.id) {
             setHighlightImage("solid");
         }
-        if (playeronturn != null && opponent.id !== playeronturn.id) {
+        if (playeronturn != null && player.id !== playeronturn.id) {
             setHighlightImage("none");
         }
-        if (opponent.bullets > 0) {
-            if (!ignoreRange) {
-                isinreach();
-                if (!isInReach) {
-                    setWidth(0);
-                }
-                if (isInReach) {
-                    setWidth(5);
-                }
-            }
-            if (targetEveryone && ignoreRange) {
-                setWidth(5);
-            }
+        if (player.bullets > 0) {
             if (targetSelf) {
-                setWidth(0);
-            }
-            if (targetOnlyEnemies && ignoreRange) {
                 setWidth(5);
+            }
+            if (targetEveryone) {
+                setWidth(5);
+            }
+            if (targetOnlyEnemies) {
+                setWidth(0);
             }
         }
         if (searchForOn_FieldCards("BARREL")!=-1){
@@ -103,7 +86,7 @@ export default function OpponentDeck({
             setWeapon("VOLCANIC");
         }
         //isInJail();
-    }, 3000);
+    }, 1000);
 
     function setupTargetHighlighting(card) {
         if (!card) {
@@ -119,11 +102,11 @@ export default function OpponentDeck({
                 break;
             case "INDIANS":
             case "GATLING":
+            case "DUEL":
             case "PANIC":
             case "CATBALOU":
-            case "DUEL":
-                updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
+                updateIgnoreRange(true);
                 break;
             case "BANG":
                 updateTargetOnlyEnemies(true);
@@ -135,46 +118,46 @@ export default function OpponentDeck({
                 updateIgnoreRange(true);
                 break;
             default:
-                console.log("no valid card name opponentdeck");
+                console.log("no valid card name playerdeck");
                 break;
         }
     }
 
-
-    function isinreach() {
-        if (!ignoreRange) {
-            for (let x of playersInReach) {
-                if (x.id == opponent.id) {
-                    setIsInReach(true);
-                }
-            }
-        } else {
-            setIsInReach(false);
-        }
-    }
-
-    function selecttarget() {
+    async function selecttarget() {
         if (border == "solid" && width > 0) {
+            updateCard_played(true);
             updateBorder("none");
             setWidth(5);
-            updateCard_played(true);
-            const target_id = null;
-            const requestBody = null;
-            //TODO: backend ain't ready yet
-            if (curr_card.card == "CATBALOU" || curr_card.card == "PANIC") {
-                /*target_id = ?????;
-                requestBody = JSON.stringify({
-                target_CardId: target_id
-                )};*/
-            }
-            //TODO: backend ain't ready yet
+            const beforeDrawing = player.hand.playCards;
+            //TODO: add targetlist depending on the backend implementation and depending on what card has been played
+            /*const target_list = ?????;
+            const requestBody = JSON.stringify({
+                target_list: target_list
+            });
+            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
 
-            if (requestBody!=null){
-                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}´, requestBody};
-            }
-            if (requestBody==null){
-                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}´}; //requestbody eventuell noch nötig
 
+            switch (curr_card.card) {
+                case "WELLSFARGO":
+                case "STAGECOACH":
+                    const afterDrawing = player.hand.playCards;
+                    const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
+                    setCards(newCards);
+                    setShow_drawnCards(true);
+                    break;
+                case "INDIANS":
+                case "BEER":
+                case "GATLING":
+                case "DUEL":
+                case "PANIC":
+                case "CATBALOU":
+                case "BANG":
+                case "SALOON":
+                case "GENERALSTORE":
+                    break;
+                default:
+                    console.log("no valid card name playerdeck");
+                    break;
             }
 
             updateHideCancel_PlayCard(true);
@@ -190,12 +173,25 @@ export default function OpponentDeck({
         }
     }
 
+    function closeDrawnCards() {
+        setShow_drawnCards(false);
+    }
+
+    function setCards(newCards) {
+        let curr = [];
+        for (let card of newCards) {
+            curr.push(card);
+        }
+        setDrawnCards(curr);
+        setShow_drawnCards(true);
+    }
+
     function searchForOn_FieldCards(cardtobefound){
-        if (opponent.onFieldCards.onFieldCards.length==0){
+        if (player.onFieldCards.onFieldCards.length==0){
             return -1;
         }
-        for (let x=0; x < opponent.onFieldCards.onFieldCards.length; x++){
-            if (opponent.onFieldCards.onFieldCards[x].card==cardtobefound){
+        for (let x=0; x < player.onFieldCards.onFieldCards.length; x++){
+            if (player.onFieldCards.onFieldCards[x].card==cardtobefound){
                 return x;
             }
         }
@@ -224,24 +220,30 @@ export default function OpponentDeck({
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
-    const [playersInReach, setPlayersInReach] = useState([]);
-    const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
 
     const [show_action_card, setShow_action_card] = useState(false);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
+    const [show_wellsfargo, setShow_wellsfargo] = useState(false);
+    const [wellsfargo1of3, setWellsfargo1of3] = useState();
+    const [wellsfargo2of3, setWellsfargo2of3] = useState();
+    const [wellsfargo3of3, setWellsfargo3of3] = useState(); //TODO: probably not best solution
     const [inJail, setInJail] = useState(false);
     const [barrel, setBarrel] = useState(-1);
     const [weapon, setWeapon] = useState(-1);
     const [horse, setHorse] = useState(-1);
 
+    const [show_drawnCards, setShow_drawnCards] = useState(false);
+    const [drawnCards, setDrawnCards] = useState([]);
+
 
     return (
         <div>
-            <p id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p>
+            <p id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p>
             <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                 <Container onClick={selecttarget} className="opponent-player-deck_container-card"
                            style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
+
                     {/*first row for dynamite and sheriff star*/}
                     <Row className="justify-content-md-center align-items-center">
                         <Col>
@@ -255,7 +257,7 @@ export default function OpponentDeck({
                             </Figure>
                         </Col>
                         <Col>
-                            <Figure hidden={!(opponent.gameRole == "SHERIFF")}>
+                            <Figure hidden={!(player.gameRole === "SHERIFF")}>
                                 <Figure.Image
                                     width={80}
                                     height={80}
@@ -273,43 +275,33 @@ export default function OpponentDeck({
                             width={80}
                             height={80}
                             alt="80x80"
-                            src={`/images/character_cards/${opponent.profilePicture.id()}.jpeg`}/>*/}
+                            src={`/images/character_cards/${player.profilePicture.id()}.jpeg`}/>*/}
                                 <Figure.Image id="character-image_FigureImage" style={{borderStyle: highlightImage}}
                                               width={80}
                                               height={80}
                                               alt="80x80"
-                                              src={inJail ? "/images/character_cards/black_jack_p_jail.png" : "/images/character_cards/black_jack_p.jpeg"}                                />
+                                              {inJail ? "/images/character_cards/black_jack_p_jail.png" : "/images/character_cards/black_jack_p.jpeg"}
+                                />
                                 <Figure.Caption
-                                    id="opponent-player-deck_figure-profile-picture">{opponent.user}</Figure.Caption>
+                                    id="opponent-player-deck_figure-profile-picture">{player.user}</Figure.Caption>
                             </Figure>
                         </Col>
                         <Col>
-                            <Row hidden={opponent.bullets < 5}>
+                            <Row hidden={player.bullets < 5}>
                                 <Life/>
                             </Row>
-                            <Row hidden={opponent.bullets < 4}>
+                            <Row hidden={player.bullets < 4}>
                                 <Life/>
                             </Row>
-                            <Row hidden={opponent.bullets < 3}>
+                            <Row hidden={player.bullets < 3}>
                                 <Life/>
                             </Row>
-                            <Row hidden={opponent.bullets < 2}>
+                            <Row hidden={player.bullets < 2}>
                                 <Life/>
                             </Row>
-                            <Row hidden={opponent.bullets < 1}>
+                            <Row hidden={player.bullets < 1}>
                                 <Life/>
                             </Row>
-                        </Col>
-                        <Col>
-                            <Figure>
-                                {/*<Figure hidden={opponent.hand.playCards.length === 0}>*/}
-                                <Figure.Image
-                                    width={80}
-                                    height={100}
-                                    alt="80x100"
-                                    src="/images/back.png"/>
-                                <Figure.Caption>{opponent.hand.cardsInHand} card(s) left</Figure.Caption>
-                            </Figure>
                         </Col>
                     </Row>
                     {/*third row for blue cards*/}
@@ -321,7 +313,7 @@ export default function OpponentDeck({
                                     width={150}
                                     height={100}
                                     alt="150x100"
-                                    src={(weapon==-1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[weapon].card}_${opponent.onFieldCards.onFieldCards[weapon].suit}_${opponent.onFieldCards.onFieldCards[weapon].suit}.png`}/>
+                                    src={(weapon==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[weapon].card}_${player.onFieldCards.onFieldCards[weapon].suit}_${player.onFieldCards.onFieldCards[weapon].suit}.png`}/>
                                 <Figure.Caption>weapon</Figure.Caption>
                             </Figure>
                         </Col>
@@ -332,7 +324,7 @@ export default function OpponentDeck({
                                     width={150}
                                     height={100}
                                     alt="150x100"
-                                    src={(horse==-1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[horse].card}_${opponent.onFieldCards.onFieldCards[horse].suit}_${opponent.onFieldCards.onFieldCards[horse].suit}.png`}/>
+                                    src={(horse==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].suit}.png`}/>
                                 <Figure.Caption>horse</Figure.Caption>
                             </Figure>
                         </Col>
@@ -343,13 +335,28 @@ export default function OpponentDeck({
                                     width={150}
                                     height={100}
                                     alt="150x100"
-                                    src={(barrel==-1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].suit}.png`}/>
+                                    src={(barrel==-1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].suit}.png`}/>
                                 <Figure.Caption>barrel</Figure.Caption>
                             </Figure>
                         </Col>
                     </Row>
 
 
+                    {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
+                        <Modal.Header id="chosen-role_modal_header">
+                            <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn Cards</b></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body id="chosen-role_modal_body" centered>
+                            {drawnCards.map((curr) => (
+                                <Image src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`} id="chosen-role_modal_body_image"/>
+                            ))}
+                        </Modal.Body>
+                        <Modal.Footer id="chosen-role_modal_footer">
+                            <Button id="custombutton" onClick={closeDrawnCards}>
+                                Okay
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>}
                 </Container>
             </div>
         </div>
