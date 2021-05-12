@@ -122,7 +122,7 @@ export default function PlayerCards({
             }
             /*const target_list = ?????;
             const requestBody = JSON.stringify({
-                target_list: target_list
+                targetCardId: target_list
             });
             authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
             updateCurr_card(null);
@@ -162,7 +162,6 @@ export default function PlayerCards({
                 target_list: target_list
             });
             authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
-            updateCurr_card(null);
             updateFill_array(true);
             updateBorder("none");
             return;
@@ -170,6 +169,7 @@ export default function PlayerCards({
         updateBorder("solid");
         updateHideCancel_PlayCard(false);
         updateFill_array(true);
+        updateCurr_card(null);
     }
 
     function discardCard() {
@@ -228,7 +228,7 @@ export default function PlayerCards({
                 <Row>
                     <Col className="single-shelf">
                         <Image className="deck-discard-pile_image-card"
-                               src={`/images/role_cards/${player.gameRole}.png`}/>
+                               src={`/images/role_cards/${player.gameRole.toLowerCase()}.png`}/>
                         {/*<Image className="deck-discard-pile_image-card" src="/images/back.png"/>*/}
                     </Col>
                     {player.hand.playCards.map((currCard, index) => (

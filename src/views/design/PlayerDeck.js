@@ -65,25 +65,25 @@ export default function PlayerDeck({
             setBarrel(searchForOn_FieldCards("BARREL"));
         }
         if (searchForOn_FieldCards("MUSTANG")!=-1){
-            setHorse("MUSTANG");
+            setHorse(searchForOn_FieldCards("MUSTANG"));
         }
         if (searchForOn_FieldCards("APPALOOSA")!=-1){
-            setHorse("APPALOOSA");
+            setHorse(searchForOn_FieldCards("APPALOOSA"));
         }
         if (searchForOn_FieldCards("CARABINE")!=-1){
-            setWeapon("CARABINE");
+            setWeapon(searchForOn_FieldCards("CARABINE"));
         }
         if (searchForOn_FieldCards("REMINGTON")!=-1){
-            setWeapon("REMINGTON");
+            setWeapon(searchForOn_FieldCards("REMINGTON"));
         }
         if (searchForOn_FieldCards("SCHOFIELD")!=-1){
-            setWeapon("SCHOFIELD");
+            setWeapon(searchForOn_FieldCards("SCHOFIELD"));
         }
         if (searchForOn_FieldCards("WINCHESTER")!=-1){
-            setWeapon("WINCHESTER");
+            setWeapon(searchForOn_FieldCards("WINCHESTER"));
         }
         if (searchForOn_FieldCards("VOLCANIC")!=-1){
-            setWeapon("VOLCANIC");
+            setWeapon(searchForOn_FieldCards("VOLCANIC"));
         }
         if (searchForOn_FieldCards("JAIL")!=-1){
             setInJail(true);
@@ -139,7 +139,7 @@ export default function PlayerDeck({
             authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
 
 
-            switch (curr_card.card) {
+            /*switch (curr_card.card) {
                 case "WELLSFARGO":
                 case "STAGECOACH":
                     const afterDrawing = player.hand.playCards;
@@ -160,7 +160,7 @@ export default function PlayerDeck({
                 default:
                     console.log("no valid card name playerdeck");
                     break;
-            }
+            }*/
 
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
