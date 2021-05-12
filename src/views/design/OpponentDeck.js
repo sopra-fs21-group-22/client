@@ -78,8 +78,6 @@ export default function OpponentDeck({
                 setWidth(5);
             }
         }
-        //isInJail();
-    }, 1000);
         if (searchForOn_FieldCards("BARREL")!=-1){
             setBarrel(searchForOn_FieldCards("BARREL"));
         }
@@ -104,7 +102,7 @@ export default function OpponentDeck({
         if (searchForOn_FieldCards("VOLCANIC")!=-1){
             setWeapon("VOLCANIC");
         }
-
+        //isInJail();
     }, 3000);
 
     function setupTargetHighlighting(card) {
