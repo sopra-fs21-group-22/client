@@ -85,7 +85,9 @@ export default function PlayerDeck({
         if (searchForOn_FieldCards("VOLCANIC")!=-1){
             setWeapon("VOLCANIC");
         }
-
+        if (searchForOn_FieldCards("JAIL")!=-1){
+            setInJail(true);
+        }
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -112,6 +114,7 @@ export default function PlayerDeck({
                 updateTargetOnlyEnemies(true);
                 break;
             case "SALOON":
+            case "JAIL":
             case "GENERALSTORE":
                 updateTargetEveryone(true);
                 updateIgnoreRange(true);
@@ -212,13 +215,7 @@ export default function PlayerDeck({
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
     const [width, setWidth] = useState(5);
-
-    const [show_action_card, setShow_action_card] = useState(false);
-    const [curr_card_image_source, setCurr_card_image_source] = useState();
-    const [show_wellsfargo, setShow_wellsfargo] = useState(false);
-    const [wellsfargo1of3, setWellsfargo1of3] = useState();
-    const [wellsfargo2of3, setWellsfargo2of3] = useState();
-    const [wellsfargo3of3, setWellsfargo3of3] = useState(); //TODO: probably not best solution
+    const [inJail, setInJail] = useState(false);
     const [barrel, setBarrel] = useState(-1);
     const [weapon, setWeapon] = useState(-1);
     const [horse, setHorse] = useState(-1);
@@ -270,7 +267,7 @@ export default function PlayerDeck({
                                               width={80}
                                               height={80}
                                               alt="80x80"
-                                              src="/images/character_cards/black_jack_p.jpeg"
+                                              src={inJail ? "/images/character_cards/black_jack_p_jail.png" : "/images/character_cards/black_jack_p.jpeg"}
                                 />
                                 <Figure.Caption
                                     id="opponent-player-deck_figure-profile-picture">{player.user}</Figure.Caption>
@@ -309,27 +306,27 @@ export default function PlayerDeck({
                         </Col>
                         <Col>
                             <Figure>
-                        <Figure.Image
-                            onClick={showHorse}
-                            width={150}
-                            height={100}
-                            alt="150x100"
-                            src={(horse==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].suit}.png`}/>
-                        <Figure.Caption>horse</Figure.Caption>
-                    </Figure>
-                </Col>
-                <Col>
-                    <Figure>
-                        <Figure.Image
-                            onClick={showBarrel}
-                            width={150}
-                            height={100}
-                            alt="150x100"
-                            src={(barrel==-1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].suit}.png`}/>
-                        <Figure.Caption>barrel</Figure.Caption>
-                    </Figure>
-                </Col>
-            </Row>
+                                <Figure.Image
+                                    onClick={showHorse}
+                                    width={150}
+                                    height={100}
+                                    alt="150x100"
+                                    src={(horse==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].suit}.png`}/>
+                                <Figure.Caption>horse</Figure.Caption>
+                            </Figure>
+                        </Col>
+                        <Col>
+                            <Figure>
+                                <Figure.Image
+                                    onClick={showBarrel}
+                                    width={150}
+                                    height={100}
+                                    alt="150x100"
+                                    src={(barrel==-1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].suit}.png`}/>
+                                <Figure.Caption>barrel</Figure.Caption>
+                            </Figure>
+                        </Col>
+                    </Row>
 
 
                     {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
@@ -339,7 +336,7 @@ export default function PlayerDeck({
                         <Modal.Body id="chosen-role_modal_body" centered>
                             {drawnCards.map((curr) => (
                                 <Image src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`} id="chosen-role_modal_body_image"/>
-                                ))}
+                            ))}
                         </Modal.Body>
                         <Modal.Footer id="chosen-role_modal_footer">
                             <Button id="custombutton" onClick={closeDrawnCards}>

@@ -44,7 +44,7 @@ export default function OpponentDeck({
             let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
             setPlayersInReach(response.data);
         }
-        
+
         if (opponent.bullets < 1){
 
             setOpacity(0.8);
@@ -102,7 +102,9 @@ export default function OpponentDeck({
         if (searchForOn_FieldCards("VOLCANIC")!=-1){
             setWeapon("VOLCANIC");
         }
-        
+        if (searchForOn_FieldCards("JAIL")!=-1){
+            setInJail(true);
+        }
     }, 3000);
 
     function setupTargetHighlighting(card) {
@@ -129,6 +131,7 @@ export default function OpponentDeck({
                 updateTargetOnlyEnemies(true);
                 break;
             case "SALOON":
+            case "JAIL":
             case "GENERALSTORE":
                 updateTargetEveryone(true);
                 updateIgnoreRange(true);
@@ -219,8 +222,7 @@ export default function OpponentDeck({
     const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
 
-    const [show_action_card, setShow_action_card] = useState(false);
-    const [curr_card_image_source, setCurr_card_image_source] = useState();
+    const [inJail, setInJail] = useState(false);
     const [barrel, setBarrel] = useState(-1);
     const [weapon, setWeapon] = useState(-1);
     const [horse, setHorse] = useState(-1);
@@ -268,7 +270,7 @@ export default function OpponentDeck({
                                               width={80}
                                               height={80}
                                               alt="80x80"
-                                              src="/images/character_cards/black_jack_p.jpeg"
+                                              src={inJail ? "/images/character_cards/black_jack_p_jail.png" : "/images/character_cards/black_jack_p.jpeg"}
                                 />
                                 <Figure.Caption
                                     id="opponent-player-deck_figure-profile-picture">{opponent.user}</Figure.Caption>
