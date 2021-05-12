@@ -3,6 +3,7 @@ import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-boo
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, {useState, useEffect} from 'react';
+import {authApi} from "../../helpers/api";
 
 export default function PlayerDeck({
                                        player, opponent,
@@ -131,15 +132,15 @@ export default function PlayerDeck({
             updateBorder("none");
             setWidth(5);
             const beforeDrawing = player.hand.playCards;
-            //TODO: add targetlist depending on the backend implementation and depending on what card has been played
-            /*const target_list = ?????;
+            
+            const target_CardId = null;
             const requestBody = JSON.stringify({
-                target_list: target_list
+                target_CardId: target_CardId
             });
-            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
+            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
 
 
-            /*switch (curr_card.card) {
+            switch (curr_card.card) {
                 case "WELLSFARGO":
                 case "STAGECOACH":
                     const afterDrawing = player.hand.playCards;
@@ -160,7 +161,7 @@ export default function PlayerDeck({
                 default:
                     console.log("no valid card name playerdeck");
                     break;
-            }*/
+            }
 
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);

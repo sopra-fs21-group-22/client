@@ -162,22 +162,19 @@ export default function OpponentDeck({
             updateCard_played(true);
             const target_id = null;
             const requestBody = null;
-            //TODO: backend ain't ready yet
-            if (curr_card.card == "CATBALOU" || curr_card.card == "PANIC") {
-                /*target_id = ?????;
-                requestBody = JSON.stringify({
-                target_CardId: target_id
-                )};*/
+            //TODO: add targetlist depending on the backend implementation and depending on what card has been played
+            if(curr_card.card=="PANIC" || curr_card.card=="CATBALOU"){
+                /*popup whether you want fieldcard or handcard. put api.post inside that popup or a following one.
+                also add {updateHideCancel_PlayCard(true);
+                updateTargetSelf(false);
+                updateIgnoreRange(false);
+                updateTargetOnlyEnemies(false);
+                updateTargetEveryone(false);
+                updateCurr_card(null);
+                updateFill_array(true);}*/
+                    return;
             }
-            //TODO: backend ain't ready yet
-
-            if (requestBody!=null){
-                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}´, requestBody};
-            }
-            if (requestBody==null){
-                //authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}´}; //requestbody eventuell noch nötig
-
-            }
+            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`);
 
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
