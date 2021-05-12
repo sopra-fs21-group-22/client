@@ -4,6 +4,8 @@ import Layout6players from '../../views/design/Layouts/Layout6players';
 import Layout7players from '../../views/design/Layouts/Layout7players';
 import useInterval from "../game/useInterval.js";
 import React, {useState, useEffect} from 'react';
+import ChatPopUp from "../externalAPI/ChatPopUp";
+import {Row} from "react-bootstrap";
 
 
 function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player}) {
@@ -27,6 +29,9 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     const [targetSelf, setTargetSelf] = useState(false);
     const [targetEveryone, setTargetEveryone] = useState(false);
     const [targetOnlyEnemies, setTargetOnlyEnemies] = useState(false);
+    const [chat, setChat] = useState([]);
+
+
 
     const updateIgnoreRange = (value) => {
         setIgnoreRange(value);
@@ -42,6 +47,9 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     }
     const updateHideCancel_PlayCard = (value) => {
         setHideCancel_PlayCard(value);
+    }
+    const updateChat = (newChatArray) => {
+        setChat(newChatArray);
     }
 
 
@@ -60,7 +68,8 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                                   updateCurr_card={updateCurr_card} curr_card={curr_card}/>;
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card}
+                                   updateChat={updateChat} chat={chat}/>;
         /*return <Layout4players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
         ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
         updateCurr_card={updateCurr_card} curr_card={curr_card}/>;*/

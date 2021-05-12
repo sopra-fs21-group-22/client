@@ -19,6 +19,7 @@ import React, {useState, useEffect} from 'react';
 import "../styling/custom_button_styling.css";
 import useInterval from "../../../components/game/useInterval.js";
 import PlayerModel from "../../../components/shared/models/PlayerModel.js";
+import ChatPopUp from "../../../components/externalAPI/ChatPopUp";
 
 function Layout4players({
                             playertable,
@@ -36,7 +37,9 @@ function Layout4players({
                             targetOnlyEnemies,
                             updateTargetOnlyEnemies,
                             updateCurr_card,
-                            curr_card
+                            curr_card,
+                            updateChat,
+                            chat
                         }) {
 // function Layout4players({visibility, hideCancel_PlayCard, updateHideCancel_PlayCard, ignoreRange, updateIgnoreRange, targetSelf, updateTargetSelf, targetEveryone, updateTargetEveryone, targetOnlyEnemies, updateTargetOnlyEnemies, updateCurr_card, curr_card}){
      const interval = useInterval(async () => {    
@@ -46,6 +49,7 @@ function Layout4players({
         console.log(`${playerList[3].user}layoutversion: ${playerList[3].bullets}`);
         console.log("sduifhsoduf"); */
         fillPlayerList();
+        checkForMessages();
     }, 1000);     
 
 
@@ -54,6 +58,7 @@ function Layout4players({
     const [card_played, setCard_played] = useState(false);
     const [fill_array, setFill_array] = useState(true);
     const [playerList, setPlayerList] = useState(orderarray);
+    const [displayChat, setDisplayChat] = useState(false);
 
     const updateBorder = (value) => {
         setBorder(value);
@@ -65,7 +70,9 @@ function Layout4players({
     const updateFill_array = (value) => {
         setFill_array(value);
     }
-
+    function checkForMessages() {
+        updateChat(playertable.chat.messages);
+    }
 
     function back() {
         updateHideCancel_PlayCard(true);
@@ -167,6 +174,14 @@ function Layout4players({
                 {/*updateCurr_card={updateCurr_card} curr_card={curr_card}/>*/}
             </Col>
             <Col/>
+        </Row>
+        <Row hidden={displayChat}>
+            <ChatPopUp chat={chat} player={player} playertable={playertable}/>
+        </Row>
+        <Row>
+            <Button id="custombutton" onClick={() => {setDisplayChat(!displayChat)}}>
+                Chat
+            </Button>
         </Row>
         <Row>
             <Col/>
