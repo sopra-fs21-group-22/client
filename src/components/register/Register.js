@@ -7,6 +7,8 @@ import { Redirect, withRouter, useHistory } from 'react-router-dom';
 import Login from '../login/Login';
 import { Button, Container, Form } from 'react-bootstrap';
 import "../../views/design/styling/custom_button_styling.css";
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import useInterval from '../game/useInterval.js';
 
 
 export default function Register({ currUser, updateUser }) {
@@ -18,7 +20,16 @@ export default function Register({ currUser, updateUser }) {
         nameValidity: null
     });
     const history = useHistory();
-
+    const [timer, setTimer] = useState(100);
+    const interval = useInterval(async () => {
+        if(timer!=0){
+            setTimer(timer-5);
+        }
+        
+        if(timer==0){
+            setTimer(100);
+        }
+            }, 1000);
 
     const handleSubmit = async e => {
         try {
@@ -53,6 +64,7 @@ export default function Register({ currUser, updateUser }) {
     return (
         <Container>
             <h1>important message to the group which is testing our game: play the game with exactly 4 players only. it won't work otherwise</h1>
+            <ProgressBar max={100} now={timer*4} variant={"info"}></ProgressBar>
             <Form>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Username</Form.Label>

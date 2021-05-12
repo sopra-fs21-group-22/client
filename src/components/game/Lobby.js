@@ -16,7 +16,8 @@ import {
     Button,
     Modal,
     Image,
-    ModalBody
+    ModalBody,
+    ProgressBar
 } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
 import "../../views/design/styling/lobby_styling.css";
@@ -51,6 +52,7 @@ function Lobby({
     const [loopvar, setLoopvar] = useState(true);
     const [playeramount, setPlayeramount] = useState(currPlayer_table.players.length);
     const [toomanycards, setToomanycards] = useState("loading");//TODO uncomment this
+    const [timer, setTimer] = useState(100);
     const interval = useInterval(async () => {
 //repeating requests to keep player_table and player up to date
 
@@ -65,12 +67,12 @@ function Lobby({
         updatePlayer_table(currPt);
         //localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
         //correctOrder();
-        setToomanycards(currPlayer.hand.playCards.length - currPlayer.bullets);
+        setToomanycards(currp.hand.playCards.length - currp.bullets);
 
 
 //start of user turn
         if (startofturn_drawncards) {
-            if (currPlayer_table.playerOnTurn.id === currPlayer.id) {
+            if (currPt.playerOnTurn.id === currp.id) {
                 // setCards(newCards); //TODO: get drawn cards from backend somehow??
                 setStartofturn_drawncards(false); //TODO: setStartofturn_drawncards==true at the start of the next turn
             }
@@ -81,17 +83,25 @@ function Lobby({
 //TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
         if (loopvar) {
 
-            if (currPlayer_table.gameHasStarted == "ONGOING") {
+            if (currPt.gameHasStarted == "ONGOING") {
                 setupRole();
                 setShow_rolechoose(true);
                 setLoopvar(false);
             }
         }
+//time limit
+        if(timer!=0 && currPt.playerOnTurn.id==currp.id){
+            setTimer(timer-1);
+        }
+        
+        if(timer==0){
+            setTimer(100);
+        }
         
 
 
         setCount(count + 1);
-    }, 5000);
+    }, 1000);
 
     useEffect(async () => {
         try {
@@ -398,6 +408,8 @@ function Lobby({
                 <Button onClick={openRules} id="custombutton">Rules</Button>
                 <Button onClick={resign} id="custombutton">Resign</Button>
                 <br></br>
+                <ProgressBar hidden={currPlayer_table.playerOnTurn.id!=currPlayer.id} max={10} now={currPlayer_table.timeRemaining/1000} variant={"info"}></ProgressBar>
+                <p><b>strikes: {currPlayer.strikes}/3</b></p>
                 <br></br>
             </div>
         </Container>

@@ -82,25 +82,25 @@ export default function OpponentDeck({
             setBarrel(searchForOn_FieldCards("BARREL"));
         }
         if (searchForOn_FieldCards("MUSTANG")!=-1){
-            setHorse("MUSTANG");
+            setHorse(searchForOn_FieldCards("MUSTANG"));
         }
         if (searchForOn_FieldCards("APPALOOSA")!=-1){
-            setHorse("APPALOOSA");
+            setHorse(searchForOn_FieldCards("APPALOOSA"));
         }
         if (searchForOn_FieldCards("CARABINE")!=-1){
-            setWeapon("CARABINE");
+            setWeapon(searchForOn_FieldCards("CARABINE"));
         }
         if (searchForOn_FieldCards("REMINGTON")!=-1){
-            setWeapon("REMINGTON");
+            setWeapon(searchForOn_FieldCards("REMINGTON"));
         }
         if (searchForOn_FieldCards("SCHOFIELD")!=-1){
-            setWeapon("SCHOFIELD");
+            setWeapon(searchForOn_FieldCards("SCHOFIELD"));
         }
         if (searchForOn_FieldCards("WINCHESTER")!=-1){
-            setWeapon("WINCHESTER");
+            setWeapon(searchForOn_FieldCards("WINCHESTER"));
         }
         if (searchForOn_FieldCards("VOLCANIC")!=-1){
-            setWeapon("VOLCANIC");
+            setWeapon(searchForOn_FieldCards("VOLCANIC"));
         }
         
     }, 3000);
