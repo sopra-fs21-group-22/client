@@ -301,7 +301,7 @@ export default function PlayerDeck({
                                     width={150}
                                     height={100}
                                     alt="150x100"
-                                    src={(weapon==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[weapon].card}_${player.onFieldCards.onFieldCards[weapon].suit}_${player.onFieldCards.onFieldCards[weapon].suit}.png`}/>
+                                    src={(weapon==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[weapon].card}_${player.onFieldCards.onFieldCards[weapon].suit}_${player.onFieldCards.onFieldCards[weapon].rank}.png`}/>
                                 <Figure.Caption>weapon</Figure.Caption>
                             </Figure>
                         </Col>
@@ -312,7 +312,7 @@ export default function PlayerDeck({
                                     width={150}
                                     height={100}
                                     alt="150x100"
-                                    src={(horse==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].suit}.png`}/>
+                                    src={(horse==-1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].rank}.png`}/>
                                 <Figure.Caption>horse</Figure.Caption>
                             </Figure>
                         </Col>
@@ -323,7 +323,7 @@ export default function PlayerDeck({
                                     width={150}
                                     height={100}
                                     alt="150x100"
-                                    src={(barrel==-1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].suit}.png`}/>
+                                    src={(barrel==-1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].rank}.png`}/>
                                 <Figure.Caption>barrel</Figure.Caption>
                             </Figure>
                         </Col>

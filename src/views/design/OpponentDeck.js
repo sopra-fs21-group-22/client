@@ -311,7 +311,7 @@ export default function OpponentDeck({
                                     width={150}
                                     height={100}
                                     alt="150x100"
-                                    src={(weapon==-1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[weapon].card}_${opponent.onFieldCards.onFieldCards[weapon].suit}_${opponent.onFieldCards.onFieldCards[weapon].suit}.png`}/>
+                                    src={(weapon==-1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[weapon].card}_${opponent.onFieldCards.onFieldCards[weapon].suit}_${opponent.onFieldCards.onFieldCards[weapon].rank}.png`}/>
                                 <Figure.Caption>weapon</Figure.Caption>
                             </Figure>
                         </Col>
@@ -322,7 +322,7 @@ export default function OpponentDeck({
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={(horse==-1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[horse].card}_${opponent.onFieldCards.onFieldCards[horse].suit}_${opponent.onFieldCards.onFieldCards[horse].suit}.png`}/>
+                            src={(horse==-1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[horse].card}_${opponent.onFieldCards.onFieldCards[horse].suit}_${opponent.onFieldCards.onFieldCards[horse].rank}.png`}/>
                         <Figure.Caption>horse</Figure.Caption>
                     </Figure>
                 </Col>
@@ -333,7 +333,7 @@ export default function OpponentDeck({
                             width={150}
                             height={100}
                             alt="150x100"
-                            src={(barrel==-1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].suit}.png`}/>
+                            src={(barrel==-1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].rank}.png`}/>
                         <Figure.Caption>barrel</Figure.Caption>
                     </Figure>
                 </Col>

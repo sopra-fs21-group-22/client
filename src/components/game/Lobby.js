@@ -154,7 +154,7 @@ function Lobby({
             alert("can't end your turn if it isn't your turn.")
             return;
         } else {
-            authApi().put(`games/${currPlayer_table.id}/player/${currPlayer.id}/turn`)
+            authApi().put(`games/${currPlayer_table.id}/players/${currPlayer.id}/turn`)
         }
     }
 
