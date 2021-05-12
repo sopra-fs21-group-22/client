@@ -120,11 +120,7 @@ export default function PlayerCards({
                 setShow_duplicateBlueCard(true);
                 return;
             }
-            /*const target_list = ?????;
-            const requestBody = JSON.stringify({
-                targetCardId: target_list
-            });
-            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
+            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
             updateCurr_card(null);
             updateFill_array(true);
             updateBorder("none");
@@ -137,11 +133,7 @@ export default function PlayerCards({
                 setShow_duplicateBlueCard(true);
                 return;
             }
-            /*const target_list = ?????;
-            const requestBody = JSON.stringify({
-                target_list: target_list
-            });
-            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
+            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
             updateCurr_card(null);
             updateFill_array(true);
             updateBorder("none");
@@ -157,11 +149,7 @@ export default function PlayerCards({
                 setShow_duplicateBlueCard(true);
                 return;
             }
-            /*const target_list = ?????;
-            const requestBody = JSON.stringify({
-                target_list: target_list
-            });
-            authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
+            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
             updateFill_array(true);
             updateBorder("none");
             return;
@@ -186,11 +174,7 @@ export default function PlayerCards({
     }
 
     function doReplaceCard(){
-        /*const target_list = ?????;
-        const requestBody = JSON.stringify({
-            target_list: target_list
-        });
-        authApi().post(´/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}´, requestBody};*/ //TODO: backend ain't ready yet
+        authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
         updateCurr_card(null);
         updateFill_array(true);
         updateBorder("none");
