@@ -152,6 +152,7 @@ export default function PlayerCards({
             authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
             updateFill_array(true);
             updateBorder("none");
+            updateCurr_card(null);
             return;
         }
         updateBorder("solid");
