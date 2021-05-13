@@ -111,9 +111,7 @@ export default function OpponentDeck({
         if (!card) {
             return;
         }
-        //TODO uncomment this:
         switch (card.card) {
-            //switch("STAGECOACH"){
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":

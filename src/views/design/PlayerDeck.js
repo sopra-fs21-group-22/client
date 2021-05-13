@@ -95,9 +95,7 @@ export default function PlayerDeck({
         if (!card) {
             return;
         }
-        //TODO uncomment this:
         switch (card.card) {
-            //switch("STAGECOACH"){
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
@@ -131,22 +129,22 @@ export default function PlayerDeck({
             updateCard_played(true);
             updateBorder("none");
             setWidth(5);
-            const beforeDrawing = player.hand.playCards;
+            const beforeDrawingCards = player.hand.playCards;
             
             const target_CardId = null;
             const requestBody = JSON.stringify({
                 target_CardId: target_CardId
             });
-            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
+            await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
+            let playerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
 
 
             switch (curr_card.card) {
                 case "WELLSFARGO":
                 case "STAGECOACH":
-                    const afterDrawing = player.hand.playCards;
-                    const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
+                    const afterDrawingCards = playerAfterRequest.data.hand.playCards;
+                    const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
                     setCards(newCards);
-                    setShow_drawnCards(true);
                     break;
                 case "INDIANS":
                 case "BEER":
@@ -176,16 +174,33 @@ export default function PlayerDeck({
         }
     }
 
+    function getNewCards(before, after) {
+        const beforeIds = getCardIds(before);
+        const afterIds = getCardIds(after);
+        let curr = [];
+        for (let id of afterIds) {
+            if (beforeIds.indexOf(id) === -1) {
+                curr.push(after[afterIds.indexOf(id)]);
+            }
+        }
+        return curr;
+    }
+
+    function getCardIds(cards) {
+        let curr = [];
+        for (let card of cards) {
+            curr.push(card.id);
+        }
+
+        return curr;
+    }
+
     function closeDrawnCards() {
         setShow_drawnCards(false);
     }
 
     function setCards(newCards) {
-        let curr = [];
-        for (let card of newCards) {
-            curr.push(card);
-        }
-        setDrawnCards(curr);
+        setDrawnCards(newCards);
         setShow_drawnCards(true);
     }
 
@@ -336,7 +351,9 @@ export default function PlayerDeck({
                         </Modal.Header>
                         <Modal.Body id="chosen-role_modal_body" centered>
                             {drawnCards.map((curr) => (
-                                <Image src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`} id="chosen-role_modal_body_image"/>
+                                <Col>
+                                    <Image src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`} id="chosen-role_modal_body_image"/>
+                                </Col>
                             ))}
                         </Modal.Body>
                         <Modal.Footer id="chosen-role_modal_footer">
