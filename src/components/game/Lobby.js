@@ -69,24 +69,25 @@ function Lobby({
         //correctOrder();
         setToomanycards(currp.hand.playCards.length - currp.bullets);
 
-
-//start of user turn
-        if (startofturn_drawncards) {
-            if (currPt.playerOnTurn.id === currp.id) {
-                // setCards(newCards); //TODO: get drawn cards from backend somehow??
-                setStartofturn_drawncards(false); //TODO: setStartofturn_drawncards==true at the start of the next turn
-            }
-        }
-
-
-//this stops once the game starts
+        //this stops once the game starts
 //TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
         if (loopvar) {
-
             if (currPt.gameHasStarted == "ONGOING") {
                 setupRole();
                 setShow_rolechoose(true);
                 setLoopvar(false);
+                localStorage.setItem("cards", currp.hand.playCards);
+            }
+        }
+
+
+//start of user turn
+        if (startofturn) {
+            if (currPt.playerOnTurn.id === currp.id) {
+                const beforeDrawingCards = localStorage.getItem("cards");
+                const afterDrawingCards = currp.hand.playCards;
+                // setCards(newCards); //TODO: get drawn cards from backend somehow??
+                setStartofturn(false); //TODO: setStartofturn==true at the start of the next turn
             }
         }
 //time limit
@@ -125,6 +126,7 @@ function Lobby({
 //Buttons
     async function resign() {
         authApi().delete(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
+        localStorage.removeItem("cards");
         history.push("/game/dashboard");
     }
 
@@ -146,7 +148,7 @@ function Lobby({
         setShow_rules(false);
     }
 
-    function endTurn() {
+    async function endTurn() {
         if (currPlayer.hand.playCards.length > currPlayer.bullets) {
             // if (true){
             setShow_too_many_cards(true);
@@ -154,7 +156,9 @@ function Lobby({
             alert("can't end your turn if it isn't your turn.")
             return;
         } else {
-            authApi().put(`games/${currPlayer_table.id}/players/${currPlayer.id}/turn`)
+            localStorage.setItem("cards", currPlayer.hand.playCards);
+            await authApi().put(`games/${currPlayer_table.id}/players/${currPlayer.id}/turn`);
+            setStartofturn(true);
         }
     }
 
@@ -228,7 +232,7 @@ function Lobby({
     }
 
 //turn starts
-    const [startofturn_drawncards, setStartofturn_drawncards] = useState(true);
+    const [startofturn, setStartofturn] = useState(true);
     const [show_drawnCards, setShow_drawnCards] = useState(false);
     const [drawnCards, setDrawnCards] = useState([]);
 
@@ -247,7 +251,7 @@ function Lobby({
 
 /////////////////////////////////////////////////
 
-    const [show_rolechoose, setShow_rolechoose] = useState(false);
+    const [show_rolechoose, setShow_rolechoose] = useState(true);
     const [show_roledisplay, setShow_roledisplay] = useState(false);
     const [show_roleinformation, setShow_roleinformation] = useState(false);
     const [hidden_gamefield, setHidden_gamefield] = useState(false);

@@ -149,8 +149,7 @@ function Layout4players({
                             updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                             updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                             updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                            updateFill_array={updateFill_array}
-                />
+                            updateFill_array={updateFill_array}/>
             </Col>
             <Col/>
         </Row>
