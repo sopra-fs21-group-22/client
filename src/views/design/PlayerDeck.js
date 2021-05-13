@@ -135,13 +135,14 @@ export default function PlayerDeck({
             const requestBody = JSON.stringify({
                 target_CardId: target_CardId
             });
-            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
+            await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
+            let playerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
 
 
             switch (curr_card.card) {
                 case "WELLSFARGO":
                 case "STAGECOACH":
-                    const afterDrawingCards = player.hand.playCards;
+                    const afterDrawingCards = playerAfterRequest.data.hand.playCards;
                     const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
                     setCards(newCards);
                     break;
@@ -177,9 +178,9 @@ export default function PlayerDeck({
         const beforeIds = getCardIds(before);
         const afterIds = getCardIds(after);
         let curr = [];
-        for (let id of beforeIds) {
-            if (afterIds.indexOf(id) === -1) {
-                curr.push(before[beforeIds.indexOf(id)]);
+        for (let id of afterIds) {
+            if (beforeIds.indexOf(id) === -1) {
+                curr.push(after[afterIds.indexOf(id)]);
             }
         }
         return curr;
