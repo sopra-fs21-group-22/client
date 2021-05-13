@@ -49,7 +49,7 @@ function Lobby({
                }) {
     const history = useHistory();
     const [count, setCount] = useState(0);
-    const [loopvar, setLoopvar] = useState(true);
+    const [firstTurn, setFirstTurn] = useState(true);
     const [playeramount, setPlayeramount] = useState(currPlayer_table.players.length);
     const [toomanycards, setToomanycards] = useState("loading");//TODO uncomment this
     const [timer, setTimer] = useState(100);
@@ -65,18 +65,13 @@ function Lobby({
         const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
-        //localStorage.setItem('player_table', JSON.stringify(currPlayer_table));
-        //correctOrder();
         setToomanycards(currp.hand.playCards.length - currp.bullets);
 
         //this stops once the game starts
-//TODO: uncomment this to have a running game. IMPORTANT: leave this commented out for testing on the dev server, since it requires a game to be started
-        if (loopvar) {
-            if (currPt.gameHasStarted == "ONGOING") {
-                setupRole();
-                setShow_rolechoose(true);
-                setLoopvar(false);
-                localStorage.setItem("cards", currp.hand.playCards);
+        if (firstTurn) {
+            if (currPt.gameStatus === "ONGOING") {
+                localStorage.setItem("cards", JSON.stringify(currPlayer.hand.playCards));
+                setFirstTurn(false);
             }
         }
 
@@ -84,10 +79,13 @@ function Lobby({
 //start of user turn
         if (startofturn) {
             if (currPt.playerOnTurn.id === currp.id) {
-                const beforeDrawingCards = localStorage.getItem("cards");
+                const beforeDrawingCards = JSON.parse(localStorage.getItem("cards"));
                 const afterDrawingCards = currp.hand.playCards;
-                // setCards(newCards); //TODO: get drawn cards from backend somehow??
-                setStartofturn(false); //TODO: setStartofturn==true at the start of the next turn
+                const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
+                if (newCards.length > 0) {
+                    setCards(newCards);
+                }
+                setStartofturn(false);
             }
         }
 //time limit
@@ -156,7 +154,7 @@ function Lobby({
             alert("can't end your turn if it isn't your turn.")
             return;
         } else {
-            localStorage.setItem("cards", currPlayer.hand.playCards);
+            localStorage.setItem("cards", JSON.stringify(currPlayer.hand.playCards));
             await authApi().put(`games/${currPlayer_table.id}/players/${currPlayer.id}/turn`);
             setStartofturn(true);
         }
@@ -236,17 +234,34 @@ function Lobby({
     const [show_drawnCards, setShow_drawnCards] = useState(false);
     const [drawnCards, setDrawnCards] = useState([]);
 
-    function setCards(newCards) {
+    function getNewCards(before, after) {
+        const beforeIds = getCardIds(before);
+        const afterIds = getCardIds(after);
         let curr = [];
-        for (let card of newCards) {
-            curr.push(card);
+        for (let id of afterIds) {
+            if (beforeIds.indexOf(id) === -1) {
+                curr.push(after[afterIds.indexOf(id)]);
+            }
         }
-        setDrawnCards(curr);
-        setShow_drawnCards(true);
+        return curr;
+    }
+
+    function getCardIds(cards) {
+        let curr = [];
+        for (let card of cards) {
+            curr.push(card.id);
+        }
+
+        return curr;
     }
 
     function closeDrawnCards() {
         setShow_drawnCards(false);
+    }
+
+    function setCards(newCards) {
+        setDrawnCards(newCards);
+        setShow_drawnCards(true);
     }
 
 /////////////////////////////////////////////////

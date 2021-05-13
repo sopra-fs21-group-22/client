@@ -111,9 +111,6 @@ export default function PlayerCards({
     }
 
     function playCard(){
-        console.log("hello");
-        console.log(curr_card);
-        console.log(curr_card.id);
 
         //TODO: disable other player cards while choosing a target
         

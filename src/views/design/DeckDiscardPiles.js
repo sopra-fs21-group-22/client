@@ -6,7 +6,6 @@ export default function DeckDiscardPiles({playertable, playeronturn}){
 
     function getTopDiscardCard() {
         const curr = playertable.discardPile.topCard;
-        console.log(curr);
         return `/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`
     }
     return (

@@ -39,7 +39,6 @@ function WaitingRoom({
         const playertable_response = await authApi().get(`/games/${tableId}/players`);
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
-        console.log(currPt);
 
         const currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
         let currP = new PlayerModel(currPlayer_response.data);
