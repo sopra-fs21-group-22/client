@@ -53,6 +53,7 @@ function Layout4players({
     }, 1000);
 
 
+
     const [border, setBorder] = useState("none");
     const [card_played, setCard_played] = useState(false);
     const [fill_array, setFill_array] = useState(true);
