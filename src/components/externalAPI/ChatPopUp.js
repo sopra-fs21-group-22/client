@@ -1,58 +1,44 @@
-import {Button, Card, Form, FormControl, InputGroup} from "react-bootstrap";
-import {authApi} from "../../helpers/api";
+import {Card} from "react-bootstrap";
 import React, {useState} from "react";
+import ChatInput from "./ChatInput";
+import {authApi} from "../../helpers/api";
 
 
-function ChatPopUp({chat, player, playertable}) {
+function ChatPopUp({chatMessages, player, playertable}) {
 
-    /*
-    const messages = chat.map((m) =>
-        <li key={m.id}>{m.name + ": " + m.content}</li>
-    );
-*/
-    const arr = [{id: 1, name: "Mario", content: "I like hats"}, {id: 2, name: "Nad", content: "I like cats"}, {
+    const arr = [{
         id: 3,
         name: "a",
-        content: "I like mats"
-    }, {id: 4, name: "b", content: "I like tatts"}, {id: 5, name: "c", content: "I like pats"}, {
+        content: "dä chat esch no hard coded"
+    }, {id: 4, name: "b", content: "enlangetextohniabstandzomteschtewiedasusgsehd"}, {id: 5, name: "c", content: "bang!"}, {
         id: 6,
         name: "d",
-        content: "I like rats"
-    }]
+        content: "wasauemmer"
+    }, {id: 1, name: "e", content: "no!"}, {id: 2, name: "f", content: "en lange text met abstand zom teschte wie das usgsehd"}]
     const messages = arr.map((m) =>
         <p key={m.id}>{m.name + ": " + m.content + "\n"}</p>
     );
 
-    function sendMessage(message) {
-        const requestBody = JSON.stringify({
-            "content": message,
-            "name": player.user,
-        })
-        //TODO: uncomment
-        //authApi().post(`/games/${playertable.id}/players/${player.id}/chat`, requestBody)
-    }
-
-
-    const [message, setMessage] = useState("");
+    /*
+    const requestBody = JSON.stringify({
+        content: "testContent",
+        name: "testName",
+    })
+    console.log("playertable before: ", playertable);
+    authApi().post(`/games/${playertable.id}/players/${player.id}/chat`, requestBody);
+    console.log("playertable after: ", playertable);
+*/
 
     return (
-        <Card class="overflow-auto" style={{backgroundColor: "none", opacity: 0.8, maxHeight: 300}}>
+        <Card className="overflow-auto" style={{backgroundColor: "none", opacity: 0.8, maxHeight: 300, maxWidth: 250}}>
 
             <Card.Header>Chat</Card.Header>
             <Card.Body>
-                <div class="overflow-auto p-2 mb-1 mb-md-1 mr-md-1 bg-light" style={{maxWidth: "260px", maxHeight: 170}}> {messages} </div>
-                <InputGroup className="mb-3">
-                    <FormControl
-                        placeholder="Message"
-                        aria-label="message"
-                        aria-describedby="basic-addon2"
-                        onChange={m => setMessage(m.target.value)}
-                    />
-                    <InputGroup.Append>
-                        <Button id="custombutton" variant="outline-secondary"
-                                onClick={sendMessage(message)}>Send</Button>
-                    </InputGroup.Append>
-                </InputGroup>
+                <div className="overflow-auto p-2 mb-1 mb-md-1 mr-md-1 bg-light"
+                     style={{maxWidth: "260px", maxHeight: 170}}>
+                    {messages}
+                </div>
+                <ChatInput player={player} playertable={playertable}/>
             </Card.Body>
         </Card>
     );
