@@ -111,32 +111,37 @@ export default function PlayerCards({
     }
 
     function playCard(){
+        console.log("hello");
+        console.log(curr_card);
+        console.log(curr_card.id);
 
         //TODO: disable other player cards while choosing a target
         
         if (curr_card.card=="BARREL"){
             let inthere = searchForOn_FieldCards("BARREL");
             if (inthere){
+                updateFill_array(true);
                 setShow_duplicateBlueCard(true);
                 return;
             }
             authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
             updateCurr_card(null);
-            updateFill_array(true);
             updateBorder("none");
+            updateFill_array(true);
             return;
         }
         if (curr_card.card=="APPALOOSA" || curr_card.card=="MUSTANG"){
             let inthere = searchForOn_FieldCards("APPALOOSA");
             let inthere2 = searchForOn_FieldCards("MUSTANG");
             if (inthere || inthere2){
+                updateFill_array(true);
                 setShow_duplicateBlueCard(true);
                 return;
             }
             authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
             updateCurr_card(null);
-            updateFill_array(true);
             updateBorder("none");
+            updateFill_array(true);
             return;
         }
         if (curr_card.card=="CARABINE" || curr_card.card=="REMINGTON" || curr_card.card=="SCHOFIELD" || curr_card.card=="VOLCANIC" || curr_card.card=="WINCHESTER"){
@@ -146,19 +151,19 @@ export default function PlayerCards({
             let inthere4 = searchForOn_FieldCards("VOLCANIC");
             let inthere5 = searchForOn_FieldCards("WINCHESTER");
             if (inthere || inthere2 || inthere3 || inthere4 || inthere5){
+                updateFill_array(true);
                 setShow_duplicateBlueCard(true);
                 return;
             }
             authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
-            updateFill_array(true);
             updateBorder("none");
             updateCurr_card(null);
+            updateFill_array(true);
             return;
         }
         updateBorder("solid");
         updateHideCancel_PlayCard(false);
         updateFill_array(true);
-        updateCurr_card(null);
     }
 
     function discardCard() {
@@ -189,7 +194,7 @@ export default function PlayerCards({
             {!curr_card ? (
                 <Modal hidden={show_duplicateBlueCard}>loading</Modal>
             ) : (<>
-                {<Modal show={true} centered animation size="sm" backdrop="static" keyboard={false}>
+                {<Modal show={show_duplicateBlueCard} animation size="sm" backdrop="static" keyboard={false}>
                     <Modal.Header id="chosen-role_modal_header">
                         <Modal.Title id="chosen-role_modal_header_title" centered>
                             <b>you already have a {curr_card.card}</b></Modal.Title>

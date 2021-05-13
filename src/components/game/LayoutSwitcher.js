@@ -68,11 +68,8 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                                   updateCurr_card={updateCurr_card} curr_card={curr_card}
-                                   updateChat={updateChat} chat={chat}/>;
-        /*return <Layout4players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard} updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-        ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf} updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies} updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-        updateCurr_card={updateCurr_card} curr_card={curr_card}/>;*/
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card} updateChat={updateChat} chat={chat}/>;
+
         case 5:
             return <Layout5players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard}
                                    setHideCancel_PlayCard={setHideCancel_PlayCard}/>;

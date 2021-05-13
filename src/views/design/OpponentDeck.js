@@ -111,9 +111,7 @@ export default function OpponentDeck({
         if (!card) {
             return;
         }
-        //TODO uncomment this:
         switch (card.card) {
-            //switch("STAGECOACH"){
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
@@ -174,6 +172,7 @@ export default function OpponentDeck({
                 updateFill_array(true);}*/
                     return;
             }
+            console.log(`selecttarget: opponent: ${curr_card}`);
             authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`);
 
             updateHideCancel_PlayCard(true);
