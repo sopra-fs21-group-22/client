@@ -131,7 +131,7 @@ export default function PlayerDeck({
             updateCard_played(true);
             updateBorder("none");
             setWidth(5);
-            const beforeDrawing = player.hand.playCards;
+            const beforeDrawingCards = player.hand.playCards;
             
             const target_CardId = null;
             const requestBody = JSON.stringify({
@@ -143,10 +143,9 @@ export default function PlayerDeck({
             switch (curr_card.card) {
                 case "WELLSFARGO":
                 case "STAGECOACH":
-                    const afterDrawing = player.hand.playCards;
-                    const newCards = afterDrawing.filter((card) => !beforeDrawing.contains(card));
+                    const afterDrawingCards = player.hand.playCards;
+                    const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
                     setCards(newCards);
-                    setShow_drawnCards(true);
                     break;
                 case "INDIANS":
                 case "BEER":
@@ -176,16 +175,33 @@ export default function PlayerDeck({
         }
     }
 
+    function getNewCards(before, after) {
+        const beforeIds = getCardIds(before);
+        const afterIds = getCardIds(after);
+        let curr = [];
+        for (let id of beforeIds) {
+            if (afterIds.indexOf(id) === -1) {
+                curr.push(before[beforeIds.indexOf(id)]);
+            }
+        }
+        return curr;
+    }
+
+    function getCardIds(cards) {
+        let curr = [];
+        for (let card of cards) {
+            curr.push(card.id);
+        }
+
+        return curr;
+    }
+
     function closeDrawnCards() {
         setShow_drawnCards(false);
     }
 
     function setCards(newCards) {
-        let curr = [];
-        for (let card of newCards) {
-            curr.push(card);
-        }
-        setDrawnCards(curr);
+        setDrawnCards(newCards);
         setShow_drawnCards(true);
     }
 
