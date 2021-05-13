@@ -351,7 +351,9 @@ export default function PlayerDeck({
                         </Modal.Header>
                         <Modal.Body id="chosen-role_modal_body" centered>
                             {drawnCards.map((curr) => (
-                                <Image src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`} id="chosen-role_modal_body_image"/>
+                                <Col>
+                                    <Image src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`} id="chosen-role_modal_body_image"/>
+                                </Col>
                             ))}
                         </Modal.Body>
                         <Modal.Footer id="chosen-role_modal_footer">
