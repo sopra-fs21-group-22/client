@@ -41,7 +41,7 @@ function Layout4players({
                             updateChat,
                             chat
                         }) {
-     const interval = useInterval(async () => {
+    const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
         console.log(`${playerList[1].user}layoutversion: ${playerList[1].bullets}`);
         console.log(`${playerList[2].user}layoutversion: ${playerList[2].bullets}`);
@@ -51,7 +51,6 @@ function Layout4players({
         // updateChatLog();
         setNewMessage(false); //TODO delete this when coupled to backend
     }, 1000);
-
 
 
     const [border, setBorder] = useState("none");
@@ -78,7 +77,7 @@ function Layout4players({
     const testMessage = {content: "Mech chamer ersch lösche wenns met em backend fonktioniert.", name: "testName"}
 
     function updateChatLog() { // fetches all chat messages from the backend
-        if(playertable.chat.messages.length > chat.length){
+        if (playertable.chat.messages.length > chat.length) {
             setNewMessage(true);
         }
         updateChat(playertable.chat.messages);
@@ -167,9 +166,9 @@ function Layout4players({
             <Col hidden={displayChat}>
                 <ChatPopUp chatMessages={chat} player={player} playertable={playertable}/>
             </Col>
-            <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop:10}} hidden={!displayChat}>
+            <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10}} hidden={!displayChat}>
 
-                <Toast show={newMessage && show} onClose={() => setShow(false)}  delay={2000} autohide>
+                <Toast show={newMessage && show} onClose={() => setShow(false)} delay={2000} autohide>
                     <Toast.Header>
                         <strong className="mr-auto">{testMessage.name}</strong>
                     </Toast.Header>
@@ -177,17 +176,15 @@ function Layout4players({
                 </Toast>
             </Col>
             <Col>
-                <PlayerDeck
-                    player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
-                    border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
-                    updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-                    ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
-                    updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
-                    updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
-                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                    updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                    updateFill_array={updateFill_array}
-                />
+                <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
+                            border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
+                            updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
+                            updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
+                            updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
+                            updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                            updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
+                            updateFill_array={updateFill_array}/>
             </Col>
             <Col/>
         </Row>
