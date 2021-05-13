@@ -53,8 +53,6 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
 
     async function join_public_lobby() {
         const response = await authApi().put("/games/lobbies");
-        console.log(`playerid:${response.data.player}`);
-        console.log(`tableid:${response.data.tableId}`);
         updatePlayerId(response.data.player);
         updateTableId(response.data.tableId);
         const id = response.data.tableId;
