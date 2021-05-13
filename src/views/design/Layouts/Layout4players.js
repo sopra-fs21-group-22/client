@@ -48,7 +48,7 @@ function Layout4players({
         console.log(`${playerList[3].user}layoutversion: ${playerList[3].bullets}`);
         console.log("sduifhsoduf"); */
         fillPlayerList();
-        updateChatLog();
+        // updateChatLog();
         setNewMessage(false); //TODO delete this when coupled to backend
     }, 1000);
 
@@ -168,7 +168,7 @@ function Layout4players({
             </Col>
             <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop:10}} hidden={!displayChat}>
 
-                <Toast show={newMessage} onClose={() => setShow(false)}  delay={2000} autohide>
+                <Toast show={newMessage && show} onClose={() => setShow(false)}  delay={2000} autohide>
                     <Toast.Header>
                         <strong className="mr-auto">{testMessage.name}</strong>
                     </Toast.Header>

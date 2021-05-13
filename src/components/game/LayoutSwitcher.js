@@ -4,7 +4,6 @@ import Layout6players from '../../views/design/Layouts/Layout6players';
 import Layout7players from '../../views/design/Layouts/Layout7players';
 import useInterval from "../game/useInterval.js";
 import React, {useState, useEffect} from 'react';
-import ChatPopUp from "../externalAPI/ChatPopUp";
 import {Row} from "react-bootstrap";
 
 
@@ -68,7 +67,8 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                                   updateCurr_card={updateCurr_card} curr_card={curr_card} updateChat={updateChat} chat={chat}/>;
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card}
+                                   updateChat={updateChat} chat={chat}/>;
 
         case 5:
             return <Layout5players visibility={visibility} hideCancel_PlayCard={hideCancel_PlayCard}
