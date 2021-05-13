@@ -49,7 +49,7 @@ function Layout4players({
         console.log(`${playerList[3].user}layoutversion: ${playerList[3].bullets}`);
         console.log("sduifhsoduf"); */
         fillPlayerList();
-        checkForMessages();
+        updateChatLog();
     }, 1000);     
 
 
@@ -58,7 +58,9 @@ function Layout4players({
     const [card_played, setCard_played] = useState(false);
     const [fill_array, setFill_array] = useState(true);
     const [playerList, setPlayerList] = useState(orderarray);
-    const [displayChat, setDisplayChat] = useState(false);
+    const [displayChat, setDisplayChat] = useState(false); // boolean whether the Chat Popup should be displayed or not
+    const [newMessages, setNewMessages] = useState([]); // Array of new messages
+
 
     const updateBorder = (value) => {
         setBorder(value);
@@ -70,7 +72,13 @@ function Layout4players({
     const updateFill_array = (value) => {
         setFill_array(value);
     }
-    function checkForMessages() {
+    function checkForNewMessages() {
+        if(updateChat.length > chat.length){
+
+        }
+    }
+
+    function updateChatLog() { // fetches all chat messages from the backend
         updateChat(playertable.chat.messages);
     }
 
