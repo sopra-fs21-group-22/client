@@ -9,7 +9,7 @@ import {
     Button,
     Modal,
     Image,
-    ModalBody
+    ModalBody, Toast
 } from 'react-bootstrap';
 import OpponentDeck from "../OpponentDeck";
 import PlayerDeck from "../PlayerDeck";
@@ -19,6 +19,7 @@ import React, {useState, useEffect} from 'react';
 import "../styling/custom_button_styling.css";
 import useInterval from "../../../components/game/useInterval.js";
 import PlayerModel from "../../../components/shared/models/PlayerModel.js";
+import ChatPopUp from "../../../components/externalAPI/ChatPopUp";
 
 function Layout4players({
                             playertable,
@@ -36,23 +37,30 @@ function Layout4players({
                             targetOnlyEnemies,
                             updateTargetOnlyEnemies,
                             updateCurr_card,
-                            curr_card
+                            curr_card,
+                            updateChat,
+                            chat
                         }) {
-     const interval = useInterval(async () => {    
+     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
         console.log(`${playerList[1].user}layoutversion: ${playerList[1].bullets}`);
         console.log(`${playerList[2].user}layoutversion: ${playerList[2].bullets}`);
         console.log(`${playerList[3].user}layoutversion: ${playerList[3].bullets}`);
         console.log("sduifhsoduf"); */
         fillPlayerList();
-    }, 1000);     
-
+        // updateChatLog();
+        setNewMessage(false); //TODO delete this when coupled to backend
+    }, 1000);
 
 
     const [border, setBorder] = useState("none");
     const [card_played, setCard_played] = useState(false);
     const [fill_array, setFill_array] = useState(true);
     const [playerList, setPlayerList] = useState(orderarray);
+    const [displayChat, setDisplayChat] = useState(false); // boolean whether the Chat Popup should be displayed or not
+    const [newMessage, setNewMessage] = useState(true); // Array of new messages
+    const [show, setShow] = useState(false);
+
 
     const updateBorder = (value) => {
         setBorder(value);
@@ -65,6 +73,16 @@ function Layout4players({
         setFill_array(value);
     }
 
+    //TODO instead of test message take the newest message from the chat dynamically
+    const testMessage = {content: "Mech chamer ersch lösche wenns met em backend fonktioniert.", name: "testName"}
+
+    function updateChatLog() { // fetches all chat messages from the backend
+        if(playertable.chat.messages.length > chat.length){
+            setNewMessage(true);
+        }
+        updateChat(playertable.chat.messages);
+    }
+
 
     function back() {
         updateHideCancel_PlayCard(true);
@@ -75,13 +93,15 @@ function Layout4players({
         updateTargetEveryone(false);
         updateCurr_card(null);
     }
-    function fillPlayerList(){
-        let array=[];
-        for (let x=0; x<orderarray.length; x++){
-            array[x]=searchbyid(orderarray[x].id);
+
+    function fillPlayerList() {
+        let array = [];
+        for (let x = 0; x < orderarray.length; x++) {
+            array[x] = searchbyid(orderarray[x].id);
         }
         setPlayerList(array);
     }
+
     function searchbyid(id) {
         for (let x = 0; x < playertable.players.length; x++) {
             if (playertable.players[x].id == id) {
@@ -138,18 +158,34 @@ function Layout4players({
             </Col>
         </Row>
         <Row>
-            <Col/>
+            <Button id="custombutton" style={{height: 50, marginTop: 20, marginLeft: 20}} onClick={() => {
+                setDisplayChat(!displayChat)
+            }}>
+                Chat
+            </Button>
+            <Col hidden={displayChat}>
+                <ChatPopUp chatMessages={chat} player={player} playertable={playertable}/>
+            </Col>
+            <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop:10}} hidden={!displayChat}>
+
+                <Toast show={newMessage && show} onClose={() => setShow(false)}  delay={2000} autohide>
+                    <Toast.Header>
+                        <strong className="mr-auto">{testMessage.name}</strong>
+                    </Toast.Header>
+                    <Toast.Body>{testMessage.content}</Toast.Body>
+                </Toast>
+            </Col>
             <Col>
-                <PlayerDeck 
-                            player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
-                            border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
-                            updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-                            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
-                            updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
-                            updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
-                            updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                            updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                            updateFill_array={updateFill_array}
+                <PlayerDeck
+                    player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
+                    border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
+                    updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                    ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
+                    updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
+                    updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
+                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                    updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
+                    updateFill_array={updateFill_array}
                 />
             </Col>
             <Col/>

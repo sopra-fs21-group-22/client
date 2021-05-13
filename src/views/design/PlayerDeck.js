@@ -241,7 +241,8 @@ export default function PlayerDeck({
 
 
     return (
-        <div>
+        <div style={{marginBottom: 5}}
+        >
             <p id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p>
             <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                 <Container onClick={selecttarget} className="opponent-player-deck_container-card"
