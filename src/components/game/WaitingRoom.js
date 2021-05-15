@@ -35,14 +35,27 @@ function WaitingRoom({
                       }) {
     const interval = useInterval(async () => {
         //if(loop){
-
-        const playertable_response = await authApi().get(`/games/${tableId}/players`);
+        console.log(`tableid: ${currUser.tableId}`);
+        let playertable_response;
+        if (tableId==null){
+            playertable_response = await authApi().get(`/games/${currUser.tableId}/players`);
+        }
+        if (tableId!=null){
+            playertable_response = await authApi().get(`/games/${tableId}/players`);
+        }
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
 
-        const currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
+        let currPlayer_response;
+        if (playerId==null || tableId==null){
+            currPlayer_response = await authApi().get(`/games/${currUser.tableId}/players/${currUser.player}`);
+        }
+        if (playerId!=null && tableId!=null){
+            currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
+        }
         let currP = new PlayerModel(currPlayer_response.data);
         updateCurrPlayer(currP);
+
         if (!buffer){
             var readycounter = 0;
             if (currPlayer_table.players.length > 3) {
@@ -133,6 +146,10 @@ function WaitingRoom({
         //setupRole();
         //setShow_rolechoose(true);
     }
+     function leave(){
+        authApi().delete(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
+        history.push("/game/dashboard");
+     }
 
 
     /*switch(condition){
@@ -150,14 +167,27 @@ function WaitingRoom({
             return <Lobby></Lobby>;
         
     }*/
+    function klak(){
+        console.log(`tableid: ${currPlayer_table.id}`);
+        console.log(`playerid: ${currPlayer.id}`);
+    }
     return (
         <Container>
             <p>Waiting for players to join...</p>
             <br></br>
-            <Spinner></Spinner>
+            
             <br></br><br></br>
-            <Button variant={ready_button_color} onClick={toggleReady}>{ready_button_text}</Button>
+            {!currPlayer_table || !currPlayer ? (
+                <Spinner></Spinner>
+            ) : (
+                <>
+                <Button variant={ready_button_color} disabled={currPlayer_table.gameStatus=="ONGOING"} onClick={toggleReady}>{ready_button_text}</Button>
+                <Button onClick={leave} variant="danger">Leave game</Button>
+                <Button onClick={klak}>display stuff</Button>
+                </>
+            )}
             <Button onClick={push} hidden={hidden}>Go to game</Button>
+            
         </Container>
     );
 }
