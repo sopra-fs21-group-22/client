@@ -10,6 +10,7 @@ import Header from "../../../views/Header";
 import User from "../models/User";
 import { authApi } from "../../../helpers/api";
 import PlayerModel from '../models/PlayerModel';
+import Testing from "../../../Playground/Testing.js";
 
 /**
  * Main router of your application.
@@ -78,6 +79,13 @@ function AppRouter() {
             path="/"
             exact
             render={() => <Redirect to={"/game"} />}
+          />
+          <Route
+            path="/testing"
+            exact
+            render={() => (
+              <Testing/>
+            )}
           />
 
         </div>
