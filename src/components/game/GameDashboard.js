@@ -12,13 +12,15 @@ import PlayerTable from '../shared/models/PlayerTable';
 import "../../views/design/styling/custom_button_styling.css";
 
 
-function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePlayerId, updateTableId}) {
+function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePlayerId, updateTableId, tableId, playerId}) {
     const [users, setUsers] = useState();
 
     const [lobby1, setLobby1] = useState({name: "lobbynameuno", player_count: "4/7", type: "public"});
     const [lobby2, setLobby2] = useState({name: "lobbynameduo", player_count: "3/7", type: "private"});
     const [lobbylist, setLobbylist] = useState([lobby1, lobby2]);
     const [lobbies, setLobbies] = useState(lobbylist);
+    const [showrejoin, setRejoin] = useState(true);
+    const [showjoin, setJoin] = useState(true);
 
 
     useEffect(async () => {
@@ -65,11 +67,22 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
         history.push(target);
     }
 
+    async function rejoin() {
+        const target = "/game/dashboard/lobby/public/waiting/" + tableId;
+        history.push(target);
+        
+    }
+    function klik(){
+        console.log(`tableid: ${tableId}`);
+        console.log(`playerid: ${playerId}`);
+    }
+
 
     return (
 
 
         <Container>
+            <Button onClick={klik}>asd</Button>
             {!users ? (
                 <Spinner/>
             ) : (
@@ -109,9 +122,11 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
 
           </ListGroup>*/}
                     <br></br>
-
-                    <Button id="custombutton" onClick={join_public_lobby} block>join lobby</Button>
-
+                    {!tableId ? (
+                    <Button id="custombutton" onClick={join_public_lobby} block>join game</Button>
+                    ) : (
+                    <Button id="custombutton" onClick={rejoin} block>re-join game</Button>
+                    )}
                     <br></br>
                     <h4>All Users</h4>
                     <ListGroup>

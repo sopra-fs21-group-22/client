@@ -11,7 +11,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import useInterval from '../game/useInterval.js';
 
 
-export default function Register({ currUser, updateUser }) {
+export default function Register({ currUser, updateUser, updateTableId, updatePlayerId }) {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [passwordConf, setPasswordConf] = useState();
@@ -20,17 +20,6 @@ export default function Register({ currUser, updateUser }) {
         nameValidity: null
     });
     const history = useHistory();
-    const [timer, setTimer] = useState(100);
-    const interval = useInterval(async () => {
-        if(timer!=0){
-            setTimer(timer-5);
-        }
-        
-        if(timer==0){
-            setTimer(100);
-        }
-            }, 1000);
-
     const handleSubmit = async e => {
         try {
             e.preventDefault();
@@ -49,6 +38,8 @@ export default function Register({ currUser, updateUser }) {
             const user = new User(response.data);
 
             updateUser(user);
+            updateTableId(user.tableId);
+            updatePlayerId(user.player);
 
             localStorage.setItem("user", JSON.stringify(user));
 
@@ -63,8 +54,6 @@ export default function Register({ currUser, updateUser }) {
 
     return (
         <Container>
-            <h1>important message to the group which is testing our game: play the game with exactly 4 players only. it won't work otherwise</h1>
-            <ProgressBar max={100} now={timer*4} variant={"info"}></ProgressBar>
             <Form>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Username</Form.Label>

@@ -10,6 +10,7 @@ import Header from "../../../views/Header";
 import User from "../models/User";
 import { authApi } from "../../../helpers/api";
 import PlayerModel from '../models/PlayerModel';
+import Testing from "../../../Playground/Testing.js";
 
 /**
  * Main router of your application.
@@ -24,12 +25,20 @@ function AppRouter() {
 
   const [user, setUser] = useState(null);
   const [player_table, setPlayer_table] = useState(null);
+  const [playerId, setPlayerId] = useState();
+  const [tableId, setTableId] = useState();
 
   const updateUser = (newUser) => {
     setUser(newUser);
   }
   const updatePlayer_table = (newPlayer_table) => {
     setPlayer_table(newPlayer_table);
+  }
+  const updateTableId = (newid) => {
+    setTableId(newid);
+  }
+  const updatePlayerId = (newid) => {
+      setPlayerId(newid);
   }
 
 
@@ -43,7 +52,8 @@ function AppRouter() {
             render={() => (
               <GameGuard>
                 <GameRouter updateUser={updateUser} currUser={user} base={"/game"} 
-               currPlayer_table={player_table} updatePlayer_table={updatePlayer_table} />
+               currPlayer_table={player_table} updatePlayer_table={updatePlayer_table} tableId={tableId} updateTableId={updateTableId}
+               playerId={playerId} updatePlayerId={updatePlayerId}/>
               </GameGuard>
             )}
           />
@@ -52,7 +62,7 @@ function AppRouter() {
             exact
             render={() => (
               <LoginGuard>
-                <Login user={user} updateUser={updateUser} />
+                <Login user={user} updateUser={updateUser} updateTableId={updateTableId} updatePlayerId={updatePlayerId}/>
               </LoginGuard>
             )}
           />
@@ -61,7 +71,7 @@ function AppRouter() {
             exact
             render={() => (
               <LoginGuard>
-                <Register currUser={user} updateUser={updateUser} />
+                <Register currUser={user} updateUser={updateUser} updateTableId={updateTableId} updatePlayerId={updatePlayerId}/>
               </LoginGuard>
             )}
           />
@@ -69,6 +79,13 @@ function AppRouter() {
             path="/"
             exact
             render={() => <Redirect to={"/game"} />}
+          />
+          <Route
+            path="/testing"
+            exact
+            render={() => (
+              <Testing/>
+            )}
           />
 
         </div>

@@ -15,7 +15,7 @@ import "../../views/design/styling/custom_button_styling.css";
  * https://reactjs.org/docs/react-component.html
  * @Class
  */
-function Login({ user, updateUser }) {
+function Login({ user, updateUser, updateTableId, updatePlayerId }) {
 
   const [password, setPassword] = useState();
   const [username, setUsername] = useState();
@@ -41,6 +41,8 @@ function Login({ user, updateUser }) {
 
       // udate the parent Component
       updateUser(user);
+      updateTableId(user.tableId);
+      updatePlayerId(user.player);
 
       // Store the user in localstorage
       localStorage.setItem('user', JSON.stringify(user));

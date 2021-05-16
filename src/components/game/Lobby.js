@@ -45,7 +45,9 @@ function Lobby({
                    orderArray,
                    updateOrderArray,
                    currPlayer,
-                   updateCurrPlayer
+                   updateCurrPlayer,
+                   updatePlayerId,
+                   updateTableId
                }) {
     const history = useHistory();
     const [count, setCount] = useState(0);
@@ -125,6 +127,8 @@ function Lobby({
     async function resign() {
         authApi().delete(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
         localStorage.removeItem("cards");
+        updateTableId(null);
+        updatePlayerId(null);
         history.push("/game/dashboard");
     }
 
