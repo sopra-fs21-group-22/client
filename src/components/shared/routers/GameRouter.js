@@ -77,7 +77,9 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
                                             updateOrderArray={updateOrderArray} currPlayer={currPlayer}
                                             updateCurrPlayer={updateCurrPlayer}
                                             tableId={tableId}
-                                            playerId={playerId}/>}
+                                            playerId={playerId}
+                                            updateTableId={updateTableId}
+                                            updatePlayerId={updatePlayerId}/>}
             />
 
         </Container>

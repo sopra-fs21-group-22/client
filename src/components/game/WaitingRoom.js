@@ -31,7 +31,9 @@ function WaitingRoom({
                           currPlayer,
                           updateCurrPlayer,
                           tableId,
-                          playerId
+                          playerId,
+                          updateTableId,
+                          updatePlayerId
                       }) {
     const interval = useInterval(async () => {
         //if(loop){
@@ -139,6 +141,8 @@ function WaitingRoom({
     }
      function leave(){
         authApi().delete(`/games/${tableId}/players/${playerId}`);
+        updatePlayerId(null);
+        updateTableId(null);
         history.push("/game/dashboard");
      }
 
