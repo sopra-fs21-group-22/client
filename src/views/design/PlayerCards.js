@@ -30,6 +30,13 @@ export default function PlayerCards({
             setShow_card(curr);
             updateFill_array(false);
         }
+        //this will disable every card after playing a bang TODO: change it so that only bang cards will be disabled
+        /* if (player.stillPlayableBangsThisRound==0){
+            setDisableHandCard(true);
+        }
+        if (player.stillPlayableBangsThisRound>0){
+            setDisableHandCard(false);
+        } */
 
     }, 2000);
     
@@ -40,12 +47,7 @@ export default function PlayerCards({
     const [show_duplicateBlueCard, setShow_duplicateBlueCard] = useState(false);
 
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
-
-    // function lookAtCard(){
-    //     if (playertable.playerOnTurn === player){
-    //         setShow_card(true);
-    //     }
-    // }
+    const [disableHandCard, setDisableHandCard] = useState(false); 
 
     function lookAtCard(index) {
         if (playeronturn.id != player.id) {
@@ -194,7 +196,7 @@ export default function PlayerCards({
                 {<Modal show={show_duplicateBlueCard} animation size="sm" backdrop="static" keyboard={false}>
                     <Modal.Header id="chosen-role_modal_header">
                         <Modal.Title id="chosen-role_modal_header_title" centered>
-                            <b>you already have a {curr_card.card}</b></Modal.Title>
+                            <b>you already have a {curr_card.card}</b></Modal.Title>{/* TODO: this message isn't quite correct */}
                     </Modal.Header>
                     <Modal.Body id="chosen-role_modal_body" centered>
                         <p>Do you want to replace your {curr_card.card}?</p>
@@ -220,7 +222,7 @@ export default function PlayerCards({
                     </Col>
                     {player.hand.playCards.map((currCard, index) => (
                         <Col>
-                            <Image className="deck-discard-pile_image-card"
+                            <Image disabled={disableHandCard} className="deck-discard-pile_image-card"
                                    src={`/images/play_cards/${currCard.color}_${currCard.card}_${currCard.suit}_${currCard.rank}.png`}
                                    onClick={() => lookAtCard(index)}/>
                             {<Modal show={show_card[index]} centered animation size="sm" backdrop="static"
