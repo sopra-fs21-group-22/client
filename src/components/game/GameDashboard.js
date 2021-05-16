@@ -12,7 +12,7 @@ import PlayerTable from '../shared/models/PlayerTable';
 import "../../views/design/styling/custom_button_styling.css";
 
 
-function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePlayerId, updateTableId}) {
+function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePlayerId, updateTableId, tableId, playerId}) {
     const [users, setUsers] = useState();
 
     const [lobby1, setLobby1] = useState({name: "lobbynameuno", player_count: "4/7", type: "public"});
@@ -68,13 +68,13 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
     }
 
     async function rejoin() {
-        const target = "/game/dashboard/lobby/public/waiting/" + currUser.tableId;
+        const target = "/game/dashboard/lobby/public/waiting/" + tableId;
         history.push(target);
         
     }
     function klik(){
-        console.log(`tableid: ${currUser.tableId}`);
-        console.log(`playerid: ${currUser.player}`);
+        console.log(`tableid: ${tableId}`);
+        console.log(`playerid: ${playerId}`);
     }
 
 
@@ -122,7 +122,7 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
 
           </ListGroup>*/}
                     <br></br>
-                    {!currUser.tableId ? (
+                    {!tableId ? (
                     <Button id="custombutton" onClick={join_public_lobby} block>join game</Button>
                     ) : (
                     <Button id="custombutton" onClick={rejoin} block>re-join game</Button>

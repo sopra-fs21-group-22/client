@@ -35,24 +35,15 @@ function WaitingRoom({
                       }) {
     const interval = useInterval(async () => {
         //if(loop){
-        console.log(`tableid: ${currUser.tableId}`);
+        console.log(`tableid: ${tableId}`);
+
         let playertable_response;
-        if (tableId==null){
-            playertable_response = await authApi().get(`/games/${currUser.tableId}/players`);
-        }
-        if (tableId!=null){
-            playertable_response = await authApi().get(`/games/${tableId}/players`);
-        }
+        playertable_response = await authApi().get(`/games/${tableId}/players`);
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
 
         let currPlayer_response;
-        if (playerId==null || tableId==null){
-            currPlayer_response = await authApi().get(`/games/${currUser.tableId}/players/${currUser.player}`);
-        }
-        if (playerId!=null && tableId!=null){
-            currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
-        }
+        currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
         let currP = new PlayerModel(currPlayer_response.data);
         updateCurrPlayer(currP);
 
@@ -147,7 +138,7 @@ function WaitingRoom({
         //setShow_rolechoose(true);
     }
      function leave(){
-        authApi().delete(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
+        authApi().delete(`/games/${tableId}/players/${playerId}`);
         history.push("/game/dashboard");
      }
 
@@ -167,9 +158,14 @@ function WaitingRoom({
             return <Lobby></Lobby>;
         
     }*/
-    function klak(){
-        console.log(`tableid: ${currPlayer_table.id}`);
-        console.log(`playerid: ${currPlayer.id}`);
+    function displayinfo(){
+        
+        console.log(`currusertableid: ${currUser.tableId}`);
+        console.log(`curruserplayerid: ${currUser.player}`);
+        console.log(`currtableid: ${currPlayer_table.id}`);
+        console.log(`currplayerid: ${currPlayer.id}`);
+        console.log(`tableid: ${tableId}`);
+        console.log(`playerid: ${playerId}`);
     }
     return (
         <Container>
@@ -183,7 +179,7 @@ function WaitingRoom({
                 <>
                 <Button variant={ready_button_color} disabled={currPlayer_table.gameStatus=="ONGOING"} onClick={toggleReady}>{ready_button_text}</Button>
                 <Button onClick={leave} variant="danger">Leave game</Button>
-                <Button onClick={klak}>display stuff</Button>
+                <Button onClick={displayinfo}>display stuff</Button>
                 </>
             )}
             <Button onClick={push} hidden={hidden}>Go to game</Button>

@@ -13,27 +13,20 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_table}) {
+function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_table, tableId, updateTableId, playerId, updatePlayerId}) {
 
     /**
      * "base" is "/app" because as been passed as a prop in the parent of GameRouter, i.e., App.js
      */
     const [orderArray, setOrderArray] = useState([]);
     const [currPlayer, setCurrPlayer] = useState();
-    const [playerId, setPlayerId] = useState();
-    const [tableId, setTableId] = useState();
     const updateOrderArray = (newarray) => {
         setOrderArray(newarray);
     }
     const updateCurrPlayer = (currPlayer) => {
         setCurrPlayer(currPlayer);
     }
-    const updateTableId = (newid) => {
-        setTableId(newid);
-    }
-    const updatePlayerId = (newid) => {
-        setPlayerId(newid);
-    }
+    
     return (
         <Container>
             <Route
@@ -42,7 +35,8 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
                 render={() => <GameDashboard currUser={currUser} currPlayer_table={currPlayer_table}
                                              updatePlayer_table={updatePlayer_table}
                                              updatePlayerId={updatePlayerId}
-                                             updateTableId={updateTableId}/>}
+                                             updateTableId={updateTableId}
+                                             tableId={tableId} playerId={playerId}/>}
             />
 
             <Route
@@ -71,7 +65,9 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
                 render={() => <Lobby currUser={currUser} currPlayer_table={currPlayer_table}
                                      updatePlayer_table={updatePlayer_table} orderArray={orderArray}
                                      updateOrderArray={updateOrderArray} currPlayer={currPlayer}
-                                     updateCurrPlayer={updateCurrPlayer}/>}
+                                     updateCurrPlayer={updateCurrPlayer}
+                                     updatePlayerId={updatePlayerId}
+                                     updateTableId={updateTableId}/>}
             />
             <Route
                 exact

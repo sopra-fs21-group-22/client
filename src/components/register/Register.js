@@ -11,7 +11,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import useInterval from '../game/useInterval.js';
 
 
-export default function Register({ currUser, updateUser }) {
+export default function Register({ currUser, updateUser, updateTableId, updatePlayerId }) {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [passwordConf, setPasswordConf] = useState();
@@ -38,6 +38,8 @@ export default function Register({ currUser, updateUser }) {
             const user = new User(response.data);
 
             updateUser(user);
+            updateTableId(user.tableId);
+            updatePlayerId(user.player);
 
             localStorage.setItem("user", JSON.stringify(user));
 
