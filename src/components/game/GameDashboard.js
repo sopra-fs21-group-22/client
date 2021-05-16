@@ -19,8 +19,6 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
     const [lobby2, setLobby2] = useState({name: "lobbynameduo", player_count: "3/7", type: "private"});
     const [lobbylist, setLobbylist] = useState([lobby1, lobby2]);
     const [lobbies, setLobbies] = useState(lobbylist);
-    const [showrejoin, setRejoin] = useState(true);
-    const [showjoin, setJoin] = useState(true);
 
 
     useEffect(async () => {
@@ -72,17 +70,12 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
         history.push(target);
         
     }
-    function klik(){
-        console.log(`tableid: ${tableId}`);
-        console.log(`playerid: ${playerId}`);
-    }
 
 
     return (
 
 
         <Container>
-            <Button onClick={klik}>asd</Button>
             {!users ? (
                 <Spinner/>
             ) : (

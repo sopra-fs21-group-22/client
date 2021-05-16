@@ -135,9 +135,7 @@ function WaitingRoom({
             })
             authApi().put(`/games/${tableId}/players/${playerId}/ready`, requestBody);
         }
-        //TODO: comment this to have a functioning game. this is only here to be able to reach the game screen without actually starting a game
-        //setupRole();
-        //setShow_rolechoose(true);
+
     }
      function leave(){
         authApi().delete(`/games/${tableId}/players/${playerId}`);
@@ -146,31 +144,6 @@ function WaitingRoom({
         history.push("/game/dashboard");
      }
 
-
-    /*switch(condition){
-        case false:
-            return(
-                <Container>
-                <p>Waiting for players to join...</p>
-                <br></br>
-                <Spinner></Spinner>
-                <br></br><br></br>
-                <Button variant={ready_button_color} onClick={toggleReady}>{ready_button_text}</Button>
-                </Container>
-            );
-        case true:
-            return <Lobby></Lobby>;
-        
-    }*/
-    function displayinfo(){
-        
-        console.log(`currusertableid: ${currUser.tableId}`);
-        console.log(`curruserplayerid: ${currUser.player}`);
-        console.log(`currtableid: ${currPlayer_table.id}`);
-        console.log(`currplayerid: ${currPlayer.id}`);
-        console.log(`tableid: ${tableId}`);
-        console.log(`playerid: ${playerId}`);
-    }
     return (
         <Container>
             <p>Waiting for players to join...</p>
@@ -183,7 +156,6 @@ function WaitingRoom({
                 <>
                 <Button variant={ready_button_color} disabled={currPlayer_table.gameStatus=="ONGOING"} onClick={toggleReady}>{ready_button_text}</Button>
                 <Button onClick={leave} variant="danger">Leave game</Button>
-                <Button onClick={displayinfo}>display stuff</Button>
                 </>
             )}
             <Button onClick={push} hidden={hidden}>Go to game</Button>
