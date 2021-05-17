@@ -29,10 +29,12 @@ export default function Testing() {
 
     return (
         <>
+        <div id="spin" display={"flex"} align={"center"} justifyContent={"center"}  position={"absolute"} margin={0}>
+        <Image id="grow" src="images/play_cards/blue_APPALOOSA_SPADES_ACE.png" height={100} width={80}></Image>
+        </div>
         <Button onClick={print}>klik me</Button>
-        <Image id="nonwiggle" src="images/back.png" height={100} width={80} ref={someelement}></Image>
+        <Image id="nonwiggle" src="images/play_cards/blue_APPALOOSA_SPADES_ACE.png" height={100} width={80} ref={someelement}></Image>
         <Button onClick={toggleanimation}>toggleanimation</Button>
-        
         </>
     )
 }

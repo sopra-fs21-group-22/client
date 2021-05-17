@@ -186,6 +186,13 @@ export default function PlayerCards({
         setShow_duplicateBlueCard(false);
     }
 
+    function disableBangCard(card){
+        console.log("in there");
+        if (card.card=="BANG"){
+            setDisableHandCard(true);
+        }
+    }
+
 
     return (
         <>
@@ -222,7 +229,7 @@ export default function PlayerCards({
                     </Col>
                     {player.hand.playCards.map((currCard, index) => (
                         <Col>
-                            <Image disabled={disableHandCard} className="deck-discard-pile_image-card"
+                            <Image disabled={/* disableHandCard */true} className="deck-discard-pile_image-card"
                                    src={`/images/play_cards/${currCard.color}_${currCard.card}_${currCard.suit}_${currCard.rank}.png`}
                                    onClick={() => lookAtCard(index)}/>
                             {<Modal show={show_card[index]} centered animation size="sm" backdrop="static"
@@ -235,13 +242,26 @@ export default function PlayerCards({
                                     <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>
                                 </Modal.Body>
                                 <Modal.Footer id="chosen-role_modal_footer">
-                                    <Button variant="danger" onClick={discardCard}>Discard</Button>
-                                    <Button id="custombutton" onClick={closeCard}>
-                                        Return
-                                    </Button>
-                                    <Button id="custombutton" onClick={playCard} disabled={playcard_disabled}>
-                                        Play
-                                    </Button>
+                                    {!curr_card ? (
+                                        <>
+                                        <Button variant="danger" disabled={true}>Discard</Button>
+                                        <Button id="custombutton"disabled={true}>
+                                            Return
+                                        </Button>
+                                        <Button id="custombutton" disabled={true} /* placeholder because error if curr_card==null */>
+                                            Play
+                                        </Button>
+                                        </>
+                                    ) : (<>
+                                        <Button variant="danger" onClick={discardCard}>Discard</Button>
+                                        <Button id="custombutton" onClick={closeCard}>
+                                            Return
+                                        </Button>
+                                        <Button id="custombutton" disabled={((player.stillPlayableBangsThisRound==0 && curr_card.card=="BANG") || curr_card.card=="MISSED" || (curr_card.card=="BEER" && player.maxBullets<player.bullets+1)) ? true:false} onClick={playCard}>
+                                            Play
+                                        </Button>
+                                        </>
+                                    )}
                                 </Modal.Footer>
                             </Modal>}
                         </Col>

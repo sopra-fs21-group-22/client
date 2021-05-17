@@ -38,15 +38,6 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
             alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
         }
     }, []);
-    /*async function Join(e) {
-      let history = useHistory();
-
-      e.preventDefault();
-      //authApi().put("/lobbies");
-     // return <Redirect to='/profile' />;
-      history.push(`/game/gurkewasser`);
-
-    }*/
 
 
     let history = useHistory();
