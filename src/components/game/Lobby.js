@@ -310,6 +310,13 @@ function Lobby({
 
 
     return (
+        <>
+        {!currPlayer_table || !currPlayer ? (
+            <>
+            <Spinner></Spinner>
+            <p>we be loading them data</p>
+            </>
+        ) : (
         <Container>
             <div>
                 <p>constant updates counter. updates every 5 seconds: {count}</p>
@@ -436,6 +443,8 @@ function Lobby({
                 <br></br>
             </div>
         </Container>
+        )}
+        </>
     );
 }
 

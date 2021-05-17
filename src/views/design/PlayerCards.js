@@ -30,6 +30,13 @@ export default function PlayerCards({
             setShow_card(curr);
             updateFill_array(false);
         }
+        //this will disable every card after playing a bang TODO: change it so that only bang cards will be disabled
+        /* if (player.stillPlayableBangsThisRound==0){
+            setDisableHandCard(true);
+        }
+        if (player.stillPlayableBangsThisRound>0){
+            setDisableHandCard(false);
+        } */
 
     }, 2000);
     
@@ -40,12 +47,7 @@ export default function PlayerCards({
     const [show_duplicateBlueCard, setShow_duplicateBlueCard] = useState(false);
 
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
-
-    // function lookAtCard(){
-    //     if (playertable.playerOnTurn === player){
-    //         setShow_card(true);
-    //     }
-    // }
+    const [disableHandCard, setDisableHandCard] = useState(false); 
 
     function lookAtCard(index) {
         if (playeronturn.id != player.id) {
@@ -184,6 +186,13 @@ export default function PlayerCards({
         setShow_duplicateBlueCard(false);
     }
 
+    function disableBangCard(card){
+        console.log("in there");
+        if (card.card=="BANG"){
+            setDisableHandCard(true);
+        }
+    }
+
 
     return (
         <>
@@ -194,7 +203,7 @@ export default function PlayerCards({
                 {<Modal show={show_duplicateBlueCard} animation size="sm" backdrop="static" keyboard={false}>
                     <Modal.Header id="chosen-role_modal_header">
                         <Modal.Title id="chosen-role_modal_header_title" centered>
-                            <b>you already have a {curr_card.card}</b></Modal.Title>
+                            <b>you already have a {curr_card.card}</b></Modal.Title>{/* TODO: this message isn't quite correct */}
                     </Modal.Header>
                     <Modal.Body id="chosen-role_modal_body" centered>
                         <p>Do you want to replace your {curr_card.card}?</p>
@@ -220,7 +229,7 @@ export default function PlayerCards({
                     </Col>
                     {player.hand.playCards.map((currCard, index) => (
                         <Col>
-                            <Image className="deck-discard-pile_image-card"
+                            <Image disabled={/* disableHandCard */true} className="deck-discard-pile_image-card"
                                    src={`/images/play_cards/${currCard.color}_${currCard.card}_${currCard.suit}_${currCard.rank}.png`}
                                    onClick={() => lookAtCard(index)}/>
                             {<Modal show={show_card[index]} centered animation size="sm" backdrop="static"
@@ -233,13 +242,26 @@ export default function PlayerCards({
                                     <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>
                                 </Modal.Body>
                                 <Modal.Footer id="chosen-role_modal_footer">
-                                    <Button variant="danger" onClick={discardCard}>Discard</Button>
-                                    <Button id="custombutton" onClick={closeCard}>
-                                        Return
-                                    </Button>
-                                    <Button id="custombutton" onClick={playCard} disabled={playcard_disabled}>
-                                        Play
-                                    </Button>
+                                    {!curr_card ? (
+                                        <>
+                                        <Button variant="danger" disabled={true}>Discard</Button>
+                                        <Button id="custombutton"disabled={true}>
+                                            Return
+                                        </Button>
+                                        <Button id="custombutton" disabled={true} /* placeholder because error if curr_card==null */>
+                                            Play
+                                        </Button>
+                                        </>
+                                    ) : (<>
+                                        <Button variant="danger" onClick={discardCard}>Discard</Button>
+                                        <Button id="custombutton" onClick={closeCard}>
+                                            Return
+                                        </Button>
+                                        <Button id="custombutton" disabled={((player.stillPlayableBangsThisRound==0 && curr_card.card=="BANG") || curr_card.card=="MISSED" || (curr_card.card=="BEER" && player.maxBullets<player.bullets+1)) ? true:false} onClick={playCard}>
+                                            Play
+                                        </Button>
+                                        </>
+                                    )}
                                 </Modal.Footer>
                             </Modal>}
                         </Col>
