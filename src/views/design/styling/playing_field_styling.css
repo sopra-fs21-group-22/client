@@ -65,6 +65,21 @@
     border-width: 5px;
 }
 
+#fade{
+    animation-delay: 2s;
+    animation-duration: 3s;
+    animation-name: fadeout;
+}
+
+@keyframes fadeout{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
 #wiggle{
     animation: wiggle 0.5s;
     transform: rotate(0deg);
