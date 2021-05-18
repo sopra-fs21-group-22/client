@@ -34,7 +34,6 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     const [targetEveryone, setTargetEveryone] = useState(false);
     const [targetOnlyEnemies, setTargetOnlyEnemies] = useState(false);
     const [chat, setChat] = useState([]);
-    const [roleinformation, setRoleinformation] = useState("sample text");
 
 
 

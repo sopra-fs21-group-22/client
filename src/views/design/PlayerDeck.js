@@ -2,8 +2,10 @@ import useInterval from "../../components/game/useInterval.js";
 import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {authApi} from "../../helpers/api";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 export default function PlayerDeck({
                                        player, opponent,
@@ -31,6 +33,12 @@ export default function PlayerDeck({
         console.log(`${opponent.user} other: ${opponent.bullets}`); */
 
         //repeating requests to keep stuff up-to-date
+        if (setupCharacter){
+            let character_response = await authApi().get(`/games/${playertable.id}/players/${player.id}/characters`);
+            setCharacterName(character_response.data.name);
+            setCharacterDescription(character_response.data.description);
+            setSetupCharacter(false);
+        }
         if (curr_card != null) {
             setupTargetHighlighting(curr_card);
         }
@@ -239,6 +247,25 @@ export default function PlayerDeck({
     const [show_drawnCards, setShow_drawnCards] = useState(false);
     const [drawnCards, setDrawnCards] = useState([]);
 
+    const [characterName, setCharacterName] = useState("loading character name...");
+    const [characterDescription, setCharacterDescription] = useState("loading character description...");
+    const [setupCharacter, setSetupCharacter] = useState(true);
+    const characterRef = useRef();
+
+    const character_information = (
+        <Popover placement="bottom" id="role-info_popover">
+            <Popover.Title id="role-info_popover_title"><b>{characterName}</b></Popover.Title>
+            <Popover.Content id="role-info_popover_content">
+                <Card id="role-info_popover_content_card">
+                    <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered
+                              src={!characterRef.current ? "/images/back.png": (inJail ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`)}/>
+                </Card>
+                {characterDescription}
+            </Popover.Content>
+        </Popover>
+    )
+
+
 
     return (
         <div style={{marginBottom: 5}}
@@ -275,17 +302,15 @@ export default function PlayerDeck({
                     <Row className="justify-content-md-center align-items-center">
                         <Col>
                             <Figure>
-                                {/*<Figure.Image id="character-image_FigureImage" style={{borderStyle: highlightImage}}
-                            width={80}
-                            height={80}
-                            alt="80x80"
-                            src={`/images/character_cards/${player.profilePicture.id()}.jpeg`}/>*/}
-                                <Figure.Image id="character-image_FigureImage" style={{borderStyle: highlightImage}}
-                                              width={80}
-                                              height={80}
-                                              alt="80x80"
-                                              src={inJail ? "/images/character_cards/black_jack_p_jail.png" : "/images/character_cards/black_jack_p.jpeg"}
-                                />
+                                <OverlayTrigger trigger="click" overlay={character_information} rootClose>
+                                    <Figure.Image id="character-image_FigureImage" style={{borderStyle: highlightImage}}
+                                                ref={characterRef}
+                                                width={80}
+                                                height={80}
+                                                alt="80x80"
+                                                src={inJail ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
+                                    />
+                                </OverlayTrigger>
                                 <Figure.Caption
                                     id="opponent-player-deck_figure-profile-picture">{player.user}</Figure.Caption>
                             </Figure>
