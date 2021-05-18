@@ -438,7 +438,7 @@ function Lobby({
                 <Button onClick={openRules} id="custombutton">Rules</Button>
                 <Button onClick={resign} id="custombutton">Resign</Button>
                 <br></br>
-                <ProgressBar hidden={currPlayer_table.playerOnTurn.id!=currPlayer.id} max={60} now={currPlayer_table.timeRemaining/1000} variant={"info"}></ProgressBar>
+                <ProgressBar hidden={currPlayer_table.playerOnTurn.id!=currPlayer.id} max={120} now={currPlayer_table.timeRemaining/1000} variant={"info"}></ProgressBar>
                 <p><b>strikes: {currPlayer.strikes}/3</b></p>
                 <br></br>
             </div>
