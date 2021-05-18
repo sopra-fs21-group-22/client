@@ -46,6 +46,7 @@ function WaitingRoom({
 
         let currPlayer_response;
         currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
+        console.log(`player: ${currPlayer_response.data}`);
         let currP = new PlayerModel(currPlayer_response.data);
         updateCurrPlayer(currP);
 
@@ -73,8 +74,13 @@ function WaitingRoom({
         }
         
         setBuffer(false);
+        fonctschon();
         //}   
     }, 3000);
+    async function fonctschon(){
+        let response = await authApi().get(`/games/${tableId}/players/${playerId}/characters`);
+        console.log(`characters: ${response.data.id}`);
+    }
   
     const [condition, setCondition] = useState(false);
     const [status, setStatus] = useState(false);

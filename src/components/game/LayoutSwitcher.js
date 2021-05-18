@@ -5,21 +5,26 @@ import Layout7players from '../../views/design/Layouts/Layout7players';
 import useInterval from "../game/useInterval.js";
 import React, {useState, useEffect} from 'react';
 import {Row} from "react-bootstrap";
+import { authApi } from '../../helpers/api';
 
 
 function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player}) {
 // function LayoutSwitcher({playeramount, visibility}){
 
-    //const interval = useInterval(async () => {    
+    const interval = useInterval(async () => {    
 
         //repeating requests to keep stuff up-to-date
-        /*console.log("repeat");
-        console.log(curr_card);        
-        console.log("repeat");*/
+
+        //fonctschon();
 
 
         
-    //}, 1000);
+    }, 1000);
+
+    function fonctschon(){
+        let response = authApi().get(`/games/${playertable.id}/players/${player.id}/characters`);
+        console.log(`characters: ${response.data}`);
+    }
 
     //to hide or show the cancel button when choosing a target
     const [hideCancel_PlayCard, setHideCancel_PlayCard] = useState(true);
@@ -29,6 +34,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     const [targetEveryone, setTargetEveryone] = useState(false);
     const [targetOnlyEnemies, setTargetOnlyEnemies] = useState(false);
     const [chat, setChat] = useState([]);
+    const [roleinformation, setRoleinformation] = useState("sample text");
 
 
 
