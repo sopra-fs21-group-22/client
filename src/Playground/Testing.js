@@ -35,7 +35,7 @@ export default function Testing() {
         {/* <Button onClick={print}>klik me</Button>
         <Image id="nonwiggle" src="images/play_cards/blue_APPALOOSA_SPADES_ACE.png" height={100} width={80} ref={someelement}></Image>
         <Button onClick={toggleanimation}>toggleanimation</Button> */}
-        <Image id="fade" src="images/indianerganz.png"></Image>
+        <Image id="fade" src="images/indianer.png"></Image>
         </>
     )
 }

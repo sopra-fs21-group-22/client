@@ -74,13 +74,8 @@ function WaitingRoom({
         }
         
         setBuffer(false);
-        //fonctschon();
         //}   
     }, 3000);
-    async function fonctschon(){
-        let response = await authApi().get(`/games/${tableId}/players/${playerId}/characters`);
-        console.log(`characters: ${response.data}`);
-    }
   
     const [condition, setCondition] = useState(false);
     const [status, setStatus] = useState(false);

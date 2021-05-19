@@ -134,8 +134,13 @@ function Layout5players({
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                               updateFill_array={updateFill_array}/>
             </Col>
-            <Col>
+            <Col>{playertable.gameStatus=="ENDED" ? (
+                <>
+                <p hidden={true}>nothing to see here</p>
+                </>
+                ):(
                 <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}/>
+                )}
             </Col>
             <Col>
                 <OpponentDeck opponent={playerList[1]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
@@ -167,12 +172,18 @@ function Layout5players({
         </Row>
         <Row>
             <Col/>
-            <Col xs={8}>
-                <PlayerCards playeronturn={playertable.playerOnTurn} playertable={playertable} player={player}
-                             updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played}
-                             updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-                             updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                             updateFill_array={updateFill_array}/>
+            <Col xs={8}>{playertable.gameStatus=="ENDED" ? (
+                <>
+                <p hidden={true}>nothing to see here</p>
+                </>
+                ):(
+                    <PlayerCards playeronturn={playertable.playerOnTurn} playertable={playertable} player={player}
+                    updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played}
+                    updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                    updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
+                    updateFill_array={updateFill_array}/>
+                )}
+                
             </Col>
             <Col/>
         </Row>
