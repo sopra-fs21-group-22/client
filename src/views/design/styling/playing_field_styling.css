@@ -25,9 +25,13 @@
     height: 125px;
 }
 
-.deck-discard-pile_container{
+.deck-discard-pile{
     display: flex;
-    margin-top: 150px;
+    justify-content: center;
+}
+
+.space-between{
+
 }
 
 /*styling for dead players*/
