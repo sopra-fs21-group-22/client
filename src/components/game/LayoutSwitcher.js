@@ -11,20 +11,15 @@ import { authApi } from '../../helpers/api';
 function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player}) {
 // function LayoutSwitcher({playeramount, visibility}){
 
-    const interval = useInterval(async () => {    
+    /* const interval = useInterval(async () => {    
 
         //repeating requests to keep stuff up-to-date
 
-        //fonctschon();
+        
 
 
         
-    }, 1000);
-
-    function fonctschon(){
-        let response = authApi().get(`/games/${playertable.id}/players/${player.id}/characters`);
-        console.log(`characters: ${response.data}`);
-    }
+    }, 1000); */
 
     //to hide or show the cancel button when choosing a target
     const [hideCancel_PlayCard, setHideCancel_PlayCard] = useState(true);

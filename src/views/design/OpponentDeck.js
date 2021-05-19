@@ -32,12 +32,16 @@ export default function OpponentDeck({
     const interval = useInterval(async () => {
         //console.log(`${player.user}: ${player.bullets}`);
         //repeating requests to keep stuff up-to-date
-        if (setupCharacter){
-            let character_response = await authApi().get(`/games/${playertable.id}/players/${opponent.id}/characters`);
-            setCharacterName(character_response.data.name);
-            setCharacterDescription(character_response.data.description);
-            setSetupCharacter(false);
+        if (playertable.gameStatus!="ENDED"){
+            if (setupCharacter){
+                let character_response = await authApi().get(`/games/${playertable.id}/players/${opponent.id}/characters`);
+                setCharacterName(character_response.data.name);
+                setCharacterDescription(character_response.data.description);
+                setDisplayName(character_response.data.display);
+                setSetupCharacter(false);
+            }
         }
+        
         if (curr_card != null) {
             setupTargetHighlighting(curr_card);
         }
@@ -192,8 +196,6 @@ export default function OpponentDeck({
             updateCurr_card(null);
             updateFill_array(true);
             //TODO: enable other player cards again
-        } else {
-            alert("this ain't clickable. try a highlighted one...");
         }
     }
 
@@ -231,14 +233,15 @@ export default function OpponentDeck({
     const [barrel, setBarrel] = useState(-1);
     const [weapon, setWeapon] = useState(-1);
     const [horse, setHorse] = useState(-1);
-    const [characterName, setCharacterName] = useState("blackjack");
+    const [characterName, setCharacterName] = useState("loading character name...");
     const [characterDescription, setCharacterDescription] = useState("loading character description...");
+    const [displayName, setDisplayName] = useState("loading character name...");
     const [setupCharacter, setSetupCharacter] = useState(true);
     const characterRef = useRef();
 
     const character_information = (
         <Popover placement="bottom" id="role-info_popover">
-            <Popover.Title id="role-info_popover_title"><b>{characterName}</b></Popover.Title>
+            <Popover.Title id="role-info_popover_title"><b>{displayName}</b></Popover.Title>
             <Popover.Content id="role-info_popover_content">
                 <Card id="role-info_popover_content_card">
                     <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered
@@ -252,6 +255,15 @@ export default function OpponentDeck({
 
     return (
         <div>
+            {playertable.gameStatus=="ENDED" ? (
+            <>
+                <Card id="endofgame_card">
+                    <Card.Header><b>{opponent.user} the {opponent.gameRole}</b></Card.Header>
+                    <Card.Img  src="/images/back.png"/> {/* TODO: put the correct character picture */}
+                </Card>
+            </>
+            ) : (
+                 <>
             <p id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p>
             <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                 <Container onClick={selecttarget} className="opponent-player-deck_container-card"
@@ -269,7 +281,7 @@ export default function OpponentDeck({
                             </Figure>
                         </Col>
                         <Col>
-                            <Figure hidden={!(opponent.gameRole == "SHERIFF")}>
+                            <Figure hidden={!(opponent.gameRole == "SHERIFF" || playertable.gameStatus == "ENDED")}>
                                 <Figure.Image
                                     width={80}
                                     height={80}
@@ -289,7 +301,7 @@ export default function OpponentDeck({
                                                 width={80}
                                                 height={80}
                                                 alt="80x80"
-                                                src={inJail ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
+                                                src={inJail && playertable.gameStatus!="ENDED" ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
                                     />
                                 </OverlayTrigger>
                                 <Figure.Caption
@@ -365,6 +377,9 @@ export default function OpponentDeck({
 
                 </Container>
             </div>
+            </>
+             )}
+            
         </div>
     )
 }

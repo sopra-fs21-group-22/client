@@ -50,58 +50,64 @@ function Lobby({
                    updateTableId
                }) {
     const history = useHistory();
-    const [count, setCount] = useState(0);
+    /* const [count, setCount] = useState(0); */
     const [firstTurn, setFirstTurn] = useState(true);
     const [playeramount, setPlayeramount] = useState(currPlayer_table.players.length);
     const [toomanycards, setToomanycards] = useState("loading");//TODO uncomment this
     const [timer, setTimer] = useState(100);
     const interval = useInterval(async () => {
-//repeating requests to keep player_table and player up to date
-
-        const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currPlayer.id}`); 
-        let currp = new PlayerModel(response.data);
-        updateCurrPlayer(currp);
-        setupRole(); 
-
-        //get information about the other players
-        const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
-        let currPt = new PlayerTable(playertable_response.data);
-        updatePlayer_table(currPt);
-        setToomanycards(currp.hand.playCards.length - currp.bullets);
-
-        //this stops once the game starts
-        if (firstTurn) {
-            if (currPt.gameStatus === "ONGOING") {
-                localStorage.setItem("cards", JSON.stringify(currPlayer.hand.playCards));
-                setFirstTurn(false);
-            }
-        }
-
-
-//start of user turn
-        if (startofturn) {
-            if (currPt.playerOnTurn.id === currp.id) {
-                const beforeDrawingCards = JSON.parse(localStorage.getItem("cards"));
-                const afterDrawingCards = currp.hand.playCards;
-                const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
-                if (newCards.length > 0) {
-                    setCards(newCards);
+        //repeating requests to keep player_table and player up to date
+        
+            const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currPlayer.id}`); 
+            let currp = new PlayerModel(response.data);
+            updateCurrPlayer(currp);
+            setupRole(); 
+    
+            //get information about the other players
+            const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
+            let currPt = new PlayerTable(playertable_response.data);
+            updatePlayer_table(currPt);
+            setToomanycards(currp.hand.playCards.length - currp.bullets);
+    
+            //this stops once the game starts
+            if (firstTurn) {
+                if (currPt.gameStatus === "ONGOING") {
+                    localStorage.setItem("cards", JSON.stringify(currPlayer.hand.playCards));
+                    setFirstTurn(false);
                 }
-                setStartofturn(false);
             }
-        }
-//time limit
-        if(timer!=0 && currPt.playerOnTurn.id==currp.id){
-            setTimer(timer-1);
-        }
-        
-        if(timer==0){
-            setTimer(100);
-        }
-        
+    
+            if (currPlayer_table.gameRole!="ENDED"){
+                //start of user turn
+                if (startofturn) {
+                    if (currPt.playerOnTurn.id === currp.id) {
+                        const beforeDrawingCards = JSON.parse(localStorage.getItem("cards"));
+                        const afterDrawingCards = currp.hand.playCards;
+                        const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
+                        if (newCards.length > 0) {
+                            setCards(newCards);
+                        }
+                        setStartofturn(false);
+                    }
+                }
+        //time limit
+                if(timer!=0 && currPt.playerOnTurn.id==currp.id){
+                    setTimer(timer-1);
+                }
+                
+                if(timer==0){
+                    setTimer(100);
+                }
+            }
+    
+            
+            
+    
+    
+            /* setCount(count + 1); */
 
 
-        setCount(count + 1);
+        
     }, 1000);
 
     useEffect(async () => {
@@ -316,10 +322,19 @@ function Lobby({
             <Spinner></Spinner>
             <p>we be loading them data</p>
             </>
+        /* ) : ( currPlayer_table.gameStatus == "ENDED" ? (
+            <>
+            <h1>Game Over</h1>
+            <p>{currPlayer.gameRole}</p>
+            <p>{orderArray[0].gameRole}</p>
+            <p>{orderArray[1].gameRole}</p>
+            <p>{orderArray[2].gameRole}</p>
+            <p>{orderArray[3].gameRole}</p>
+            </> */
         ) : (
-        <Container>
+<Container>
             <div>
-                <p>constant updates counter. updates every 5 seconds: {count}</p>
+                {/* <p>constant updates counter. updates every 5 seconds: {count}</p> */}
                 <Button id="custombutton" onClick={changelayout}>change layout</Button>
 
 
@@ -428,21 +443,26 @@ function Lobby({
 
                 <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table} orderarray={orderArray}
                                 visibility={hidden_gamefield} player={currPlayer}/>
-                {/*<LayoutSwitcher playeramount={playeramount} visibility={hidden_gamefield}/>*/}
 
                 <OverlayTrigger trigger="click" overlay={role_information} rootClose>
                     <Button id="custombutton">Show role information</Button>
                 </OverlayTrigger>
 
-                <Button onClick={endTurn} id="custombutton">End Turn</Button>
+                <Button disabled={currPlayer_table.playerOnTurn.id!=currPlayer.id} hidden={currPlayer_table.gameStatus=="ENDED"} onClick={endTurn} id="custombutton">End Turn</Button>
                 <Button onClick={openRules} id="custombutton">Rules</Button>
-                <Button onClick={resign} id="custombutton">Resign</Button>
+                {currPlayer_table.gameStatus=="ENDED" ? (
+                    <Button onClick={resign} id="custombutton">Leave</Button>
+                ):(
+                    <Button onClick={resign} id="custombutton">Resign</Button>
+                )}
                 <br></br>
-                <ProgressBar hidden={currPlayer_table.playerOnTurn.id!=currPlayer.id} max={120} now={currPlayer_table.timeRemaining/1000} variant={"info"}></ProgressBar>
-                <p><b>strikes: {currPlayer.strikes}/3</b></p>
+                <ProgressBar hidden={currPlayer_table.playerOnTurn.id!=currPlayer.id || currPlayer_table.gameStatus=="ENDED"} max={120} now={currPlayer_table.timeRemaining/1000} variant={"info"}></ProgressBar>
+                <p hidden={currPlayer_table.gameStatus=="ENDED"}><b>strikes: {currPlayer.strikes}/3</b></p>
                 <br></br>
             </div>
         </Container>
+        
+        
         )}
         </>
     );

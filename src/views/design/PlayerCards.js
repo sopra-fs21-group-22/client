@@ -30,13 +30,6 @@ export default function PlayerCards({
             setShow_card(curr);
             updateFill_array(false);
         }
-        //this will disable every card after playing a bang TODO: change it so that only bang cards will be disabled
-        /* if (player.stillPlayableBangsThisRound==0){
-            setDisableHandCard(true);
-        }
-        if (player.stillPlayableBangsThisRound>0){
-            setDisableHandCard(false);
-        } */
 
     }, 2000);
     
