@@ -32,7 +32,7 @@ export default function PlayerCards({
         }
 
     }, 2000);
-    
+
     // const [show_card, setShow_card] = useState(false);
 
     const [show_card, setShow_card] = useState([]);
@@ -40,7 +40,7 @@ export default function PlayerCards({
     const [show_duplicateBlueCard, setShow_duplicateBlueCard] = useState(false);
 
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
-    const [disableHandCard, setDisableHandCard] = useState(false); 
+    const [disableHandCard, setDisableHandCard] = useState(false);
 
     function lookAtCard(index) {
         if (playeronturn.id != player.id) {
@@ -92,26 +92,26 @@ export default function PlayerCards({
     }
 
 
-    function searchForOn_FieldCards(cardtobefound){
-        if (player.onFieldCards.onFieldCards.length==0){
+    function searchForOn_FieldCards(cardtobefound) {
+        if (player.onFieldCards.onFieldCards.length == 0) {
             return false;
         }
         let x;
-        for (x of player.onFieldCards.onFieldCards){
-            if (x.card==cardtobefound){
+        for (x of player.onFieldCards.onFieldCards) {
+            if (x.card == cardtobefound) {
                 return true;
             }
         }
         return false;
     }
 
-    function playCard(){
+    function playCard() {
 
         //TODO: disable other player cards while choosing a target
-        
-        if (curr_card.card=="BARREL"){
+
+        if (curr_card.card == "BARREL") {
             let inthere = searchForOn_FieldCards("BARREL");
-            if (inthere){
+            if (inthere) {
                 updateFill_array(true);
                 setShow_duplicateBlueCard(true);
                 return;
@@ -122,10 +122,10 @@ export default function PlayerCards({
             updateFill_array(true);
             return;
         }
-        if (curr_card.card=="APPALOOSA" || curr_card.card=="MUSTANG"){
+        if (curr_card.card == "APPALOOSA" || curr_card.card == "MUSTANG") {
             let inthere = searchForOn_FieldCards("APPALOOSA");
             let inthere2 = searchForOn_FieldCards("MUSTANG");
-            if (inthere || inthere2){
+            if (inthere || inthere2) {
                 updateFill_array(true);
                 setShow_duplicateBlueCard(true);
                 return;
@@ -136,13 +136,13 @@ export default function PlayerCards({
             updateFill_array(true);
             return;
         }
-        if (curr_card.card=="CARABINE" || curr_card.card=="REMINGTON" || curr_card.card=="SCHOFIELD" || curr_card.card=="VOLCANIC" || curr_card.card=="WINCHESTER"){
+        if (curr_card.card == "CARABINE" || curr_card.card == "REMINGTON" || curr_card.card == "SCHOFIELD" || curr_card.card == "VOLCANIC" || curr_card.card == "WINCHESTER") {
             let inthere = searchForOn_FieldCards("CARABINE");
             let inthere2 = searchForOn_FieldCards("REMINGTON");
             let inthere3 = searchForOn_FieldCards("SCHOFIELD");
             let inthere4 = searchForOn_FieldCards("VOLCANIC");
             let inthere5 = searchForOn_FieldCards("WINCHESTER");
-            if (inthere || inthere2 || inthere3 || inthere4 || inthere5){
+            if (inthere || inthere2 || inthere3 || inthere4 || inthere5) {
                 updateFill_array(true);
                 setShow_duplicateBlueCard(true);
                 return;
@@ -164,14 +164,14 @@ export default function PlayerCards({
         updateFill_array(true);
     }
 
-    function dontReplaceCard(){
+    function dontReplaceCard() {
         setShow_duplicateBlueCard(false);
         updateCurr_card(null);
         updateFill_array(true);
         updateBorder("none");
     }
 
-    function doReplaceCard(){
+    function doReplaceCard() {
         authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
         updateCurr_card(null);
         updateFill_array(true);
@@ -179,9 +179,9 @@ export default function PlayerCards({
         setShow_duplicateBlueCard(false);
     }
 
-    function disableBangCard(card){
+    function disableBangCard(card) {
         console.log("in there");
-        if (card.card=="BANG"){
+        if (card.card == "BANG") {
             setDisableHandCard(true);
         }
     }
@@ -190,32 +190,32 @@ export default function PlayerCards({
     return (
         <>
             <Container className="shelf">
-            {!curr_card ? (
-                <Modal hidden={show_duplicateBlueCard}>loading</Modal>
-            ) : (<>
-                {<Modal show={show_duplicateBlueCard} animation size="sm" backdrop="static" keyboard={false}>
-                    <Modal.Header id="chosen-role_modal_header">
-                        <Modal.Title id="chosen-role_modal_header_title" centered>
-                            <b>you already have a {curr_card.card}</b></Modal.Title>{/* TODO: this message isn't quite correct */}
-                    </Modal.Header>
-                    <Modal.Body id="chosen-role_modal_body" centered>
-                        <p>Do you want to replace your {curr_card.card}?</p>
-                    </Modal.Body>
-                    <Modal.Footer id="chosen-role_modal_footer">
-                        <Button id="custombutton" onClick={dontReplaceCard}>
-                            No
-                        </Button>
-                        <Button id="custombutton" onClick={doReplaceCard}>
-                            Yes
-                        </Button>
-                    </Modal.Footer>
-                </Modal>}
+                {!curr_card ? (
+                    <Modal hidden={show_duplicateBlueCard}>loading</Modal>
+                ) : (<>
+                    {<Modal show={show_duplicateBlueCard} animation size="sm" backdrop="static" keyboard={false}>
+                        <Modal.Header id="chosen-role_modal_header">
+                            <Modal.Title id="chosen-role_modal_header_title" centered>
+                                <b>you already have
+                                    a {curr_card.card}</b></Modal.Title>{/* TODO: this message isn't quite correct */}
+                        </Modal.Header>
+                        <Modal.Body id="chosen-role_modal_body" centered>
+                            <p>Do you want to replace your {curr_card.card}?</p>
+                        </Modal.Body>
+                        <Modal.Footer id="chosen-role_modal_footer">
+                            <Button id="custombutton" onClick={dontReplaceCard}>
+                                No
+                            </Button>
+                            <Button id="custombutton" onClick={doReplaceCard}>
+                                Yes
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>}
                 </>)}
 
 
-
                 <Row>
-                    <Col className="single-shelf">
+                    <Col>
                         <Image className="deck-discard-pile_image-card"
                                src={`/images/role_cards/${player.gameRole.toLowerCase()}.png`}/>
                         {/*<Image className="deck-discard-pile_image-card" src="/images/back.png"/>*/}
@@ -237,22 +237,25 @@ export default function PlayerCards({
                                 <Modal.Footer id="chosen-role_modal_footer">
                                     {!curr_card ? (
                                         <>
-                                        <Button variant="danger" disabled={true}>Discard</Button>
-                                        <Button id="custombutton"disabled={true}>
-                                            Return
-                                        </Button>
-                                        <Button id="custombutton" disabled={true} /* placeholder because error if curr_card==null */>
-                                            Play
-                                        </Button>
+                                            <Button variant="danger" disabled={true}>Discard</Button>
+                                            <Button id="custombutton" disabled={true}>
+                                                Return
+                                            </Button>
+                                            <Button id="custombutton"
+                                                    disabled={true} /* placeholder because error if curr_card==null */>
+                                                Play
+                                            </Button>
                                         </>
                                     ) : (<>
-                                        <Button variant="danger" onClick={discardCard}>Discard</Button>
-                                        <Button id="custombutton" onClick={closeCard}>
-                                            Return
-                                        </Button>
-                                        <Button id="custombutton" disabled={((player.stillPlayableBangsThisRound==0 && curr_card.card=="BANG") || curr_card.card=="MISSED" || (curr_card.card=="BEER" && player.maxBullets<player.bullets+1)) ? true:false} onClick={playCard}>
-                                            Play
-                                        </Button>
+                                            <Button variant="danger" onClick={discardCard}>Discard</Button>
+                                            <Button id="custombutton" onClick={closeCard}>
+                                                Return
+                                            </Button>
+                                            <Button id="custombutton"
+                                                    disabled={((player.stillPlayableBangsThisRound == 0 && curr_card.card == "BANG") || curr_card.card == "MISSED" || (curr_card.card == "BEER" && player.maxBullets < player.bullets + 1)) ? true : false}
+                                                    onClick={playCard}>
+                                                Play
+                                            </Button>
                                         </>
                                     )}
                                 </Modal.Footer>

@@ -12,6 +12,7 @@ import {
     ModalBody, Toast
 } from 'react-bootstrap';
 import OpponentDeck from "../OpponentDeck";
+import OpponentDeckWide from "../OpponentDeckWide";
 import PlayerDeck from "../PlayerDeck";
 import PlayerCards from "../PlayerCards";
 import DeckDiscardPiles from "../DeckDiscardPiles";
@@ -111,107 +112,116 @@ function Layout4players({
         }
     }
 
-    return (<Container hidden={visibility}>
-        <Row>
-            <Col/>
-            <Col>
-                <OpponentDeck opponent={playerList[2]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
-                              playertable={playertable} border={border} updateBorder={updateBorder}
-                              updateCard_played={updateCard_played}
-                              updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-                              ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
-                              updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
-                              updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
-                              updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                              updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
-            </Col>
-            <Col/>
-        </Row>
-        <Row>
-            <Col>
-                <OpponentDeck opponent={playerList[3]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
-                              playertable={playertable} border={border} updateBorder={updateBorder}
-                              updateCard_played={updateCard_played}
-                              updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-                              ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
-                              updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
-                              updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
-                              updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                              updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
-            </Col>
-            <Col>{playertable.gameStatus=="ENDED" ? (
-                <>
-                <p hidden={true}>nothing to see here</p>
-                </>
-                ):(
-                <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}/>
+    return (
+        <Container hidden={visibility} fluid className="h-100">
+            <Row className="h-25">
+                <Col/>
+                <Col xs={8}>
+                    <OpponentDeckWide opponent={playerList[2]} player={playerList[0]}
+                                     playeronturn={playertable.playerOnTurn}
+                                     playertable={playertable} border={border} updateBorder={updateBorder}
+                                     updateCard_played={updateCard_played}
+                                     updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                                     ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
+                                     targetSelf={targetSelf}
+                                     updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
+                                     updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
+                                     updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                     updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
+                                     updateFill_array={updateFill_array}/>
+                </Col>
+                <Col/>
+            </Row>
+            <Row className="align-items-center h-25">
+                <Col xs={5}>
+                    <OpponentDeckWide opponent={playerList[3]} player={playerList[0]}
+                                  playeronturn={playertable.playerOnTurn}
+                                  playertable={playertable} border={border} updateBorder={updateBorder}
+                                  updateCard_played={updateCard_played}
+                                  updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                                  ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
+                                  targetSelf={targetSelf}
+                                  updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
+                                  updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
+                                  updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                  updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
+                                  updateFill_array={updateFill_array}/>
+                </Col>
+                <Col>{playertable.gameStatus == "ENDED" ? (
+                    <>
+                        <p hidden={true}>nothing to see here</p>
+                    </>
+                ) : (
+                    <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}/>
                 )}
-            </Col>
-            <Col>
-                <OpponentDeck opponent={playerList[1]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
-                              playertable={playertable} border={border} updateBorder={updateBorder}
-                              updateCard_played={updateCard_played}
-                              updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-                              ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
-                              updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
-                              updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
-                              updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                              updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
-            </Col>
-        </Row>
-        <Row>
-            <Button id="custombutton" style={{height: 50, marginTop: 20, marginLeft: 20}} onClick={() => {
-                setDisplayChat(!displayChat)
-            }}>
-                Chat
-            </Button>
-            <Col hidden={displayChat}>
-                <ChatPopUp player={player} playertable={playertable}/>
-            </Col>
-            <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10}} hidden={!displayChat}>
+                </Col>
+                <Col xs={5}>
+                    <OpponentDeckWide opponent={playerList[1]} player={playerList[0]}
+                                  playeronturn={playertable.playerOnTurn}
+                                  playertable={playertable} border={border} updateBorder={updateBorder}
+                                  updateCard_played={updateCard_played}
+                                  updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                                  ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
+                                  targetSelf={targetSelf}
+                                  updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
+                                  updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
+                                  updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                  updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
+                                  updateFill_array={updateFill_array}/>
+                </Col>
+            </Row>
+            <Row className="h-25">
+                <Button id="custombutton" style={{height: 50, marginTop: 20, marginLeft: 20}} onClick={() => {
+                    setDisplayChat(!displayChat)
+                }}>
+                    Chat
+                </Button>
+                <Col hidden={displayChat}>
+                    <ChatPopUp chatMessages={chat} player={player} playertable={playertable}/>
+                </Col>
+                <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10}}
+                     hidden={!displayChat}>
 
-                <Toast show={newMessage && show} onClose={() => setShow(false)} delay={2000} autohide>
-                    <Toast.Header>
-                        <strong className="mr-auto">{testMessage.name}</strong>
-                    </Toast.Header>
-                    <Toast.Body>{testMessage.content}</Toast.Body>
-                </Toast>
-            </Col>
-            <Col>
-                <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
-                            border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
-                            updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-                            ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
-                            updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
-                            updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
-                            updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                            updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                            updateFill_array={updateFill_array}/>
-            </Col>
-            <Col/>
-        </Row>
-        <Row>
-            <Col/>
-            <Col xs={8}>{playertable.gameStatus=="ENDED" ? (
-                <>
-                <p hidden={true}>nothing to see here</p>
-                </>
-                ):(
+                    <Toast show={newMessage && show} onClose={() => setShow(false)} delay={2000} autohide>
+                        <Toast.Header>
+                            <strong className="mr-auto">{testMessage.name}</strong>
+                        </Toast.Header>
+                        <Toast.Body>{testMessage.content}</Toast.Body>
+                    </Toast>
+                </Col>
+                <Col xs={5}>
+                    <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
+                                border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
+                                updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                                ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
+                                updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
+                                updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
+                                updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
+                                updateFill_array={updateFill_array}/>
+                </Col>
+                <Col/>
+            </Row>
+            <Row className="h-25">
+                <Col/>
+                <Col xs={7}>{playertable.gameStatus == "ENDED" ? (
+                    <>
+                        <p hidden={true}>nothing to see here</p>
+                    </>
+                ) : (
                     <PlayerCards playeronturn={playertable.playerOnTurn} playertable={playertable} player={player}
-                    updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played}
-                    updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-                    updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                    updateFill_array={updateFill_array}/>
+                                 updateBorder={updateBorder} card_played={card_played}
+                                 updateCard_played={updateCard_played}
+                                 updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
+                                 updateFill_array={updateFill_array}/>
                 )}
-                
-            </Col>
-            <Col/>
-        </Row>
-        <Button id="custombutton" hidden={hideCancel_PlayCard} block onClick={back}>Cancel</Button>
-    </Container>);
+
+                </Col>
+                <Col/>
+            </Row>
+            <Button id="custombutton" hidden={hideCancel_PlayCard} block onClick={back}>Cancel</Button>
+        </Container>);
 }
 
 export default Layout4players;
