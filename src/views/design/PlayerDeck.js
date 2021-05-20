@@ -351,7 +351,7 @@ export default function PlayerDeck({
                                             height={100}
                                             alt="150x100"
                                             src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[weapon].card}_${player.onFieldCards.onFieldCards[weapon].suit}_${player.onFieldCards.onFieldCards[weapon].rank}.png`}/>
-                                        <Figure.Caption>weapon</Figure.Caption>
+                                        <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
                                     </Figure>
                                 </Col>
                                 <Col>
@@ -362,7 +362,7 @@ export default function PlayerDeck({
                                             height={100}
                                             alt="150x100"
                                             src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].rank}.png`}/>
-                                        <Figure.Caption>horse</Figure.Caption>
+                                        <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
                                     </Figure>
                                 </Col>
                                 <Col>
@@ -373,7 +373,7 @@ export default function PlayerDeck({
                                             height={100}
                                             alt="150x100"
                                             src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].rank}.png`}/>
-                                        <Figure.Caption>barrel</Figure.Caption>
+                                        <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
                                     </Figure>
                                 </Col>
                             </Row>

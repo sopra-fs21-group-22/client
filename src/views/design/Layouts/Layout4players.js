@@ -189,7 +189,7 @@ function Layout4players({
                         <Toast.Body>{testMessage.content}</Toast.Body>
                     </Toast>
                 </Col>
-                <Col xs={6}>
+                <Col xs={5}>
                     <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
                                 border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
                                 updateHideCancel_PlayCard={updateHideCancel_PlayCard}
@@ -204,7 +204,7 @@ function Layout4players({
             </Row>
             <Row className="h-25">
                 <Col/>
-                <Col xs={8}>{playertable.gameStatus == "ENDED" ? (
+                <Col xs={6}>{playertable.gameStatus == "ENDED" ? (
                     <>
                         <p hidden={true}>nothing to see here</p>
                     </>

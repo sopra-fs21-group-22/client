@@ -312,7 +312,7 @@ function Lobby({
 
 
     return (
-        <Container fluid>
+        <Container fluid className="background_container">
             {!currPlayer_table || !currPlayer ? (
                 <>
                     <Spinner></Spinner>
@@ -447,7 +447,6 @@ function Lobby({
                     <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table}
                                     orderarray={orderArray}
                                     visibility={hidden_gamefield} player={currPlayer}/>
-                    <br/>
 
                     <OverlayTrigger trigger="click" overlay={role_information} rootClose>
                         <Button id="custombutton">Show role information</Button>

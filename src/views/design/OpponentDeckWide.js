@@ -334,7 +334,7 @@ export default function OpponentDeckWide({
                                             height={100}
                                             alt="80x100"
                                             src="/images/back.png"/>
-                                        <Figure.Caption>{opponent.hand.cardsInHand} card(s) left</Figure.Caption>
+                                        <Figure.Caption id="opponent-player-deck_caption">{opponent.hand.cardsInHand} card(s)</Figure.Caption>
                                     </Figure>
                                 </Col>
                                 <Col>
@@ -345,7 +345,7 @@ export default function OpponentDeckWide({
                                             height={100}
                                             alt="150x100"
                                             src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[weapon].card}_${opponent.onFieldCards.onFieldCards[weapon].suit}_${opponent.onFieldCards.onFieldCards[weapon].rank}.png`}/>
-                                        <Figure.Caption>weapon</Figure.Caption>
+                                        <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
                                     </Figure>
                                 </Col>
                                 <Col>
@@ -356,7 +356,7 @@ export default function OpponentDeckWide({
                                             height={100}
                                             alt="150x100"
                                             src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[horse].card}_${opponent.onFieldCards.onFieldCards[horse].suit}_${opponent.onFieldCards.onFieldCards[horse].rank}.png`}/>
-                                        <Figure.Caption>horse</Figure.Caption>
+                                        <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
                                     </Figure>
                                 </Col>
                                 <Col>
@@ -367,7 +367,7 @@ export default function OpponentDeckWide({
                                             height={100}
                                             alt="150x100"
                                             src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].rank}.png`}/>
-                                        <Figure.Caption>barrel</Figure.Caption>
+                                        <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
                                     </Figure>
                                 </Col>
                             </Row>
