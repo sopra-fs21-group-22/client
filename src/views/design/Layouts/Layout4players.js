@@ -204,7 +204,7 @@ function Layout4players({
             </Row>
             <Row className="h-25">
                 <Col/>
-                <Col xs={6}>{playertable.gameStatus == "ENDED" ? (
+                <Col xs={7}>{playertable.gameStatus == "ENDED" ? (
                     <>
                         <p hidden={true}>nothing to see here</p>
                     </>
