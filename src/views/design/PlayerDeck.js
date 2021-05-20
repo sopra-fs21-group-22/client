@@ -278,7 +278,7 @@ export default function PlayerDeck({
                 <>
                     <Card id="endofgame_card">
                         <Card.Header><b>{player.user} the {player.gameRole}</b></Card.Header>
-                        <Card.Img src={`/images/role_cards/${player.gameRole}_icon.png`}/> {/* TODO: put the correct character picture */}
+                        <Card.Img src={`/images/role_cards/${player.gameRole}_icon.png`}/> 
                     </Card>
                 </>
             ) : (
