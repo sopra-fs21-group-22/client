@@ -259,9 +259,9 @@ export default function OpponentDeckWide({
         <div>
             {playertable.gameStatus == "ENDED" ? (
                 <>
-                    <Card id="endofgame_card">
+                    <Card id="endofgame_card" style={{maxHeight: "300px", maxWidth:"300px"}}>
                         <Card.Header><b>{opponent.user} the {opponent.gameRole}</b></Card.Header>
-                        <Card.Img src="/images/back.png"/> {/* TODO: put the correct character picture */}
+                        <Card.Img style={{maxHeight: "250px", maxWidth:"250px"}} src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
                     </Card>
                 </>
             ) : (

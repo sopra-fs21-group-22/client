@@ -276,9 +276,9 @@ export default function PlayerDeck({
         >
             {playertable.gameStatus == "ENDED" ? (
                 <>
-                    <Card id="endofgame_card">
+                    <Card id="endofgame_card" style={{maxHeight: "300px", maxWidth:"300px"}}>
                         <Card.Header><b>{player.user} the {player.gameRole}</b></Card.Header>
-                        <Card.Img src={`/images/role_cards/${player.gameRole}_icon.png`}/> 
+                        <Card.Img style={{maxHeight: "250px", maxWidth:"250px"}} src={`/images/role_cards/${player.gameRole}_icon.png`}/> 
                     </Card>
                 </>
             ) : (
