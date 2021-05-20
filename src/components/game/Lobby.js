@@ -182,22 +182,22 @@ function Lobby({
             case "SHERIFF":
                 setRole_picture_source("/images/role_cards/sheriff.png");
                 setPlayer_role("Sheriff");
-                setRole_information_text("Someone has to implement this role information on the sheriff...");
+                setRole_information_text("Kill all outlaws and the renegade to win!");
                 break;
             case "DEPUTY":
                 setRole_picture_source("/images/role_cards/deputy.png");
                 setPlayer_role("Deputy");
-                setRole_information_text("Someone has to implement this role information on the deputy...");
+                setRole_information_text("Kill all outlaws and the renegade to win!");
                 break;
             case "OUTLAW":
                 setRole_picture_source("/images/role_cards/outlaw.png");
                 setPlayer_role("Outlaw");
-                setRole_information_text("Someone has to implement this role information on the outlaw...");
+                setRole_information_text("Kill the sheriff to win!");
                 break;
             case "RENEGADE":
                 setRole_picture_source("/images/role_cards/renegade.png");
                 setPlayer_role("Renegade");
-                setRole_information_text("Someone has to implement this role information on the renegade...");
+                setRole_information_text("First kill all outlaws then the sheriff to win!");
                 break;
             default:
                 setRole_picture_source("/images/back.png");
@@ -277,7 +277,6 @@ function Lobby({
 
     const [show_rolechoose, setShow_rolechoose] = useState(true);
     const [show_roledisplay, setShow_roledisplay] = useState(false);
-    const [show_roleinformation, setShow_roleinformation] = useState(false);
     const [hidden_gamefield, setHidden_gamefield] = useState(false);
     const [show_rules, setShow_rules] = useState(false);
 
@@ -287,7 +286,7 @@ function Lobby({
     const [rolecard_border4, setRolecard_border4] = useState(0);
     const [choose_rolecard_disabled, setChoose_rolecard_disabled] = useState(true);
     const [player_role, setPlayer_role] = useState("defaultrole");
-    const [role_information_text, setRole_information_text] = useState("this is some default role information");
+    const [role_information_text, setRole_information_text] = useState("default text");
     const [role_picture_source, setRole_picture_source] = useState();
     const [show_too_many_cards, setShow_too_many_cards] = useState(false);
 
@@ -449,11 +448,11 @@ function Lobby({
 
                     <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table}
                                     orderarray={orderArray}
-                                    visibility={hidden_gamefield} player={currPlayer}/>
+                                    visibility={hidden_gamefield} player={currPlayer} roleinformation={role_information}/>
 
-                    <OverlayTrigger trigger="click" overlay={role_information} rootClose>
-                        <Button id="custombutton">Show role information</Button>
-                    </OverlayTrigger>
+                    {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
+                    {/*    <Button id="custombutton">Show role information</Button>*/}
+                    {/*</OverlayTrigger>*/}
 
                     <Button disabled={currPlayer_table.playerOnTurn.id != currPlayer.id}
                             hidden={currPlayer_table.gameStatus == "ENDED"} onClick={endTurn} id="custombutton">End

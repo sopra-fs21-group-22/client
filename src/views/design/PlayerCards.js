@@ -5,6 +5,7 @@ import "./styling/lobby_styling.css";
 import "../../views/design/styling/custom_button_styling.css";
 import useInterval from "../../components/game/useInterval.js";
 import {authApi} from "../../helpers/api";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 
 export default function PlayerCards({
@@ -18,7 +19,8 @@ export default function PlayerCards({
                                         updateCurr_card,
                                         curr_card,
                                         fill_array,
-                                        updateFill_array
+                                        updateFill_array,
+                                        roleinformation
                                     }) {
 
     const interval = useInterval(async () => {
@@ -216,9 +218,10 @@ export default function PlayerCards({
 
                 <Row>
                     <Col>
-                        <Image className="deck-discard-pile_image-card"
-                               src={`/images/role_cards/${player.gameRole.toLowerCase()}.png`}/>
-                        {/*<Image className="deck-discard-pile_image-card" src="/images/back.png"/>*/}
+                        <OverlayTrigger trigger="click" overlay={roleinformation} rootClose>
+                            <Image className="deck-discard-pile_image-card"
+                                   src={`/images/role_cards/${player.gameRole.toLowerCase()}.png`}/>
+                        </OverlayTrigger>
                     </Col>
                     {player.hand.playCards.map((currCard, index) => (
                         <Col>
