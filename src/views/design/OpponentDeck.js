@@ -259,7 +259,7 @@ export default function OpponentDeck({
             <>
                 <Card id="endofgame_card">
                     <Card.Header><b>{opponent.user} the {opponent.gameRole}</b></Card.Header>
-                    <Card.Img  src="/images/back.png"/> {/* TODO: put the correct character picture */}
+                    <Card.Img src={`/images/role_cards/${opponent.gameRole}_icon.png`}/> {/* TODO: put the correct character picture */}
                 </Card>
             </>
             ) : (

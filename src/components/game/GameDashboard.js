@@ -10,6 +10,7 @@ import User from '../shared/models/User';
 import {Redirect} from 'react-router-dom';
 import PlayerTable from '../shared/models/PlayerTable';
 import "../../views/design/styling/custom_button_styling.css";
+import useInterval from "../game/useInterval.js";
 
 
 function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePlayerId, updateTableId, tableId, playerId}) {
@@ -19,6 +20,19 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
     const [lobby2, setLobby2] = useState({name: "lobbynameduo", player_count: "3/7", type: "private"});
     const [lobbylist, setLobbylist] = useState([lobby1, lobby2]);
     const [lobbies, setLobbies] = useState(lobbylist);
+
+    const interval = useInterval(async () => {
+        try{
+            let response = await authApi().get('/users');
+            setUsers(response.data);
+        }
+        catch(error){
+            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            //history.push("/login");
+
+        }
+
+    }, 3000);
 
 
     useEffect(async () => {
@@ -36,6 +50,7 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
 
         } catch (error) {
             alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            //history.push("/login");
         }
     }, []);
 
