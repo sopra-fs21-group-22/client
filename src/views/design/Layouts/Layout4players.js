@@ -169,7 +169,7 @@ function Layout4players({
                 Chat
             </Button>
             <Col hidden={displayChat}>
-                <ChatPopUp chatMessages={chat} player={player} playertable={playertable}/>
+                <ChatPopUp player={player} playertable={playertable}/>
             </Col>
             <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10}} hidden={!displayChat}>
 

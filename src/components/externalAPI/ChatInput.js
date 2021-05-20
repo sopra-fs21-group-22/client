@@ -17,6 +17,7 @@ class ChatInput extends Component {
     }
 
 
+    /*
     sendMessage() {
         const requestBody = JSON.stringify({
             "content": this.state.value,
@@ -30,6 +31,8 @@ class ChatInput extends Component {
         console.log("after: ", this.props);
         console.log("message after: ", this.state.value);
     }
+
+     */
 
     handleChange(e) {
         this.setState({value: e.target.value});
