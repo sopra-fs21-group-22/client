@@ -312,7 +312,7 @@ function Lobby({
 
 
     return (
-        <Container className="h-100" fluid>
+        <Container fluid>
             {!currPlayer_table || !currPlayer ? (
                 <>
                     <Spinner></Spinner>
