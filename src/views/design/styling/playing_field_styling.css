@@ -1,5 +1,6 @@
 .opponent-player-deck_container-card{
-    background: rgba(196, 196, 196, 0.5);
+    background: rgba(153, 76, 0, 0.5);
+    padding-top: 10px;
 }
 
 #opponent-player-deck_figure-profile-picture{
@@ -8,26 +9,35 @@
     font-weight: bold;
 }
 
+#opponent-player-deck_caption{
+    color: white;
+}
+
+
 .life_image-bullet{
     height: 20px;
 }
 
 .shelf{
-    /*background-image: url("/../../../../public/images/icons/shelf.jpg");*/
+    background-image: url('../../../card_shelf.png');
     display: inline-flex;
-}
-
-.single-shelf{
-    /*background-image: url("/../../../../public/images/icons/shelf_single.png");*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 
 .deck-discard-pile_image-card{
     height: 125px;
 }
 
-.deck-discard-pile_container{
+.deck-discard-pile{
     display: flex;
-    margin-top: 150px;
+    justify-content: center;
+}
+
+.space-between{
+
 }
 
 /*styling for dead players*/

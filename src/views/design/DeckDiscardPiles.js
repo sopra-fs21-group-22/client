@@ -9,7 +9,7 @@ export default function DeckDiscardPiles({playertable, playeronturn}){
         return `/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`
     }
     return (
-        <Container className="deck-discard-pile_container">
+        <Container className="deck-discard-pile">
             <Row>
                 <Col>
                     {/*always remains the back, so no changes TODO: change if shuffle is implemented*/}
