@@ -42,6 +42,12 @@ export default function PlayerDeck({
                 setSetupCharacter(false);
             }
         }
+        else {
+            setBackgroundColor("#808080");
+            setOpacity(0.8);
+            setHideDeadmessage(true);
+            setHideEndRole(false);
+        }
 
         if (curr_card != null) {
             setupTargetHighlighting(curr_card);
@@ -53,9 +59,14 @@ export default function PlayerDeck({
             updateTargetSelf(false);
         }
         if (player.bullets < 1) {
-            setOpacity(0.8);
-            setHideDeadmessage(false);
             setBackgroundColor("#808080");
+            setOpacity(0.8);
+            if (playertable.gameStatus !== "ENDED") {
+                setHideDeadmessage(false);
+            }
+            else {
+                setHideEndRole(false);
+            }
         }
         if (playeronturn != null && player.id === playeronturn.id) {
             setHighlightImage("solid");
@@ -239,6 +250,7 @@ export default function PlayerDeck({
     }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
+    const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
@@ -272,17 +284,19 @@ export default function PlayerDeck({
 
 
     return (
-        <div style={{marginBottom: 5}}
-        >
-            {playertable.gameStatus == "ENDED" ? (
+        <div style={{marginBottom: 5}}>
+            {/*{playertable.gameStatus == "ENDED" ? (*/}
+            {/*    <>*/}
+            {/*        <Card id="endofgame_card" style={{maxHeight: "300px", maxWidth:"300px"}}>*/}
+            {/*            <Card.Header><b>{player.user} the {player.gameRole}</b></Card.Header>*/}
+            {/*            <Card.Img style={{maxHeight: "250px", maxWidth:"250px"}} src={`/images/role_cards/${player.gameRole}_icon.png`}/> */}
+            {/*        </Card>*/}
+            {/*    </>*/}
+            {/*) : (*/}
                 <>
-                    <Card id="endofgame_card" style={{maxHeight: "300px", maxWidth:"300px"}}>
-                        <Card.Header><b>{player.user} the {player.gameRole}</b></Card.Header>
-                        <Card.Img style={{maxHeight: "250px", maxWidth:"250px"}} src={`/images/role_cards/${player.gameRole}_icon.png`}/> 
-                    </Card>
-                </>
-            ) : (
-                <>
+                    <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                        <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
+                    </p>
                     <p id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p>
                     <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                         <Container onClick={selecttarget} className="opponent-player-deck_container-card"
@@ -402,7 +416,7 @@ export default function PlayerDeck({
                         </Container>
                     </div>
                 </>
-            )}
+            {/*)}*/}
         </div>
     )
 }

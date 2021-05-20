@@ -41,6 +41,13 @@ export default function OpponentDeckWide({
                 setSetupCharacter(false);
             }
         }
+        else {
+            setBackgroundColor("#808080");
+            setWidth(0);
+            setOpacity(0.8);
+            setHideDeadmessage(true);
+            setHideEndRole(false);
+        }
 
         if (curr_card != null) {
             setupTargetHighlighting(curr_card);
@@ -58,11 +65,15 @@ export default function OpponentDeckWide({
         }
 
         if (opponent.bullets < 1) {
-
-            setOpacity(0.8);
-            setHideDeadmessage(false);
             setBackgroundColor("#808080");
             setWidth(0);
+            setOpacity(0.8);
+            if (playertable.gameStatus !== "ENDED") {
+                setHideDeadmessage(false);
+            }
+            else {
+                setHideEndRole(false);
+            }
         }
         if (playeronturn != null && opponent.id === playeronturn.id) {
             setHighlightImage("solid");
@@ -224,6 +235,7 @@ export default function OpponentDeckWide({
     }
 
     const [hidedeadmessage, setHideDeadmessage] = useState(true);
+    const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
@@ -257,15 +269,18 @@ export default function OpponentDeckWide({
 
     return (
         <div>
-            {playertable.gameStatus == "ENDED" ? (
+            {/*{playertable.gameStatus == "ENDED" ? (*/}
+            {/*    <>*/}
+            {/*        <Card id="endofgame_card" style={{maxHeight: "300px", maxWidth:"300px"}}>*/}
+            {/*            <Card.Header><b>{opponent.user} the {opponent.gameRole}</b></Card.Header>*/}
+            {/*            <Card.Img style={{maxHeight: "250px", maxWidth:"250px"}} src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>*/}
+            {/*        </Card>*/}
+            {/*    </>*/}
+            {/*) : (*/}
                 <>
-                    <Card id="endofgame_card" style={{maxHeight: "300px", maxWidth:"300px"}}>
-                        <Card.Header><b>{opponent.user} the {opponent.gameRole}</b></Card.Header>
-                        <Card.Img style={{maxHeight: "250px", maxWidth:"250px"}} src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
-                    </Card>
-                </>
-            ) : (
-                <>
+                    <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                        <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
+                    </p>
                     <p id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p>
                     <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                         <Container onClick={selecttarget} className="opponent-player-deck_container-card"
@@ -374,7 +389,7 @@ export default function OpponentDeckWide({
                         </Container>
                     </div>
                 </>
-            )}
+            {/*)}*/}
 
         </div>
     )
