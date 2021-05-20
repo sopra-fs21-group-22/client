@@ -40,7 +40,8 @@ function Layout4players({
                             updateCurr_card,
                             curr_card,
                             updateChat,
-                            chat
+                            chat,
+                            roleinformation
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -214,7 +215,7 @@ function Layout4players({
                                  updateCard_played={updateCard_played}
                                  updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                  updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                 updateFill_array={updateFill_array}/>
+                                 updateFill_array={updateFill_array} roleinformation={roleinformation}/>
                 )}
 
                 </Col>
