@@ -312,7 +312,7 @@ function Lobby({
 
 
     return (
-        <>
+        <Container className="h-100" fluid>
             {!currPlayer_table || !currPlayer ? (
                 <>
                     <Spinner></Spinner>
@@ -328,151 +328,151 @@ function Lobby({
                     <p>{orderArray[3].gameRole}</p>
                     </> */
             ) : (
-                <Container fluid>
-                    <div>
-                        {/* <p>constant updates counter. updates every 5 seconds: {count}</p> */}
-                        {/*<Button id="custombutton" onClick={changelayout}>change layout</Button>*/}
+                <Container fluid className="h-100">
+                    {/* <p>constant updates counter. updates every 5 seconds: {count}</p> */}
+                    {/*<Button id="custombutton" onClick={changelayout}>change layout</Button>*/}
 
-                        {<Modal show={show_too_many_cards} centered animation size="sm" backdrop="static"
-                                keyboard={false}
-                                animation>
-                            <Modal.Body id="chosen-role_modal_body" centered>
-                                <p>You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some
-                                    cards.
-                                </p>
-                            </Modal.Body>
-                            <Modal.Footer id="chosen-role_modal_footer">
-                                <Button id="custombutton" onClick={too_many_cards_okay}>
-                                    Okay
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>}
+                    {<Modal show={show_too_many_cards} centered animation size="sm" backdrop="static"
+                            keyboard={false}
+                            animation>
+                        <Modal.Body id="chosen-role_modal_body" centered>
+                            <p>You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some
+                                cards.
+                            </p>
+                        </Modal.Body>
+                        <Modal.Footer id="chosen-role_modal_footer">
+                            <Button id="custombutton" onClick={too_many_cards_okay}>
+                                Okay
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>}
 
-                        {<Modal show={show_roledisplay} centered animation size="sm" backdrop="static" keyboard={false}
-                                animation>
-                            <Modal.Header id="chosen-role_modal_header">
-                                <Modal.Title id="chosen-role_modal_header_title" centered><b>Your
-                                    role:</b></Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body id="chosen-role_modal_body" centered>
-                                <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
-                            </Modal.Body>
-                            <Modal.Footer id="chosen-role_modal_footer">
-                                <Button id="custombutton" onClick={roledisplayokay}>
-                                    Okay
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>}
+                    {<Modal show={show_roledisplay} centered animation size="sm" backdrop="static" keyboard={false}
+                            animation>
+                        <Modal.Header id="chosen-role_modal_header">
+                            <Modal.Title id="chosen-role_modal_header_title" centered><b>Your
+                                role:</b></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body id="chosen-role_modal_body" centered>
+                            <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
+                        </Modal.Body>
+                        <Modal.Footer id="chosen-role_modal_footer">
+                            <Button id="custombutton" onClick={roledisplayokay}>
+                                Okay
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>}
 
-                        {<Modal show={show_rules} centered size="m" backdrop="static" keyboard={false} animation>
-                            <Modal.Header id="chosen-role_modal_header">
-                                <Modal.Title id="chosen-role_modal_header_title" centered><b>Rules</b></Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body id="chosen-role_modal_body" centered>
-                                <Image src="/images/rule_card.png" width={400} height={258}/>
-                            </Modal.Body>
-                            <Modal.Footer id="chosen-role_modal_footer">
-                                <a href="http://www.dvgiochi.net/bang/bang_rules.pdf" target="_blank"><Image
-                                    src="/images/rules_book.png" width={57}
-                                    height={63}
-                                    alt="80x100"/>
-                                    <figcaption>Learn More</figcaption>
-                                </a>
-                                <Button id="custombutton" onClick={closeRules}>
-                                    Okay
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>}
+                    {<Modal show={show_rules} centered size="m" backdrop="static" keyboard={false} animation>
+                        <Modal.Header id="chosen-role_modal_header">
+                            <Modal.Title id="chosen-role_modal_header_title" centered><b>Rules</b></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body id="chosen-role_modal_body" centered>
+                            <Image src="/images/rule_card.png" width={400} height={258}/>
+                        </Modal.Body>
+                        <Modal.Footer id="chosen-role_modal_footer">
+                            <a href="http://www.dvgiochi.net/bang/bang_rules.pdf" target="_blank"><Image
+                                src="/images/rules_book.png" width={57}
+                                height={63}
+                                alt="80x100"/>
+                                <figcaption>Learn More</figcaption>
+                            </a>
+                            <Button id="custombutton" onClick={closeRules}>
+                                Okay
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>}
 
 
-                        {<Modal id="choose-role_modal" show={show_rolechoose} centered backdrop="static"
-                                keyboard={false}
-                                animation>
-                            <Modal.Header id="choose-role_modal_header">
-                                <Modal.Title><b>Choose a role card</b></Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body id="choose-role_modal_body">
-                                <Row>
-                                    <Col id="choose-role_modal_body_row_col">
-                                        <Image id="choose-role_modal_body_row_col_image"
-                                               src="/images/role_cards/back_role.png"
-                                               onClick={() => addBordertoImage1()}
-                                               style={{borderWidth: rolecard_border1}}/>
-                                    </Col>
-                                    <Col id="choose-role_modal_body_row_col">
-                                        <Image id="choose-role_modal_body_row_col_image"
-                                               src="/images/role_cards/back_role.png"
-                                               onClick={() => addBordertoImage2()}
-                                               style={{borderWidth: rolecard_border2}}/>
-                                    </Col>
-                                    <Col id="choose-role_modal_body_row_col">
-                                        <Image id="choose-role_modal_body_row_col_image"
-                                               src="/images/role_cards/back_role.png"
-                                               onClick={() => addBordertoImage3()}
-                                               style={{borderWidth: rolecard_border3}}/>
-                                    </Col>
-                                    <Col id="choose-role_modal_body_row_col">
-                                        <Image id="choose-role_modal_body_row_col_image"
-                                               src="/images/role_cards/back_role.png"
-                                               onClick={() => addBordertoImage4()}
-                                               style={{borderWidth: rolecard_border4}}/>
-                                    </Col>
-                                </Row>
-                            </Modal.Body>
-                            <Modal.Footer id="choose-role_modal_footer">
-                                <Button id="custombutton" onClick={chooseRole} disabled={choose_rolecard_disabled}>
-                                    Choose
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>}
+                    {<Modal id="choose-role_modal" show={show_rolechoose} centered backdrop="static"
+                            keyboard={false}
+                            animation>
+                        <Modal.Header id="choose-role_modal_header">
+                            <Modal.Title><b>Choose a role card</b></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body id="choose-role_modal_body">
+                            <Row>
+                                <Col id="choose-role_modal_body_row_col">
+                                    <Image id="choose-role_modal_body_row_col_image"
+                                           src="/images/role_cards/back_role.png"
+                                           onClick={() => addBordertoImage1()}
+                                           style={{borderWidth: rolecard_border1}}/>
+                                </Col>
+                                <Col id="choose-role_modal_body_row_col">
+                                    <Image id="choose-role_modal_body_row_col_image"
+                                           src="/images/role_cards/back_role.png"
+                                           onClick={() => addBordertoImage2()}
+                                           style={{borderWidth: rolecard_border2}}/>
+                                </Col>
+                                <Col id="choose-role_modal_body_row_col">
+                                    <Image id="choose-role_modal_body_row_col_image"
+                                           src="/images/role_cards/back_role.png"
+                                           onClick={() => addBordertoImage3()}
+                                           style={{borderWidth: rolecard_border3}}/>
+                                </Col>
+                                <Col id="choose-role_modal_body_row_col">
+                                    <Image id="choose-role_modal_body_row_col_image"
+                                           src="/images/role_cards/back_role.png"
+                                           onClick={() => addBordertoImage4()}
+                                           style={{borderWidth: rolecard_border4}}/>
+                                </Col>
+                            </Row>
+                        </Modal.Body>
+                        <Modal.Footer id="choose-role_modal_footer">
+                            <Button id="custombutton" onClick={chooseRole} disabled={choose_rolecard_disabled}>
+                                Choose
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>}
 
-                        {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
-                            <Modal.Header id="chosen-role_modal_header">
-                                <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn
-                                    Cards</b></Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body id="chosen-role_modal_body" centered>
-                                {drawnCards.map((curr) => (
-                                    <Image
-                                        src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                        id="chosen-role_modal_body_image"/>
-                                ))}
-                            </Modal.Body>
-                            <Modal.Footer id="chosen-role_modal_footer">
-                                <Button id="custombutton" onClick={closeDrawnCards}>
-                                    Okay
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>}
+                    {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
+                        <Modal.Header id="chosen-role_modal_header">
+                            <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn
+                                Cards</b></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body id="chosen-role_modal_body" centered>
+                            {drawnCards.map((curr) => (
+                                <Image
+                                    src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                    id="chosen-role_modal_body_image"/>
+                            ))}
+                        </Modal.Body>
+                        <Modal.Footer id="chosen-role_modal_footer">
+                            <Button id="custombutton" onClick={closeDrawnCards}>
+                                Okay
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>}
 
-                        <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table}
-                                        orderarray={orderArray}
-                                        visibility={hidden_gamefield} player={currPlayer}/>
+                    <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table}
+                                    orderarray={orderArray}
+                                    visibility={hidden_gamefield} player={currPlayer}/>
+                    <br/>
 
-                        <OverlayTrigger trigger="click" overlay={role_information} rootClose>
-                            <Button id="custombutton">Show role information</Button>
-                        </OverlayTrigger>
+                    <OverlayTrigger trigger="click" overlay={role_information} rootClose>
+                        <Button id="custombutton">Show role information</Button>
+                    </OverlayTrigger>
 
-                        <Button disabled={currPlayer_table.playerOnTurn.id != currPlayer.id}
-                                hidden={currPlayer_table.gameStatus == "ENDED"} onClick={endTurn} id="custombutton">End
-                            Turn</Button>
-                        <Button onClick={openRules} id="custombutton">Rules</Button>
-                        {currPlayer_table.gameStatus == "ENDED" ? (
-                            <Button onClick={resign} id="custombutton">Leave</Button>
-                        ) : (
-                            <Button onClick={resign} id="custombutton">Resign</Button>
-                        )}
-                        <br/>
-                        <ProgressBar hidden={currPlayer_table.playerOnTurn.id != currPlayer.id || currPlayer_table.gameStatus == "ENDED"}
-                                     max={120} now={currPlayer_table.timeRemaining / 1000} variant={"info"}/>
-                        <p hidden={currPlayer_table.gameStatus == "ENDED"}><b>strikes: {currPlayer.strikes}/3</b></p>
-                        <br/>
-                    </div>
+                    <Button disabled={currPlayer_table.playerOnTurn.id != currPlayer.id}
+                            hidden={currPlayer_table.gameStatus == "ENDED"} onClick={endTurn} id="custombutton">End
+                        Turn</Button>
+                    <Button onClick={openRules} id="custombutton">Rules</Button>
+                    {currPlayer_table.gameStatus == "ENDED" ? (
+                        <Button onClick={resign} id="custombutton">Leave</Button>
+                    ) : (
+                        <Button onClick={resign} id="custombutton">Resign</Button>
+                    )}
+                    <br/>
+                    <ProgressBar
+                        hidden={currPlayer_table.playerOnTurn.id != currPlayer.id || currPlayer_table.gameStatus == "ENDED"}
+                        max={120} now={currPlayer_table.timeRemaining / 1000} variant={"info"}/>
+                    <p hidden={currPlayer_table.gameStatus == "ENDED"}><b>strikes: {currPlayer.strikes}/3</b></p>
+                    <br/>
                 </Container>
 
 
             )}
-        </>
+        </Container>
     );
 }
 

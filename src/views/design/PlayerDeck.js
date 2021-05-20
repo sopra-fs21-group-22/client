@@ -289,7 +289,7 @@ export default function PlayerDeck({
                                    style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
                             <Row className="align-items-center">
                                 <Col>
-                                    <Row className="justify-content-center">
+                                    <Row className="align-items-center justify-content-center">
                                         <Figure>
                                             {/*<Figure hidden={!opponent.dynamite}>*/}
                                             <Figure.Image

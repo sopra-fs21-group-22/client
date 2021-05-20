@@ -7,7 +7,7 @@ import {api, authApi} from '../../helpers/api';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
-export default function OpponentDeck({
+export default function OpponentDeckWide({
                                          opponent,
                                          player,
                                          playeronturn,
@@ -282,7 +282,7 @@ export default function OpponentDeck({
                                                 src="/images/icons/dynamite.png"/>
                                         </Figure>
                                     </Row>
-                                    <Row>
+                                    <Row className="justify-content-center">
                                         <Figure
                                             hidden={!(opponent.gameRole == "SHERIFF" || playertable.gameStatus == "ENDED")}>
                                             <Figure.Image

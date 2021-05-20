@@ -12,7 +12,7 @@ import {
     ModalBody, Toast
 } from 'react-bootstrap';
 import OpponentDeck from "../OpponentDeck";
-import OpponentDeckTop from "../OpponentDeckTop";
+import OpponentDeckWide from "../OpponentDeckWide";
 import PlayerDeck from "../PlayerDeck";
 import PlayerCards from "../PlayerCards";
 import DeckDiscardPiles from "../DeckDiscardPiles";
@@ -113,11 +113,11 @@ function Layout4players({
     }
 
     return (
-        <Container hidden={visibility} fluid>
-            <Row>
+        <Container hidden={visibility} fluid className="h-100">
+            <Row className="h-25">
                 <Col/>
                 <Col xs={8}>
-                    <OpponentDeckTop opponent={playerList[2]} player={playerList[0]}
+                    <OpponentDeckWide opponent={playerList[2]} player={playerList[0]}
                                      playeronturn={playertable.playerOnTurn}
                                      playertable={playertable} border={border} updateBorder={updateBorder}
                                      updateCard_played={updateCard_played}
@@ -132,9 +132,9 @@ function Layout4players({
                 </Col>
                 <Col/>
             </Row>
-            <Row className={"align-items-center"}>
+            <Row className="align-items-center h-25">
                 <Col xs={5}>
-                    <OpponentDeckTop opponent={playerList[3]} player={playerList[0]}
+                    <OpponentDeckWide opponent={playerList[3]} player={playerList[0]}
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
@@ -156,7 +156,7 @@ function Layout4players({
                 )}
                 </Col>
                 <Col xs={5}>
-                    <OpponentDeckTop opponent={playerList[1]} player={playerList[0]}
+                    <OpponentDeckWide opponent={playerList[1]} player={playerList[0]}
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
@@ -170,7 +170,7 @@ function Layout4players({
                                   updateFill_array={updateFill_array}/>
                 </Col>
             </Row>
-            <Row>
+            <Row className="h-25">
                 <Button id="custombutton" style={{height: 50, marginTop: 20, marginLeft: 20}} onClick={() => {
                     setDisplayChat(!displayChat)
                 }}>
@@ -202,7 +202,7 @@ function Layout4players({
                 </Col>
                 <Col/>
             </Row>
-            <Row>
+            <Row className="h-25">
                 <Col/>
                 <Col xs={8}>{playertable.gameStatus == "ENDED" ? (
                     <>
