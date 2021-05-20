@@ -27,7 +27,7 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
             setUsers(response.data);
         }
         catch(error){
-            alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+            //alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
             //history.push("/login");
 
         }
