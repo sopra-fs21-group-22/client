@@ -1,5 +1,6 @@
 import { Col, Row, Container, Card, ListGroup, ListGroupItem, CardDeck, Button, Modal, Image, ModalBody } from 'react-bootstrap';
 import OpponentDeck from "../OpponentDeck";
+import OpponentDeckWide from "../OpponentDeckWide";
 import PlayerDeck from "../PlayerDeck";
 import PlayerCards from "../PlayerCards";
 import DeckDiscardPiles from "../DeckDiscardPiles";
@@ -80,11 +81,10 @@ function Layout7players({
         }
     }
 
-    return (<Container hidden={visibility}>
+    return (<Container hidden={visibility} fluid className="h-100">
         <Row>
-            <Col/>
             <Col>
-                <OpponentDeck opponent={playerList[4]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
+                <OpponentDeckWide opponent={playerList[4]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
                               playertable={playertable} border={border} updateBorder={updateBorder}
                               updateCard_played={updateCard_played}
                               updateHideCancel_PlayCard={updateHideCancel_PlayCard}
@@ -96,7 +96,7 @@ function Layout7players({
                               updateFill_array={updateFill_array}/>
             </Col>
             <Col>
-                <OpponentDeck opponent={playerList[3]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
+                <OpponentDeckWide opponent={playerList[3]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
                               playertable={playertable} border={border} updateBorder={updateBorder}
                               updateCard_played={updateCard_played}
                               updateHideCancel_PlayCard={updateHideCancel_PlayCard}
@@ -107,11 +107,11 @@ function Layout7players({
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                               updateFill_array={updateFill_array}/>
             </Col>
-            <Col/>
         </Row>
-        <Row>
-            <Col>
-                <OpponentDeck opponent={playerList[5]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
+        <br/>
+        <Row className="align-items-center">
+            <Col xs={5}>
+                <OpponentDeckWide opponent={playerList[5]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
                               playertable={playertable} border={border} updateBorder={updateBorder}
                               updateCard_played={updateCard_played}
                               updateHideCancel_PlayCard={updateHideCancel_PlayCard}
@@ -130,8 +130,8 @@ function Layout7players({
                 <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}/>
                 )}
             </Col>
-            <Col>
-                <OpponentDeck opponent={playerList[2]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
+            <Col xs={5}>
+                <OpponentDeckWide opponent={playerList[2]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
                               playertable={playertable} border={border} updateBorder={updateBorder}
                               updateCard_played={updateCard_played}
                               updateHideCancel_PlayCard={updateHideCancel_PlayCard}
@@ -143,9 +143,10 @@ function Layout7players({
                               updateFill_array={updateFill_array}/>
             </Col>
         </Row>
-        <Row>
+        <br/>
+        <Row className="align-items-center">
             <Col>
-                <OpponentDeck opponent={playerList[6]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
+                <OpponentDeckWide opponent={playerList[6]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
                               playertable={playertable} border={border} updateBorder={updateBorder}
                               updateCard_played={updateCard_played}
                               updateHideCancel_PlayCard={updateHideCancel_PlayCard}
@@ -156,22 +157,6 @@ function Layout7players({
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                               updateFill_array={updateFill_array}/>
             </Col>
-            <Col/>
-            <Col>
-                <OpponentDeck opponent={playerList[1]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
-                              playertable={playertable} border={border} updateBorder={updateBorder}
-                              updateCard_played={updateCard_played}
-                              updateHideCancel_PlayCard={updateHideCancel_PlayCard}
-                              ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
-                              updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
-                              updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
-                              updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                              updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
-            </Col>
-        </Row>
-        <Row>
-            <Col/>
             <Col>
                 <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
                             border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
@@ -183,11 +168,28 @@ function Layout7players({
                             updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                             updateFill_array={updateFill_array}/>
             </Col>
-            <Col/>
+            <Col>
+                <OpponentDeckWide opponent={playerList[1]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
+                              playertable={playertable} border={border} updateBorder={updateBorder}
+                              updateCard_played={updateCard_played}
+                              updateHideCancel_PlayCard={updateHideCancel_PlayCard}
+                              ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
+                              updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
+                              updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
+                              updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                              updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
+                              updateFill_array={updateFill_array}/>
+            </Col>
         </Row>
         <Row>
             <Col/>
-            <Col xs={8}>{playertable.gameStatus=="ENDED" ? (
+
+            <Col/>
+        </Row>
+        <br/>
+        <Row>
+            <Col/>
+            <Col xs={7}>{playertable.gameStatus=="ENDED" ? (
                 <>
                 <p hidden={true}>nothing to see here</p>
                 </>
