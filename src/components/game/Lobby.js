@@ -69,36 +69,39 @@ function Lobby({
         updatePlayer_table(currPt);
         setToomanycards(currp.hand.playCards.length - currp.bullets);
 
-        //this stops once the game starts
-        if (firstTurn) {
-            if (currPt.gameStatus === "ONGOING") {
-                localStorage.setItem("cards", JSON.stringify(currPlayer.hand.playCards));
-                setFirstTurn(false);
-            }
-        }
-
-        if (currPlayer_table.gameRole != "ENDED") {
-            //start of user turn
-            if (startofturn) {
-                if (currPt.playerOnTurn.id === currp.id) {
-                    const beforeDrawingCards = JSON.parse(localStorage.getItem("cards"));
-                    const afterDrawingCards = currp.hand.playCards;
-                    const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
-                    if (newCards.length > 0) {
-                        setCards(newCards);
-                    }
-                    setStartofturn(false);
+        if(currPt.gameStatus!="ENDED"){
+            //this stops once the game starts
+            if (firstTurn) {
+                if (currPt.gameStatus === "ONGOING") {
+                    localStorage.setItem("cards", JSON.stringify(currPlayer.hand.playCards));
+                    setFirstTurn(false);
                 }
             }
-            //time limit
-            if (timer != 0 && currPt.playerOnTurn.id == currp.id) {
-                setTimer(timer - 1);
-            }
 
-            if (timer == 0) {
-                setTimer(100);
+            if (currPlayer_table.gameRole != "ENDED") {
+                //start of user turn
+                if (startofturn) {
+                    if (currPt.playerOnTurn.id === currp.id) {
+                        const beforeDrawingCards = JSON.parse(localStorage.getItem("cards"));
+                        const afterDrawingCards = currp.hand.playCards;
+                        const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
+                        if (newCards.length > 0) {
+                            setCards(newCards);
+                        }
+                        setStartofturn(false);
+                    }
+                }
+                //time limit
+                if (timer != 0 && currPt.playerOnTurn.id == currp.id) {
+                    setTimer(timer - 1);
+                }
+
+                if (timer == 0) {
+                    setTimer(100);
+                }
             }
         }
+        
 
 
         /* setCount(count + 1); */
