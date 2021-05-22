@@ -273,6 +273,9 @@ export default function OpponentDeckWide({
     return (
         <div>
             <>
+                {/*<p hidden={hideEndRole}>*/}
+                {/*    This player is dead. The player's role was: {player.gameRole}*/}
+                {/*</p>*/}
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
                 </p>

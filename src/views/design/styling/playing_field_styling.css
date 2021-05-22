@@ -36,10 +36,6 @@
     justify-content: center;
 }
 
-.space-between{
-
-}
-
 /*styling for dead players*/
 #player-deck_div_p1, #opponent-deck_div_p1{
     font-size: 48px;
