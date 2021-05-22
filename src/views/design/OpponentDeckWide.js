@@ -138,6 +138,7 @@ export default function OpponentDeckWide({
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
+            case "DYNAMITE":
                 updateTargetSelf(true);
                 break;
             case "INDIANS":
