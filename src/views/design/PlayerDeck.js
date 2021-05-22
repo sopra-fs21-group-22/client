@@ -107,6 +107,9 @@ export default function PlayerDeck({
         if (searchForOn_FieldCards("JAIL") != -1) {
             setInJail(true);
         }
+        if (searchForOn_FieldCards("DYNAMITE") != -1) {
+            setDynamite(true);
+        }
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -253,6 +256,7 @@ export default function PlayerDeck({
     const [barrel, setBarrel] = useState(-1);
     const [weapon, setWeapon] = useState(-1);
     const [horse, setHorse] = useState(-1);
+    const [dynamite, setDynamite] = useState(false);
 
     const [show_drawnCards, setShow_drawnCards] = useState(false);
     const [drawnCards, setDrawnCards] = useState([]);
@@ -289,8 +293,7 @@ export default function PlayerDeck({
                         <Row className="align-items-center">
                             <Col>
                                 <Row className="align-items-center justify-content-center">
-                                    <Figure>
-                                        {/*<Figure hidden={!opponent.dynamite}>*/}
+                                    <Figure hidden={!dynamite}>
                                         <Figure.Image
                                             width={60}
                                             height={30}
