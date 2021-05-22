@@ -127,6 +127,9 @@ export default function OpponentDeckWide({
         if (searchForOn_FieldCards("DYNAMITE") != -1) {
             setDynamite(true);
         }
+        else {
+            setDynamite(false);
+        }
         //console.log(characterRef.current);
     }, 3000);
 

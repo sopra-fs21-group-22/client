@@ -110,6 +110,9 @@ export default function PlayerDeck({
         if (searchForOn_FieldCards("DYNAMITE") != -1) {
             setDynamite(true);
         }
+        else {
+            setDynamite(false);
+        }
     }, 1000);
 
     function setupTargetHighlighting(card) {
