@@ -90,10 +90,6 @@
     border-color: rgb(255, 251, 0);
     border-width: 5px;
 }
-#endofgame_card{
-    background-color: rgba(174, 136, 53, 0.7);
-    border-color:rgba(174, 136, 53, 0.8);
-}
 
 #fade{
     animation-delay: 2s;

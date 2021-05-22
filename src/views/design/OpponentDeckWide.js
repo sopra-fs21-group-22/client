@@ -8,27 +8,27 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
 export default function OpponentDeckWide({
-                                         opponent,
-                                         player,
-                                         playeronturn,
-                                         border,
-                                         updateBorder,
-                                         playertable,
-                                         updateCard_played,
-                                         updateHideCancel_PlayCard,
-                                         ignoreRange,
-                                         updateIgnoreRange,
-                                         targetSelf,
-                                         updateTargetSelf,
-                                         targetEveryone,
-                                         updateTargetEveryone,
-                                         targetOnlyEnemies,
-                                         updateTargetOnlyEnemies,
-                                         updateCurr_card,
-                                         curr_card,
-                                         fill_array,
-                                         updateFill_array
-                                     }) {
+                                             opponent,
+                                             player,
+                                             playeronturn,
+                                             border,
+                                             updateBorder,
+                                             playertable,
+                                             updateCard_played,
+                                             updateHideCancel_PlayCard,
+                                             ignoreRange,
+                                             updateIgnoreRange,
+                                             targetSelf,
+                                             updateTargetSelf,
+                                             targetEveryone,
+                                             updateTargetEveryone,
+                                             targetOnlyEnemies,
+                                             updateTargetOnlyEnemies,
+                                             updateCurr_card,
+                                             curr_card,
+                                             fill_array,
+                                             updateFill_array
+                                         }) {
     const interval = useInterval(async () => {
         //console.log(`${player.user}: ${player.bullets}`);
         //repeating requests to keep stuff up-to-date
@@ -40,12 +40,10 @@ export default function OpponentDeckWide({
                 setDisplayName(character_response.data.display);
                 setSetupCharacter(false);
             }
-        }
-        else {
+        } else {
             setBackgroundColor("#808080");
             setWidth(0);
             setOpacity(0.8);
-            setHideDeadmessage(true);
             setHideEndRole(false);
         }
 
@@ -69,12 +67,10 @@ export default function OpponentDeckWide({
             setWidth(0);
             setOpacity(0.8);
             if (playertable.gameStatus !== "ENDED") {
-                setHideDeadmessage(false);
-            }
-            else {
                 setHideEndRole(false);
             }
         }
+
         if (playeronturn != null && opponent.id === playeronturn.id) {
             setHighlightImage("solid");
         }
@@ -234,7 +230,6 @@ export default function OpponentDeckWide({
         alert("you clicked on a weapon. Congrats.");
     }
 
-    const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -269,128 +264,119 @@ export default function OpponentDeckWide({
 
     return (
         <div>
-            {/*{playertable.gameStatus == "ENDED" ? (*/}
-            {/*    <>*/}
-            {/*        <Card id="endofgame_card" style={{maxHeight: "300px", maxWidth:"300px"}}>*/}
-            {/*            <Card.Header><b>{opponent.user} the {opponent.gameRole}</b></Card.Header>*/}
-            {/*            <Card.Img style={{maxHeight: "250px", maxWidth:"250px"}} src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>*/}
-            {/*        </Card>*/}
-            {/*    </>*/}
-            {/*) : (*/}
-                <>
-                    <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
-                        <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
-                    </p>
-                    <p id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p>
-                    <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
-                        <Container onClick={selecttarget} className="opponent-player-deck_container-card"
-                                   style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
-                            <Row className="align-items-center">
-                                <Col>
-                                    <Row className="align-items-center justify-content-center">
-                                        <Figure>
-                                            {/*<Figure hidden={!opponent.dynamite}>*/}
-                                            <Figure.Image
-                                                width={60}
-                                                height={30}
-                                                alt="60x30"
-                                                src="/images/icons/dynamite.png"/>
-                                        </Figure>
-                                    </Row>
-                                    <Row className="justify-content-center">
-                                        <Figure
-                                            hidden={!(opponent.gameRole == "SHERIFF" || playertable.gameStatus == "ENDED")}>
-                                            <Figure.Image
-                                                width={80}
-                                                height={80}
-                                                alt="80x80"
-                                                src="/images/icons/sheriff.png"/>
-                                        </Figure>
-                                    </Row>
-                                </Col>
-                                <Col>
+            <>
+                <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                    <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
+                </p>
+                <p id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p>
+                <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
+                    <Container onClick={selecttarget} className="opponent-player-deck_container-card"
+                               style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
+                        <Row className="align-items-center">
+                            <Col>
+                                <Row className="align-items-center justify-content-center">
                                     <Figure>
-                                        <OverlayTrigger trigger="click" overlay={character_information} rootClose>
-                                            <Figure.Image id="character-image_FigureImage"
-                                                          style={{borderStyle: highlightImage}}
-                                                          ref={characterRef}
-                                                          width={80}
-                                                          height={80}
-                                                          alt="80x80"
-                                                          src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
-                                            />
-                                        </OverlayTrigger>
-                                        <Figure.Caption
-                                            id="opponent-player-deck_figure-profile-picture">{opponent.user}</Figure.Caption>
+                                        {/*<Figure hidden={!opponent.dynamite}>*/}
+                                        <Figure.Image
+                                            width={60}
+                                            height={30}
+                                            alt="60x30"
+                                            src="/images/icons/dynamite.png"/>
                                     </Figure>
-                                </Col>
-                                <Col>
-                                    <Row hidden={opponent.bullets < 5}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={opponent.bullets < 4}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={opponent.bullets < 3}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={opponent.bullets < 2}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={opponent.bullets < 1}>
-                                        <Life/>
-                                    </Row>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        {/*<Figure hidden={opponent.hand.playCards.length === 0}>*/}
+                                </Row>
+                                <Row className="justify-content-center">
+                                    <Figure
+                                        hidden={!(opponent.gameRole == "SHERIFF" || playertable.gameStatus == "ENDED")}>
                                         <Figure.Image
                                             width={80}
-                                            height={100}
-                                            alt="80x100"
-                                            src="/images/back.png"/>
-                                        <Figure.Caption id="opponent-player-deck_caption">{opponent.hand.cardsInHand} card(s)</Figure.Caption>
+                                            height={80}
+                                            alt="80x80"
+                                            src="/images/icons/sheriff.png"/>
                                     </Figure>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        <Figure.Image
-                                            onClick={showWeapon}
-                                            width={80}
-                                            height={100}
-                                            alt="150x100"
-                                            src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[weapon].card}_${opponent.onFieldCards.onFieldCards[weapon].suit}_${opponent.onFieldCards.onFieldCards[weapon].rank}.png`}/>
-                                        <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        <Figure.Image
-                                            onClick={showHorse}
-                                            width={80}
-                                            height={100}
-                                            alt="150x100"
-                                            src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[horse].card}_${opponent.onFieldCards.onFieldCards[horse].suit}_${opponent.onFieldCards.onFieldCards[horse].rank}.png`}/>
-                                        <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        <Figure.Image
-                                            onClick={showBarrel}
-                                            width={80}
-                                            height={100}
-                                            alt="150x100"
-                                            src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].rank}.png`}/>
-                                        <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </div>
-                </>
-            {/*)}*/}
-
+                                </Row>
+                            </Col>
+                            <Col>
+                                <Figure>
+                                    <OverlayTrigger trigger="click" overlay={character_information} rootClose>
+                                        <Figure.Image id="character-image_FigureImage"
+                                                      style={{borderStyle: highlightImage}}
+                                                      ref={characterRef}
+                                                      width={80}
+                                                      height={80}
+                                                      alt="80x80"
+                                                      src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
+                                        />
+                                    </OverlayTrigger>
+                                    <Figure.Caption
+                                        id="opponent-player-deck_figure-profile-picture">{opponent.user}</Figure.Caption>
+                                </Figure>
+                            </Col>
+                            <Col>
+                                <Row hidden={opponent.bullets < 5}>
+                                    <Life/>
+                                </Row>
+                                <Row hidden={opponent.bullets < 4}>
+                                    <Life/>
+                                </Row>
+                                <Row hidden={opponent.bullets < 3}>
+                                    <Life/>
+                                </Row>
+                                <Row hidden={opponent.bullets < 2}>
+                                    <Life/>
+                                </Row>
+                                <Row hidden={opponent.bullets < 1}>
+                                    <Life/>
+                                </Row>
+                            </Col>
+                            <Col>
+                                <Figure>
+                                    {/*<Figure hidden={opponent.hand.playCards.length === 0}>*/}
+                                    <Figure.Image
+                                        width={80}
+                                        height={100}
+                                        alt="80x100"
+                                        src="/images/back.png"/>
+                                    <Figure.Caption
+                                        id="opponent-player-deck_caption">{opponent.hand.cardsInHand} card(s)</Figure.Caption>
+                                </Figure>
+                            </Col>
+                            <Col>
+                                <Figure>
+                                    <Figure.Image
+                                        onClick={showWeapon}
+                                        width={80}
+                                        height={100}
+                                        alt="150x100"
+                                        src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[weapon].card}_${opponent.onFieldCards.onFieldCards[weapon].suit}_${opponent.onFieldCards.onFieldCards[weapon].rank}.png`}/>
+                                    <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
+                                </Figure>
+                            </Col>
+                            <Col>
+                                <Figure>
+                                    <Figure.Image
+                                        onClick={showHorse}
+                                        width={80}
+                                        height={100}
+                                        alt="150x100"
+                                        src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[horse].card}_${opponent.onFieldCards.onFieldCards[horse].suit}_${opponent.onFieldCards.onFieldCards[horse].rank}.png`}/>
+                                    <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
+                                </Figure>
+                            </Col>
+                            <Col>
+                                <Figure>
+                                    <Figure.Image
+                                        onClick={showBarrel}
+                                        width={80}
+                                        height={100}
+                                        alt="150x100"
+                                        src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].rank}.png`}/>
+                                    <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
+                                </Figure>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            </>
         </div>
     )
 }

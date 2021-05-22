@@ -41,11 +41,9 @@ export default function PlayerDeck({
                 setDisplayName(character_response.data.display);
                 setSetupCharacter(false);
             }
-        }
-        else {
+        } else {
             setBackgroundColor("#808080");
             setOpacity(0.8);
-            setHideDeadmessage(true);
             setHideEndRole(false);
         }
 
@@ -62,9 +60,6 @@ export default function PlayerDeck({
             setBackgroundColor("#808080");
             setOpacity(0.8);
             if (playertable.gameStatus !== "ENDED") {
-                setHideDeadmessage(false);
-            }
-            else {
                 setHideEndRole(false);
             }
         }
@@ -249,7 +244,6 @@ export default function PlayerDeck({
         alert("you clicked on a weapon. Congrats.");
     }
 
-    const [hidedeadmessage, setHideDeadmessage] = useState(true);
     const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -285,138 +279,129 @@ export default function PlayerDeck({
 
     return (
         <div style={{marginBottom: 5}}>
-            {/*{playertable.gameStatus == "ENDED" ? (*/}
-            {/*    <>*/}
-            {/*        <Card id="endofgame_card" style={{maxHeight: "300px", maxWidth:"300px"}}>*/}
-            {/*            <Card.Header><b>{player.user} the {player.gameRole}</b></Card.Header>*/}
-            {/*            <Card.Img style={{maxHeight: "250px", maxWidth:"250px"}} src={`/images/role_cards/${player.gameRole}_icon.png`}/> */}
-            {/*        </Card>*/}
-            {/*    </>*/}
-            {/*) : (*/}
-                <>
-                    <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
-                        <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
-                    </p>
-                    <p id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p>
-                    <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
-                        <Container onClick={selecttarget} className="opponent-player-deck_container-card"
-                                   style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
-                            <Row className="align-items-center">
-                                <Col>
-                                    <Row className="align-items-center justify-content-center">
-                                        <Figure>
-                                            {/*<Figure hidden={!opponent.dynamite}>*/}
-                                            <Figure.Image
-                                                width={60}
-                                                height={30}
-                                                alt="60x30"
-                                                src="/images/icons/dynamite.png"/>
-                                        </Figure>
-                                    </Row>
-                                    <Row className="justify-content-center">
-                                        <Figure
-                                            hidden={!(player.gameRole === "SHERIFF" || playertable.gameStatus == "ENDED")}>
-                                            <Figure.Image
-                                                width={80}
-                                                height={80}
-                                                alt="80x80"
-                                                src="/images/icons/sheriff.png"/>
-                                        </Figure>
-                                    </Row>
-                                </Col>
-                                <Col>
+            <>
+                <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                    <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
+                </p>
+                <p id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p>
+                <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
+                    <Container onClick={selecttarget} className="opponent-player-deck_container-card"
+                               style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
+                        <Row className="align-items-center">
+                            <Col>
+                                <Row className="align-items-center justify-content-center">
                                     <Figure>
-                                        <OverlayTrigger trigger="click" overlay={character_information} rootClose>
-                                            <Figure.Image id="character-image_FigureImage"
-                                                          style={{borderStyle: highlightImage}}
-                                                          ref={characterRef}
-                                                          width={80}
-                                                          height={80}
-                                                          alt="80x80"
-                                                          src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
-                                            />
-                                        </OverlayTrigger>
-                                        <Figure.Caption
-                                            id="opponent-player-deck_figure-profile-picture">{player.user}</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                                <Col>
-                                    <Row hidden={player.bullets < 5}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={player.bullets < 4}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={player.bullets < 3}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={player.bullets < 2}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={player.bullets < 1}>
-                                        <Life/>
-                                    </Row>
-                                </Col>
-                                <Col>
-                                    <Figure>
+                                        {/*<Figure hidden={!opponent.dynamite}>*/}
                                         <Figure.Image
-                                            onClick={showWeapon}
-                                            width={150}
-                                            height={100}
-                                            alt="150x100"
-                                            src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[weapon].card}_${player.onFieldCards.onFieldCards[weapon].suit}_${player.onFieldCards.onFieldCards[weapon].rank}.png`}/>
-                                        <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
+                                            width={60}
+                                            height={30}
+                                            alt="60x30"
+                                            src="/images/icons/dynamite.png"/>
                                     </Figure>
-                                </Col>
-                                <Col>
-                                    <Figure>
+                                </Row>
+                                <Row className="justify-content-center">
+                                    <Figure
+                                        hidden={!(player.gameRole === "SHERIFF" || playertable.gameStatus == "ENDED")}>
                                         <Figure.Image
-                                            onClick={showHorse}
-                                            width={150}
-                                            height={100}
-                                            alt="150x100"
-                                            src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].rank}.png`}/>
-                                        <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
+                                            width={80}
+                                            height={80}
+                                            alt="80x80"
+                                            src="/images/icons/sheriff.png"/>
                                     </Figure>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        <Figure.Image
-                                            onClick={showBarrel}
-                                            width={150}
-                                            height={100}
-                                            alt="150x100"
-                                            src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].rank}.png`}/>
-                                        <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                            </Row>
+                                </Row>
+                            </Col>
+                            <Col>
+                                <Figure>
+                                    <OverlayTrigger trigger="click" overlay={character_information} rootClose>
+                                        <Figure.Image id="character-image_FigureImage"
+                                                      style={{borderStyle: highlightImage}}
+                                                      ref={characterRef}
+                                                      width={80}
+                                                      height={80}
+                                                      alt="80x80"
+                                                      src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
+                                        />
+                                    </OverlayTrigger>
+                                    <Figure.Caption
+                                        id="opponent-player-deck_figure-profile-picture">{player.user}</Figure.Caption>
+                                </Figure>
+                            </Col>
+                            <Col>
+                                <Row hidden={player.bullets < 5}>
+                                    <Life/>
+                                </Row>
+                                <Row hidden={player.bullets < 4}>
+                                    <Life/>
+                                </Row>
+                                <Row hidden={player.bullets < 3}>
+                                    <Life/>
+                                </Row>
+                                <Row hidden={player.bullets < 2}>
+                                    <Life/>
+                                </Row>
+                                <Row hidden={player.bullets < 1}>
+                                    <Life/>
+                                </Row>
+                            </Col>
+                            <Col>
+                                <Figure>
+                                    <Figure.Image
+                                        onClick={showWeapon}
+                                        width={150}
+                                        height={100}
+                                        alt="150x100"
+                                        src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[weapon].card}_${player.onFieldCards.onFieldCards[weapon].suit}_${player.onFieldCards.onFieldCards[weapon].rank}.png`}/>
+                                    <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
+                                </Figure>
+                            </Col>
+                            <Col>
+                                <Figure>
+                                    <Figure.Image
+                                        onClick={showHorse}
+                                        width={150}
+                                        height={100}
+                                        alt="150x100"
+                                        src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].rank}.png`}/>
+                                    <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
+                                </Figure>
+                            </Col>
+                            <Col>
+                                <Figure>
+                                    <Figure.Image
+                                        onClick={showBarrel}
+                                        width={150}
+                                        height={100}
+                                        alt="150x100"
+                                        src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].rank}.png`}/>
+                                    <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
+                                </Figure>
+                            </Col>
+                        </Row>
 
 
-                            {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
-                                <Modal.Header id="chosen-role_modal_header">
-                                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn
-                                        Cards</b></Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body id="chosen-role_modal_body" centered>
-                                    {drawnCards.map((curr) => (
-                                        <Col>
-                                            <Image
-                                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                                id="chosen-role_modal_body_image"/>
-                                        </Col>
-                                    ))}
-                                </Modal.Body>
-                                <Modal.Footer id="chosen-role_modal_footer">
-                                    <Button id="custombutton" onClick={closeDrawnCards}>
-                                        Okay
-                                    </Button>
-                                </Modal.Footer>
-                            </Modal>}
-                        </Container>
-                    </div>
-                </>
-            {/*)}*/}
+                        {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
+                            <Modal.Header id="chosen-role_modal_header">
+                                <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn
+                                    Cards</b></Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body id="chosen-role_modal_body" centered>
+                                {drawnCards.map((curr) => (
+                                    <Col>
+                                        <Image
+                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                            id="chosen-role_modal_body_image"/>
+                                    </Col>
+                                ))}
+                            </Modal.Body>
+                            <Modal.Footer id="chosen-role_modal_footer">
+                                <Button id="custombutton" onClick={closeDrawnCards}>
+                                    Okay
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>}
+                    </Container>
+                </div>
+            </>
         </div>
     )
 }
