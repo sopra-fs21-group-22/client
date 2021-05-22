@@ -283,7 +283,6 @@ export default function PlayerDeck({
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
                 </p>
-                <p id="player-deck_div_p1" hidden={hidedeadmessage}><b>You Dead</b></p>
                 <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                     <Container onClick={selecttarget} className="opponent-player-deck_container-card"
                                style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>

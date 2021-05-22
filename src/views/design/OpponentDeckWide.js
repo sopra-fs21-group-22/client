@@ -268,7 +268,6 @@ export default function OpponentDeckWide({
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
                 </p>
-                <p id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p>
                 <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                     <Container onClick={selecttarget} className="opponent-player-deck_container-card"
                                style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
