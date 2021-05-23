@@ -232,7 +232,7 @@ export default function PlayerDeck({
                         <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
                         <br/>
                         <p className="death-message">
-                            This player is dead or left the game. The player's role is {player.gameRole}
+                            You are dead. Your role is {player.gameRole}
                         </p>
                     </p>
                 ):(
@@ -240,7 +240,7 @@ export default function PlayerDeck({
                         <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
                         <br/>
                         <p className="death-message">
-                            This player's role is {player.gameRole}
+                            Your role is {player.gameRole}
                         </p>
                     </p>
                 )}
