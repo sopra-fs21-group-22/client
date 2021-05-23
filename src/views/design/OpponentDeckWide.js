@@ -124,6 +124,12 @@ export default function OpponentDeckWide({
         if (searchForOn_FieldCards("JAIL") != -1) {
             setInJail(true);
         }
+        if (searchForOn_FieldCards("DYNAMITE") != -1) {
+            setDynamite(true);
+        }
+        else {
+            setDynamite(false);
+        }
         //console.log(characterRef.current);
     }, 3000);
 
@@ -135,6 +141,7 @@ export default function OpponentDeckWide({
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
+            case "DYNAMITE":
                 updateTargetSelf(true);
                 break;
             case "INDIANS":
@@ -239,6 +246,7 @@ export default function OpponentDeckWide({
     const [width, setWidth] = useState(5);
 
     const [inJail, setInJail] = useState(false);
+    const [dynamite, setDynamite] = useState(false);
     const [barrel, setBarrel] = useState(-1);
     const [weapon, setWeapon] = useState(-1);
     const [horse, setHorse] = useState(-1);
@@ -265,17 +273,30 @@ export default function OpponentDeckWide({
     return (
         <div>
             <>
-                <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
-                    <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
-                </p>
+                {opponent.bullets === 0 ? (
+                    <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                        <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
+                        <br/>
+                        <p className="death-message">
+                            This player is dead or left the game. The player's role is {opponent.gameRole}
+                        </p>
+                    </p>
+                ):(
+                    <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                        <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
+                        <br/>
+                        <p className="death-message">
+                            This player's role is {opponent.gameRole}
+                        </p>
+                    </p>
+                )}
                 <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                     <Container onClick={selecttarget} className="opponent-player-deck_container-card"
                                style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
                         <Row className="align-items-center">
                             <Col>
                                 <Row className="align-items-center justify-content-center">
-                                    <Figure>
-                                        {/*<Figure hidden={!opponent.dynamite}>*/}
+                                    <Figure hidden={!dynamite}>
                                         <Figure.Image
                                             width={60}
                                             height={30}
@@ -285,7 +306,7 @@ export default function OpponentDeckWide({
                                 </Row>
                                 <Row className="justify-content-center">
                                     <Figure
-                                        hidden={!(opponent.gameRole == "SHERIFF" || playertable.gameStatus == "ENDED")}>
+                                        hidden={!(opponent.gameRole === "SHERIFF")}>
                                         <Figure.Image
                                             width={80}
                                             height={80}
