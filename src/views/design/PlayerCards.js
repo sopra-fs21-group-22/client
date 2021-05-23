@@ -118,7 +118,6 @@ export default function PlayerCards({
                 let barrel = searchForOn_FieldCards("BARREL");
                 if (barrel) {
                     updateFill_array(true);
-                    setShow_duplicateBlueCard(true);
                     return;
                 }
                 authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
@@ -253,18 +252,6 @@ export default function PlayerCards({
         }
     }
 
-    function searchForOn_FieldCards(cardtobefound) {
-        if (player.onFieldCards.onFieldCards.length == 0) {
-            return -1;
-        }
-        for (let x = 0; x < player.onFieldCards.onFieldCards.length; x++) {
-            if (player.onFieldCards.onFieldCards[x].card == cardtobefound) {
-                return x;
-            }
-        }
-        return -1;
-    }
-
 
     return (
         <>
@@ -338,7 +325,7 @@ export default function PlayerCards({
                                                     disabled={((player.stillPlayableBangsThisRound === 0 && curr_card.card === "BANG") ||
                                                         curr_card.card === "MISSED" ||
                                                         (curr_card.card === "BEER" && player.maxBullets < player.bullets + 1)) ||
-                                                        (searchForOn_FieldCards("BARREL") !== -1)}
+                                                        (searchForOn_FieldCards("BARREL"))}
                                                     onClick={playCard}>
                                                 Play
                                             </Button>

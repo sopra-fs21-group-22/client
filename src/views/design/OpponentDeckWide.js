@@ -130,7 +130,7 @@ export default function OpponentDeckWide({
             setDynamite(false);
         }
         //console.log(characterRef.current);
-    }, 3000);
+    }, 5000);
 
     function setupTargetHighlighting(card) {
         if (!card) {
@@ -247,14 +247,29 @@ export default function OpponentDeckWide({
         setShow_destroyOrSteal(false);
         setShow_onFieldCards(true);
     }
-    async function selectOnFieldCard(card) {
+    function selectOnFieldCard(card) {
         setShow_onFieldCards(false);
+        switch (card.card) {
+            case "APPALOOSA":
+            case "MUSTANG":
+                setHorse(-1);
+                break;
+            case "CARABINE":
+            case "REMINGTON":
+            case "SCHOFIELD":
+            case "VOLCANIC":
+            case "WINCHESTER":
+                setWeapon(-1);
+                break;
+            case "BARREL":
+                setBarrel(-1);
+                break;
+        }
         const targetCardId = card.id;
         const requestBody = JSON.stringify({
             targetCardId: targetCardId
         });
-        //TODO: correct this request
-        //await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`, requestBody);
+        //authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`, requestBody);
         updateCurr_card(null);
     }
 
