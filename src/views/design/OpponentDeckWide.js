@@ -498,25 +498,31 @@ export default function OpponentDeckWide({
                 <Modal.Body id="chosen-role_modal_body" centered>
                     {curr_card ? (
                         curr_card.card === "PANIC" ? (
-                            opponent.onFieldCards.onFieldCards.map((curr) => (
-                                curr.card !== "DYNAMITE" && curr.card !== "JAIL" ? (
+                            <p>Click the one you want to steal:
+                                <br/>
+                                {opponent.onFieldCards.onFieldCards.map((curr) => (
+                                    curr.card !== "DYNAMITE" && curr.card !== "JAIL" ? (
+                                        <Col>
+                                            <Image
+                                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                                onClick={() => selectOnFieldCard(curr)}
+                                                id="chosen-role_modal_body_image"/>
+                                        </Col>
+                                    ):null
+                                ))}
+                            </p>
+                        ):(
+                            <p>Click the one you want to throw away:
+                                <br/>
+                                {opponent.onFieldCards.onFieldCards.map((curr) => (
                                     <Col>
                                         <Image
                                             src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
                                             onClick={() => selectOnFieldCard(curr)}
                                             id="chosen-role_modal_body_image"/>
                                     </Col>
-                                ):null
-                            ))
-                        ):(
-                            opponent.onFieldCards.onFieldCards.map((curr) => (
-                                <Col>
-                                    <Image
-                                        src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                        onClick={() => selectOnFieldCard(curr)}
-                                        id="chosen-role_modal_body_image"/>
-                                </Col>
-                            ))
+                                ))}
+                            </p>
                         )):null}
                 </Modal.Body>
             </Modal>}
