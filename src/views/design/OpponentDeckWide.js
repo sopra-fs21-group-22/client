@@ -141,22 +141,19 @@ export default function OpponentDeckWide({
             case "STAGECOACH":
             case "WELLSFARGO":
             case "DYNAMITE":
-                updateTargetSelf(true);
-                break;
             case "INDIANS":
             case "GATLING":
+            case "SALOON":
+                break;
             case "PANIC":
             case "CATBALOU":
-            case "DUEL":
                 updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
                 break;
             case "BANG":
                 updateTargetOnlyEnemies(true);
                 break;
-            case "SALOON":
             case "JAIL":
-            case "GENERALSTORE":
                 updateTargetEveryone(true);
                 updateIgnoreRange(true);
                 break;

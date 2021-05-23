@@ -124,27 +124,24 @@ export default function PlayerDeck({
             case "STAGECOACH":
             case "WELLSFARGO":
             case "DYNAMITE":
-                updateTargetSelf(true);
-                break;
             case "INDIANS":
             case "GATLING":
-            case "DUEL":
+            case "SALOON":
+                break;
             case "PANIC":
             case "CATBALOU":
-                updateTargetOnlyEnemies(true);
                 updateIgnoreRange(true);
+                updateTargetOnlyEnemies(true);
                 break;
             case "BANG":
                 updateTargetOnlyEnemies(true);
                 break;
-            case "SALOON":
             case "JAIL":
-            case "GENERALSTORE":
                 updateTargetEveryone(true);
                 updateIgnoreRange(true);
                 break;
             default:
-                console.log("no valid card name playerdeck");
+                console.log("no valid card name opponentdeck");
                 break;
         }
     }
@@ -154,37 +151,12 @@ export default function PlayerDeck({
             updateCard_played(true);
             updateBorder("none");
             setWidth(5);
-            const beforeDrawingCards = player.hand.playCards;
 
             const target_CardId = null;
             const requestBody = JSON.stringify({
                 target_CardId: target_CardId
             });
             await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
-            let playerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
-
-
-            switch (curr_card.card) {
-                case "WELLSFARGO":
-                case "STAGECOACH":
-                    const afterDrawingCards = playerAfterRequest.data.hand.playCards;
-                    const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
-                    setCards(newCards);
-                    break;
-                case "INDIANS":
-                case "BEER":
-                case "GATLING":
-                case "DUEL":
-                case "PANIC":
-                case "CATBALOU":
-                case "BANG":
-                case "SALOON":
-                case "GENERALSTORE":
-                    break;
-                default:
-                    console.log("no valid card name playerdeck");
-                    break;
-            }
 
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
@@ -195,36 +167,6 @@ export default function PlayerDeck({
             updateFill_array(true);
             //TODO: enable other player cards again
         }
-    }
-
-    function getNewCards(before, after) {
-        const beforeIds = getCardIds(before);
-        const afterIds = getCardIds(after);
-        let curr = [];
-        for (let id of afterIds) {
-            if (beforeIds.indexOf(id) === -1) {
-                curr.push(after[afterIds.indexOf(id)]);
-            }
-        }
-        return curr;
-    }
-
-    function getCardIds(cards) {
-        let curr = [];
-        for (let card of cards) {
-            curr.push(card.id);
-        }
-
-        return curr;
-    }
-
-    function closeDrawnCards() {
-        setShow_drawnCards(false);
-    }
-
-    function setCards(newCards) {
-        setDrawnCards(newCards);
-        setShow_drawnCards(true);
     }
 
     function searchForOn_FieldCards(cardtobefound) {
@@ -261,9 +203,6 @@ export default function PlayerDeck({
     const [weapon, setWeapon] = useState(-1);
     const [horse, setHorse] = useState(-1);
     const [dynamite, setDynamite] = useState(false);
-
-    const [show_drawnCards, setShow_drawnCards] = useState(false);
-    const [drawnCards, setDrawnCards] = useState([]);
 
     const [characterName, setCharacterName] = useState("loading character name...");
     const [characterDescription, setCharacterDescription] = useState("loading character description...");
@@ -397,28 +336,6 @@ export default function PlayerDeck({
                                 </Figure>
                             </Col>
                         </Row>
-
-
-                        {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
-                            <Modal.Header id="chosen-role_modal_header">
-                                <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn
-                                    Cards</b></Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body id="chosen-role_modal_body" centered>
-                                {drawnCards.map((curr) => (
-                                    <Col>
-                                        <Image
-                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                            id="chosen-role_modal_body_image"/>
-                                    </Col>
-                                ))}
-                            </Modal.Body>
-                            <Modal.Footer id="chosen-role_modal_footer">
-                                <Button id="custombutton" onClick={closeDrawnCards}>
-                                    Okay
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>}
                     </Container>
                 </div>
             </>
