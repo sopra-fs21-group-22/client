@@ -145,11 +145,11 @@ export default function OpponentDeckWide({
             case "GATLING":
             case "SALOON":
                 break;
-            case "PANIC":
             case "CATBALOU":
                 updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
                 break;
+            case "PANIC":
             case "BANG":
                 updateTargetOnlyEnemies(true);
                 break;
