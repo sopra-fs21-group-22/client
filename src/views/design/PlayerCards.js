@@ -325,7 +325,7 @@ export default function PlayerCards({
                                                     disabled={((player.stillPlayableBangsThisRound === 0 && curr_card.card === "BANG") ||
                                                         curr_card.card === "MISSED" ||
                                                         (curr_card.card === "BEER" && player.maxBullets < player.bullets + 1)) ||
-                                                        (searchForOn_FieldCards("BARREL"))}
+                                                        (searchForOn_FieldCards("BARREL") && curr_card.card === "BARREL")}
                                                     onClick={playCard}>
                                                 Play
                                             </Button>
