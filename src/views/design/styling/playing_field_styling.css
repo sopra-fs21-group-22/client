@@ -39,15 +39,24 @@
 /*styling for dead players*/
 #opponent-deck_div_gameEnd{
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     animation: fadeIn ease 5s;
     text-align: center;
     width: 100%;
     z-index: 1;
+    color: white;
     font-weight: bold;
 }
 
 .gameEnd{
-    height: 125px;
+    height: 150px;
+}
+
+.death-message{
+    background: rgba(0, 0, 0, 1);
+    width: 50%;
 }
 
 @keyframes fadeIn {

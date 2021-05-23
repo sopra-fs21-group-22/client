@@ -288,11 +288,23 @@ export default function PlayerDeck({
     return (
         <div style={{marginBottom: 5}}>
             <>
-                <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
-                    <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
-                    <br/>
-                    This player is dead or left the game. The player's role was {player.gameRole}
-                </p>
+                {player.bullets === 0 ? (
+                    <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                        <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
+                        <br/>
+                        <p className="death-message">
+                            This player is dead or left the game. The player's role is {player.gameRole}
+                        </p>
+                    </p>
+                ):(
+                    <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                        <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
+                        <br/>
+                        <p className="death-message">
+                            This player's role is {player.gameRole}
+                        </p>
+                    </p>
+                )}
                 <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                     <Container onClick={selecttarget} className="opponent-player-deck_container-card"
                                style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
@@ -309,7 +321,7 @@ export default function PlayerDeck({
                                 </Row>
                                 <Row className="justify-content-center">
                                     <Figure
-                                        hidden={!(player.gameRole === "SHERIFF" || playertable.gameStatus == "ENDED")}>
+                                        hidden={!(player.gameRole === "SHERIFF")}>
                                         <Figure.Image
                                             width={80}
                                             height={80}
