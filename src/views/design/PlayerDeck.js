@@ -288,11 +288,10 @@ export default function PlayerDeck({
     return (
         <div style={{marginBottom: 5}}>
             <>
-                {/*<p hidden={hideEndRole}>*/}
-                {/*    This player is dead. The player's role was: {player.gameRole}*/}
-                {/*</p>*/}
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
+                    <br/>
+                    This player is dead or left the game. The player's role was {player.gameRole}
                 </p>
                 <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
                     <Container onClick={selecttarget} className="opponent-player-deck_container-card"

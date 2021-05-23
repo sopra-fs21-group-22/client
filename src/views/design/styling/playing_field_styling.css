@@ -37,48 +37,25 @@
 }
 
 /*styling for dead players*/
-#player-deck_div_p1, #opponent-deck_div_p1{
-    font-size: 48px;
-    animation: fadeIn ease 5s;
-    position: absolute;
-    top: 40%;
-    width: 100%;
-    text-align: center;
-    z-index: 1;
-    font-weight: bold;
-}
-
 #opponent-deck_div_gameEnd{
     position: absolute;
     animation: fadeIn ease 5s;
     text-align: center;
     width: 100%;
     z-index: 1;
-    color: white;
     font-weight: bold;
 }
 
 .gameEnd{
-    height: 150px;
+    height: 125px;
 }
 
 @keyframes fadeIn {
     0% {
-      opacity: 0;
-      font-size: 48px;
-    }
-    25%{
-        font-size: 0px;
-    }
-    50%{
-        font-size: 48px;
-    }
-    75%{
-        font-size: 0px;
+        opacity: 0;
     }
     100% {
-      opacity: 1;
-      font-size: 48px;
+        opacity: 1;
     }
 }
 /*styling to hightlight who's turn it is*/
