@@ -125,12 +125,16 @@ function Lobby({
     }, []);
 
 //Buttons
-    async function resign() {
+    function leave() {
         authApi().delete(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
         localStorage.removeItem("cards");
         updateTableId(null);
         updatePlayerId(null);
         history.push("/game/dashboard");
+    }
+
+    function resign() {
+        authApi().delete(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
     }
 
     const chooseRole = () => {
@@ -455,7 +459,7 @@ function Lobby({
                         Turn</Button>
                     <Button onClick={openRules} id="custombutton">Rules</Button>
                     {currPlayer_table.gameStatus == "ENDED" ? (
-                        <Button onClick={resign} id="custombutton">Leave</Button>
+                        <Button onClick={leave} id="custombutton">Leave</Button>
                     ) : (
                         <Button onClick={resign} id="custombutton">Resign</Button>
                     )}

@@ -141,22 +141,19 @@ export default function OpponentDeckWide({
             case "STAGECOACH":
             case "WELLSFARGO":
             case "DYNAMITE":
-                updateTargetSelf(true);
-                break;
             case "INDIANS":
             case "GATLING":
-            case "PANIC":
+            case "SALOON":
+                break;
             case "CATBALOU":
-            case "DUEL":
                 updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
                 break;
+            case "PANIC":
             case "BANG":
                 updateTargetOnlyEnemies(true);
                 break;
-            case "SALOON":
             case "JAIL":
-            case "GENERALSTORE":
                 updateTargetEveryone(true);
                 updateIgnoreRange(true);
                 break;
@@ -252,7 +249,6 @@ export default function OpponentDeckWide({
     }
     async function selectOnFieldCard(card) {
         setShow_onFieldCards(false);
-        console.log(card);
         const targetCardId = card.id;
         const requestBody = JSON.stringify({
             targetCardId: targetCardId
