@@ -178,6 +178,8 @@ export default function PlayerCards({
                 const afterDrawingCards = playerAfterRequest.data.hand.playCards;
                 const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
                 setCards(newCards);
+                updateBorder("none");
+                updateFill_array(true);
                 return;
             case "BANG":
             case "PANIC":
@@ -215,6 +217,7 @@ export default function PlayerCards({
 
     function closeDrawnCards() {
         setShow_drawnCards(false);
+        updateCurr_card(null);
     }
 
     function setCards(newCards) {
@@ -250,6 +253,18 @@ export default function PlayerCards({
         }
     }
 
+    function searchForOn_FieldCards(cardtobefound) {
+        if (player.onFieldCards.onFieldCards.length == 0) {
+            return -1;
+        }
+        for (let x = 0; x < player.onFieldCards.onFieldCards.length; x++) {
+            if (player.onFieldCards.onFieldCards[x].card == cardtobefound) {
+                return x;
+            }
+        }
+        return -1;
+    }
+
 
     return (
         <>
@@ -260,11 +275,14 @@ export default function PlayerCards({
                     {<Modal show={show_duplicateBlueCard} animation size="sm" backdrop="static" keyboard={false}>
                         <Modal.Header id="chosen-role_modal_header">
                             <Modal.Title id="chosen-role_modal_header_title" centered>
-                                <b>you already have
-                                    a {curr_card.card}</b></Modal.Title>{/* TODO: this message isn't quite correct */}
+                                <b>You already have a {(curr_card.card === "CARABINE" ||
+                                        curr_card.card === "REMINGTON" ||
+                                        curr_card.card === "SCHOFIELD" ||
+                                        curr_card.card === "VOLCANIC" ||
+                                        curr_card.card === "WINCHESTER") ? "weapon" : "horse"}</b></Modal.Title>
                         </Modal.Header>
                         <Modal.Body id="chosen-role_modal_body" centered>
-                            <p>Do you want to replace your {curr_card.card}?</p>
+                            <p>Do you want to replace it?</p>
                         </Modal.Body>
                         <Modal.Footer id="chosen-role_modal_footer">
                             <Button id="custombutton" onClick={dontReplaceCard}>
@@ -317,7 +335,10 @@ export default function PlayerCards({
                                                 Return
                                             </Button>
                                             <Button id="custombutton"
-                                                    disabled={((player.stillPlayableBangsThisRound == 0 && curr_card.card == "BANG") || curr_card.card == "MISSED" || (curr_card.card == "BEER" && player.maxBullets < player.bullets + 1)) ? true : false}
+                                                    disabled={((player.stillPlayableBangsThisRound === 0 && curr_card.card === "BANG") ||
+                                                        curr_card.card === "MISSED" ||
+                                                        (curr_card.card === "BEER" && player.maxBullets < player.bullets + 1)) ||
+                                                        (searchForOn_FieldCards("BARREL") !== -1)}
                                                     onClick={playCard}>
                                                 Play
                                             </Button>
