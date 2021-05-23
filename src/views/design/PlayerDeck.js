@@ -26,7 +26,9 @@ export default function PlayerDeck({
                                        updateCurr_card,
                                        curr_card,
                                        fill_array,
-                                       updateFill_array
+                                       updateFill_array,
+                                       changingOnFieldCards,
+                                       updateChangingOnFieldCards
                                    }) {
     const interval = useInterval(async () => {
         /* console.log(`${player.user} other: ${player.bullets}`);
@@ -80,38 +82,41 @@ export default function PlayerDeck({
                 setWidth(0);
             }
         }
-        if (searchForOn_FieldCards("BARREL") != -1) {
-            setBarrel(searchForOn_FieldCards("BARREL"));
-        }
-        if (searchForOn_FieldCards("MUSTANG") != -1) {
-            setHorse(searchForOn_FieldCards("MUSTANG"));
-        }
-        if (searchForOn_FieldCards("APPALOOSA") != -1) {
-            setHorse(searchForOn_FieldCards("APPALOOSA"));
-        }
-        if (searchForOn_FieldCards("CARABINE") != -1) {
-            setWeapon(searchForOn_FieldCards("CARABINE"));
-        }
-        if (searchForOn_FieldCards("REMINGTON") != -1) {
-            setWeapon(searchForOn_FieldCards("REMINGTON"));
-        }
-        if (searchForOn_FieldCards("SCHOFIELD") != -1) {
-            setWeapon(searchForOn_FieldCards("SCHOFIELD"));
-        }
-        if (searchForOn_FieldCards("WINCHESTER") != -1) {
-            setWeapon(searchForOn_FieldCards("WINCHESTER"));
-        }
-        if (searchForOn_FieldCards("VOLCANIC") != -1) {
-            setWeapon(searchForOn_FieldCards("VOLCANIC"));
-        }
-        if (searchForOn_FieldCards("JAIL") != -1) {
-            setInJail(true);
-        }
-        if (searchForOn_FieldCards("DYNAMITE") != -1) {
-            setDynamite(true);
-        }
-        else {
-            setDynamite(false);
+        if (!changingOnFieldCards) {
+            setOnFieldCards(player.onFieldCards.onFieldCards);
+            if (searchForOn_FieldCards("BARREL") != -1) {
+                setBarrel(searchForOn_FieldCards("BARREL"));
+            } else {
+                setBarrel(-1);
+            }
+            if (searchForOn_FieldCards("MUSTANG") != -1) {
+                setHorse(searchForOn_FieldCards("MUSTANG"));
+            } else if (searchForOn_FieldCards("APPALOOSA") != -1) {
+                setHorse(searchForOn_FieldCards("APPALOOSA"));
+            } else {
+                setHorse(-1);
+            }
+            if (searchForOn_FieldCards("CARABINE") != -1) {
+                setWeapon(searchForOn_FieldCards("CARABINE"));
+            } else if (searchForOn_FieldCards("REMINGTON") != -1) {
+                setWeapon(searchForOn_FieldCards("REMINGTON"));
+            } else if (searchForOn_FieldCards("SCHOFIELD") != -1) {
+                setWeapon(searchForOn_FieldCards("SCHOFIELD"));
+            } else if (searchForOn_FieldCards("WINCHESTER") != -1) {
+                setWeapon(searchForOn_FieldCards("WINCHESTER"));
+            } else if (searchForOn_FieldCards("VOLCANIC") != -1) {
+                setWeapon(searchForOn_FieldCards("VOLCANIC"));
+            } else {
+                setWeapon(-1);
+            }
+            if (searchForOn_FieldCards("JAIL") != -1) {
+                setInJail(true);
+            }
+            if (searchForOn_FieldCards("DYNAMITE") != -1) {
+                setDynamite(true);
+            } else {
+                setDynamite(false);
+            }
         }
     }, 1000);
 
@@ -170,11 +175,11 @@ export default function PlayerDeck({
     }
 
     function searchForOn_FieldCards(cardtobefound) {
-        if (player.onFieldCards.onFieldCards.length == 0) {
+        if (onFieldCards.length == 0) {
             return -1;
         }
-        for (let x = 0; x < player.onFieldCards.onFieldCards.length; x++) {
-            if (player.onFieldCards.onFieldCards[x].card == cardtobefound) {
+        for (let x = 0; x < onFieldCards.length; x++) {
+            if (onFieldCards[x].card == cardtobefound) {
                 return x;
             }
         }
@@ -203,6 +208,7 @@ export default function PlayerDeck({
     const [weapon, setWeapon] = useState(-1);
     const [horse, setHorse] = useState(-1);
     const [dynamite, setDynamite] = useState(false);
+    const [onFieldCards, setOnFieldCards] = useState([]);
 
     const [characterName, setCharacterName] = useState("loading character name...");
     const [characterDescription, setCharacterDescription] = useState("loading character description...");
@@ -235,7 +241,7 @@ export default function PlayerDeck({
                             You are dead. Your role is {player.gameRole}
                         </p>
                     </p>
-                ):(
+                ) : (
                     <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                         <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
                         <br/>
@@ -309,7 +315,7 @@ export default function PlayerDeck({
                                         width={150}
                                         height={100}
                                         alt="150x100"
-                                        src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[weapon].card}_${player.onFieldCards.onFieldCards[weapon].suit}_${player.onFieldCards.onFieldCards[weapon].rank}.png`}/>
+                                        src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${onFieldCards[weapon].card}_${onFieldCards[weapon].suit}_${onFieldCards[weapon].rank}.png`}/>
                                     <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
                                 </Figure>
                             </Col>
@@ -320,7 +326,7 @@ export default function PlayerDeck({
                                         width={150}
                                         height={100}
                                         alt="150x100"
-                                        src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${player.onFieldCards.onFieldCards[horse].card}_${player.onFieldCards.onFieldCards[horse].suit}_${player.onFieldCards.onFieldCards[horse].rank}.png`}/>
+                                        src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${onFieldCards[horse].card}_${onFieldCards[horse].suit}_${onFieldCards[horse].rank}.png`}/>
                                     <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
                                 </Figure>
                             </Col>
@@ -331,7 +337,7 @@ export default function PlayerDeck({
                                         width={150}
                                         height={100}
                                         alt="150x100"
-                                        src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${player.onFieldCards.onFieldCards[barrel].suit}_${player.onFieldCards.onFieldCards[barrel].rank}.png`}/>
+                                        src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${onFieldCards[barrel].suit}_${onFieldCards[barrel].rank}.png`}/>
                                     <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
                                 </Figure>
                             </Col>

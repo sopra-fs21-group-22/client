@@ -1,6 +1,6 @@
 import useInterval from "../../components/game/useInterval.js";
 import React, {useState, useEffect, useRef} from 'react';
-import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-bootstrap';
+import {Col, Row, Container, Card, Figure, Image, Button, Modal, ModalFooter} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import {api, authApi} from '../../helpers/api';
@@ -27,7 +27,9 @@ export default function OpponentDeckWide({
                                              updateCurr_card,
                                              curr_card,
                                              fill_array,
-                                             updateFill_array
+                                             updateFill_array,
+                                             changingOnFieldCards,
+                                             updateChangingOnFieldCards
                                          }) {
     const interval = useInterval(async () => {
         //console.log(`${player.user}: ${player.bullets}`);
@@ -97,37 +99,41 @@ export default function OpponentDeckWide({
                 setWidth(5);
             }
         }
-        if (searchForOn_FieldCards("BARREL") != -1) {
-            setBarrel(searchForOn_FieldCards("BARREL"));
-        }
-        if (searchForOn_FieldCards("MUSTANG") != -1) {
-            setHorse(searchForOn_FieldCards("MUSTANG"));
-        }
-        if (searchForOn_FieldCards("APPALOOSA") != -1) {
-            setHorse(searchForOn_FieldCards("APPALOOSA"));
-        }
-        if (searchForOn_FieldCards("CARABINE") != -1) {
-            setWeapon(searchForOn_FieldCards("CARABINE"));
-        }
-        if (searchForOn_FieldCards("REMINGTON") != -1) {
-            setWeapon(searchForOn_FieldCards("REMINGTON"));
-        }
-        if (searchForOn_FieldCards("SCHOFIELD") != -1) {
-            setWeapon(searchForOn_FieldCards("SCHOFIELD"));
-        }
-        if (searchForOn_FieldCards("WINCHESTER") != -1) {
-            setWeapon(searchForOn_FieldCards("WINCHESTER"));
-        }
-        if (searchForOn_FieldCards("VOLCANIC") != -1) {
-            setWeapon(searchForOn_FieldCards("VOLCANIC"));
-        }
-        if (searchForOn_FieldCards("JAIL") != -1) {
-            setInJail(true);
-        }
-        if (searchForOn_FieldCards("DYNAMITE") != -1) {
-            setDynamite(true);
-        } else {
-            setDynamite(false);
+        if (!changingOnFieldCards) {
+            setOnFieldCards(opponent.onFieldCards.onFieldCards);
+            if (searchForOn_FieldCards("BARREL") != -1) {
+                setBarrel(searchForOn_FieldCards("BARREL"));
+            } else {
+                setBarrel(-1);
+            }
+            if (searchForOn_FieldCards("MUSTANG") != -1) {
+                setHorse(searchForOn_FieldCards("MUSTANG"));
+            } else if (searchForOn_FieldCards("APPALOOSA") != -1) {
+                setHorse(searchForOn_FieldCards("APPALOOSA"));
+            } else {
+                setHorse(-1);
+            }
+            if (searchForOn_FieldCards("CARABINE") != -1) {
+                setWeapon(searchForOn_FieldCards("CARABINE"));
+            } else if (searchForOn_FieldCards("REMINGTON") != -1) {
+                setWeapon(searchForOn_FieldCards("REMINGTON"));
+            } else if (searchForOn_FieldCards("SCHOFIELD") != -1) {
+                setWeapon(searchForOn_FieldCards("SCHOFIELD"));
+            } else if (searchForOn_FieldCards("WINCHESTER") != -1) {
+                setWeapon(searchForOn_FieldCards("WINCHESTER"));
+            } else if (searchForOn_FieldCards("VOLCANIC") != -1) {
+                setWeapon(searchForOn_FieldCards("VOLCANIC"));
+            } else {
+                setWeapon(-1);
+            }
+            if (searchForOn_FieldCards("JAIL") != -1) {
+                setInJail(true);
+            }
+            if (searchForOn_FieldCards("DYNAMITE") != -1) {
+                setDynamite(true);
+            } else {
+                setDynamite(false);
+            }
         }
         //console.log(characterRef.current);
     }, 5000);
@@ -206,11 +212,11 @@ export default function OpponentDeckWide({
     }
 
     function searchForOn_FieldCards(cardtobefound) {
-        if (opponent.onFieldCards.onFieldCards.length == 0) {
+        if (onFieldCards.length == 0) {
             return -1;
         }
-        for (let x = 0; x < opponent.onFieldCards.onFieldCards.length; x++) {
-            if (opponent.onFieldCards.onFieldCards[x].card == cardtobefound) {
+        for (let x = 0; x < onFieldCards.length; x++) {
+            if (onFieldCards[x].card == cardtobefound) {
                 return x;
             }
         }
@@ -247,29 +253,19 @@ export default function OpponentDeckWide({
         setShow_destroyOrSteal(false);
         setShow_onFieldCards(true);
     }
+
     function selectOnFieldCard(card) {
         setShow_onFieldCards(false);
-        switch (card.card) {
-            case "APPALOOSA":
-            case "MUSTANG":
-                setHorse(-1);
-                break;
-            case "CARABINE":
-            case "REMINGTON":
-            case "SCHOFIELD":
-            case "VOLCANIC":
-            case "WINCHESTER":
-                setWeapon(-1);
-                break;
-            case "BARREL":
-                setBarrel(-1);
-                break;
-        }
+        updateChangingOnFieldCards(true);
+        setWeapon(-1);
+        setHorse(-1);
+        setBarrel(-1);
         const targetCardId = card.id;
         const requestBody = JSON.stringify({
             targetCardId: targetCardId
         });
-        //authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`, requestBody);
+        authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`, requestBody);
+        updateChangingOnFieldCards(false);
         updateCurr_card(null);
     }
 
@@ -303,6 +299,16 @@ export default function OpponentDeckWide({
         setShow_stolenCard(true);
     }
 
+    function closeOnFieldCards() {
+        setShow_onFieldCards(false);
+        updateCurr_card(null);
+    }
+
+    function closeDestroyOrSteal() {
+        setShow_destroyOrSteal(false);
+        updateCurr_card(null);
+    }
+
     const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -314,6 +320,7 @@ export default function OpponentDeckWide({
     const [show_stolenCard, setShow_stolenCard] = useState(false);
     const [stolenCard, setStolenCard] = useState();
     const [show_onFieldCards, setShow_onFieldCards] = useState(false);
+    const [onFieldCards, setOnFieldCards] = useState([]);
 
     const [inJail, setInJail] = useState(false);
     const [dynamite, setDynamite] = useState(false);
@@ -436,7 +443,7 @@ export default function OpponentDeckWide({
                                     width={80}
                                     height={100}
                                     alt="150x100"
-                                    src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[weapon].card}_${opponent.onFieldCards.onFieldCards[weapon].suit}_${opponent.onFieldCards.onFieldCards[weapon].rank}.png`}/>
+                                    src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${onFieldCards[weapon].card}_${onFieldCards[weapon].suit}_${onFieldCards[weapon].rank}.png`}/>
                                 <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
                             </Figure>
                         </Col>
@@ -447,7 +454,7 @@ export default function OpponentDeckWide({
                                     width={80}
                                     height={100}
                                     alt="150x100"
-                                    src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[horse].card}_${opponent.onFieldCards.onFieldCards[horse].suit}_${opponent.onFieldCards.onFieldCards[horse].rank}.png`}/>
+                                    src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${onFieldCards[horse].card}_${onFieldCards[horse].suit}_${onFieldCards[horse].rank}.png`}/>
                                 <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
                             </Figure>
                         </Col>
@@ -458,7 +465,7 @@ export default function OpponentDeckWide({
                                     width={80}
                                     height={100}
                                     alt="150x100"
-                                    src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].rank}.png`}/>
+                                    src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${onFieldCards[barrel].suit}_${onFieldCards[barrel].rank}.png`}/>
                                 <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
                             </Figure>
                         </Col>
@@ -477,11 +484,14 @@ export default function OpponentDeckWide({
                     ) : null}
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
-                    <Button id="custombutton" onClick={handCard}>
+                    <Button id="custombutton" onClick={handCard} disabled={opponent.hand.cardsInHand === 0}>
                         Hand cards
                     </Button>
                     <Button id="custombutton" onClick={onFieldCard}>
                         On field cards
+                    </Button>
+                    <Button id="custombutton" onClick={closeDestroyOrSteal}>
+                        Cancel
                     </Button>
                 </Modal.Footer>
             </Modal>}
@@ -494,7 +504,7 @@ export default function OpponentDeckWide({
                         <Image
                             src={`/images/play_cards/${stolenCard.color}_${stolenCard.card}_${stolenCard.suit}_${stolenCard.rank}.png`}
                             id="chosen-role_modal_body_image"/>
-                    ):null}
+                    ) : null}
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeStolenCard}>
@@ -504,7 +514,8 @@ export default function OpponentDeckWide({
             </Modal>}
             {<Modal show={show_onFieldCards} centered animation size="sm" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's on field cards</b></Modal.Title>
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's on field
+                        cards</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
                     {curr_card ? (
@@ -519,10 +530,10 @@ export default function OpponentDeckWide({
                                                 onClick={() => selectOnFieldCard(curr)}
                                                 id="chosen-role_modal_body_image"/>
                                         </Col>
-                                    ):null
+                                    ) : null
                                 ))}
                             </p>
-                        ):(
+                        ) : (
                             <p>Click the one you want to throw away:
                                 <br/>
                                 {opponent.onFieldCards.onFieldCards.map((curr) => (
@@ -534,8 +545,13 @@ export default function OpponentDeckWide({
                                     </Col>
                                 ))}
                             </p>
-                        )):null}
+                        )) : null}
                 </Modal.Body>
+                <ModalFooter id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeOnFieldCards}>
+                        Cancel
+                    </Button>
+                </ModalFooter>
             </Modal>}
         </div>
     )

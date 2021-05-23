@@ -40,7 +40,9 @@ function Layout4players({
                             curr_card,
                             updateChat,
                             chat,
-                            roleinformation
+                            roleinformation,
+                            changingOnFieldCards,
+                            updateChangingOnFieldCards
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -128,7 +130,8 @@ function Layout4players({
                                      updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                      updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                      updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                     updateFill_array={updateFill_array}/>
+                                     updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
+                                     updateChangingOnFieldCards={updateChangingOnFieldCards}/>
                 </Col>
                 <Col/>
             </Row>
@@ -145,7 +148,8 @@ function Layout4players({
                                   updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                   updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                  updateFill_array={updateFill_array}/>
+                                  updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
+                                  updateChangingOnFieldCards={updateChangingOnFieldCards}/>
                 </Col>
                 <Col>{playertable.gameStatus == "ENDED" ? (
                     <>
@@ -167,7 +171,8 @@ function Layout4players({
                                   updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                   updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                  updateFill_array={updateFill_array}/>
+                                  updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
+                                  updateChangingOnFieldCards={updateChangingOnFieldCards}/>
                 </Col>
             </Row>
             <Row className="h-25">
@@ -198,7 +203,8 @@ function Layout4players({
                                 updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                 updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                updateFill_array={updateFill_array}/>
+                                updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
+                                updateChangingOnFieldCards={updateChangingOnFieldCards}/>
                 </Col>
                 <Col/>
             </Row>
