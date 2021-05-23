@@ -249,7 +249,6 @@ export default function OpponentDeckWide({
     }
     async function selectOnFieldCard(card) {
         setShow_onFieldCards(false);
-        console.log(card);
         const targetCardId = card.id;
         const requestBody = JSON.stringify({
             targetCardId: targetCardId
