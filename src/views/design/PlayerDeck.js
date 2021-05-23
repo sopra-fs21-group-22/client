@@ -85,29 +85,37 @@ export default function PlayerDeck({
         if (!changingOnFieldCards) {
             setOnFieldCards(player.onFieldCards.onFieldCards);
             if (searchForOn_FieldCards("BARREL") != -1) {
-                setBarrel(searchForOn_FieldCards("BARREL"));
+                setBarrelIndex(searchForOn_FieldCards("BARREL"));
+                setBarrel(`/images/play_cards/blue_${onFieldCards[barrelIndex].card}_${onFieldCards[barrelIndex].suit}_${onFieldCards[barrelIndex].rank}.png`);
             } else {
-                setBarrel(-1);
+                setBarrelIndex(-1);
             }
             if (searchForOn_FieldCards("MUSTANG") != -1) {
-                setHorse(searchForOn_FieldCards("MUSTANG"));
+                setHorseIndex(searchForOn_FieldCards("MUSTANG"));
+                setHorse(`/images/play_cards/blue_${onFieldCards[horseIndex].card}_${onFieldCards[horseIndex].suit}_${onFieldCards[horseIndex].rank}.png`);
             } else if (searchForOn_FieldCards("APPALOOSA") != -1) {
-                setHorse(searchForOn_FieldCards("APPALOOSA"));
+                setHorseIndex(searchForOn_FieldCards("APPALOOSA"));
+                setHorse(`/images/play_cards/blue_${onFieldCards[horseIndex].card}_${onFieldCards[horseIndex].suit}_${onFieldCards[horseIndex].rank}.png`);
             } else {
-                setHorse(-1);
+                setHorseIndex(-1);
             }
             if (searchForOn_FieldCards("CARABINE") != -1) {
-                setWeapon(searchForOn_FieldCards("CARABINE"));
+                setWeaponIndex(searchForOn_FieldCards("CARABINE"));
+                setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
             } else if (searchForOn_FieldCards("REMINGTON") != -1) {
-                setWeapon(searchForOn_FieldCards("REMINGTON"));
+                setWeaponIndex(searchForOn_FieldCards("REMINGTON"));
+                setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
             } else if (searchForOn_FieldCards("SCHOFIELD") != -1) {
-                setWeapon(searchForOn_FieldCards("SCHOFIELD"));
+                setWeaponIndex(searchForOn_FieldCards("SCHOFIELD"));
+                setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
             } else if (searchForOn_FieldCards("WINCHESTER") != -1) {
-                setWeapon(searchForOn_FieldCards("WINCHESTER"));
+                setWeaponIndex(searchForOn_FieldCards("WINCHESTER"));
+                setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
             } else if (searchForOn_FieldCards("VOLCANIC") != -1) {
-                setWeapon(searchForOn_FieldCards("VOLCANIC"));
+                setWeaponIndex(searchForOn_FieldCards("VOLCANIC"));
+                setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
             } else {
-                setWeapon(-1);
+                setWeaponIndex(-1);
             }
             if (searchForOn_FieldCards("JAIL") != -1) {
                 setInJail(true);
@@ -204,9 +212,12 @@ export default function PlayerDeck({
     const [highlightImage, setHighlightImage] = useState("none");
     const [width, setWidth] = useState(5);
     const [inJail, setInJail] = useState(false);
-    const [barrel, setBarrel] = useState(-1);
-    const [weapon, setWeapon] = useState(-1);
-    const [horse, setHorse] = useState(-1);
+    const [barrelIndex, setBarrelIndex] = useState(-1);
+    const [weaponIndex, setWeaponIndex] = useState(-1);
+    const [horseIndex, setHorseIndex] = useState(-1);
+    const [barrel, setBarrel] = useState();
+    const [weapon, setWeapon] = useState();
+    const [horse, setHorse] = useState();
     const [dynamite, setDynamite] = useState(false);
     const [onFieldCards, setOnFieldCards] = useState([]);
 
@@ -315,7 +326,7 @@ export default function PlayerDeck({
                                         width={150}
                                         height={100}
                                         alt="150x100"
-                                        src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${onFieldCards[weapon].card}_${onFieldCards[weapon].suit}_${onFieldCards[weapon].rank}.png`}/>
+                                        src={(weaponIndex == -1) ? "/images/back.png" : weapon}/>
                                     <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
                                 </Figure>
                             </Col>
@@ -326,7 +337,7 @@ export default function PlayerDeck({
                                         width={150}
                                         height={100}
                                         alt="150x100"
-                                        src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${onFieldCards[horse].card}_${onFieldCards[horse].suit}_${onFieldCards[horse].rank}.png`}/>
+                                        src={(horseIndex == -1) ? "/images/back.png" : horse}/>
                                     <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
                                 </Figure>
                             </Col>
@@ -337,7 +348,7 @@ export default function PlayerDeck({
                                         width={150}
                                         height={100}
                                         alt="150x100"
-                                        src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${onFieldCards[barrel].suit}_${onFieldCards[barrel].rank}.png`}/>
+                                        src={(barrelIndex == -1) ? "/images/back.png" : barrel}/>
                                     <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
                                 </Figure>
                             </Col>
