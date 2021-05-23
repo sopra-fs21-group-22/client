@@ -37,7 +37,7 @@ function WaitingRoom({
                       }) {
     const interval = useInterval(async () => {
         //if(loop){
-        console.log(`tableid: ${tableId}`);
+        // console.log(`tableid: ${tableId}`);
 
         let playertable_response;
         playertable_response = await authApi().get(`/games/${tableId}/players`);
@@ -46,7 +46,7 @@ function WaitingRoom({
 
         let currPlayer_response;
         currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
-        console.log(`player: ${currPlayer_response.data}`);
+        // console.log(`player: ${currPlayer_response.data}`);
         let currP = new PlayerModel(currPlayer_response.data);
         updateCurrPlayer(currP);
 
