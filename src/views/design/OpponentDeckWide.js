@@ -248,6 +248,17 @@ export default function OpponentDeckWide({
 
     function onFieldCard() {
         setShow_destroyOrSteal(false);
+        setShow_onFieldCards(true);
+    }
+    async function selectOnFieldCard(card) {
+        setShow_onFieldCards(false);
+        console.log(card);
+        const targetCardId = card.id;
+        const requestBody = JSON.stringify({
+            targetCardId: targetCardId
+        });
+        //TODO: correct this request
+        //await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`, requestBody);
         updateCurr_card(null);
     }
 
@@ -291,6 +302,7 @@ export default function OpponentDeckWide({
     const [show_destroyOrSteal, setShow_destroyOrSteal] = useState(false);
     const [show_stolenCard, setShow_stolenCard] = useState(false);
     const [stolenCard, setStolenCard] = useState();
+    const [show_onFieldCards, setShow_onFieldCards] = useState(false);
 
     const [inJail, setInJail] = useState(false);
     const [dynamite, setDynamite] = useState(false);
@@ -478,6 +490,35 @@ export default function OpponentDeckWide({
                         Okay
                     </Button>
                 </Modal.Footer>
+            </Modal>}
+            {<Modal show={show_onFieldCards} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's on field cards</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    {curr_card ? (
+                        curr_card.card === "PANIC" ? (
+                            opponent.onFieldCards.onFieldCards.map((curr) => (
+                                curr.card !== "DYNAMITE" && curr.card !== "JAIL" ? (
+                                    <Col>
+                                        <Image
+                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                            onClick={() => selectOnFieldCard(curr)}
+                                            id="chosen-role_modal_body_image"/>
+                                    </Col>
+                                ):null
+                            ))
+                        ):(
+                            opponent.onFieldCards.onFieldCards.map((curr) => (
+                                <Col>
+                                    <Image
+                                        src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                        onClick={() => selectOnFieldCard(curr)}
+                                        id="chosen-role_modal_body_image"/>
+                                </Col>
+                            ))
+                        )):null}
+                </Modal.Body>
             </Modal>}
         </div>
     )
