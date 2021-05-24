@@ -75,9 +75,6 @@ export default function OpponentDeckWide({
         }
         if (opponent.bullets > 0) {
             let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
-            setPlayersInReach(response.data);
-            
-            
             if (!isinreach(response.data)) {
                 setWidth(0);
             }
