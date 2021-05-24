@@ -160,7 +160,7 @@ export default function PlayerCards({
             case "DYNAMITE":
                 authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}`);
                 updateBorder("none");
-                updateFill_array(true);
+                updateCurr_card(null);
                 return;
             case "STAGECOACH":
             case "WELLSFARGO":
@@ -171,6 +171,7 @@ export default function PlayerCards({
                 const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
                 setCards(newCards);
                 updateBorder("none");
+                updateCurr_card(null);
                 return;
             case "BANG":
             case "PANIC":

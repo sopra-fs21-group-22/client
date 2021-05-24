@@ -29,6 +29,7 @@ export default function OpponentDeckWide({
                                              curr_card,
                                              fill_array,
                                              updateFill_array,
+                                             newGameMoves
                                          }) {
     const interval = useInterval(async () => {
         //console.log(`${player.user}: ${player.bullets}`);
@@ -104,7 +105,6 @@ export default function OpponentDeckWide({
         } else {
             setDynamite(false);
         }
-        //console.log(characterRef.current);
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -376,6 +376,8 @@ export default function OpponentDeckWide({
     const [displayName, setDisplayName] = useState("loading character name...");
     const [setupCharacter, setSetupCharacter] = useState(true);
     const characterRef = useRef();
+    const notificationRef = useRef();
+
 
     const character_information = (
         <Popover placement="bottom" id="role-info_popover">
@@ -389,10 +391,43 @@ export default function OpponentDeckWide({
             </Popover.Content>
         </Popover>
     )
+    
+    function edit(){
+        notificationRef.current.hidden=!notificationRef.current.hidden;
+        notificationRef.current.innerText="lelek";
+        console.log(notificationRef.current);
+    }
+
+    function latestgameMoves(){
+        
+                if(detectMissed(newGameMoves)){
+                    notificationRef.current.innerText="MISSED";
+                    notificationRef.current.hidden=false;
+                }
+            
+        
+        setGameMovesCopy(gameMoves);
+    }
+
+    function detectMissed(movelist){
+        if (move.length==0){
+            return -1;
+        }
+        if (move.card=="MISSED" && move.usingPlayer==opponent.id){
+            return true;
+        }
+        return false;
+    }
 
 
     return (
+        
         <div>
+            <Button onClick={edit}>edit</Button>
+            <>
+                <h hidden ref={notificationRef} id="notification">
+                <b>MISSED</b></h>
+            </>
             {opponent.bullets === 0 ? (
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>

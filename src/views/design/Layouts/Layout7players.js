@@ -25,7 +25,8 @@ function Layout7players({
                             updateTargetOnlyEnemies,
                             updateCurr_card,
                             curr_card,
-                            roleinformation
+                            roleinformation,
+                            newGameMoves
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -93,7 +94,8 @@ function Layout7players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
+                              updateFill_array={updateFill_array}
+                              newGameMoves={newGameMoves}/>
             </Col>
             <Col>
                 <OpponentDeckWide opponent={playerList[3]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
@@ -105,7 +107,8 @@ function Layout7players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
+                              updateFill_array={updateFill_array}
+                              newGameMoves={newGameMoves}/>
             </Col>
         </Row>
         <br/>
@@ -120,7 +123,8 @@ function Layout7players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
+                              updateFill_array={updateFill_array}
+                              newGameMoves={newGameMoves}/>
             </Col>
             <Col>{playertable.gameStatus=="ENDED" ? (
                 <>
@@ -140,7 +144,8 @@ function Layout7players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
+                              updateFill_array={updateFill_array}
+                              newGameMoves={newGameMoves}/>
             </Col>
         </Row>
         <br/>
@@ -155,7 +160,8 @@ function Layout7players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
+                              updateFill_array={updateFill_array}
+                              newGameMoves={newGameMoves}/>
             </Col>
             <Col>
                 <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
@@ -166,7 +172,8 @@ function Layout7players({
                             updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                             updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                             updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                            updateFill_array={updateFill_array}/>
+                            updateFill_array={updateFill_array}
+                            newGameMoves={newGameMoves}/>
             </Col>
             <Col>
                 <OpponentDeckWide opponent={playerList[1]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
@@ -178,7 +185,8 @@ function Layout7players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array}/>
+                              updateFill_array={updateFill_array}
+                              newGameMoves={newGameMoves}/>
             </Col>
         </Row>
         <Row>

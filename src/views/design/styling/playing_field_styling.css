@@ -67,10 +67,26 @@
         opacity: 1;
     }
 }
+
 /*styling to hightlight who's turn it is*/
 #character-image_FigureImage{
     border-color: rgb(255, 251, 0);
     border-width: 5px;
+}
+
+#notification{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    color: black;
+    font-weight: bold;
+    animation-delay: 2s;
+    animation-duration: 3s;
+    animation-name: fadeout;
 }
 
 #fade{

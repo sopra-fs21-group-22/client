@@ -65,6 +65,21 @@ function Lobby({
         updatePlayer_table(currPt);
         setToomanycards(currp.hand.playCards.length - currp.bullets);
 
+        let currentlength = currPt.gameMoves.length;
+        let pastlength = newGameMoves.length;
+        if (currPt.gameMoves!=null){
+            if(newGameMoves.length!=currPt.gameMoves.length){
+                let gamemovelist=[]
+                for (let i=0; i<currPt.gameMoves.length-newGameMoves.length; i++){
+                    gamemovelist.push(currPt.gameMoves[currentlength-i-1]);
+                }
+                setNewGameMoves(gamemovelist);
+            }
+        }
+        
+
+
+
         if(currPt.gameStatus!="ENDED"){
             //this stops once the game starts
             if (firstTurn) {
@@ -104,6 +119,8 @@ function Lobby({
 
 
     }, 1000);
+    
+    const [newGameMoves, setNewGameMoves] = useState([]);
 
     useEffect(async () => {
         try {
@@ -444,7 +461,7 @@ function Lobby({
 
                     <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table}
                                     orderarray={orderArray}
-                                    visibility={hidden_gamefield} player={currPlayer} roleinformation={role_information}/>
+                                    visibility={hidden_gamefield} player={currPlayer} roleinformation={role_information} newGameMoves={newGameMoves}/>
 
                     {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
                     {/*    <Button id="custombutton">Show role information</Button>*/}

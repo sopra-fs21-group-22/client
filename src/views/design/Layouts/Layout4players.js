@@ -41,6 +41,7 @@ function Layout4players({
                             updateChat,
                             chat,
                             roleinformation,
+                            newGameMoves
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -128,7 +129,8 @@ function Layout4players({
                                      updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                      updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                      updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                     updateFill_array={updateFill_array}/>
+                                     updateFill_array={updateFill_array}
+                                     newGameMoves={newGameMoves}/>
                 </Col>
                 <Col/>
             </Row>
@@ -145,7 +147,8 @@ function Layout4players({
                                   updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                   updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                  updateFill_array={updateFill_array}/>
+                                  updateFill_array={updateFill_array}
+                                  newGameMoves={newGameMoves}/>
                 </Col>
                 <Col>{playertable.gameStatus == "ENDED" ? (
                     <>
@@ -167,7 +170,8 @@ function Layout4players({
                                   updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                   updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                  updateFill_array={updateFill_array}/>
+                                  updateFill_array={updateFill_array}
+                                  newGameMoves={newGameMoves}/>
                 </Col>
             </Row>
             <Row className="h-25">
@@ -198,7 +202,8 @@ function Layout4players({
                                 updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                 updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                updateFill_array={updateFill_array}/>
+                                updateFill_array={updateFill_array}
+                                newGameMoves={newGameMoves}/>
                 </Col>
                 <Col/>
             </Row>

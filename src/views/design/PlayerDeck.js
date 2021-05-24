@@ -27,6 +27,7 @@ export default function PlayerDeck({
                                        curr_card,
                                        fill_array,
                                        updateFill_array,
+                                       newGameMoves
                                    }) {
     const interval = useInterval(async () => {
         /* console.log(`${player.user} other: ${player.bullets}`);
