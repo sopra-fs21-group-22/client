@@ -26,9 +26,7 @@ function Layout6players({
                             updateTargetOnlyEnemies,
                             updateCurr_card,
                             curr_card,
-                            roleinformation,
-                            changingOnFieldCards,
-                            updateChangingOnFieldCards
+                            roleinformation
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -96,8 +94,7 @@ function Layout6players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
-                              updateChangingOnFieldCards={updateChangingOnFieldCards}/>
+                              updateFill_array={updateFill_array}/>
             </Col>
             <Col>
                 <OpponentDeckWide opponent={playerList[3]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
@@ -109,8 +106,7 @@ function Layout6players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
-                              updateChangingOnFieldCards={updateChangingOnFieldCards}/>
+                              updateFill_array={updateFill_array}/>
             </Col>
             <Col>
                 <OpponentDeckWide opponent={playerList[2]} player={playerList[0]} playeronturn={playertable.playerOnTurn}
@@ -122,8 +118,7 @@ function Layout6players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
-                              updateChangingOnFieldCards={updateChangingOnFieldCards}/>
+                              updateFill_array={updateFill_array}/>
             </Col>
         </Row>
         <br/>
@@ -138,8 +133,7 @@ function Layout6players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
-                              updateChangingOnFieldCards={updateChangingOnFieldCards}/>
+                              updateFill_array={updateFill_array}/>
             </Col>
             <Col>{playertable.gameStatus=="ENDED" ? (
                 <>
@@ -159,8 +153,7 @@ function Layout6players({
                               updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                               updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                               updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                              updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
-                              updateChangingOnFieldCards={updateChangingOnFieldCards}/>
+                              updateFill_array={updateFill_array}/>
             </Col>
         </Row>
         <br/>
@@ -175,8 +168,7 @@ function Layout6players({
                             updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                             updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                             updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                            updateFill_array={updateFill_array} changingOnFieldCards={changingOnFieldCards}
-                            updateChangingOnFieldCards={updateChangingOnFieldCards}/>
+                            updateFill_array={updateFill_array}/>
             </Col>
             <Col/>
         </Row>
