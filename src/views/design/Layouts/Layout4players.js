@@ -40,7 +40,7 @@ function Layout4players({
                             curr_card,
                             updateChat,
                             chat,
-                            roleinformation
+                            roleinformation,
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);

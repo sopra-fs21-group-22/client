@@ -111,33 +111,29 @@ export default function PlayerCards({
     }
 
     async function playCard() {
-
+        updateFill_array(true);
         //TODO: disable other player cards while choosing a target
         switch (curr_card.card) {
             case "BARREL":
                 let barrel = searchForOn_FieldCards("BARREL");
                 if (barrel) {
-                    updateFill_array(true);
                     return;
                 }
                 authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
                 updateCurr_card(null);
                 updateBorder("none");
-                updateFill_array(true);
                 return;
             case "APPALOOSA":
             case "MUSTANG":
                 let appaloosa = searchForOn_FieldCards("APPALOOSA");
                 let mustang = searchForOn_FieldCards("MUSTANG");
                 if (appaloosa || mustang) {
-                    updateFill_array(true);
                     setShow_duplicateBlueCard(true);
                     return;
                 }
                 authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
                 updateCurr_card(null);
                 updateBorder("none");
-                updateFill_array(true);
                 return;
             case "CARABINE":
             case "REMINGTON":
@@ -150,14 +146,12 @@ export default function PlayerCards({
                 let volcanic = searchForOn_FieldCards("VOLCANIC");
                 let winchester = searchForOn_FieldCards("WINCHESTER");
                 if (carabine || remington || schofield || volcanic || winchester) {
-                    updateFill_array(true);
                     setShow_duplicateBlueCard(true);
                     return;
                 }
                 authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
                 updateBorder("none");
                 updateCurr_card(null);
-                updateFill_array(true);
                 return;
             case "GATLING":
             case "INDIANS":
@@ -166,7 +160,6 @@ export default function PlayerCards({
             case "DYNAMITE":
                 authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}`);
                 updateBorder("none");
-                updateCurr_card(null);
                 updateFill_array(true);
                 return;
             case "STAGECOACH":
@@ -178,7 +171,6 @@ export default function PlayerCards({
                 const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
                 setCards(newCards);
                 updateBorder("none");
-                updateFill_array(true);
                 return;
             case "BANG":
             case "PANIC":
@@ -186,7 +178,6 @@ export default function PlayerCards({
             case "JAIL":
                 updateBorder("solid");
                 updateHideCancel_PlayCard(false);
-                updateFill_array(true);
                 return;
             default:
                 console.log("no valid card name playercards");
@@ -233,16 +224,14 @@ export default function PlayerCards({
     function dontReplaceCard() {
         setShow_duplicateBlueCard(false);
         updateCurr_card(null);
-        updateFill_array(true);
         updateBorder("none");
     }
 
     function doReplaceCard() {
+        setShow_duplicateBlueCard(false);
         authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
         updateCurr_card(null);
-        updateFill_array(true);
         updateBorder("none");
-        setShow_duplicateBlueCard(false);
     }
 
     function disableBangCard(card) {
