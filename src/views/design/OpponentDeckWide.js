@@ -101,73 +101,73 @@ export default function OpponentDeckWide({
         }
 
         if (!changingOnFieldCards) {
-            setOnFieldCards(opponent.onFieldCards.onFieldCards);
-            if (searchForOn_FieldCards("BARREL") != -1) {
-                setBarrelIndex(searchForOn_FieldCards("BARREL"));
-                try {
-                    setBarrel(`/images/play_cards/blue_${onFieldCards[barrelIndex].card}_${onFieldCards[barrelIndex].suit}_${onFieldCards[barrelIndex].rank}.png`);
-                } catch (e) {
-                    setBarrelIndex(-1);
-                }
-            } else {
-                setBarrelIndex(-1);
-            }
-            if (searchForOn_FieldCards("MUSTANG") != -1) {
-                setHorseIndex(searchForOn_FieldCards("MUSTANG"));
-                try {
-                    setHorse(`/images/play_cards/blue_${onFieldCards[horseIndex].card}_${onFieldCards[horseIndex].suit}_${onFieldCards[horseIndex].rank}.png`);
-                } catch (e) {
-                    setHorseIndex(-1);
-                }
-
-            } else if (searchForOn_FieldCards("APPALOOSA") != -1) {
-                setHorseIndex(searchForOn_FieldCards("APPALOOSA"));
-                try {
-                    setHorse(`/images/play_cards/blue_${onFieldCards[horseIndex].card}_${onFieldCards[horseIndex].suit}_${onFieldCards[horseIndex].rank}.png`);
-                } catch (e) {
-                    setHorseIndex(-1);
-                }
-            } else {
-                setHorseIndex(-1);
-            }
-            if (searchForOn_FieldCards("CARABINE") != -1) {
-                setWeaponIndex(searchForOn_FieldCards("CARABINE"));
-                try {
-                    setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-                } catch (e) {
-                    setWeaponIndex(-1);
-                }
-            } else if (searchForOn_FieldCards("REMINGTON") != -1) {
-                setWeaponIndex(searchForOn_FieldCards("REMINGTON"));
-                try {
-                    setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-                } catch (e) {
-                    setWeaponIndex(-1);
-                }
-            } else if (searchForOn_FieldCards("SCHOFIELD") != -1) {
-                setWeaponIndex(searchForOn_FieldCards("SCHOFIELD"));
-                try {
-                    setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-                } catch (e) {
-                    setWeaponIndex(-1);
-                }
-            } else if (searchForOn_FieldCards("WINCHESTER") != -1) {
-                setWeaponIndex(searchForOn_FieldCards("WINCHESTER"));
-                try {
-                    setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-                } catch (e) {
-                    setWeaponIndex(-1);
-                }
-            } else if (searchForOn_FieldCards("VOLCANIC") != -1) {
-                setWeaponIndex(searchForOn_FieldCards("VOLCANIC"));
-                try {
-                    setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-                } catch (e) {
-                    setWeaponIndex(-1);
-                }
-            } else {
-                setWeaponIndex(-1);
-            }
+            // setOnFieldCards(opponent.onFieldCards.onFieldCards);
+            // if (searchForOn_FieldCards("BARREL") != -1) {
+            //     setBarrelIndex(searchForOn_FieldCards("BARREL"));
+            //     try {
+            //         setBarrel(`/images/play_cards/blue_${onFieldCards[barrelIndex].card}_${onFieldCards[barrelIndex].suit}_${onFieldCards[barrelIndex].rank}.png`);
+            //     } catch (e) {
+            //         setBarrelIndex(-1);
+            //     }
+            // } else {
+            //     setBarrelIndex(-1);
+            // }
+            // if (searchForOn_FieldCards("MUSTANG") != -1) {
+            //     setHorseIndex(searchForOn_FieldCards("MUSTANG"));
+            //     try {
+            //         setHorse(`/images/play_cards/blue_${onFieldCards[horseIndex].card}_${onFieldCards[horseIndex].suit}_${onFieldCards[horseIndex].rank}.png`);
+            //     } catch (e) {
+            //         setHorseIndex(-1);
+            //     }
+            //
+            // } else if (searchForOn_FieldCards("APPALOOSA") != -1) {
+            //     setHorseIndex(searchForOn_FieldCards("APPALOOSA"));
+            //     try {
+            //         setHorse(`/images/play_cards/blue_${onFieldCards[horseIndex].card}_${onFieldCards[horseIndex].suit}_${onFieldCards[horseIndex].rank}.png`);
+            //     } catch (e) {
+            //         setHorseIndex(-1);
+            //     }
+            // } else {
+            //     setHorseIndex(-1);
+            // }
+            // if (searchForOn_FieldCards("CARABINE") != -1) {
+            //     setWeaponIndex(searchForOn_FieldCards("CARABINE"));
+            //     try {
+            //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
+            //     } catch (e) {
+            //         setWeaponIndex(-1);
+            //     }
+            // } else if (searchForOn_FieldCards("REMINGTON") != -1) {
+            //     setWeaponIndex(searchForOn_FieldCards("REMINGTON"));
+            //     try {
+            //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
+            //     } catch (e) {
+            //         setWeaponIndex(-1);
+            //     }
+            // } else if (searchForOn_FieldCards("SCHOFIELD") != -1) {
+            //     setWeaponIndex(searchForOn_FieldCards("SCHOFIELD"));
+            //     try {
+            //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
+            //     } catch (e) {
+            //         setWeaponIndex(-1);
+            //     }
+            // } else if (searchForOn_FieldCards("WINCHESTER") != -1) {
+            //     setWeaponIndex(searchForOn_FieldCards("WINCHESTER"));
+            //     try {
+            //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
+            //     } catch (e) {
+            //         setWeaponIndex(-1);
+            //     }
+            // } else if (searchForOn_FieldCards("VOLCANIC") != -1) {
+            //     setWeaponIndex(searchForOn_FieldCards("VOLCANIC"));
+            //     try {
+            //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
+            //     } catch (e) {
+            //         setWeaponIndex(-1);
+            //     }
+            // } else {
+            //     setWeaponIndex(-1);
+            // }
             if (searchForOn_FieldCards("JAIL") != -1) {
                 setInJail(true);
             }
@@ -254,15 +254,106 @@ export default function OpponentDeckWide({
     }
 
     function searchForOn_FieldCards(cardtobefound) {
-        if (onFieldCards.length == 0) {
+        if (opponent.onFieldCards.onFieldCards.length == 0) {
             return -1;
         }
-        for (let x = 0; x < onFieldCards.length; x++) {
-            if (onFieldCards[x].card == cardtobefound) {
+        for (let x = 0; x < opponent.onFieldCards.onFieldCards.length; x++) {
+            if (opponent.onFieldCards.onFieldCards[x].card == cardtobefound) {
                 return x;
             }
         }
         return -1;
+    }
+
+    function weapon() {
+        try {
+            if (!changingOnFieldCards) {
+                let carabine = searchForOn_FieldCards("CARABINE");
+                let remington = searchForOn_FieldCards("REMINGTON");
+                let schofield = searchForOn_FieldCards("SCHOFIELD");
+                let volcanic = searchForOn_FieldCards("VOLCANIC");
+                let winchester = searchForOn_FieldCards("WINCHESTER");
+                let path = "";
+                let currCard;
+
+                if (carabine !== -1) {
+                    currCard = opponent.onFieldCards.onFieldCards[carabine];
+                    path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                    return path;
+                } else if (remington !== -1) {
+                    currCard = opponent.onFieldCards.onFieldCards[remington];
+                    path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                    return path;
+                } else if (schofield !== -1) {
+                    currCard = opponent.onFieldCards.onFieldCards[schofield];
+                    path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                    return path;
+                } else if (volcanic !== -1) {
+                    currCard = opponent.onFieldCards.onFieldCards[volcanic];
+                    path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                    return path;
+                } else if (winchester !== -1) {
+                    currCard = opponent.onFieldCards.onFieldCards[winchester];
+                    path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                    return path;
+                } else {
+                    return "/images/back.png";
+                }
+            } else {
+                return "/images/back.png";
+            }
+        } catch (e) {
+            return "/images/back.png";
+        }
+    }
+
+    function horse() {
+        try {
+            if (!changingOnFieldCards) {
+                let appaloosa = searchForOn_FieldCards("APPALOOSA");
+                let mustang = searchForOn_FieldCards("MUSTANG");
+                let path = "";
+                let currCard;
+
+                if (appaloosa !== -1) {
+                    currCard = opponent.onFieldCards.onFieldCards[appaloosa];
+                    path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                    return path;
+                } else if (mustang !== -1) {
+                    currCard = opponent.onFieldCards.onFieldCards[mustang];
+                    path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                    return path;
+                } else {
+                    return "/images/back.png";
+                }
+            } else {
+                return "/images/back.png";
+            }
+        } catch (e) {
+            return "/images/back.png";
+        }
+    }
+
+    function barrel() {
+        try {
+            if (!changingOnFieldCards) {
+                let barrel = searchForOn_FieldCards("BARREL");
+                let path = "";
+                let currCard;
+
+                if (barrel !== -1) {
+                    currCard = opponent.onFieldCards.onFieldCards[barrel];
+                    path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                    return path;
+                } else {
+                    return "/images/back.png";
+                }
+            } else {
+                return "/images/back.png";
+            }
+        } catch (e) {
+            return "/images/back.png";
+        }
     }
 
     function showBarrel() {
@@ -299,9 +390,9 @@ export default function OpponentDeckWide({
     async function selectOnFieldCard(card) {
         setShow_onFieldCards(false);
         updateChangingOnFieldCards(true);
-        setWeaponIndex(-1);
-        setHorseIndex(-1);
-        setBarrelIndex(-1);
+        // setWeaponIndex(-1);
+        // setHorseIndex(-1);
+        // setBarrelIndex(-1);
         const targetCardId = card.id;
         const requestBody = JSON.stringify({
             targetCardId: targetCardId
@@ -362,16 +453,16 @@ export default function OpponentDeckWide({
     const [show_stolenCard, setShow_stolenCard] = useState(false);
     const [stolenCard, setStolenCard] = useState();
     const [show_onFieldCards, setShow_onFieldCards] = useState(false);
-    const [onFieldCards, setOnFieldCards] = useState([]);
+    // const [onFieldCards, setOnFieldCards] = useState([]);
 
     const [inJail, setInJail] = useState(false);
     const [dynamite, setDynamite] = useState(false);
-    const [barrelIndex, setBarrelIndex] = useState(-1);
-    const [weaponIndex, setWeaponIndex] = useState(-1);
-    const [horseIndex, setHorseIndex] = useState(-1);
-    const [barrel, setBarrel] = useState();
-    const [weapon, setWeapon] = useState();
-    const [horse, setHorse] = useState();
+    // const [barrelIndex, setBarrelIndex] = useState(-1);
+    // const [weaponIndex, setWeaponIndex] = useState(-1);
+    // const [horseIndex, setHorseIndex] = useState(-1);
+    // const [barrel, setBarrel] = useState();
+    // const [weapon, setWeapon] = useState();
+    // const [horse, setHorse] = useState();
     const [characterName, setCharacterName] = useState("loading character name...");
     const [characterDescription, setCharacterDescription] = useState("loading character description...");
     const [displayName, setDisplayName] = useState("loading character name...");
@@ -488,7 +579,7 @@ export default function OpponentDeckWide({
                                     width={80}
                                     height={100}
                                     alt="150x100"
-                                    src={(weaponIndex == -1) ? "/images/back.png" : weapon}/>
+                                    src={weapon}/>
                                 <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
                             </Figure>
                         </Col>
@@ -499,7 +590,7 @@ export default function OpponentDeckWide({
                                     width={80}
                                     height={100}
                                     alt="150x100"
-                                    src={(horseIndex == -1) ? "/images/back.png" : horse}/>
+                                    src={horse}/>
                                 <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
                             </Figure>
                         </Col>
@@ -510,7 +601,7 @@ export default function OpponentDeckWide({
                                     width={80}
                                     height={100}
                                     alt="150x100"
-                                    src={(barrelIndex == -1) ? "/images/back.png" : barrel}/>
+                                    src={barrel}/>
                                 <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
                             </Figure>
                         </Col>
