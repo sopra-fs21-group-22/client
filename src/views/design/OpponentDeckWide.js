@@ -6,6 +6,7 @@ import Life from "./Life";
 import {api, authApi} from '../../helpers/api';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { TranscriberRecognizer } from "microsoft-cognitiveservices-speech-sdk/distrib/lib/src/common.speech/Exports";
 
 export default function OpponentDeckWide({
                                              opponent,
@@ -57,11 +58,6 @@ export default function OpponentDeckWide({
             updateTargetSelf(false);
         }
 
-        if (opponent.bullets > 0) {
-            let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
-            setPlayersInReach(response.data);
-        }
-
         if (opponent.bullets < 1) {
             setBackgroundColor("#808080");
             setWidth(0);
@@ -78,15 +74,17 @@ export default function OpponentDeckWide({
             setHighlightImage("none");
         }
         if (opponent.bullets > 0) {
-            if (!ignoreRange) {
-                isinreach();
-                if (!isInReach) {
-                    setWidth(0);
-                }
-                if (isInReach) {
-                    setWidth(5);
-                }
+            let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
+            setPlayersInReach(response.data);
+            
+            
+            if (!isinreach(response.data)) {
+                setWidth(0);
             }
+            if (isinreach(response.data)) {
+                setWidth(5);
+            }
+            
             if (targetEveryone && ignoreRange) {
                 setWidth(5);
             }
@@ -164,15 +162,15 @@ export default function OpponentDeckWide({
     }
 
 
-    function isinreach() {
+    function isinreach(targets) {
         if (!ignoreRange) {
-            for (let x of playersInReach) {
+            for (let x of targets) {
                 if (x.id == opponent.id) {
-                    setIsInReach(true);
+                    return true;
                 }
             }
         } else {
-            setIsInReach(false);
+            return false;
         }
     }
 
@@ -307,8 +305,6 @@ export default function OpponentDeckWide({
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
-    const [playersInReach, setPlayersInReach] = useState([]);
-    const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
     const [show_destroyOrSteal, setShow_destroyOrSteal] = useState(false);
     const [show_stolenCard, setShow_stolenCard] = useState(false);
