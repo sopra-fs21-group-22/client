@@ -101,73 +101,6 @@ export default function OpponentDeckWide({
         setWeapon(getWeapon);
         setHorse(getHorse);
         setBarrel(getBarrel);
-        // setOnFieldCards(opponent.onFieldCards.onFieldCards);
-        // if (searchForOn_FieldCards("BARREL") != -1) {
-        //     setBarrelIndex(searchForOn_FieldCards("BARREL"));
-        //     try {
-        //         setBarrel(`/images/play_cards/blue_${onFieldCards[barrelIndex].card}_${onFieldCards[barrelIndex].suit}_${onFieldCards[barrelIndex].rank}.png`);
-        //     } catch (e) {
-        //         setBarrelIndex(-1);
-        //     }
-        // } else {
-        //     setBarrelIndex(-1);
-        // }
-        // if (searchForOn_FieldCards("MUSTANG") != -1) {
-        //     setHorseIndex(searchForOn_FieldCards("MUSTANG"));
-        //     try {
-        //         setHorse(`/images/play_cards/blue_${onFieldCards[horseIndex].card}_${onFieldCards[horseIndex].suit}_${onFieldCards[horseIndex].rank}.png`);
-        //     } catch (e) {
-        //         setHorseIndex(-1);
-        //     }
-        //
-        // } else if (searchForOn_FieldCards("APPALOOSA") != -1) {
-        //     setHorseIndex(searchForOn_FieldCards("APPALOOSA"));
-        //     try {
-        //         setHorse(`/images/play_cards/blue_${onFieldCards[horseIndex].card}_${onFieldCards[horseIndex].suit}_${onFieldCards[horseIndex].rank}.png`);
-        //     } catch (e) {
-        //         setHorseIndex(-1);
-        //     }
-        // } else {
-        //     setHorseIndex(-1);
-        // }
-        // if (searchForOn_FieldCards("CARABINE") != -1) {
-        //     setWeaponIndex(searchForOn_FieldCards("CARABINE"));
-        //     try {
-        //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-        //     } catch (e) {
-        //         setWeaponIndex(-1);
-        //     }
-        // } else if (searchForOn_FieldCards("REMINGTON") != -1) {
-        //     setWeaponIndex(searchForOn_FieldCards("REMINGTON"));
-        //     try {
-        //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-        //     } catch (e) {
-        //         setWeaponIndex(-1);
-        //     }
-        // } else if (searchForOn_FieldCards("SCHOFIELD") != -1) {
-        //     setWeaponIndex(searchForOn_FieldCards("SCHOFIELD"));
-        //     try {
-        //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-        //     } catch (e) {
-        //         setWeaponIndex(-1);
-        //     }
-        // } else if (searchForOn_FieldCards("WINCHESTER") != -1) {
-        //     setWeaponIndex(searchForOn_FieldCards("WINCHESTER"));
-        //     try {
-        //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-        //     } catch (e) {
-        //         setWeaponIndex(-1);
-        //     }
-        // } else if (searchForOn_FieldCards("VOLCANIC") != -1) {
-        //     setWeaponIndex(searchForOn_FieldCards("VOLCANIC"));
-        //     try {
-        //         setWeapon(`/images/play_cards/blue_${onFieldCards[weaponIndex].card}_${onFieldCards[weaponIndex].suit}_${onFieldCards[weaponIndex].rank}.png`);
-        //     } catch (e) {
-        //         setWeaponIndex(-1);
-        //     }
-        // } else {
-        //     setWeaponIndex(-1);
-        // }
         if (searchForOn_FieldCards("JAIL") != -1) {
             setInJail(true);
         }
@@ -177,7 +110,7 @@ export default function OpponentDeckWide({
             setDynamite(false);
         }
         //console.log(characterRef.current);
-    }, 5000);
+    }, 1000);
 
     function setupTargetHighlighting(card) {
         if (!card) {
