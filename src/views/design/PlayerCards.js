@@ -228,10 +228,10 @@ export default function PlayerCards({
     }
 
     function doReplaceCard() {
+        setShow_duplicateBlueCard(false);
         authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
         updateCurr_card(null);
         updateBorder("none");
-        setShow_duplicateBlueCard(false);
     }
 
     function disableBangCard(card) {
