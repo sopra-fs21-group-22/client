@@ -29,11 +29,6 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     const [targetEveryone, setTargetEveryone] = useState(false);
     const [targetOnlyEnemies, setTargetOnlyEnemies] = useState(false);
     const [chat, setChat] = useState([]);
-    const [changingOnFieldCards, setChangingOnFieldCards] = useState(false);
-
-    const updateChangingOnFieldCards = (value) => {
-        setChangingOnFieldCards(value);
-    }
 
     const updateIgnoreRange = (value) => {
         setIgnoreRange(value);
@@ -72,7 +67,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card}
                                    updateChat={updateChat} chat={chat} roleinformation={roleinformation}
-                                   changingOnFieldCards={changingOnFieldCards} updateChangingOnFieldCards={updateChangingOnFieldCards}/>;
+                                   />;
 
         case 5:
             return <Layout5players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -84,7 +79,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
-                                   changingOnFieldCards={changingOnFieldCards} updateChangingOnFieldCards={updateChangingOnFieldCards}/>;
+                                   />;
         case 6:
             return <Layout6players playertable={playertable} orderarray={orderarray} visibility={visibility}
                                    player={player} hideCancel_PlayCard={hideCancel_PlayCard}
@@ -95,7 +90,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
-                                   changingOnFieldCards={changingOnFieldCards} updateChangingOnFieldCards={updateChangingOnFieldCards}/>;
+                                   />;
         case 7:
             return <Layout7players playertable={playertable} orderarray={orderarray} visibility={visibility}
                                    player={player} hideCancel_PlayCard={hideCancel_PlayCard}
@@ -106,7 +101,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
-                                   changingOnFieldCards={changingOnFieldCards} updateChangingOnFieldCards={updateChangingOnFieldCards}/>;
+                                   />;
     }
 }
 
