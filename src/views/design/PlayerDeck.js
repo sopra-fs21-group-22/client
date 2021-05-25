@@ -56,7 +56,6 @@ export default function PlayerDeck({
         }
         if (curr_card == null) {
             updateIgnoreRange(false);
-            updateTargetEveryone(false);
             updateTargetOnlyEnemies(false);
             updateTargetSelf(false);
             updateTargetNotSheriff(false);
@@ -78,16 +77,7 @@ export default function PlayerDeck({
             if (targetSelf) {
                 setWidth(5);
             }
-            if (targetEveryone) {
-                setWidth(5);
-            }
             if (targetOnlyEnemies) {
-                setWidth(0);
-            }
-            if (targetNotSheriff && player.gameRole !== "SHERIFF") {
-                setWidth(5);
-            }
-            if (targetNotSheriff && player.gameRole === "SHERIFF") {
                 setWidth(0);
             }
         }
@@ -97,6 +87,8 @@ export default function PlayerDeck({
         setBarrel(getBarrel);
         if (searchForOn_FieldCards("JAIL") != -1) {
             setInJail(true);
+        } else {
+            setInJail(false);
         }
         if (searchForOn_FieldCards("DYNAMITE") != -1) {
             setDynamite(true);
@@ -152,7 +144,6 @@ export default function PlayerDeck({
             updateTargetSelf(false);
             updateIgnoreRange(false);
             updateTargetOnlyEnemies(false);
-            updateTargetEveryone(false);
             updateTargetNotSheriff(false);
             updateCurr_card(null);
             updateFill_array(true);

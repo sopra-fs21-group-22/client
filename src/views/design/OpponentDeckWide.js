@@ -57,7 +57,6 @@ export default function OpponentDeckWide({
         }
         if (curr_card == null) {
             updateIgnoreRange(false);
-            updateTargetEveryone(false);
             updateTargetOnlyEnemies(false);
             updateTargetSelf(false);
             updateTargetNotSheriff(false);
@@ -86,9 +85,6 @@ export default function OpponentDeckWide({
             if (isinreach(response.data)) {
                 setWidth(5);
             }
-            if (targetEveryone && ignoreRange) {
-                setWidth(5);
-            }
             if (targetSelf) {
                 setWidth(0);
             }
@@ -108,6 +104,8 @@ export default function OpponentDeckWide({
         setBarrel(getBarrel);
         if (searchForOn_FieldCards("JAIL") != -1) {
             setInJail(true);
+        } else {
+            setInJail(false);
         }
         if (searchForOn_FieldCards("DYNAMITE") != -1) {
             setDynamite(true);
@@ -174,7 +172,6 @@ export default function OpponentDeckWide({
                 updateTargetSelf(false);
                 updateIgnoreRange(false);
                 updateTargetOnlyEnemies(false);
-                updateTargetEveryone(false);
                 updateTargetNotSheriff(false);
                 updateFill_array(true);
                 return;
@@ -186,7 +183,6 @@ export default function OpponentDeckWide({
             updateTargetSelf(false);
             updateIgnoreRange(false);
             updateTargetOnlyEnemies(false);
-            updateTargetEveryone(false);
             updateTargetNotSheriff(false);
             updateCurr_card(null);
             updateFill_array(true);
