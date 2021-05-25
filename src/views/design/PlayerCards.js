@@ -6,6 +6,7 @@ import "../../views/design/styling/custom_button_styling.css";
 import useInterval from "../../components/game/useInterval.js";
 import {authApi} from "../../helpers/api";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import {Spinner} from './Spinner';
 
 
 export default function PlayerCards({
@@ -35,17 +36,12 @@ export default function PlayerCards({
 
     }, 2000);
 
-    // const [show_card, setShow_card] = useState(false);
-
     const [show_card, setShow_card] = useState([]);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
     const [show_duplicateBlueCard, setShow_duplicateBlueCard] = useState(false);
 
     const [show_drawnCards, setShow_drawnCards] = useState(false);
     const [drawnCards, setDrawnCards] = useState([]);
-
-    const [playcard_disabled, setPlaycard_disabled] = useState(false);
-    const [disableHandCard, setDisableHandCard] = useState(false);
 
     function lookAtCard(index) {
         if (playeronturn.id != player.id) {
@@ -235,14 +231,6 @@ export default function PlayerCards({
         updateBorder("none");
     }
 
-    function disableBangCard(card) {
-        console.log("in there");
-        if (card.card == "BANG") {
-            setDisableHandCard(true);
-        }
-    }
-
-
     return (
         <>
             <Container className="shelf">
@@ -282,7 +270,7 @@ export default function PlayerCards({
                     </Col>
                     {player.hand.playCards.map((currCard, index) => (
                         <Col>
-                            <Image disabled={/* disableHandCard */true} className="deck-discard-pile_image-card"
+                            <Image className="deck-discard-pile_image-card"
                                    src={`/images/play_cards/${currCard.color}_${currCard.card}_${currCard.suit}_${currCard.rank}.png`}
                                    onClick={() => lookAtCard(index)}/>
                             {<Modal show={show_card[index]} centered animation size="sm" backdrop="static"
@@ -296,16 +284,7 @@ export default function PlayerCards({
                                 </Modal.Body>
                                 <Modal.Footer id="chosen-role_modal_footer">
                                     {!curr_card ? (
-                                        <>
-                                            <Button variant="danger" disabled={true}>Discard</Button>
-                                            <Button id="custombutton" disabled={true}>
-                                                Return
-                                            </Button>
-                                            <Button id="custombutton"
-                                                    disabled={true} /* placeholder because error if curr_card==null */>
-                                                Play
-                                            </Button>
-                                        </>
+                                        <Spinner/>
                                     ) : (<>
                                             <Button variant="danger" onClick={discardCard}>Discard</Button>
                                             <Button id="custombutton" onClick={closeCard}>
