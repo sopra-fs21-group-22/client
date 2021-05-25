@@ -180,13 +180,8 @@ function Layout4players({
                 </Col>
             </Row>
             <Row className="h-25">
-                <Button id="custombutton" style={{height: 50, marginTop: 20, marginLeft: 20}} onClick={() => {
-                    setDisplayChat(!displayChat)
-                }}>
-                    Chat
-                </Button>
                 <Col hidden={displayChat}>
-                    <ChatPopUp chatMessages={chat} player={player} playertable={playertable}/>
+                    <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={300} width={300}/>
                 </Col>
                 <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10}}
                      hidden={!displayChat}>
@@ -198,6 +193,11 @@ function Layout4players({
                         <Toast.Body>{testMessage.content}</Toast.Body>
                     </Toast>
                 </Col>
+                <Button variant="outline-dark" size="lg" style={{height: 50, marginTop: 50}} onClick={() => {
+                    setDisplayChat(!displayChat)
+                }}>
+                    Chat
+                </Button>
                 <Col xs={5}>
                     <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
                                 border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
