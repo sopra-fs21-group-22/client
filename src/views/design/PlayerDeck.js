@@ -547,7 +547,7 @@ export default function PlayerDeck({
                                                       width={80}
                                                       height={80}
                                                       alt="80x80"
-                                                      src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
+                                                      src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`}
                                         />
                                     </OverlayTrigger>
                                     <Figure.Caption
