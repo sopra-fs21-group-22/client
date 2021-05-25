@@ -96,6 +96,7 @@ export default function PlayerDeck({
         }
         detectMissed();
         detectMessages();
+        detectImages();
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -262,12 +263,62 @@ export default function PlayerDeck({
             return;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == player.id){
+            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == player.id && newGameMoves[i].action!="DISCARD"){
                 setMissedNoteHidden(false);
                 return;
             }
         }
         setMissedNoteHidden(true);
+    }
+
+    function detectBarrel(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BARREL" && newGameMoves[i].usingPlayer == player.id && newGameMoves[i].action=="SUCCESS"){
+                setNotificationImage("/images/barrel.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectBeer(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == player.id && newGameMoves[i].action=="SUCCESS"){
+                setNotificationImage("/images/beer.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectExplodingDynamite(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "DYNAMITE" && newGameMoves[i].usingPlayer == player.id && newGameMoves[i].action=="SUCCESS"){
+                setNotificationImage("/images/dynamite.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectImages(){
+        if (detectBarrel() || detectBeer() || detectExplodingDynamite()){
+            setNotificationImageHidden(false);
+            return;
+        }
+        setNotificationImageHidden(true);
     }
 
     function detectCatBalou(){
@@ -276,7 +327,7 @@ export default function PlayerDeck({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "CATBALOU" && newGameMoves[i].targetPlayer == player.id){
+            if (newGameMoves[i].card == "CATBALOU" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action!="DISCARD"){
                 setMessageHidden(false);
                 setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} discarded one of your cards`);
                 return true;
@@ -298,8 +349,22 @@ export default function PlayerDeck({
         }
     }
 
+    function detectBang(){
+        if (newGameMoves.length == 0){
+            setMessageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BANG" && newGameMoves[i].targetPlayer == player.id){
+                setMessageHidden(false);
+                setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} banged you`);
+                return true;
+            }
+        }
+    }
+
     function detectMessages(){
-        if(detectPanic() || detectCatBalou()){
+        if(detectPanic() || detectCatBalou() || detectBang()){
             setMessageHidden(false);
             return;
         }

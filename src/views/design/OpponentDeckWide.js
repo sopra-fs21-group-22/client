@@ -403,7 +403,7 @@ export default function OpponentDeckWide({
             return;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id){
+            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
                 setMissedNoteHidden(false);
                 return;
             }
@@ -412,7 +412,7 @@ export default function OpponentDeckWide({
     }
 
     function detectImages(){
-        if (detectGatling() || detectIndians() || detectSaloon()){
+        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite()){
             setNotificationImageHidden(false);
             return;
         }
@@ -425,8 +425,36 @@ export default function OpponentDeckWide({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].usingPlayer == opponent.id){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="USE"){
                 setNotificationImage("/images/indianer.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectIndiansShotBack(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action!="SUCCESS"){
+                setNotificationImage("/images/hitmarker.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectIndiansGotHit(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action!="SUCCESS"){
+                setNotificationImage("/images/hitmarker.png");
                 setNotificationImageHidden(false);
                 return true;
             }
@@ -439,7 +467,7 @@ export default function OpponentDeckWide({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "GATLING" && newGameMoves[i].usingPlayer == opponent.id){
+            if (newGameMoves[i].card == "GATLING" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
                 setNotificationImage("/images/gatling.png");
                 setNotificationImageHidden(false);
                 return true;
@@ -453,8 +481,50 @@ export default function OpponentDeckWide({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "SALOON" && newGameMoves[i].usingPlayer == opponent.id){
+            if (newGameMoves[i].card == "SALOON" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
                 setNotificationImage("/images/saloon.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectBarrel(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BARREL" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
+                setNotificationImage("/images/barrel.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectBeer(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+                setNotificationImage("/images/beer.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectExplodingDynamite(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "DYNAMITE" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
+                setNotificationImage("/images/dynamite.png");
                 setNotificationImageHidden(false);
                 return true;
             }
