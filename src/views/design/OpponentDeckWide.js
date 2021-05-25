@@ -167,7 +167,11 @@ export default function OpponentDeckWide({
             setWidth(5);
             updateCard_played(true);
             if (curr_card.card === "PANIC" || curr_card.card === "CATBALOU") {
-                setShow_destroyOrSteal(true);
+                if (opponent.onFieldCards.onFieldCards.length === 0 || availableOnFieldCards()) {
+                    setShow_noCardsToGet(true);
+                } else {
+                    setShow_destroyOrSteal(true);
+                }
                 updateHideCancel_PlayCard(true);
                 updateTargetSelf(false);
                 updateIgnoreRange(false);
@@ -362,6 +366,31 @@ export default function OpponentDeckWide({
         updateCurr_card(null);
     }
 
+    function closeNoCardsToGet() {
+        setShow_noCardsToGet(false);
+        updateCurr_card(null);
+    }
+
+    function availableOnFieldCards() {
+        if (curr_card != null) {
+            if (curr_card.card === "CATBALOU") {
+                return opponent.onFieldCards.onFieldCards.length === 0;
+            }
+            if (curr_card.card === "PANIC") {
+                let numberCards = opponent.onFieldCards.onFieldCards.length;
+                for (let card of opponent.onFieldCards.onFieldCards) {
+                    if (card.card === "JAIL" || card.card === "DYNAMITE") {
+                        numberCards--;
+                    }
+                }
+                return numberCards === 0;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
     const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -371,13 +400,10 @@ export default function OpponentDeckWide({
     const [show_stolenCard, setShow_stolenCard] = useState(false);
     const [stolenCard, setStolenCard] = useState();
     const [show_onFieldCards, setShow_onFieldCards] = useState(false);
-    // const [onFieldCards, setOnFieldCards] = useState([]);
+    const [show_noCardsToGet, setShow_noCardsToGet] = useState(false);
 
     const [inJail, setInJail] = useState(false);
     const [dynamite, setDynamite] = useState(false);
-    // const [barrelIndex, setBarrelIndex] = useState(-1);
-    // const [weaponIndex, setWeaponIndex] = useState(-1);
-    // const [horseIndex, setHorseIndex] = useState(-1);
     const [barrel, setBarrel] = useState("/images/back.png");
     const [weapon, setWeapon] = useState("/images/back.png");
     const [horse, setHorse] = useState("/images/back.png");
@@ -699,6 +725,20 @@ export default function OpponentDeckWide({
                     </Row>
                 </Container>
             </div>
+            {<Modal show={show_noCardsToGet} animation size="sm" backdrop="static" keyboard={false}>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered>
+                        <b>No Cards Left</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <p>This player has no cards left!</p>
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeNoCardsToGet}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
             {<Modal show={show_destroyOrSteal} animation size="sm" backdrop="static" keyboard={false}>
                 <Modal.Header id="chosen-role_modal_header">
                     <Modal.Title id="chosen-role_modal_header_title" centered>
@@ -714,7 +754,7 @@ export default function OpponentDeckWide({
                     <Button id="custombutton" onClick={handCard} disabled={opponent.hand.cardsInHand === 0}>
                         Hand card
                     </Button>
-                    <Button id="custombutton" onClick={onFieldCard}>
+                    <Button id="custombutton" onClick={onFieldCard} disabled={availableOnFieldCards}>
                         On field card
                     </Button>
                     <Button id="custombutton" onClick={closeDestroyOrSteal}>
