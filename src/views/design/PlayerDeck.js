@@ -27,6 +27,8 @@ export default function PlayerDeck({
                                        curr_card,
                                        fill_array,
                                        updateFill_array,
+                                       newGameMoves,
+                                       orderarray
                                    }) {
     const interval = useInterval(async () => {
         /* console.log(`${player.user} other: ${player.bullets}`);
@@ -92,6 +94,8 @@ export default function PlayerDeck({
         } else {
             setDynamite(false);
         }
+        detectMissed();
+        detectMessages();
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -169,7 +173,7 @@ export default function PlayerDeck({
             let winchester = searchForOn_FieldCards("WINCHESTER");
             let path = "";
             let currCard;
-            console.log(`schofield: ${schofield}`);
+            //console.log(`schofield: ${schofield}`);
 
             if (carabine !== -1) {
                 currCard = player.onFieldCards.onFieldCards[carabine];
@@ -252,6 +256,64 @@ export default function PlayerDeck({
         alert("you clicked on a weapon. Congrats.");
     }
 
+    function detectMissed(){
+        if (newGameMoves.length == 0){
+            setMissedNoteHidden(true);
+            return;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == player.id){
+                setMissedNoteHidden(false);
+                return;
+            }
+        }
+        setMissedNoteHidden(true);
+    }
+
+    function detectCatBalou(){
+        if (newGameMoves.length == 0){
+            setMessageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "CATBALOU" && newGameMoves[i].targetPlayer == player.id){
+                setMessageHidden(false);
+                setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} discarded one of your cards`);
+                return true;
+            }
+        }
+    }
+
+    function detectPanic(){
+        if (newGameMoves.length == 0){
+            setMessageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "PANIC" && newGameMoves[i].targetPlayer == player.id){
+                setMessageHidden(false);
+                setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} stole one of your cards`);
+                return true;
+            }
+        }
+    }
+
+    function detectMessages(){
+        if(detectPanic() || detectCatBalou()){
+            setMessageHidden(false);
+            return;
+        }
+        setMessageHidden(true);
+    }
+
+    function searchPlayerById(id){
+        for (let i=0; i<orderarray.length; i++){
+            if (orderarray[i].id==id){
+                return orderarray[i];
+            }
+        }
+    }
+
     const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -272,6 +334,11 @@ export default function PlayerDeck({
     const [displayName, setDisplayName] = useState("loading character name...");
     const [setupCharacter, setSetupCharacter] = useState(true);
     const characterRef = useRef();
+    const [missedNoteHidden, setMissedNoteHidden] = useState(true);
+    const [notificationImage, setNotificationImage] = useState("/images/back.png");
+    const [notificationImageHidden, setNotificationImageHidden] = useState(true);
+    const [notificationmessage, setNotificationMessage] = useState("default message");
+    const [messageHidden, setMessageHidden] = useState(true);
 
     const character_information = (
         <Popover placement="bottom" id="role-info_popover">
@@ -289,6 +356,16 @@ export default function PlayerDeck({
 
     return (
         <div style={{marginBottom: 5}}>
+            <>
+                <h hidden={missedNoteHidden} id="notification">
+                <b>MISSED</b></h>
+            </>
+            <>
+                <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>
+            </>
+            <>
+                <p hidden={messageHidden} id="notification2"><b>{notificationmessage}</b></p>
+            </>
             <>
                 {player.bullets === 0 ? (
                     <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>

@@ -29,10 +29,12 @@ export default function OpponentDeckWide({
                                              curr_card,
                                              fill_array,
                                              updateFill_array,
+                                             newGameMoves
                                          }) {
     const interval = useInterval(async () => {
         //console.log(`${player.user}: ${player.bullets}`);
         //repeating requests to keep stuff up-to-date
+        //console.log(`${opponent.id}: ${newGameMoves}`);
         if (playertable.gameStatus != "ENDED") {
             if (setupCharacter) {
                 let character_response = await authApi().get(`/games/${playertable.id}/players/${opponent.id}/characters`);
@@ -104,7 +106,8 @@ export default function OpponentDeckWide({
         } else {
             setDynamite(false);
         }
-        //console.log(characterRef.current);
+        detectMissed();
+        detectImages();
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -376,6 +379,10 @@ export default function OpponentDeckWide({
     const [displayName, setDisplayName] = useState("loading character name...");
     const [setupCharacter, setSetupCharacter] = useState(true);
     const characterRef = useRef();
+    const [missedNoteHidden, setMissedNoteHidden] = useState(true);
+    const [notificationImage, setNotificationImage] = useState("/images/back.png");
+    const [notificationImageHidden, setNotificationImageHidden] = useState(true);
+
 
     const character_information = (
         <Popover placement="bottom" id="role-info_popover">
@@ -390,9 +397,81 @@ export default function OpponentDeckWide({
         </Popover>
     )
 
+    function detectMissed(){
+        if (newGameMoves.length == 0){
+            setMissedNoteHidden(true);
+            return;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id){
+                setMissedNoteHidden(false);
+                return;
+            }
+        }
+        setMissedNoteHidden(true);
+    }
+
+    function detectImages(){
+        if (detectGatling() || detectIndians() || detectSaloon()){
+            setNotificationImageHidden(false);
+            return;
+        }
+        setNotificationImageHidden(true);
+    }
+
+    function detectIndians(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].usingPlayer == opponent.id){
+                setNotificationImage("/images/indianer.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectGatling(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "GATLING" && newGameMoves[i].usingPlayer == opponent.id){
+                setNotificationImage("/images/gatling.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectSaloon(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "SALOON" && newGameMoves[i].usingPlayer == opponent.id){
+                setNotificationImage("/images/saloon.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
 
     return (
+        
         <div>
+            <>
+                <h hidden={missedNoteHidden} id="notification">
+                <b>MISSED</b></h>
+            </>
+            <>
+                <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>
+            </>
             {opponent.bullets === 0 ? (
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>

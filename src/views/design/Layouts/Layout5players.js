@@ -37,7 +37,8 @@ function Layout5players({
                             updateTargetOnlyEnemies,
                             updateCurr_card,
                             curr_card,
-                            roleinformation
+                            roleinformation,
+                            newGameMoves
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -108,7 +109,8 @@ function Layout5players({
                                       updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                       updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                       updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                      updateFill_array={updateFill_array}/>
+                                      updateFill_array={updateFill_array}
+                                      newGameMoves={newGameMoves}/>
                 </Col>
                 <Col>
                     <OpponentDeckWide opponent={playerList[2]} player={playerList[0]}
@@ -122,7 +124,8 @@ function Layout5players({
                                       updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                       updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                       updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                      updateFill_array={updateFill_array}/>
+                                      updateFill_array={updateFill_array}
+                                      newGameMoves={newGameMoves}/>
                 </Col>
             </Row>
             <br/>
@@ -139,7 +142,8 @@ function Layout5players({
                                       updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                       updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                       updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                      updateFill_array={updateFill_array}/>
+                                      updateFill_array={updateFill_array}
+                                      newGameMoves={newGameMoves}/>
                 </Col>
                 <Col>{playertable.gameStatus == "ENDED" ? (
                     <>
@@ -161,7 +165,8 @@ function Layout5players({
                                   updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                   updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                  updateFill_array={updateFill_array}/>
+                                  updateFill_array={updateFill_array}
+                                  newGameMoves={newGameMoves}/>
                 </Col>
             </Row>
             <br/>
@@ -176,7 +181,9 @@ function Layout5players({
                                 updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                 updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                updateFill_array={updateFill_array}/>
+                                updateFill_array={updateFill_array}
+                                newGameMoves={newGameMoves}
+                                orderarray={orderarray}/>
                 </Col>
                 <Col/>
             </Row>

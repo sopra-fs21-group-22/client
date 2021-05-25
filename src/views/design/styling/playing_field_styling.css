@@ -67,10 +67,43 @@
         opacity: 1;
     }
 }
+
 /*styling to hightlight who's turn it is*/
 #character-image_FigureImage{
     border-color: rgb(255, 251, 0);
     border-width: 5px;
+}
+
+#notification{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    color: black;
+    font-weight: bold;
+    opacity: 1;
+    font-size: 100px;
+    animation-name: fadeIn;
+    animation-duration: 0.9s;
+}
+
+#notification2{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    color: black;
+    font-weight: bold;
+    opacity: 1;
+    font-size: 30px;
+    animation-name: fadeIn;
+    animation-duration: 0.9s;
 }
 
 #fade{
