@@ -23,6 +23,8 @@ export default function PlayerDeck({
                                        updateTargetEveryone,
                                        targetOnlyEnemies,
                                        updateTargetOnlyEnemies,
+                                       targetNotSheriff,
+                                       updateTargetNotSheriff,
                                        updateCurr_card,
                                        curr_card,
                                        fill_array,
@@ -54,9 +56,9 @@ export default function PlayerDeck({
         }
         if (curr_card == null) {
             updateIgnoreRange(false);
-            updateTargetEveryone(false);
             updateTargetOnlyEnemies(false);
             updateTargetSelf(false);
+            updateTargetNotSheriff(false);
         }
         if (player.bullets < 1) {
             setBackgroundColor("#808080");
@@ -75,9 +77,6 @@ export default function PlayerDeck({
             if (targetSelf) {
                 setWidth(5);
             }
-            if (targetEveryone) {
-                setWidth(5);
-            }
             if (targetOnlyEnemies) {
                 setWidth(0);
             }
@@ -88,6 +87,8 @@ export default function PlayerDeck({
         setBarrel(getBarrel);
         if (searchForOn_FieldCards("JAIL") != -1) {
             setInJail(true);
+        } else {
+            setInJail(false);
         }
         if (searchForOn_FieldCards("DYNAMITE") != -1) {
             setDynamite(true);
@@ -122,7 +123,7 @@ export default function PlayerDeck({
                 updateTargetOnlyEnemies(true);
                 break;
             case "JAIL":
-                updateTargetEveryone(true);
+                updateTargetNotSheriff(true);
                 updateIgnoreRange(true);
                 break;
             default:
@@ -137,17 +138,13 @@ export default function PlayerDeck({
             updateBorder("none");
             setWidth(5);
 
-            const target_CardId = null;
-            const requestBody = JSON.stringify({
-                target_CardId: target_CardId
-            });
             await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
 
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);
             updateTargetOnlyEnemies(false);
-            updateTargetEveryone(false);
+            updateTargetNotSheriff(false);
             updateCurr_card(null);
             updateFill_array(true);
             //TODO: enable other player cards again
@@ -445,13 +442,9 @@ export default function PlayerDeck({
     const [width, setWidth] = useState(5);
     const [inJail, setInJail] = useState(false);
     const [dynamite, setDynamite] = useState(false);
-    // const [barrelIndex, setBarrelIndex] = useState(-1);
-    // const [weaponIndex, setWeaponIndex] = useState(-1);
-    // const [horseIndex, setHorseIndex] = useState(-1);
     const [barrel, setBarrel] = useState("/images/back.png");
     const [weapon, setWeapon] = useState("/images/back.png");
     const [horse, setHorse] = useState("/images/back.png");
-    // const [onFieldCards, setOnFieldCards] = useState([]);
 
     const [characterName, setCharacterName] = useState("loading character name...");
     const [characterDescription, setCharacterDescription] = useState("loading character description...");
@@ -471,7 +464,7 @@ export default function PlayerDeck({
             <Popover.Content id="role-info_popover_content">
                 <Card id="role-info_popover_content_card">
                     <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered
-                              src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`)}/>
+                              src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`)}/>
                 </Card>
                 {characterDescription}
             </Popover.Content>
@@ -547,7 +540,7 @@ export default function PlayerDeck({
                                                       width={80}
                                                       height={80}
                                                       alt="80x80"
-                                                      src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`}
+                                                      src={inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`}
                                         />
                                     </OverlayTrigger>
                                     <Figure.Caption

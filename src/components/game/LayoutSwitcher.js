@@ -28,6 +28,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     const [targetSelf, setTargetSelf] = useState(false);
     const [targetEveryone, setTargetEveryone] = useState(false);
     const [targetOnlyEnemies, setTargetOnlyEnemies] = useState(false);
+    const [targetNotSheriff, setTargetNotSheriff] = useState(false);
     const [chat, setChat] = useState([]);
 
     const updateIgnoreRange = (value) => {
@@ -41,6 +42,9 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     }
     const updateTargetOnlyEnemies = (value) => {
         setTargetOnlyEnemies(value);
+    }
+    const updateTargetNotSheriff = (value) => {
+        setTargetNotSheriff(value);
     }
     const updateHideCancel_PlayCard = (value) => {
         setHideCancel_PlayCard(value);
@@ -65,6 +69,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                   targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card}
                                    updateChat={updateChat} chat={chat} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
@@ -79,6 +84,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                   targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    />;
@@ -91,6 +97,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                   targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    />;
@@ -103,6 +110,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                   targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    />;
