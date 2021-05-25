@@ -25,6 +25,8 @@ export default function OpponentDeckWide({
                                              updateTargetEveryone,
                                              targetOnlyEnemies,
                                              updateTargetOnlyEnemies,
+                                             targetNotSheriff,
+                                             updateTargetNotSheriff,
                                              updateCurr_card,
                                              curr_card,
                                              fill_array,
@@ -58,6 +60,7 @@ export default function OpponentDeckWide({
             updateTargetEveryone(false);
             updateTargetOnlyEnemies(false);
             updateTargetSelf(false);
+            updateTargetNotSheriff(false);
         }
 
         if (opponent.bullets < 1) {
@@ -83,7 +86,6 @@ export default function OpponentDeckWide({
             if (isinreach(response.data)) {
                 setWidth(5);
             }
-            
             if (targetEveryone && ignoreRange) {
                 setWidth(5);
             }
@@ -92,6 +94,12 @@ export default function OpponentDeckWide({
             }
             if (targetOnlyEnemies && ignoreRange) {
                 setWidth(5);
+            }
+            if (targetNotSheriff && opponent.gameRole !== "SHERIFF") {
+                setWidth(5);
+            }
+            if (targetNotSheriff && opponent.gameRole === "SHERIFF") {
+                setWidth(0);
             }
         }
 
@@ -133,7 +141,7 @@ export default function OpponentDeckWide({
                 updateTargetOnlyEnemies(true);
                 break;
             case "JAIL":
-                updateTargetEveryone(true);
+                updateTargetNotSheriff(true);
                 updateIgnoreRange(true);
                 break;
             default:
@@ -167,6 +175,7 @@ export default function OpponentDeckWide({
                 updateIgnoreRange(false);
                 updateTargetOnlyEnemies(false);
                 updateTargetEveryone(false);
+                updateTargetNotSheriff(false);
                 updateFill_array(true);
                 return;
             }
@@ -178,6 +187,7 @@ export default function OpponentDeckWide({
             updateIgnoreRange(false);
             updateTargetOnlyEnemies(false);
             updateTargetEveryone(false);
+            updateTargetNotSheriff(false);
             updateCurr_card(null);
             updateFill_array(true);
             //TODO: enable other player cards again
@@ -393,7 +403,7 @@ export default function OpponentDeckWide({
             <Popover.Content id="role-info_popover_content">
                 <Card id="role-info_popover_content_card">
                     <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered
-                              src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`)}/>
+                              src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`)}/>
                 </Card>
                 {characterDescription}
             </Popover.Content>
@@ -621,7 +631,7 @@ export default function OpponentDeckWide({
                                                   width={80}
                                                   height={80}
                                                   alt="80x80"
-                                                  src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`}
+                                                  src={inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`}
                                     />
                                 </OverlayTrigger>
                                 <Figure.Caption

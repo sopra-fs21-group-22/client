@@ -35,6 +35,8 @@ function Layout5players({
                             updateTargetEveryone,
                             targetOnlyEnemies,
                             updateTargetOnlyEnemies,
+                            targetNotSheriff,
+                            updateTargetNotSheriff,
                             updateCurr_card,
                             curr_card,
                             roleinformation,
@@ -108,6 +110,7 @@ function Layout5players({
                                       updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                       updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                       updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                      targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                       updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                       updateFill_array={updateFill_array}
                                       newGameMoves={newGameMoves}/>
@@ -123,6 +126,7 @@ function Layout5players({
                                       updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                       updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                       updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                      targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                       updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                       updateFill_array={updateFill_array}
                                       newGameMoves={newGameMoves}/>
@@ -141,6 +145,7 @@ function Layout5players({
                                       updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                       updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                       updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                      targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                       updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                       updateFill_array={updateFill_array}
                                       newGameMoves={newGameMoves}/>
@@ -164,6 +169,7 @@ function Layout5players({
                                   updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                   updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                  targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                   updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                   updateFill_array={updateFill_array}
                                   newGameMoves={newGameMoves}/>
@@ -180,6 +186,7 @@ function Layout5players({
                                 updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                 updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                 updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                 updateFill_array={updateFill_array}
                                 newGameMoves={newGameMoves}
