@@ -19,24 +19,33 @@ class ChatInput extends Component {
     }
 
 
-    /*
-    sendMessage() {
-        const requestBody = JSON.stringify({
-            "content": this.state.value,
-            "name": this.props.player.user,
-        })
-        console.log("before: ", this.props.player.id);
-        console.log("message before: ", this.state.value);
-        const playertable = this.props.playertable;
-        const player = this.props.player;
-        authApi().post(`/games/${playertable.id}/players/${player.id}/chat`, requestBody);
-        console.log("after: ", this.props);
-        console.log("message after: ", this.state.value);
+
+    sendMessage(e) {
+        e.preventDefault();
+        try{
+            const requestBody = JSON.stringify({
+                "content": this.state.value,
+                "name": this.props.player.user,
+            })
+            console.log("props before: ", this.props);
+            console.log("message before: ", this.state.value);
+            const playertable = this.props.playertable;
+            const player = this.props.player;
+            authApi().put(`/games/${playertable.id}/players/${player.id}/chat`, requestBody);
+
+            console.log("props after: ", this.props);
+            // console.log("message after: ", response);
+            this.setState({value: " "});
+            console.log("message after: ", this.state.value);
+        } catch (e) {
+            console.log(e);
+        }
+
     }
 
-     */
 
     handleChange(e) {
+        e.preventDefault();
         this.setState({value: e.target.value});
     }
     
@@ -44,25 +53,21 @@ class ChatInput extends Component {
 
     render() {
         return (
-            <form>
                 <InputGroup
                     controlId="formBasicText"
                 >
-                    <FormControl
+                    <input
                         type="text"
                         value={this.state.value}
                         placeholder="Message"
-                        onChange={this.handleChange}
+                        onChange={e => this.handleChange(e)}
                     />
                     <InputGroup.Append>
                         <Button id="custombutton"
                                 variant="outline-secondary"
-                                onClick={() => {this.sendMessage()
-                                    this.state.value = " "
-                                }}>Send</Button>
+                                onClick={(e) => {this.sendMessage(e)}}>Send</Button>
                     </InputGroup.Append>
                 </InputGroup>
-            </form>
         );
     }
 }

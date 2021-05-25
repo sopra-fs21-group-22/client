@@ -79,26 +79,6 @@ function ChatPopUp({player, playertable}) {
         url: 'https://api.eu-de.text-to-speech.watson.cloud.ibm.com/instances/6ea074c8-5433-4f28-a047-f15ce3b6f6ce/v1/synthesize'
      */
 
-    const testContent = "testContent";
-    const testName = "testName";
-
-    const requestBody = JSON.stringify({
-        content: testContent,
-        name: testName,
-    })
-    async function bla(){
-        console.log("playertable before: ", playertable);
-        const promise = await authApi().post(`/games/${playertable.id}/players/${player.id}/chat`, requestBody);
-        console.log("playertable after: ", playertable);
-        console.log("promise: ", promise)
-    }
-
-    /*
-    bla().catch(err => {
-        console.log('error:', err);
-    });
-*/
-
     return (
         <Card className="overflow-auto" style={{backgroundColor: "none", opacity: 0.8, maxHeight: 300, maxWidth: 250}}>
 
