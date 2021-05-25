@@ -167,7 +167,7 @@ export default function OpponentDeckWide({
             setWidth(5);
             updateCard_played(true);
             if (curr_card.card === "PANIC" || curr_card.card === "CATBALOU") {
-                if (opponent.onFieldCards.onFieldCards.length === 0 || availableOnFieldCards()) {
+                if (opponent.onFieldCards.onFieldCards.length === 0 && availableOnFieldCards()) {
                     setShow_noCardsToGet(true);
                 } else {
                     setShow_destroyOrSteal(true);
@@ -316,13 +316,13 @@ export default function OpponentDeckWide({
         setShow_onFieldCards(true);
     }
 
-    async function selectOnFieldCard(card) {
+    function selectOnFieldCard(card) {
         setShow_onFieldCards(false);
         const targetCardId = card.id;
         const requestBody = JSON.stringify({
             targetCardId: targetCardId
         });
-        await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`, requestBody);
+        authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`, requestBody);
         updateCurr_card(null);
     }
 
@@ -754,7 +754,7 @@ export default function OpponentDeckWide({
                     <Button id="custombutton" onClick={handCard} disabled={opponent.hand.cardsInHand === 0}>
                         Hand card
                     </Button>
-                    <Button id="custombutton" onClick={onFieldCard} disabled={availableOnFieldCards}>
+                    <Button id="custombutton" onClick={onFieldCard} disabled={availableOnFieldCards()}>
                         On field card
                     </Button>
                     <Button id="custombutton" onClick={closeDestroyOrSteal}>

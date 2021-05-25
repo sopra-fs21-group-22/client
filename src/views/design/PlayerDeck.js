@@ -77,7 +77,7 @@ export default function PlayerDeck({
             if (targetSelf) {
                 setWidth(5);
             }
-            if (targetOnlyEnemies) {
+            if (targetOnlyEnemies || targetNotSheriff) {
                 setWidth(0);
             }
         }
