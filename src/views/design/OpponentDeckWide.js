@@ -167,7 +167,7 @@ export default function OpponentDeckWide({
             setWidth(5);
             updateCard_played(true);
             if (curr_card.card === "PANIC" || curr_card.card === "CATBALOU") {
-                if (opponent.onFieldCards.onFieldCards.length === 0 && availableOnFieldCards()) {
+                if (opponent.hand.cardsInHand === 0 && availableOnFieldCards()) {
                     setShow_noCardsToGet(true);
                 } else {
                     setShow_destroyOrSteal(true);
