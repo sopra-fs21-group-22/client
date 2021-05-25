@@ -4,7 +4,7 @@ import ChatInput from "./ChatInput";
 import {authApi} from "../../helpers/api";
 
 
-function ChatPopUp({player, playertable}) {
+function ChatPopUp({chatMessages, player, playertable, height, width}) {
 
     const arr = [{
         id: 3,
@@ -80,12 +80,11 @@ function ChatPopUp({player, playertable}) {
      */
 
     return (
-        <Card className="overflow-auto" style={{backgroundColor: "none", opacity: 0.8, maxHeight: 300, maxWidth: 250}}>
+        <Card className="overflow-auto" style={{backgroundColor: "none", opacity: 0.8, maxHeight: height, maxWidth: width}}>
 
-            <Card.Header>Chat</Card.Header>
             <Card.Body>
                 <div className="overflow-auto p-2 mb-1 mb-md-1 mr-md-1 bg-light"
-                     style={{maxWidth: "260px", maxHeight: 170}}>
+                     style={{maxHeight: height-100}}>
                     {messages}
                 </div>
                 <ChatInput player={player} playertable={playertable}/>

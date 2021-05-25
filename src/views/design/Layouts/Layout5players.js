@@ -9,7 +9,7 @@ import {
     Button,
     Modal,
     Image,
-    ModalBody
+    ModalBody, Toast
 } from 'react-bootstrap';
 import OpponentDeckWide from "../OpponentDeckWide";
 import PlayerDeck from "../PlayerDeck";
@@ -19,6 +19,7 @@ import React, {useState, useEffect} from 'react';
 import "../styling/custom_button_styling.css";
 import useInterval from "../../../components/game/useInterval";
 import PlayerModel from "../../../components/shared/models/PlayerModel";
+import ChatPopUp from "../../../components/externalAPI/ChatPopUp";
 
 function Layout5players({
                             playertable,
@@ -35,8 +36,12 @@ function Layout5players({
                             updateTargetEveryone,
                             targetOnlyEnemies,
                             updateTargetOnlyEnemies,
+                            targetNotSheriff,
+                            updateTargetNotSheriff,
                             updateCurr_card,
                             curr_card,
+                            updateChat,
+                            chat,
                             roleinformation,
                             newGameMoves
                         }) {
@@ -54,6 +59,9 @@ function Layout5players({
     const [card_played, setCard_played] = useState(false);
     const [fill_array, setFill_array] = useState(true);
     const [playerList, setPlayerList] = useState(orderarray);
+    const [displayChat, setDisplayChat] = useState(false); // boolean whether the Chat Popup should be displayed or not
+    const [newMessage, setNewMessage] = useState(true); // Array of new messages
+    const [show, setShow] = useState(false);
 
     const updateBorder = (value) => {
         setBorder(value);
@@ -64,6 +72,16 @@ function Layout5players({
 
     const updateFill_array = (value) => {
         setFill_array(value);
+    }
+
+    //TODO instead of test message take the newest message from the chat dynamically
+    const testMessage = {content: "Mech chamer ersch lösche wenns met em backend fonktioniert.", name: "testName"}
+
+    function updateChatLog() { // fetches all chat messages from the backend
+        if (playertable.chat.messages.length > chat.length) {
+            setNewMessage(true);
+        }
+        updateChat(playertable.chat.messages);
     }
 
 
@@ -108,6 +126,7 @@ function Layout5players({
                                       updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                       updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                       updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                      targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                       updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                       updateFill_array={updateFill_array}
                                       newGameMoves={newGameMoves}/>
@@ -123,6 +142,7 @@ function Layout5players({
                                       updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                       updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                       updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                      targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                       updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                       updateFill_array={updateFill_array}
                                       newGameMoves={newGameMoves}/>
@@ -141,6 +161,7 @@ function Layout5players({
                                       updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                       updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                       updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                      targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                       updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                       updateFill_array={updateFill_array}
                                       newGameMoves={newGameMoves}/>
@@ -164,14 +185,32 @@ function Layout5players({
                                   updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                   updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                  targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                   updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                   updateFill_array={updateFill_array}
                                   newGameMoves={newGameMoves}/>
                 </Col>
             </Row>
             <br/>
-            <Row>
-                <Col/>
+            <Row className="h-25">
+                <Col hidden={displayChat}>
+                    <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={300} width={250}/>
+                </Col>
+                <Col style={{backgroundColor: "none", opacity: 0.8}}
+                     hidden={!displayChat}>
+
+                    <Toast show={newMessage && show} onClose={() => setShow(false)} delay={2000} autohide>
+                        <Toast.Header>
+                            <strong className="mr-auto">{testMessage.name}</strong>
+                        </Toast.Header>
+                        <Toast.Body>{testMessage.content}</Toast.Body>
+                    </Toast>
+                </Col>
+                <Button variant="outline-dark" size="lg" style={{height: 50, marginTop: 50}} onClick={() => {
+                    setDisplayChat(!displayChat)
+                }}>
+                    Chat
+                </Button>
                 <Col xs={5}>
                     <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
                                 border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
@@ -180,6 +219,7 @@ function Layout5players({
                                 updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
                                 updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                 updateTargetOnlyEnemies={updateTargetOnlyEnemies}
+                                targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                                 updateFill_array={updateFill_array}
                                 newGameMoves={newGameMoves}

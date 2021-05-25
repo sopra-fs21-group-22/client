@@ -25,6 +25,8 @@ export default function OpponentDeckWide({
                                              updateTargetEveryone,
                                              targetOnlyEnemies,
                                              updateTargetOnlyEnemies,
+                                             targetNotSheriff,
+                                             updateTargetNotSheriff,
                                              updateCurr_card,
                                              curr_card,
                                              fill_array,
@@ -55,9 +57,9 @@ export default function OpponentDeckWide({
         }
         if (curr_card == null) {
             updateIgnoreRange(false);
-            updateTargetEveryone(false);
             updateTargetOnlyEnemies(false);
             updateTargetSelf(false);
+            updateTargetNotSheriff(false);
         }
 
         if (opponent.bullets < 1) {
@@ -83,15 +85,17 @@ export default function OpponentDeckWide({
             if (isinreach(response.data)) {
                 setWidth(5);
             }
-            
-            if (targetEveryone && ignoreRange) {
-                setWidth(5);
-            }
             if (targetSelf) {
                 setWidth(0);
             }
             if (targetOnlyEnemies && ignoreRange) {
                 setWidth(5);
+            }
+            if (targetNotSheriff && opponent.gameRole !== "SHERIFF") {
+                setWidth(5);
+            }
+            if (targetNotSheriff && opponent.gameRole === "SHERIFF") {
+                setWidth(0);
             }
         }
 
@@ -100,6 +104,8 @@ export default function OpponentDeckWide({
         setBarrel(getBarrel);
         if (searchForOn_FieldCards("JAIL") != -1) {
             setInJail(true);
+        } else {
+            setInJail(false);
         }
         if (searchForOn_FieldCards("DYNAMITE") != -1) {
             setDynamite(true);
@@ -108,6 +114,7 @@ export default function OpponentDeckWide({
         }
         detectMissed();
         detectImages();
+        detectMessages();
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -132,7 +139,7 @@ export default function OpponentDeckWide({
                 updateTargetOnlyEnemies(true);
                 break;
             case "JAIL":
-                updateTargetEveryone(true);
+                updateTargetNotSheriff(true);
                 updateIgnoreRange(true);
                 break;
             default:
@@ -160,12 +167,16 @@ export default function OpponentDeckWide({
             setWidth(5);
             updateCard_played(true);
             if (curr_card.card === "PANIC" || curr_card.card === "CATBALOU") {
-                setShow_destroyOrSteal(true);
+                if (opponent.hand.cardsInHand === 0 && availableOnFieldCards()) {
+                    setShow_noCardsToGet(true);
+                } else {
+                    setShow_destroyOrSteal(true);
+                }
                 updateHideCancel_PlayCard(true);
                 updateTargetSelf(false);
                 updateIgnoreRange(false);
                 updateTargetOnlyEnemies(false);
-                updateTargetEveryone(false);
+                updateTargetNotSheriff(false);
                 updateFill_array(true);
                 return;
             }
@@ -176,7 +187,7 @@ export default function OpponentDeckWide({
             updateTargetSelf(false);
             updateIgnoreRange(false);
             updateTargetOnlyEnemies(false);
-            updateTargetEveryone(false);
+            updateTargetNotSheriff(false);
             updateCurr_card(null);
             updateFill_array(true);
             //TODO: enable other player cards again
@@ -305,13 +316,13 @@ export default function OpponentDeckWide({
         setShow_onFieldCards(true);
     }
 
-    async function selectOnFieldCard(card) {
+    function selectOnFieldCard(card) {
         setShow_onFieldCards(false);
         const targetCardId = card.id;
         const requestBody = JSON.stringify({
             targetCardId: targetCardId
         });
-        await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`, requestBody);
+        authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`, requestBody);
         updateCurr_card(null);
     }
 
@@ -355,6 +366,31 @@ export default function OpponentDeckWide({
         updateCurr_card(null);
     }
 
+    function closeNoCardsToGet() {
+        setShow_noCardsToGet(false);
+        updateCurr_card(null);
+    }
+
+    function availableOnFieldCards() {
+        if (curr_card != null) {
+            if (curr_card.card === "CATBALOU") {
+                return opponent.onFieldCards.onFieldCards.length === 0;
+            }
+            if (curr_card.card === "PANIC") {
+                let numberCards = opponent.onFieldCards.onFieldCards.length;
+                for (let card of opponent.onFieldCards.onFieldCards) {
+                    if (card.card === "JAIL" || card.card === "DYNAMITE") {
+                        numberCards--;
+                    }
+                }
+                return numberCards === 0;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
     const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -364,13 +400,10 @@ export default function OpponentDeckWide({
     const [show_stolenCard, setShow_stolenCard] = useState(false);
     const [stolenCard, setStolenCard] = useState();
     const [show_onFieldCards, setShow_onFieldCards] = useState(false);
-    // const [onFieldCards, setOnFieldCards] = useState([]);
+    const [show_noCardsToGet, setShow_noCardsToGet] = useState(false);
 
     const [inJail, setInJail] = useState(false);
     const [dynamite, setDynamite] = useState(false);
-    // const [barrelIndex, setBarrelIndex] = useState(-1);
-    // const [weaponIndex, setWeaponIndex] = useState(-1);
-    // const [horseIndex, setHorseIndex] = useState(-1);
     const [barrel, setBarrel] = useState("/images/back.png");
     const [weapon, setWeapon] = useState("/images/back.png");
     const [horse, setHorse] = useState("/images/back.png");
@@ -382,6 +415,8 @@ export default function OpponentDeckWide({
     const [missedNoteHidden, setMissedNoteHidden] = useState(true);
     const [notificationImage, setNotificationImage] = useState("/images/back.png");
     const [notificationImageHidden, setNotificationImageHidden] = useState(true);
+    const [notificationmessage, setNotificationMessage] = useState("default message");
+    const [messageHidden, setMessageHidden] = useState(true);
 
 
     const character_information = (
@@ -390,7 +425,7 @@ export default function OpponentDeckWide({
             <Popover.Content id="role-info_popover_content">
                 <Card id="role-info_popover_content_card">
                     <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered
-                              src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`)}/>
+                              src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`)}/>
                 </Card>
                 {characterDescription}
             </Popover.Content>
@@ -403,7 +438,7 @@ export default function OpponentDeckWide({
             return;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
                 setMissedNoteHidden(false);
                 return;
             }
@@ -411,8 +446,44 @@ export default function OpponentDeckWide({
         setMissedNoteHidden(true);
     }
 
+    function detectMessages(){
+        if(detectIndiansShotBack() || detectSavedByBeer()){
+            setMessageHidden(false);
+            return;
+        }
+        setMessageHidden(true);
+    }
+
+    function detectIndiansShotBack(){
+        if (newGameMoves.length == 0){
+            setMessageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action=="FAIL"){
+                setMessageHidden(false);
+                setNotificationMessage(`The opponent shot back`);
+                return true;
+            }
+        }
+    }
+
+    function detectSavedByBeer(){
+        if (newGameMoves.length == 0){
+            setMessageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
+                setMessageHidden(false);
+                setNotificationMessage(`Saved by beer, Cheers!`);
+                return true;
+            }
+        }
+    }
+
     function detectImages(){
-        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite()){
+        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite() || detectIndiansGotHit()){
             setNotificationImageHidden(false);
             return;
         }
@@ -433,27 +504,13 @@ export default function OpponentDeckWide({
         }
     }
 
-    function detectIndiansShotBack(){
-        if (newGameMoves.length == 0){
-            setNotificationImageHidden(true);
-            return false;
-        }
-        for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action!="SUCCESS"){
-                setNotificationImage("/images/hitmarker.png");
-                setNotificationImageHidden(false);
-                return true;
-            }
-        }
-    }
-
     function detectIndiansGotHit(){
         if (newGameMoves.length == 0){
             setNotificationImageHidden(true);
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action!="SUCCESS"){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
                 setNotificationImage("/images/hitmarker.png");
                 setNotificationImageHidden(false);
                 return true;
@@ -467,7 +524,7 @@ export default function OpponentDeckWide({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "GATLING" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "GATLING" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="USE"){
                 setNotificationImage("/images/gatling.png");
                 setNotificationImageHidden(false);
                 return true;
@@ -481,7 +538,7 @@ export default function OpponentDeckWide({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "SALOON" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "SALOON" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="USE"){
                 setNotificationImage("/images/saloon.png");
                 setNotificationImageHidden(false);
                 return true;
@@ -509,7 +566,7 @@ export default function OpponentDeckWide({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="USE"){
                 setNotificationImage("/images/beer.png");
                 setNotificationImageHidden(false);
                 return true;
@@ -541,6 +598,9 @@ export default function OpponentDeckWide({
             </>
             <>
                 <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>
+            </>
+            <>
+                <p hidden={messageHidden} id="notification2"><b>{notificationmessage}</b></p>
             </>
             {opponent.bullets === 0 ? (
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
@@ -593,7 +653,7 @@ export default function OpponentDeckWide({
                                                   width={80}
                                                   height={80}
                                                   alt="80x80"
-                                                  src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
+                                                  src={inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`}
                                     />
                                 </OverlayTrigger>
                                 <Figure.Caption
@@ -665,6 +725,20 @@ export default function OpponentDeckWide({
                     </Row>
                 </Container>
             </div>
+            {<Modal show={show_noCardsToGet} animation size="sm" backdrop="static" keyboard={false}>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered>
+                        <b>No Cards Left</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <p>This player has no cards left!</p>
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeNoCardsToGet}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
             {<Modal show={show_destroyOrSteal} animation size="sm" backdrop="static" keyboard={false}>
                 <Modal.Header id="chosen-role_modal_header">
                     <Modal.Title id="chosen-role_modal_header_title" centered>
@@ -680,7 +754,7 @@ export default function OpponentDeckWide({
                     <Button id="custombutton" onClick={handCard} disabled={opponent.hand.cardsInHand === 0}>
                         Hand card
                     </Button>
-                    <Button id="custombutton" onClick={onFieldCard}>
+                    <Button id="custombutton" onClick={onFieldCard} disabled={availableOnFieldCards()}>
                         On field card
                     </Button>
                     <Button id="custombutton" onClick={closeDestroyOrSteal}>
