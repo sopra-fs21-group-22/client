@@ -5,6 +5,7 @@ import "./styling/lobby_styling.css";
 import "../../views/design/styling/custom_button_styling.css";
 import useInterval from "../../components/game/useInterval.js";
 import {authApi} from "../../helpers/api";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 
 export default function PlayerCards({
@@ -18,7 +19,8 @@ export default function PlayerCards({
                                         updateCurr_card,
                                         curr_card,
                                         fill_array,
-                                        updateFill_array
+                                        updateFill_array,
+                                        roleinformation
                                     }) {
 
     const interval = useInterval(async () => {
@@ -38,6 +40,9 @@ export default function PlayerCards({
     const [show_card, setShow_card] = useState([]);
     const [curr_card_image_source, setCurr_card_image_source] = useState();
     const [show_duplicateBlueCard, setShow_duplicateBlueCard] = useState(false);
+
+    const [show_drawnCards, setShow_drawnCards] = useState(false);
+    const [drawnCards, setDrawnCards] = useState([]);
 
     const [playcard_disabled, setPlaycard_disabled] = useState(false);
     const [disableHandCard, setDisableHandCard] = useState(false);
@@ -105,57 +110,110 @@ export default function PlayerCards({
         return false;
     }
 
-    function playCard() {
-
-        //TODO: disable other player cards while choosing a target
-
-        if (curr_card.card == "BARREL") {
-            let inthere = searchForOn_FieldCards("BARREL");
-            if (inthere) {
-                updateFill_array(true);
-                setShow_duplicateBlueCard(true);
-                return;
-            }
-            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
-            updateCurr_card(null);
-            updateBorder("none");
-            updateFill_array(true);
-            return;
-        }
-        if (curr_card.card == "APPALOOSA" || curr_card.card == "MUSTANG") {
-            let inthere = searchForOn_FieldCards("APPALOOSA");
-            let inthere2 = searchForOn_FieldCards("MUSTANG");
-            if (inthere || inthere2) {
-                updateFill_array(true);
-                setShow_duplicateBlueCard(true);
-                return;
-            }
-            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
-            updateCurr_card(null);
-            updateBorder("none");
-            updateFill_array(true);
-            return;
-        }
-        if (curr_card.card == "CARABINE" || curr_card.card == "REMINGTON" || curr_card.card == "SCHOFIELD" || curr_card.card == "VOLCANIC" || curr_card.card == "WINCHESTER") {
-            let inthere = searchForOn_FieldCards("CARABINE");
-            let inthere2 = searchForOn_FieldCards("REMINGTON");
-            let inthere3 = searchForOn_FieldCards("SCHOFIELD");
-            let inthere4 = searchForOn_FieldCards("VOLCANIC");
-            let inthere5 = searchForOn_FieldCards("WINCHESTER");
-            if (inthere || inthere2 || inthere3 || inthere4 || inthere5) {
-                updateFill_array(true);
-                setShow_duplicateBlueCard(true);
-                return;
-            }
-            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
-            updateBorder("none");
-            updateCurr_card(null);
-            updateFill_array(true);
-            return;
-        }
-        updateBorder("solid");
-        updateHideCancel_PlayCard(false);
+    async function playCard() {
         updateFill_array(true);
+        //TODO: disable other player cards while choosing a target
+        switch (curr_card.card) {
+            case "BARREL":
+                let barrel = searchForOn_FieldCards("BARREL");
+                if (barrel) {
+                    return;
+                }
+                authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
+                updateCurr_card(null);
+                updateBorder("none");
+                return;
+            case "APPALOOSA":
+            case "MUSTANG":
+                let appaloosa = searchForOn_FieldCards("APPALOOSA");
+                let mustang = searchForOn_FieldCards("MUSTANG");
+                if (appaloosa || mustang) {
+                    setShow_duplicateBlueCard(true);
+                    return;
+                }
+                authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
+                updateCurr_card(null);
+                updateBorder("none");
+                return;
+            case "CARABINE":
+            case "REMINGTON":
+            case "SCHOFIELD":
+            case "VOLCANIC":
+            case "WINCHESTER":
+                let carabine = searchForOn_FieldCards("CARABINE");
+                let remington = searchForOn_FieldCards("REMINGTON");
+                let schofield = searchForOn_FieldCards("SCHOFIELD");
+                let volcanic = searchForOn_FieldCards("VOLCANIC");
+                let winchester = searchForOn_FieldCards("WINCHESTER");
+                if (carabine || remington || schofield || volcanic || winchester) {
+                    setShow_duplicateBlueCard(true);
+                    return;
+                }
+                authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
+                updateBorder("none");
+                updateCurr_card(null);
+                return;
+            case "GATLING":
+            case "INDIANS":
+            case "SALOON":
+            case "BEER":
+            case "DYNAMITE":
+                authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}`);
+                updateBorder("none");
+                updateCurr_card(null);
+                return;
+            case "STAGECOACH":
+            case "WELLSFARGO":
+                const beforeDrawingCards = player.hand.playCards;
+                await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}`);
+                let playerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
+                const afterDrawingCards = playerAfterRequest.data.hand.playCards;
+                const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
+                setCards(newCards);
+                updateBorder("none");
+                updateCurr_card(null);
+                return;
+            case "BANG":
+            case "PANIC":
+            case "CATBALOU":
+            case "JAIL":
+                updateBorder("solid");
+                updateHideCancel_PlayCard(false);
+                return;
+            default:
+                console.log("no valid card name playercards");
+                break;
+        }
+    }
+
+    function getNewCards(before, after) {
+        const beforeIds = getCardIds(before);
+        const afterIds = getCardIds(after);
+        let curr = [];
+        for (let id of afterIds) {
+            if (beforeIds.indexOf(id) === -1) {
+                curr.push(after[afterIds.indexOf(id)]);
+            }
+        }
+        return curr;
+    }
+
+    function getCardIds(cards) {
+        let curr = [];
+        for (let card of cards) {
+            curr.push(card.id);
+        }
+        return curr;
+    }
+
+    function closeDrawnCards() {
+        setShow_drawnCards(false);
+        updateCurr_card(null);
+    }
+
+    function setCards(newCards) {
+        setDrawnCards(newCards);
+        setShow_drawnCards(true);
     }
 
     function discardCard() {
@@ -167,16 +225,14 @@ export default function PlayerCards({
     function dontReplaceCard() {
         setShow_duplicateBlueCard(false);
         updateCurr_card(null);
-        updateFill_array(true);
         updateBorder("none");
     }
 
     function doReplaceCard() {
+        setShow_duplicateBlueCard(false);
         authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${player.id}`);
         updateCurr_card(null);
-        updateFill_array(true);
         updateBorder("none");
-        setShow_duplicateBlueCard(false);
     }
 
     function disableBangCard(card) {
@@ -196,11 +252,14 @@ export default function PlayerCards({
                     {<Modal show={show_duplicateBlueCard} animation size="sm" backdrop="static" keyboard={false}>
                         <Modal.Header id="chosen-role_modal_header">
                             <Modal.Title id="chosen-role_modal_header_title" centered>
-                                <b>you already have
-                                    a {curr_card.card}</b></Modal.Title>{/* TODO: this message isn't quite correct */}
+                                <b>You already have a {(curr_card.card === "CARABINE" ||
+                                        curr_card.card === "REMINGTON" ||
+                                        curr_card.card === "SCHOFIELD" ||
+                                        curr_card.card === "VOLCANIC" ||
+                                        curr_card.card === "WINCHESTER") ? "weapon" : "horse"}</b></Modal.Title>
                         </Modal.Header>
                         <Modal.Body id="chosen-role_modal_body" centered>
-                            <p>Do you want to replace your {curr_card.card}?</p>
+                            <p>Do you want to replace it?</p>
                         </Modal.Body>
                         <Modal.Footer id="chosen-role_modal_footer">
                             <Button id="custombutton" onClick={dontReplaceCard}>
@@ -216,9 +275,10 @@ export default function PlayerCards({
 
                 <Row>
                     <Col>
-                        <Image className="deck-discard-pile_image-card"
-                               src={`/images/role_cards/${player.gameRole.toLowerCase()}.png`}/>
-                        {/*<Image className="deck-discard-pile_image-card" src="/images/back.png"/>*/}
+                        <OverlayTrigger trigger="click" overlay={roleinformation} rootClose>
+                            <Image className="deck-discard-pile_image-card"
+                                   src={`/images/role_cards/${player.gameRole.toLowerCase()}.png`}/>
+                        </OverlayTrigger>
                     </Col>
                     {player.hand.playCards.map((currCard, index) => (
                         <Col>
@@ -252,7 +312,10 @@ export default function PlayerCards({
                                                 Return
                                             </Button>
                                             <Button id="custombutton"
-                                                    disabled={((player.stillPlayableBangsThisRound == 0 && curr_card.card == "BANG") || curr_card.card == "MISSED" || (curr_card.card == "BEER" && player.maxBullets < player.bullets + 1)) ? true : false}
+                                                    disabled={((player.stillPlayableBangsThisRound === 0 && curr_card.card === "BANG") ||
+                                                        curr_card.card === "MISSED" ||
+                                                        (curr_card.card === "BEER" && player.maxBullets < player.bullets + 1)) ||
+                                                        (searchForOn_FieldCards("BARREL") && curr_card.card === "BARREL")}
                                                     onClick={playCard}>
                                                 Play
                                             </Button>
@@ -264,6 +327,26 @@ export default function PlayerCards({
                     ))}
                 </Row>
             </Container>
+            {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn
+                        Cards</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    {drawnCards.map((curr) => (
+                        <Col>
+                            <Image
+                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                id="chosen-role_modal_body_image"/>
+                        </Col>
+                    ))}
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeDrawnCards}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
         </>
     )
 }

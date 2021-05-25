@@ -5,6 +5,7 @@ import User from '../shared/models/User';
 import { useHistory, withRouter } from 'react-router-dom';
 import { Form, Container, Button } from 'react-bootstrap';
 import "../../views/design/styling/custom_button_styling.css";
+import {synthesizeSpeech} from "../externalAPI/synthesizeSpeech.js";
 
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
@@ -57,10 +58,10 @@ function Login({ user, updateUser, updateTableId, updatePlayerId }) {
     }
   }
 
-
   return (
 
     <Container>
+      <Button onClick={()=>synthesizeSpeech("en-IN-PrabhatNeural", "text to speech, hell yeah")}>click me</Button>
       <Form>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>

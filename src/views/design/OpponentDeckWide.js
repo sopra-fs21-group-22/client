@@ -1,37 +1,40 @@
 import useInterval from "../../components/game/useInterval.js";
 import React, {useState, useEffect, useRef} from 'react';
-import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-bootstrap';
+import {Col, Row, Container, Card, Figure, Image, Button, Modal, ModalFooter} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import {api, authApi} from '../../helpers/api';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { TranscriberRecognizer } from "microsoft-cognitiveservices-speech-sdk/distrib/lib/src/common.speech/Exports";
 
 export default function OpponentDeckWide({
-                                         opponent,
-                                         player,
-                                         playeronturn,
-                                         border,
-                                         updateBorder,
-                                         playertable,
-                                         updateCard_played,
-                                         updateHideCancel_PlayCard,
-                                         ignoreRange,
-                                         updateIgnoreRange,
-                                         targetSelf,
-                                         updateTargetSelf,
-                                         targetEveryone,
-                                         updateTargetEveryone,
-                                         targetOnlyEnemies,
-                                         updateTargetOnlyEnemies,
-                                         updateCurr_card,
-                                         curr_card,
-                                         fill_array,
-                                         updateFill_array
-                                     }) {
+                                             opponent,
+                                             player,
+                                             playeronturn,
+                                             border,
+                                             updateBorder,
+                                             playertable,
+                                             updateCard_played,
+                                             updateHideCancel_PlayCard,
+                                             ignoreRange,
+                                             updateIgnoreRange,
+                                             targetSelf,
+                                             updateTargetSelf,
+                                             targetEveryone,
+                                             updateTargetEveryone,
+                                             targetOnlyEnemies,
+                                             updateTargetOnlyEnemies,
+                                             updateCurr_card,
+                                             curr_card,
+                                             fill_array,
+                                             updateFill_array,
+                                             newGameMoves
+                                         }) {
     const interval = useInterval(async () => {
         //console.log(`${player.user}: ${player.bullets}`);
         //repeating requests to keep stuff up-to-date
+        //console.log(`${opponent.id}: ${newGameMoves}`);
         if (playertable.gameStatus != "ENDED") {
             if (setupCharacter) {
                 let character_response = await authApi().get(`/games/${playertable.id}/players/${opponent.id}/characters`);
@@ -40,6 +43,11 @@ export default function OpponentDeckWide({
                 setDisplayName(character_response.data.display);
                 setSetupCharacter(false);
             }
+        } else {
+            setBackgroundColor("#808080");
+            setWidth(0);
+            setOpacity(0.8);
+            setHideEndRole(false);
         }
 
         if (curr_card != null) {
@@ -52,18 +60,15 @@ export default function OpponentDeckWide({
             updateTargetSelf(false);
         }
 
-        if (opponent.bullets > 0) {
-            let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
-            setPlayersInReach(response.data);
-        }
-
         if (opponent.bullets < 1) {
-
-            setOpacity(0.8);
-            setHideDeadmessage(false);
             setBackgroundColor("#808080");
             setWidth(0);
+            setOpacity(0.8);
+            if (playertable.gameStatus !== "ENDED") {
+                setHideEndRole(false);
+            }
         }
+
         if (playeronturn != null && opponent.id === playeronturn.id) {
             setHighlightImage("solid");
         }
@@ -71,15 +76,14 @@ export default function OpponentDeckWide({
             setHighlightImage("none");
         }
         if (opponent.bullets > 0) {
-            if (!ignoreRange) {
-                isinreach();
-                if (!isInReach) {
-                    setWidth(0);
-                }
-                if (isInReach) {
-                    setWidth(5);
-                }
+            let response = await authApi().get(`/games/${playertable.id}/players/${player.id}/targets`);
+            if (!isinreach(response.data)) {
+                setWidth(0);
             }
+            if (isinreach(response.data)) {
+                setWidth(5);
+            }
+            
             if (targetEveryone && ignoreRange) {
                 setWidth(5);
             }
@@ -90,35 +94,21 @@ export default function OpponentDeckWide({
                 setWidth(5);
             }
         }
-        if (searchForOn_FieldCards("BARREL") != -1) {
-            setBarrel(searchForOn_FieldCards("BARREL"));
-        }
-        if (searchForOn_FieldCards("MUSTANG") != -1) {
-            setHorse(searchForOn_FieldCards("MUSTANG"));
-        }
-        if (searchForOn_FieldCards("APPALOOSA") != -1) {
-            setHorse(searchForOn_FieldCards("APPALOOSA"));
-        }
-        if (searchForOn_FieldCards("CARABINE") != -1) {
-            setWeapon(searchForOn_FieldCards("CARABINE"));
-        }
-        if (searchForOn_FieldCards("REMINGTON") != -1) {
-            setWeapon(searchForOn_FieldCards("REMINGTON"));
-        }
-        if (searchForOn_FieldCards("SCHOFIELD") != -1) {
-            setWeapon(searchForOn_FieldCards("SCHOFIELD"));
-        }
-        if (searchForOn_FieldCards("WINCHESTER") != -1) {
-            setWeapon(searchForOn_FieldCards("WINCHESTER"));
-        }
-        if (searchForOn_FieldCards("VOLCANIC") != -1) {
-            setWeapon(searchForOn_FieldCards("VOLCANIC"));
-        }
+
+        setWeapon(getWeapon);
+        setHorse(getHorse);
+        setBarrel(getBarrel);
         if (searchForOn_FieldCards("JAIL") != -1) {
             setInJail(true);
         }
-        //console.log(characterRef.current);
-    }, 3000);
+        if (searchForOn_FieldCards("DYNAMITE") != -1) {
+            setDynamite(true);
+        } else {
+            setDynamite(false);
+        }
+        detectMissed();
+        detectImages();
+    }, 1000);
 
     function setupTargetHighlighting(card) {
         if (!card) {
@@ -128,22 +118,20 @@ export default function OpponentDeckWide({
             case "BEER":
             case "STAGECOACH":
             case "WELLSFARGO":
-                updateTargetSelf(true);
-                break;
+            case "DYNAMITE":
             case "INDIANS":
             case "GATLING":
-            case "PANIC":
+            case "SALOON":
+                break;
             case "CATBALOU":
-            case "DUEL":
                 updateIgnoreRange(true);
                 updateTargetOnlyEnemies(true);
                 break;
+            case "PANIC":
             case "BANG":
                 updateTargetOnlyEnemies(true);
                 break;
-            case "SALOON":
             case "JAIL":
-            case "GENERALSTORE":
                 updateTargetEveryone(true);
                 updateIgnoreRange(true);
                 break;
@@ -154,15 +142,15 @@ export default function OpponentDeckWide({
     }
 
 
-    function isinreach() {
+    function isinreach(targets) {
         if (!ignoreRange) {
-            for (let x of playersInReach) {
+            for (let x of targets) {
                 if (x.id == opponent.id) {
-                    setIsInReach(true);
+                    return true;
                 }
             }
         } else {
-            setIsInReach(false);
+            return false;
         }
     }
 
@@ -171,18 +159,14 @@ export default function OpponentDeckWide({
             updateBorder("none");
             setWidth(5);
             updateCard_played(true);
-            const target_id = null;
-            const requestBody = null;
-            //TODO: add targetlist depending on the backend implementation and depending on what card has been played
-            if (curr_card.card == "PANIC" || curr_card.card == "CATBALOU") {
-                /*popup whether you want fieldcard or handcard. put api.post inside that popup or a following one.
-                also add {updateHideCancel_PlayCard(true);
+            if (curr_card.card === "PANIC" || curr_card.card === "CATBALOU") {
+                setShow_destroyOrSteal(true);
+                updateHideCancel_PlayCard(true);
                 updateTargetSelf(false);
                 updateIgnoreRange(false);
                 updateTargetOnlyEnemies(false);
                 updateTargetEveryone(false);
-                updateCurr_card(null);
-                updateFill_array(true);}*/
+                updateFill_array(true);
                 return;
             }
             console.log(`selecttarget: opponent: ${curr_card}`);
@@ -211,6 +195,85 @@ export default function OpponentDeckWide({
         return -1;
     }
 
+    function getWeapon() {
+        try {
+            let carabine = searchForOn_FieldCards("CARABINE");
+            let remington = searchForOn_FieldCards("REMINGTON");
+            let schofield = searchForOn_FieldCards("SCHOFIELD");
+            let volcanic = searchForOn_FieldCards("VOLCANIC");
+            let winchester = searchForOn_FieldCards("WINCHESTER");
+            let path = "";
+            let currCard;
+
+            if (carabine !== -1) {
+                currCard = opponent.onFieldCards.onFieldCards[carabine];
+                path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                return path;
+            } else if (remington !== -1) {
+                currCard = opponent.onFieldCards.onFieldCards[remington];
+                path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                return path;
+            } else if (schofield !== -1) {
+                currCard = opponent.onFieldCards.onFieldCards[schofield];
+                path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                return path;
+            } else if (volcanic !== -1) {
+                currCard = opponent.onFieldCards.onFieldCards[volcanic];
+                path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                return path;
+            } else if (winchester !== -1) {
+                currCard = opponent.onFieldCards.onFieldCards[winchester];
+                path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                return path;
+            } else {
+                return "/images/back.png";
+            }
+        } catch (e) {
+            return "/images/back.png";
+        }
+    }
+
+    function getHorse() {
+        try {
+            let appaloosa = searchForOn_FieldCards("APPALOOSA");
+            let mustang = searchForOn_FieldCards("MUSTANG");
+            let path = "";
+            let currCard;
+
+            if (appaloosa !== -1) {
+                currCard = opponent.onFieldCards.onFieldCards[appaloosa];
+                path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                return path;
+            } else if (mustang !== -1) {
+                currCard = opponent.onFieldCards.onFieldCards[mustang];
+                path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                return path;
+            } else {
+                return "/images/back.png";
+            }
+        } catch (e) {
+            return "/images/back.png";
+        }
+    }
+
+    function getBarrel() {
+        try {
+            let barrel = searchForOn_FieldCards("BARREL");
+            let path = "";
+            let currCard;
+
+            if (barrel !== -1) {
+                currCard = opponent.onFieldCards.onFieldCards[barrel];
+                path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                return path;
+            } else {
+                return "/images/back.png";
+            }
+        } catch (e) {
+            return "/images/back.png";
+        }
+    }
+
     function showBarrel() {
         alert("you clicked on a barrel. Congrats.");
     }
@@ -223,23 +286,103 @@ export default function OpponentDeckWide({
         alert("you clicked on a weapon. Congrats.");
     }
 
-    const [hidedeadmessage, setHideDeadmessage] = useState(true);
+    async function handCard() {
+        setShow_destroyOrSteal(false);
+        let playerBeforeRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
+        const beforeDrawingCards = playerBeforeRequest.data.hand.playCards;
+        await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`);
+        if (curr_card.card === "PANIC") {
+            let playerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
+            const afterDrawingCards = playerAfterRequest.data.hand.playCards;
+            const newCard = getNewCard(beforeDrawingCards, afterDrawingCards);
+            setCard(newCard);
+        }
+        updateCurr_card(null);
+    }
+
+    function onFieldCard() {
+        setShow_destroyOrSteal(false);
+        setShow_onFieldCards(true);
+    }
+
+    async function selectOnFieldCard(card) {
+        setShow_onFieldCards(false);
+        const targetCardId = card.id;
+        const requestBody = JSON.stringify({
+            targetCardId: targetCardId
+        });
+        await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`, requestBody);
+        updateCurr_card(null);
+    }
+
+    function getNewCard(before, after) {
+        const beforeIds = getCardIds(before);
+        const afterIds = getCardIds(after);
+        let curr;
+        for (let id of afterIds) {
+            if (beforeIds.indexOf(id) === -1 && id !== curr_card.id) {
+                curr = after[afterIds.indexOf(id)];
+            }
+        }
+        return curr;
+    }
+
+    function getCardIds(cards) {
+        let curr = [];
+        for (let card of cards) {
+            curr.push(card.id);
+        }
+
+        return curr;
+    }
+
+    function closeStolenCard() {
+        setShow_stolenCard(false);
+    }
+
+    function setCard(newCard) {
+        setStolenCard(newCard);
+        setShow_stolenCard(true);
+    }
+
+    function closeOnFieldCards() {
+        setShow_onFieldCards(false);
+        updateCurr_card(null);
+    }
+
+    function closeDestroyOrSteal() {
+        setShow_destroyOrSteal(false);
+        updateCurr_card(null);
+    }
+
+    const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
     const [highlightImage, setHighlightImage] = useState("none");
-    const [playersInReach, setPlayersInReach] = useState([]);
-    const [isInReach, setIsInReach] = useState(false);
     const [width, setWidth] = useState(5);
+    const [show_destroyOrSteal, setShow_destroyOrSteal] = useState(false);
+    const [show_stolenCard, setShow_stolenCard] = useState(false);
+    const [stolenCard, setStolenCard] = useState();
+    const [show_onFieldCards, setShow_onFieldCards] = useState(false);
+    // const [onFieldCards, setOnFieldCards] = useState([]);
 
     const [inJail, setInJail] = useState(false);
-    const [barrel, setBarrel] = useState(-1);
-    const [weapon, setWeapon] = useState(-1);
-    const [horse, setHorse] = useState(-1);
+    const [dynamite, setDynamite] = useState(false);
+    // const [barrelIndex, setBarrelIndex] = useState(-1);
+    // const [weaponIndex, setWeaponIndex] = useState(-1);
+    // const [horseIndex, setHorseIndex] = useState(-1);
+    const [barrel, setBarrel] = useState("/images/back.png");
+    const [weapon, setWeapon] = useState("/images/back.png");
+    const [horse, setHorse] = useState("/images/back.png");
     const [characterName, setCharacterName] = useState("loading character name...");
     const [characterDescription, setCharacterDescription] = useState("loading character description...");
     const [displayName, setDisplayName] = useState("loading character name...");
     const [setupCharacter, setSetupCharacter] = useState(true);
     const characterRef = useRef();
+    const [missedNoteHidden, setMissedNoteHidden] = useState(true);
+    const [notificationImage, setNotificationImage] = useState("/images/back.png");
+    const [notificationImageHidden, setNotificationImageHidden] = useState(true);
+
 
     const character_information = (
         <Popover placement="bottom" id="role-info_popover">
@@ -254,128 +397,355 @@ export default function OpponentDeckWide({
         </Popover>
     )
 
+    function detectMissed(){
+        if (newGameMoves.length == 0){
+            setMissedNoteHidden(true);
+            return;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+                setMissedNoteHidden(false);
+                return;
+            }
+        }
+        setMissedNoteHidden(true);
+    }
+
+    function detectImages(){
+        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite()){
+            setNotificationImageHidden(false);
+            return;
+        }
+        setNotificationImageHidden(true);
+    }
+
+    function detectIndians(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="USE"){
+                setNotificationImage("/images/indianer.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectIndiansShotBack(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action!="SUCCESS"){
+                setNotificationImage("/images/hitmarker.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectIndiansGotHit(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action!="SUCCESS"){
+                setNotificationImage("/images/hitmarker.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectGatling(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "GATLING" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+                setNotificationImage("/images/gatling.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectSaloon(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "SALOON" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+                setNotificationImage("/images/saloon.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectBarrel(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BARREL" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
+                setNotificationImage("/images/barrel.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectBeer(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+                setNotificationImage("/images/beer.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
+    function detectExplodingDynamite(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "DYNAMITE" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
+                setNotificationImage("/images/dynamite.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
+    }
+
 
     return (
+        
         <div>
-            {playertable.gameStatus == "ENDED" ? (
-                <>
-                    <Card id="endofgame_card">
-                        <Card.Header><b>{opponent.user} the {opponent.gameRole}</b></Card.Header>
-                        <Card.Img src="/images/back.png"/> {/* TODO: put the correct character picture */}
-                    </Card>
-                </>
+            <>
+                <h hidden={missedNoteHidden} id="notification">
+                <b>MISSED</b></h>
+            </>
+            <>
+                <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>
+            </>
+            {opponent.bullets === 0 ? (
+                <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                    <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
+                    <br/>
+                    <p className="death-message">
+                        This player is dead or left the game. The player's role is {opponent.gameRole}
+                    </p>
+                </p>
             ) : (
-                <>
-                    <p id="opponent-deck_div_p1" hidden={hidedeadmessage}><b>He Dead</b></p>
-                    <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
-                        <Container onClick={selecttarget} className="opponent-player-deck_container-card"
-                                   style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
-                            <Row className="align-items-center">
-                                <Col>
-                                    <Row className="align-items-center justify-content-center">
-                                        <Figure>
-                                            {/*<Figure hidden={!opponent.dynamite}>*/}
-                                            <Figure.Image
-                                                width={60}
-                                                height={30}
-                                                alt="60x30"
-                                                src="/images/icons/dynamite.png"/>
-                                        </Figure>
-                                    </Row>
-                                    <Row className="justify-content-center">
-                                        <Figure
-                                            hidden={!(opponent.gameRole == "SHERIFF" || playertable.gameStatus == "ENDED")}>
-                                            <Figure.Image
-                                                width={80}
-                                                height={80}
-                                                alt="80x80"
-                                                src="/images/icons/sheriff.png"/>
-                                        </Figure>
-                                    </Row>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        <OverlayTrigger trigger="click" overlay={character_information} rootClose>
-                                            <Figure.Image id="character-image_FigureImage"
-                                                          style={{borderStyle: highlightImage}}
-                                                          ref={characterRef}
-                                                          width={80}
-                                                          height={80}
-                                                          alt="80x80"
-                                                          src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
-                                            />
-                                        </OverlayTrigger>
-                                        <Figure.Caption
-                                            id="opponent-player-deck_figure-profile-picture">{opponent.user}</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                                <Col>
-                                    <Row hidden={opponent.bullets < 5}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={opponent.bullets < 4}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={opponent.bullets < 3}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={opponent.bullets < 2}>
-                                        <Life/>
-                                    </Row>
-                                    <Row hidden={opponent.bullets < 1}>
-                                        <Life/>
-                                    </Row>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        {/*<Figure hidden={opponent.hand.playCards.length === 0}>*/}
-                                        <Figure.Image
-                                            width={80}
-                                            height={100}
-                                            alt="80x100"
-                                            src="/images/back.png"/>
-                                        <Figure.Caption id="opponent-player-deck_caption">{opponent.hand.cardsInHand} card(s)</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        <Figure.Image
-                                            onClick={showWeapon}
-                                            width={80}
-                                            height={100}
-                                            alt="150x100"
-                                            src={(weapon == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[weapon].card}_${opponent.onFieldCards.onFieldCards[weapon].suit}_${opponent.onFieldCards.onFieldCards[weapon].rank}.png`}/>
-                                        <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        <Figure.Image
-                                            onClick={showHorse}
-                                            width={80}
-                                            height={100}
-                                            alt="150x100"
-                                            src={(horse == -1) ? "/images/back.png" : `/images/play_cards/blue_${opponent.onFieldCards.onFieldCards[horse].card}_${opponent.onFieldCards.onFieldCards[horse].suit}_${opponent.onFieldCards.onFieldCards[horse].rank}.png`}/>
-                                        <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                                <Col>
-                                    <Figure>
-                                        <Figure.Image
-                                            onClick={showBarrel}
-                                            width={80}
-                                            height={100}
-                                            alt="150x100"
-                                            src={(barrel == -1) ? "/images/back.png" : `/images/play_cards/blue_BARREL_${opponent.onFieldCards.onFieldCards[barrel].suit}_${opponent.onFieldCards.onFieldCards[barrel].rank}.png`}/>
-                                        <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
-                                    </Figure>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </div>
-                </>
+                <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
+                    <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
+                    <br/>
+                    <p className="death-message">
+                        This player's role is {opponent.gameRole}
+                    </p>
+                </p>
             )}
-
+            <div style={{backgroundColor: backgroundColor, opacity: opacity}}>
+                <Container onClick={selecttarget} className="opponent-player-deck_container-card"
+                           style={{borderWidth: width, borderColor: "yellow", borderStyle: border}}>
+                    <Row className="align-items-center">
+                        <Col>
+                            <Row className="align-items-center justify-content-center">
+                                <Figure hidden={!dynamite}>
+                                    <Figure.Image
+                                        width={60}
+                                        height={30}
+                                        alt="60x30"
+                                        src="/images/icons/dynamite.png"/>
+                                </Figure>
+                            </Row>
+                            <Row className="justify-content-center">
+                                <Figure
+                                    hidden={!(opponent.gameRole === "SHERIFF")}>
+                                    <Figure.Image
+                                        width={80}
+                                        height={80}
+                                        alt="80x80"
+                                        src="/images/icons/sheriff.png"/>
+                                </Figure>
+                            </Row>
+                        </Col>
+                        <Col>
+                            <Figure>
+                                <OverlayTrigger trigger="click" overlay={character_information} rootClose>
+                                    <Figure.Image id="character-image_FigureImage"
+                                                  style={{borderStyle: highlightImage}}
+                                                  ref={characterRef}
+                                                  width={80}
+                                                  height={80}
+                                                  alt="80x80"
+                                                  src={inJail && playertable.gameStatus != "ENDED" ? `/images/character_cards/${characterName}_p_jail.png` : `/images/character_cards/${characterName}_p.jpeg`}
+                                    />
+                                </OverlayTrigger>
+                                <Figure.Caption
+                                    id="opponent-player-deck_figure-profile-picture">{opponent.user}</Figure.Caption>
+                            </Figure>
+                        </Col>
+                        <Col>
+                            <Row hidden={opponent.bullets < 5}>
+                                <Life/>
+                            </Row>
+                            <Row hidden={opponent.bullets < 4}>
+                                <Life/>
+                            </Row>
+                            <Row hidden={opponent.bullets < 3}>
+                                <Life/>
+                            </Row>
+                            <Row hidden={opponent.bullets < 2}>
+                                <Life/>
+                            </Row>
+                            <Row hidden={opponent.bullets < 1}>
+                                <Life/>
+                            </Row>
+                        </Col>
+                        <Col>
+                            <Figure>
+                                {/*<Figure hidden={opponent.hand.playCards.length === 0}>*/}
+                                <Figure.Image
+                                    width={80}
+                                    height={100}
+                                    alt="80x100"
+                                    src="/images/back.png"/>
+                                <Figure.Caption
+                                    id="opponent-player-deck_caption">{opponent.hand.cardsInHand} card(s)</Figure.Caption>
+                            </Figure>
+                        </Col>
+                        <Col>
+                            <Figure>
+                                <Figure.Image
+                                    onClick={showWeapon}
+                                    width={80}
+                                    height={100}
+                                    alt="150x100"
+                                    src={weapon}/>
+                                <Figure.Caption id="opponent-player-deck_caption">weapon</Figure.Caption>
+                            </Figure>
+                        </Col>
+                        <Col>
+                            <Figure>
+                                <Figure.Image
+                                    onClick={showHorse}
+                                    width={80}
+                                    height={100}
+                                    alt="150x100"
+                                    src={horse}/>
+                                <Figure.Caption id="opponent-player-deck_caption">horse</Figure.Caption>
+                            </Figure>
+                        </Col>
+                        <Col>
+                            <Figure>
+                                <Figure.Image
+                                    onClick={showBarrel}
+                                    width={80}
+                                    height={100}
+                                    alt="150x100"
+                                    src={barrel}/>
+                                <Figure.Caption id="opponent-player-deck_caption">barrel</Figure.Caption>
+                            </Figure>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+            {<Modal show={show_destroyOrSteal} animation size="sm" backdrop="static" keyboard={false}>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered>
+                        <b>Hand card or on field card</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    {curr_card ? (
+                        <p>Do you want to {curr_card.card === "PANIC" ? "steal" : "throw away"} one of the opponent's
+                            hand or on field cards?</p>
+                    ) : null}
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={handCard} disabled={opponent.hand.cardsInHand === 0}>
+                        Hand card
+                    </Button>
+                    <Button id="custombutton" onClick={onFieldCard}>
+                        On field card
+                    </Button>
+                    <Button id="custombutton" onClick={closeDestroyOrSteal}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+            {<Modal show={show_stolenCard} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Stolen Card</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    {stolenCard ? (
+                        <Image
+                            src={`/images/play_cards/${stolenCard.color}_${stolenCard.card}_${stolenCard.suit}_${stolenCard.rank}.png`}
+                            id="chosen-role_modal_body_image"/>
+                    ) : null}
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeStolenCard}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+            {<Modal show={show_onFieldCards} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's on field
+                        cards</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    {curr_card ? (
+                        curr_card.card === "PANIC" ? (
+                            <p>Click the one you want to steal:
+                                <br/>
+                                {opponent.onFieldCards.onFieldCards.map((curr) => (
+                                    curr.card !== "DYNAMITE" && curr.card !== "JAIL" ? (
+                                        <Col>
+                                            <Image
+                                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                                onClick={() => selectOnFieldCard(curr)}
+                                                id="chosen-role_modal_body_image"/>
+                                        </Col>
+                                    ) : null
+                                ))}
+                            </p>
+                        ) : (
+                            <p>Click the one you want to throw away:
+                                <br/>
+                                {opponent.onFieldCards.onFieldCards.map((curr) => (
+                                    <Col>
+                                        <Image
+                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                            onClick={() => selectOnFieldCard(curr)}
+                                            id="chosen-role_modal_body_image"/>
+                                    </Col>
+                                ))}
+                            </p>
+                        )) : null}
+                </Modal.Body>
+                <ModalFooter id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeOnFieldCards}>
+                        Cancel
+                    </Button>
+                </ModalFooter>
+            </Modal>}
         </div>
     )
 }

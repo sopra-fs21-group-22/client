@@ -8,7 +8,7 @@ import {Row} from "react-bootstrap";
 import { authApi } from '../../helpers/api';
 
 
-function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player}) {
+function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player, roleinformation, newGameMoves}) {
 // function LayoutSwitcher({playeramount, visibility}){
 
     /* const interval = useInterval(async () => {    
@@ -29,8 +29,6 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     const [targetEveryone, setTargetEveryone] = useState(false);
     const [targetOnlyEnemies, setTargetOnlyEnemies] = useState(false);
     const [chat, setChat] = useState([]);
-
-
 
     const updateIgnoreRange = (value) => {
         setIgnoreRange(value);
@@ -68,7 +66,9 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card}
-                                   updateChat={updateChat} chat={chat}/>;
+                                   updateChat={updateChat} chat={chat} roleinformation={roleinformation}
+                                   newGameMoves={newGameMoves}
+                                   />;
 
         case 5:
             return <Layout5players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -79,7 +79,9 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                                   updateCurr_card={updateCurr_card} curr_card={curr_card}/>;
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
+                                   newGameMoves={newGameMoves}
+                                   />;
         case 6:
             return <Layout6players playertable={playertable} orderarray={orderarray} visibility={visibility}
                                    player={player} hideCancel_PlayCard={hideCancel_PlayCard}
@@ -89,7 +91,9 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                                   updateCurr_card={updateCurr_card} curr_card={curr_card}/>;
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
+                                   newGameMoves={newGameMoves}
+                                   />;
         case 7:
             return <Layout7players playertable={playertable} orderarray={orderarray} visibility={visibility}
                                    player={player} hideCancel_PlayCard={hideCancel_PlayCard}
@@ -99,7 +103,9 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetEveryone={targetEveryone} updateTargetEveryone={updateTargetEveryone}
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
-                                   updateCurr_card={updateCurr_card} curr_card={curr_card}/>;
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
+                                   newGameMoves={newGameMoves}
+                                   />;
     }
 }
 

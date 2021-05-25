@@ -29,10 +29,6 @@ import User from '../shared/models/User';
 import PlayerTable from '../shared/models/PlayerTable';
 import ReactDOM from 'react-dom';
 import App from '../../App';
-import OpponentDeck from "../../views/design/OpponentDeck";
-import PlayerDeck from "../../views/design/PlayerDeck";
-import PlayerCards from "../../views/design/PlayerCards";
-import DeckDiscardPiles from "../../views/design/DeckDiscardPiles";
 import useInterval from "../game/useInterval.js";
 import LayoutSwitcher from '../game/LayoutSwitcher';
 import {forEach} from "react-bootstrap/ElementChildren";
@@ -69,15 +65,33 @@ function Lobby({
         updatePlayer_table(currPt);
         setToomanycards(currp.hand.playCards.length - currp.bullets);
 
-        //this stops once the game starts
-        if (firstTurn) {
-            if (currPt.gameStatus === "ONGOING") {
-                localStorage.setItem("cards", JSON.stringify(currPlayer.hand.playCards));
-                setFirstTurn(false);
+        let currentlength = currPt.gameMoves.length;
+        let pastlength = gameMoves.length;
+        if (currPt.gameMoves.length!=0){
+            if(gameMoves.length!=currPt.gameMoves.length){
+                let gamemovelist=[]
+                for (let i=0; i<currPt.gameMoves.length-gameMoves.length; i++){
+                    gamemovelist.push(currPt.gameMoves[i]);
+                }
+                setNewGameMoves(gamemovelist);
+            }
+            else{
+                setNewGameMoves([]);
             }
         }
+        setGameMoves(currPt.gameMoves);
 
-        if (currPlayer_table.gameRole != "ENDED") {
+
+
+        if(currPt.gameStatus!="ENDED"){
+            //this stops once the game starts
+            if (firstTurn) {
+                if (currPt.gameStatus === "ONGOING") {
+                    localStorage.setItem("cards", JSON.stringify(currPlayer.hand.playCards));
+                    setFirstTurn(false);
+                }
+            }
+
             //start of user turn
             if (startofturn) {
                 if (currPt.playerOnTurn.id === currp.id) {
@@ -98,13 +112,18 @@ function Lobby({
             if (timer == 0) {
                 setTimer(100);
             }
+            
         }
+        
 
 
         /* setCount(count + 1); */
 
 
-    }, 1000);
+    }, 3000);
+    
+    const [newGameMoves, setNewGameMoves] = useState([]);
+    const [gameMoves, setGameMoves] = useState([]);
 
     useEffect(async () => {
         try {
@@ -126,7 +145,7 @@ function Lobby({
     }, []);
 
 //Buttons
-    async function resign() {
+    function resign() {
         authApi().delete(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
         localStorage.removeItem("cards");
         updateTableId(null);
@@ -179,22 +198,22 @@ function Lobby({
             case "SHERIFF":
                 setRole_picture_source("/images/role_cards/sheriff.png");
                 setPlayer_role("Sheriff");
-                setRole_information_text("Someone has to implement this role information on the sheriff...");
+                setRole_information_text("Kill all outlaws and the renegade to win!");
                 break;
             case "DEPUTY":
                 setRole_picture_source("/images/role_cards/deputy.png");
                 setPlayer_role("Deputy");
-                setRole_information_text("Someone has to implement this role information on the deputy...");
+                setRole_information_text("Kill all outlaws and the renegade to win!");
                 break;
             case "OUTLAW":
                 setRole_picture_source("/images/role_cards/outlaw.png");
                 setPlayer_role("Outlaw");
-                setRole_information_text("Someone has to implement this role information on the outlaw...");
+                setRole_information_text("Kill the sheriff to win!");
                 break;
             case "RENEGADE":
                 setRole_picture_source("/images/role_cards/renegade.png");
                 setPlayer_role("Renegade");
-                setRole_information_text("Someone has to implement this role information on the renegade...");
+                setRole_information_text("First kill all outlaws then the sheriff to win!");
                 break;
             default:
                 setRole_picture_source("/images/back.png");
@@ -274,7 +293,6 @@ function Lobby({
 
     const [show_rolechoose, setShow_rolechoose] = useState(true);
     const [show_roledisplay, setShow_roledisplay] = useState(false);
-    const [show_roleinformation, setShow_roleinformation] = useState(false);
     const [hidden_gamefield, setHidden_gamefield] = useState(false);
     const [show_rules, setShow_rules] = useState(false);
 
@@ -284,7 +302,7 @@ function Lobby({
     const [rolecard_border4, setRolecard_border4] = useState(0);
     const [choose_rolecard_disabled, setChoose_rolecard_disabled] = useState(true);
     const [player_role, setPlayer_role] = useState("defaultrole");
-    const [role_information_text, setRole_information_text] = useState("this is some default role information");
+    const [role_information_text, setRole_information_text] = useState("default text");
     const [role_picture_source, setRole_picture_source] = useState();
     const [show_too_many_cards, setShow_too_many_cards] = useState(false);
 
@@ -446,11 +464,11 @@ function Lobby({
 
                     <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table}
                                     orderarray={orderArray}
-                                    visibility={hidden_gamefield} player={currPlayer}/>
+                                    visibility={hidden_gamefield} player={currPlayer} roleinformation={role_information} newGameMoves={newGameMoves}/>
 
-                    <OverlayTrigger trigger="click" overlay={role_information} rootClose>
-                        <Button id="custombutton">Show role information</Button>
-                    </OverlayTrigger>
+                    {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
+                    {/*    <Button id="custombutton">Show role information</Button>*/}
+                    {/*</OverlayTrigger>*/}
 
                     <Button disabled={currPlayer_table.playerOnTurn.id != currPlayer.id}
                             hidden={currPlayer_table.gameStatus == "ENDED"} onClick={endTurn} id="custombutton">End

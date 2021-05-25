@@ -37,7 +37,7 @@ function WaitingRoom({
                       }) {
     const interval = useInterval(async () => {
         //if(loop){
-        console.log(`tableid: ${tableId}`);
+        // console.log(`tableid: ${tableId}`);
 
         let playertable_response;
         playertable_response = await authApi().get(`/games/${tableId}/players`);
@@ -46,7 +46,7 @@ function WaitingRoom({
 
         let currPlayer_response;
         currPlayer_response = await authApi().get(`/games/${tableId}/players/${playerId}`);
-        console.log(`player: ${currPlayer_response.data}`);
+        // console.log(`player: ${currPlayer_response.data}`);
         let currP = new PlayerModel(currPlayer_response.data);
         updateCurrPlayer(currP);
 
@@ -69,7 +69,9 @@ function WaitingRoom({
 
             correctOrder();
             setLoop(false);
-            setHidden(false);
+            const id = tableId;
+            const target = "/game/dashboard/lobby/public/" + id;
+            history.push(target);
         }
         }
         
@@ -84,7 +86,6 @@ function WaitingRoom({
     const history = useHistory();
     const [loop, setLoop] = useState(true);
     const [allplayersready, setAllplayersready] = useState(false);
-    const [hidden, setHidden] = useState(true);
     const [buffer, setBuffer] = useState(true);
 
 
@@ -110,12 +111,6 @@ function WaitingRoom({
         }
     }
 
-    function push() {
-        const id = tableId;
-        const target = "/game/dashboard/lobby/public/" + id;
-        history.push(target);
-    }
-
     function toggleReady() {
         if (status) {
             setStatus(false);
@@ -136,7 +131,7 @@ function WaitingRoom({
             })
             authApi().put(`/games/${tableId}/players/${playerId}/ready`, requestBody);
         }
-
+        localStorage.removeItem("cards");
     }
      function leave(){
         authApi().delete(`/games/${tableId}/players/${playerId}`);
@@ -159,7 +154,6 @@ function WaitingRoom({
                 <Button onClick={leave} variant="danger">Leave game</Button>
                 </>
             )}
-            <Button onClick={push} hidden={hidden}>Go to game</Button>
             
         </Container>
     );

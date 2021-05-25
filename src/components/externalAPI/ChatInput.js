@@ -1,6 +1,8 @@
 import {Button, FormControl, InputGroup} from "react-bootstrap";
 import React, {Component} from "react";
-import {authApi} from "../../helpers/api";
+import {authApi} from "../../helpers/api";/* 
+import * as sdk from "microsoft-cognitiveservices-speech-sdk";
+import "..externalAPI/SpeakerOutPut.js"; */
 
 
 class ChatInput extends Component {
@@ -37,6 +39,8 @@ class ChatInput extends Component {
     handleChange(e) {
         this.setState({value: e.target.value});
     }
+    
+
 
     render() {
         return (

@@ -36,47 +36,74 @@
     justify-content: center;
 }
 
-.space-between{
-
-}
-
 /*styling for dead players*/
-#player-deck_div_p1, #opponent-deck_div_p1{
-    font-size: 48px;
-    animation: fadeIn ease 5s;
+#opponent-deck_div_gameEnd{
     position: absolute;
-    top: 40%;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn ease 5s;
     text-align: center;
+    width: 100%;
     z-index: 1;
+    color: white;
+    font-weight: bold;
 }
+
+.gameEnd{
+    height: 150px;
+}
+
+.death-message{
+    background: rgba(0, 0, 0, 1);
+    width: 50%;
+}
+
 @keyframes fadeIn {
     0% {
-      opacity: 0;
-      font-size: 48px;
-    }
-    25%{
-        font-size: 0px;
-    }
-    50%{
-        font-size: 48px;
-    }
-    75%{
-        font-size: 0px;
+        opacity: 0;
     }
     100% {
-      opacity: 1;
-      font-size: 48px;
+        opacity: 1;
     }
 }
+
 /*styling to hightlight who's turn it is*/
 #character-image_FigureImage{
     border-color: rgb(255, 251, 0);
     border-width: 5px;
 }
-#endofgame_card{
-    background-color: rgba(174, 136, 53, 0.7);
-    border-color:rgba(174, 136, 53, 0.8);
+
+#notification{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    color: black;
+    font-weight: bold;
+    opacity: 1;
+    font-size: 100px;
+    animation-name: fadeIn;
+    animation-duration: 0.9s;
+}
+
+#notification2{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    color: black;
+    font-weight: bold;
+    opacity: 1;
+    font-size: 30px;
+    animation-name: fadeIn;
+    animation-duration: 0.9s;
 }
 
 #fade{

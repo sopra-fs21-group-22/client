@@ -11,7 +11,6 @@ import {
     Image,
     ModalBody, Toast
 } from 'react-bootstrap';
-import OpponentDeck from "../OpponentDeck";
 import OpponentDeckWide from "../OpponentDeckWide";
 import PlayerDeck from "../PlayerDeck";
 import PlayerCards from "../PlayerCards";
@@ -40,7 +39,9 @@ function Layout4players({
                             updateCurr_card,
                             curr_card,
                             updateChat,
-                            chat
+                            chat,
+                            roleinformation,
+                            newGameMoves
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -128,7 +129,8 @@ function Layout4players({
                                      updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                      updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                      updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                     updateFill_array={updateFill_array}/>
+                                     updateFill_array={updateFill_array}
+                                     newGameMoves={newGameMoves}/>
                 </Col>
                 <Col/>
             </Row>
@@ -145,7 +147,8 @@ function Layout4players({
                                   updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                   updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                  updateFill_array={updateFill_array}/>
+                                  updateFill_array={updateFill_array}
+                                  newGameMoves={newGameMoves}/>
                 </Col>
                 <Col>{playertable.gameStatus == "ENDED" ? (
                     <>
@@ -167,7 +170,8 @@ function Layout4players({
                                   updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                   updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                   updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                  updateFill_array={updateFill_array}/>
+                                  updateFill_array={updateFill_array}
+                                  newGameMoves={newGameMoves}/>
                 </Col>
             </Row>
             <Row className="h-25">
@@ -198,7 +202,9 @@ function Layout4players({
                                 updateTargetEveryone={updateTargetEveryone} targetOnlyEnemies={targetOnlyEnemies}
                                 updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                 updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                updateFill_array={updateFill_array}/>
+                                updateFill_array={updateFill_array}
+                                newGameMoves={newGameMoves}
+                                orderarray={orderarray}/>
                 </Col>
                 <Col/>
             </Row>
@@ -214,7 +220,7 @@ function Layout4players({
                                  updateCard_played={updateCard_played}
                                  updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                  updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
-                                 updateFill_array={updateFill_array}/>
+                                 updateFill_array={updateFill_array} roleinformation={roleinformation}/>
                 )}
 
                 </Col>
