@@ -333,7 +333,7 @@ function Lobby({
         <Container fluid className="background_container">
             {!currPlayer_table || !currPlayer ? (
                 <>
-                    <Spinner></Spinner>
+                    <Spinner/>
                     <p>we be loading them data</p>
                 </>
                 /* ) : ( currPlayer_table.gameStatus == "ENDED" ? (
