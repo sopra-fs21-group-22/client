@@ -173,7 +173,8 @@ function Layout7players({
                             updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                             updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                             updateFill_array={updateFill_array}
-                            newGameMoves={newGameMoves}/>
+                            newGameMoves={newGameMoves}
+                            orderarray={orderarray}/>
             </Col>
             <Col>
                 <OpponentDeckWide opponent={playerList[1]} player={playerList[0]} playeronturn={playertable.playerOnTurn}

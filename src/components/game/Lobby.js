@@ -66,17 +66,20 @@ function Lobby({
         setToomanycards(currp.hand.playCards.length - currp.bullets);
 
         let currentlength = currPt.gameMoves.length;
-        let pastlength = newGameMoves.length;
-        if (currPt.gameMoves!=null){
-            if(newGameMoves.length!=currPt.gameMoves.length){
+        let pastlength = gameMoves.length;
+        if (currPt.gameMoves.length!=0){
+            if(gameMoves.length!=currPt.gameMoves.length){
                 let gamemovelist=[]
-                for (let i=0; i<currPt.gameMoves.length-newGameMoves.length; i++){
-                    gamemovelist.push(currPt.gameMoves[currentlength-i-1]);
+                for (let i=0; i<currPt.gameMoves.length-gameMoves.length; i++){
+                    gamemovelist.push(currPt.gameMoves[i]);
                 }
                 setNewGameMoves(gamemovelist);
             }
+            else{
+                setNewGameMoves([]);
+            }
         }
-        
+        setGameMoves(currPt.gameMoves);
 
 
 
@@ -89,28 +92,27 @@ function Lobby({
                 }
             }
 
-            if (currPlayer_table.gameRole != "ENDED") {
-                //start of user turn
-                if (startofturn) {
-                    if (currPt.playerOnTurn.id === currp.id) {
-                        const beforeDrawingCards = JSON.parse(localStorage.getItem("cards"));
-                        const afterDrawingCards = currp.hand.playCards;
-                        const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
-                        if (newCards.length > 0) {
-                            setCards(newCards);
-                        }
-                        setStartofturn(false);
+            //start of user turn
+            if (startofturn) {
+                if (currPt.playerOnTurn.id === currp.id) {
+                    const beforeDrawingCards = JSON.parse(localStorage.getItem("cards"));
+                    const afterDrawingCards = currp.hand.playCards;
+                    const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
+                    if (newCards.length > 0) {
+                        setCards(newCards);
                     }
-                }
-                //time limit
-                if (timer != 0 && currPt.playerOnTurn.id == currp.id) {
-                    setTimer(timer - 1);
-                }
-
-                if (timer == 0) {
-                    setTimer(100);
+                    setStartofturn(false);
                 }
             }
+            //time limit
+            if (timer != 0 && currPt.playerOnTurn.id == currp.id) {
+                setTimer(timer - 1);
+            }
+
+            if (timer == 0) {
+                setTimer(100);
+            }
+            
         }
         
 
@@ -118,9 +120,10 @@ function Lobby({
         /* setCount(count + 1); */
 
 
-    }, 1000);
+    }, 3000);
     
     const [newGameMoves, setNewGameMoves] = useState([]);
+    const [gameMoves, setGameMoves] = useState([]);
 
     useEffect(async () => {
         try {
