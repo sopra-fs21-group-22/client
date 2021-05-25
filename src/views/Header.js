@@ -73,8 +73,14 @@ function Header({ user, updateUser }) {
       <Navbar bg="s">
         <Navbar.Brand onClick={() => history.push("/game/dashboard")}>BANG!</Navbar.Brand>
         <Navbar.Collapse className="justify-content-end">
-          <Nav.Link onClick={() => handleRegister()}>{user == null ? "Register" : ""}</Nav.Link>
-          <Nav.Link onClick={() => handleLoginLogout()}>{user == null ? "Login" : "Logout"}</Nav.Link>
+          <Nav.Link
+              className="navbar-brand"
+              onClick={() => handleRegister()}>{user == null ? "Register" : ""}
+          </Nav.Link>
+          <Nav.Link
+              className="navbar-brand"
+              onClick={() => handleLoginLogout()}>{user == null ? "Login" : "Logout"}
+          </Nav.Link>
         </Navbar.Collapse>
       </Navbar>
       <br></br>
