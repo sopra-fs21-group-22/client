@@ -108,6 +108,7 @@ export default function OpponentDeckWide({
         }
         detectMissed();
         detectImages();
+        detectMessages();
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -382,6 +383,8 @@ export default function OpponentDeckWide({
     const [missedNoteHidden, setMissedNoteHidden] = useState(true);
     const [notificationImage, setNotificationImage] = useState("/images/back.png");
     const [notificationImageHidden, setNotificationImageHidden] = useState(true);
+    const [notificationmessage, setNotificationMessage] = useState("default message");
+    const [messageHidden, setMessageHidden] = useState(true);
 
 
     const character_information = (
@@ -403,7 +406,7 @@ export default function OpponentDeckWide({
             return;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
                 setMissedNoteHidden(false);
                 return;
             }
@@ -411,8 +414,44 @@ export default function OpponentDeckWide({
         setMissedNoteHidden(true);
     }
 
+    function detectMessages(){
+        if(detectIndiansShotBack() || detectSavedByBeer()){
+            setMessageHidden(false);
+            return;
+        }
+        setMessageHidden(true);
+    }
+
+    function detectIndiansShotBack(){
+        if (newGameMoves.length == 0){
+            setMessageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action=="FAIL"){
+                setMessageHidden(false);
+                setNotificationMessage(`The opponent shot back`);
+                return true;
+            }
+        }
+    }
+
+    function detectSavedByBeer(){
+        if (newGameMoves.length == 0){
+            setMessageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
+                setMessageHidden(false);
+                setNotificationMessage(`Saved by beer, Cheers!`);
+                return true;
+            }
+        }
+    }
+
     function detectImages(){
-        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite()){
+        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite() || detectIndiansGotHit()){
             setNotificationImageHidden(false);
             return;
         }
@@ -433,27 +472,13 @@ export default function OpponentDeckWide({
         }
     }
 
-    function detectIndiansShotBack(){
-        if (newGameMoves.length == 0){
-            setNotificationImageHidden(true);
-            return false;
-        }
-        for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action!="SUCCESS"){
-                setNotificationImage("/images/hitmarker.png");
-                setNotificationImageHidden(false);
-                return true;
-            }
-        }
-    }
-
     function detectIndiansGotHit(){
         if (newGameMoves.length == 0){
             setNotificationImageHidden(true);
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action!="SUCCESS"){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
                 setNotificationImage("/images/hitmarker.png");
                 setNotificationImageHidden(false);
                 return true;
@@ -467,7 +492,7 @@ export default function OpponentDeckWide({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "GATLING" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "GATLING" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="USE"){
                 setNotificationImage("/images/gatling.png");
                 setNotificationImageHidden(false);
                 return true;
@@ -481,7 +506,7 @@ export default function OpponentDeckWide({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "SALOON" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "SALOON" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="USE"){
                 setNotificationImage("/images/saloon.png");
                 setNotificationImageHidden(false);
                 return true;
@@ -509,7 +534,7 @@ export default function OpponentDeckWide({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="USE"){
                 setNotificationImage("/images/beer.png");
                 setNotificationImageHidden(false);
                 return true;
@@ -541,6 +566,9 @@ export default function OpponentDeckWide({
             </>
             <>
                 <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>
+            </>
+            <>
+                <p hidden={messageHidden} id="notification2"><b>{notificationmessage}</b></p>
             </>
             {opponent.bullets === 0 ? (
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>

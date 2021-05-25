@@ -95,8 +95,9 @@ export default function PlayerDeck({
             setDynamite(false);
         }
         detectMissed();
-        detectMessages();
+        detectMessages(detectMissed(), detectImages());
         detectImages();
+        detectSavedByBeer();
     }, 1000);
 
     function setupTargetHighlighting(card) {
@@ -260,15 +261,57 @@ export default function PlayerDeck({
     function detectMissed(){
         if (newGameMoves.length == 0){
             setMissedNoteHidden(true);
-            return;
+            return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == player.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == player.id && newGameMoves[i].action=="SUCCESS"){
                 setMissedNoteHidden(false);
-                return;
+                return true;
             }
         }
         setMissedNoteHidden(true);
+        return false;
+    }
+
+    function detectSavedByBeer(){
+        if (newGameMoves.length == 0){
+            setSavedByBeerMessageHidden(true);
+            return;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == player.id && newGameMoves[i].action=="SUCCESS"){
+                setSavedByBeerMessageHidden(false);
+                return;
+            }
+        }
+        setSavedByBeerMessageHidden(true);
+    }
+
+    function detectImages(){
+        let barrelcheck=false;
+        if (detectBarrel()){
+            barrelcheck=true;
+        }
+        if (detectBarrel() || detectBeer() || detectExplodingDynamite() || detectIndiansGotHit()){
+            setNotificationImageHidden(false);
+            return barrelcheck;
+        }
+        setNotificationImageHidden(true);
+        return barrelcheck;
+    }
+
+    function detectIndiansGotHit(){
+        if (newGameMoves.length == 0){
+            setNotificationImageHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action=="SUCCESS"){
+                setNotificationImage("/images/hitmarker.png");
+                setNotificationImageHidden(false);
+                return true;
+            }
+        }
     }
 
     function detectBarrel(){
@@ -313,12 +356,22 @@ export default function PlayerDeck({
         }
     }
 
-    function detectImages(){
-        if (detectBarrel() || detectBeer() || detectExplodingDynamite()){
-            setNotificationImageHidden(false);
+    function detectMessages(missed, barrel){
+        if (missed || barrel){
+            if(detectPanic() || detectCatBalou() || detectIndiansShotBack()){
+                setMessageHidden(false);
+                return;
+            }
+        }
+        else{
+            if(detectPanic() || detectCatBalou() || detectBang() || detectIndiansShotBack()){
+                setMessageHidden(false);
+                return;
+            }
             return;
         }
-        setNotificationImageHidden(true);
+        
+        setMessageHidden(true);
     }
 
     function detectCatBalou(){
@@ -327,7 +380,7 @@ export default function PlayerDeck({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "CATBALOU" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action!="DISCARD"){
+            if (newGameMoves[i].card == "CATBALOU" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action=="USE"){
                 setMessageHidden(false);
                 setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} discarded one of your cards`);
                 return true;
@@ -363,12 +416,18 @@ export default function PlayerDeck({
         }
     }
 
-    function detectMessages(){
-        if(detectPanic() || detectCatBalou() || detectBang()){
-            setMessageHidden(false);
-            return;
+    function detectIndiansShotBack(){
+        if (newGameMoves.length == 0){
+            setMessageHidden(true);
+            return false;
         }
-        setMessageHidden(true);
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action=="FAIL"){
+                setMessageHidden(false);
+                setNotificationMessage(`You shot back`);
+                return true;
+            }
+        }
     }
 
     function searchPlayerById(id){
@@ -404,6 +463,7 @@ export default function PlayerDeck({
     const [notificationImageHidden, setNotificationImageHidden] = useState(true);
     const [notificationmessage, setNotificationMessage] = useState("default message");
     const [messageHidden, setMessageHidden] = useState(true);
+    const [savedByBeerMessageHidden, setSavedByBeerMessageHidden] = useState(true);
 
     const character_information = (
         <Popover placement="bottom" id="role-info_popover">
@@ -430,6 +490,10 @@ export default function PlayerDeck({
             </>
             <>
                 <p hidden={messageHidden} id="notification2"><b>{notificationmessage}</b></p>
+            </>
+            <>
+                <p hidden={savedByBeerMessageHidden} id="notification2">
+                <b>Saved by beer, Cheers!</b></p>
             </>
             <>
                 {player.bullets === 0 ? (
