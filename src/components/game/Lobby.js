@@ -21,6 +21,7 @@ import {
 } from 'react-bootstrap';
 import UserStatus from '../../views/design/UserStatus';
 import "../../views/design/styling/lobby_styling.css";
+import "../../views/design/styling/playing_field_styling.css";
 import Overlay from 'react-bootstrap/Overlay';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
@@ -402,39 +403,29 @@ function Lobby({
                     </Modal>}
 
 
-                    {<Modal id="choose-role_modal" show={show_rolechoose} centered backdrop="static"
+                    {<Modal id="choose-role_modal" size="lg" show={show_rolechoose} centered backdrop="static"
                             keyboard={false}
                             animation>
                         <Modal.Header id="choose-role_modal_header">
                             <Modal.Title><b>Choose a role card</b></Modal.Title>
                         </Modal.Header>
                         <Modal.Body id="choose-role_modal_body">
-                            <Row>
-                                <Col id="choose-role_modal_body_row_col">
-                                    <Image id="choose-role_modal_body_row_col_image"
-                                           src="/images/role_cards/back_role.png"
-                                           onClick={() => addBordertoImage1()}
-                                           style={{borderWidth: rolecard_border1}}/>
-                                </Col>
-                                <Col id="choose-role_modal_body_row_col">
-                                    <Image id="choose-role_modal_body_row_col_image"
-                                           src="/images/role_cards/back_role.png"
-                                           onClick={() => addBordertoImage2()}
-                                           style={{borderWidth: rolecard_border2}}/>
-                                </Col>
-                                <Col id="choose-role_modal_body_row_col">
-                                    <Image id="choose-role_modal_body_row_col_image"
-                                           src="/images/role_cards/back_role.png"
-                                           onClick={() => addBordertoImage3()}
-                                           style={{borderWidth: rolecard_border3}}/>
-                                </Col>
-                                <Col id="choose-role_modal_body_row_col">
-                                    <Image id="choose-role_modal_body_row_col_image"
-                                           src="/images/role_cards/back_role.png"
-                                           onClick={() => addBordertoImage4()}
-                                           style={{borderWidth: rolecard_border4}}/>
-                                </Col>
-                            </Row>
+                            <Image id="choose-role_modal_body_row_col_image"
+                                   src="/images/role_cards/back_role.png"
+                                   onClick={() => addBordertoImage1()}
+                                   style={{borderWidth: rolecard_border1}}/>
+                            <Image id="choose-role_modal_body_row_col_image"
+                                   src="/images/role_cards/back_role.png"
+                                   onClick={() => addBordertoImage2()}
+                                   style={{borderWidth: rolecard_border2}}/>
+                            <Image id="choose-role_modal_body_row_col_image"
+                                   src="/images/role_cards/back_role.png"
+                                   onClick={() => addBordertoImage3()}
+                                   style={{borderWidth: rolecard_border3}}/>
+                            <Image id="choose-role_modal_body_row_col_image"
+                                   src="/images/role_cards/back_role.png"
+                                   onClick={() => addBordertoImage4()}
+                                   style={{borderWidth: rolecard_border4}}/>
                         </Modal.Body>
                         <Modal.Footer id="choose-role_modal_footer">
                             <Button id="custombutton" onClick={chooseRole} disabled={choose_rolecard_disabled}>
@@ -443,19 +434,19 @@ function Lobby({
                         </Modal.Footer>
                     </Modal>}
 
-                    {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
-                        <Modal.Header id="chosen-role_modal_header">
-                            <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn
+                    {<Modal show={show_drawnCards} centered animation size="lg" rootClose animation>
+                        <Modal.Header id="global_modal_header">
+                            <Modal.Title id="global_modal_header_title" centered><b>Drawn
                                 Cards</b></Modal.Title>
                         </Modal.Header>
-                        <Modal.Body id="chosen-role_modal_body" centered>
+                        <Modal.Body id="global_modal_body" centered>
                             {drawnCards.map((curr) => (
                                 <Image
                                     src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                    id="chosen-role_modal_body_image"/>
+                                    id="global_modal_body_image"/>
                             ))}
                         </Modal.Body>
-                        <Modal.Footer id="chosen-role_modal_footer">
+                        <Modal.Footer id="global_modal_footer">
                             <Button id="custombutton" onClick={closeDrawnCards}>
                                 Okay
                             </Button>
