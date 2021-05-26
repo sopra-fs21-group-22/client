@@ -243,7 +243,7 @@ function Layout7players({
             <Col/>
         </Row>
         <br/>
-        <Row className="h-25">
+        <Row className="h-25 align-items-center">
             <Col hidden={displayChat} style={{maxHeight: 200}}>
                 <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={200} width={500}/>
             </Col>
@@ -275,8 +275,10 @@ function Layout7players({
             )}
 
             </Col>
+            <Col>
+                <Button variant="danger" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
+            </Col>
         </Row>
-        <Button id="custombutton" hidden={hideCancel_PlayCard} block onClick={back}>Cancel</Button>
     </Container>);
 }
 

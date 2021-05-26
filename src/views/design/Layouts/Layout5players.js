@@ -227,7 +227,7 @@ function Layout5players({
                 </Col>
                 <Col/>
             </Row>
-            <Row>
+            <Row className="align-items-center">
                 <Col/>
                 <Col xs={7}>{playertable.gameStatus == "ENDED" ? (
                     <>
@@ -243,9 +243,10 @@ function Layout5players({
                 )}
 
                 </Col>
-                <Col/>
+                <Col>
+                    <Button variant="danger" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
+                </Col>
             </Row>
-            <Button id="custombutton" hidden={hideCancel_PlayCard} block onClick={back}>Cancel</Button>
         </Container>);
 }
 
