@@ -789,28 +789,24 @@ export default function OpponentDeckWide({
                     {curr_card ? (
                         curr_card.card === "PANIC" ? (
                             <p>Click the one you want to steal:
-                                <br/>
+                                <br/><br/>
                                 {opponent.onFieldCards.onFieldCards.map((curr) => (
                                     curr.card !== "DYNAMITE" && curr.card !== "JAIL" ? (
-                                        <Col>
-                                            <Image
-                                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                                onClick={() => selectOnFieldCard(curr)}
-                                                id="global_modal_body_image"/>
-                                        </Col>
+                                        <Image
+                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                            onClick={() => selectOnFieldCard(curr)}
+                                            id="global_modal_body_image"/>
                                     ) : null
                                 ))}
                             </p>
                         ) : (
                             <p>Click the one you want to throw away:
-                                <br/>
+                                <br/><br/>
                                 {opponent.onFieldCards.onFieldCards.map((curr) => (
-                                    <Col>
-                                        <Image
-                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                            onClick={() => selectOnFieldCard(curr)}
-                                            id="global_modal_body_image"/>
-                                    </Col>
+                                    <Image
+                                        src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                        onClick={() => selectOnFieldCard(curr)}
+                                        id="global_modal_body_image"/>
                                 ))}
                             </p>
                         )) : null}

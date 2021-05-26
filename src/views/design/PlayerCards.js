@@ -317,18 +317,16 @@ export default function PlayerCards({
                     ))}
                 </Row>
             </Container>
-            {<Modal show={show_drawnCards} centered animation size="lg" rootClose animation>
+            {<Modal show={show_drawnCards} centered animation size={drawnCards.length > 2 ? "lg":"m"} rootClose animation>
                 <Modal.Header id="global_modal_header">
                     <Modal.Title id="global_modal_header_title" centered><b>Drawn
                         Cards</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="global_modal_body" centered>
                     {drawnCards.map((curr) => (
-                        <Col>
-                            <Image
-                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                id="global_modal_body_image"/>
-                        </Col>
+                        <Image
+                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                            id="global_modal_body_image"/>
                     ))}
                 </Modal.Body>
                 <Modal.Footer id="global_modal_footer">
