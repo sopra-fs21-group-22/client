@@ -386,9 +386,28 @@ export default function OpponentDeckWide({
                 }
                 return numberCards === 0;
             }
-        }
-        else {
+        } else {
             return true;
+        }
+    }
+
+    function modalSize() {
+        if (curr_card != null) {
+            if (curr_card.card === "CATBALOU") {
+                let numberCards = opponent.onFieldCards.onFieldCards.length;
+                return numberCards > 4 ? "xl":(numberCards > 2 ? "lg":(numberCards > 1 ? "m":"sm"))
+            }
+            if (curr_card.card === "PANIC") {
+                let numberCards = opponent.onFieldCards.onFieldCards.length;
+                for (let card of opponent.onFieldCards.onFieldCards) {
+                    if (card.card === "JAIL" || card.card === "DYNAMITE") {
+                        numberCards--;
+                    }
+                }
+                return numberCards > 4 ? "xl":(numberCards > 2 ? "lg":(numberCards > 1 ? "m":"sm"))
+            }
+        } else {
+            return "sm";
         }
     }
 
@@ -780,7 +799,7 @@ export default function OpponentDeckWide({
                     </Button>
                 </Modal.Footer>
             </Modal>}
-            {<Modal show={show_onFieldCards} centered animation size="xl" rootClose animation>
+            {<Modal show={show_onFieldCards} centered animation size={modalSize()} rootClose animation>
                 <Modal.Header id="global_modal_header">
                     <Modal.Title id="global_modal_header_title" centered><b>Opponent's on field
                         cards</b></Modal.Title>
