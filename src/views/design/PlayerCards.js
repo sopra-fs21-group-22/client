@@ -290,7 +290,7 @@ export default function PlayerCards({
                                             <Button id="custombutton" onClick={closeCard}>
                                                 Return
                                             </Button>
-                                            <Button id="custombutton"
+                                            <Button id="custombutton" variant="success"
                                                     disabled={((player.stillPlayableBangsThisRound === 0 && curr_card.card === "BANG") ||
                                                         curr_card.card === "MISSED" ||
                                                         (curr_card.card === "BEER" && player.maxBullets < player.bullets + 1)) ||

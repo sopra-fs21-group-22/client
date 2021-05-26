@@ -735,7 +735,7 @@ export default function OpponentDeckWide({
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeNoCardsToGet}>
-                        Cancel
+                        Okay
                     </Button>
                 </Modal.Footer>
             </Modal>}
@@ -757,7 +757,7 @@ export default function OpponentDeckWide({
                     <Button id="custombutton" onClick={onFieldCard} disabled={availableOnFieldCards()}>
                         On field card
                     </Button>
-                    <Button id="custombutton" onClick={closeDestroyOrSteal}>
+                    <Button id="custombutton" variant="danger" onClick={closeDestroyOrSteal}>
                         Cancel
                     </Button>
                 </Modal.Footer>
@@ -815,7 +815,7 @@ export default function OpponentDeckWide({
                         )) : null}
                 </Modal.Body>
                 <ModalFooter id="chosen-role_modal_footer">
-                    <Button id="custombutton" onClick={closeOnFieldCards}>
+                    <Button id="custombutton" variant="danger" onClick={closeOnFieldCards}>
                         Cancel
                     </Button>
                 </ModalFooter>
