@@ -28,7 +28,7 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
     }
     
     return (
-        <Container>
+        <>
             <Route
                 exact
                 path={`${base}/dashboard`}
@@ -82,7 +82,7 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
                                             updatePlayerId={updatePlayerId}/>}
             />
 
-        </Container>
+        </>
     );
 }
 
