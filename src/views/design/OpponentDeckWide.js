@@ -91,10 +91,11 @@ export default function OpponentDeckWide({
             if (targetOnlyEnemies && ignoreRange) {
                 setWidth(5);
             }
-            if (targetNotSheriff && opponent.gameRole !== "SHERIFF") {
+            if (targetNotSheriff && opponent.gameRole !== "SHERIFF" && !inJail) {
                 setWidth(5);
-            }
-            if (targetNotSheriff && opponent.gameRole === "SHERIFF") {
+            } else if (targetNotSheriff && opponent.gameRole !== "SHERIFF" && inJail) {
+                setWidth(0);
+            }else if (targetNotSheriff && opponent.gameRole === "SHERIFF") {
                 setWidth(0);
             }
         }
@@ -757,7 +758,7 @@ export default function OpponentDeckWide({
                     <Button id="custombutton" onClick={onFieldCard} disabled={availableOnFieldCards()}>
                         On field card
                     </Button>
-                    <Button id="custombutton" variant="danger" onClick={closeDestroyOrSteal}>
+                    <Button variant="danger" onClick={closeDestroyOrSteal}>
                         Cancel
                     </Button>
                 </Modal.Footer>
@@ -815,7 +816,7 @@ export default function OpponentDeckWide({
                         )) : null}
                 </Modal.Body>
                 <ModalFooter id="chosen-role_modal_footer">
-                    <Button id="custombutton" variant="danger" onClick={closeOnFieldCards}>
+                    <Button variant="danger" onClick={closeOnFieldCards}>
                         Cancel
                     </Button>
                 </ModalFooter>
