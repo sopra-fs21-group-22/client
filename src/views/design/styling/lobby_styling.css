@@ -10,23 +10,9 @@
 }
 #chosen-role_modal_body{
     background-color: rgba(174, 136, 53, 0.6);
-    
-}
-#chosen-role_modal_footer{
-    background-color: rgba(174, 136, 53, 0.6);
-    border: none;   
-}
-/*////////////////////////////////////////////*/
-#choose-role_modal{
-    
-}
-#choose-role_modal_body{
-    background-color: rgba(174, 136, 53, 0.6);
- 
 }
 #chosen-role_modal_body_image{
     border-width: 0px;
-    border-radius: 25px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -34,13 +20,21 @@
     margin-bottom: auto;
     width: 50%;
 }
+#chosen-role_modal_footer{
+    background-color: rgba(174, 136, 53, 0.6);
+    border: none;   
+}
+/*////////////////////////////////////////////*/
+#choose-role_modal{
+    width: fit-content;
+}
+#choose-role_modal_body{
+    background-color: rgba(174, 136, 53, 0.6);
+    display: flex;
+}
 #choose-role_modal_footer{
     background-color: rgba(174, 136, 53, 0.6);
     border: none;
-}
-#choose-role_modal_body_row_col{
-    
-    width: fit-content;
 }
 #choose-role_modal_body_row_col_image{
     height: 250px;
@@ -49,6 +43,7 @@
     border-style: solid;
     border-radius: 25px;
     position: center;
+    margin-right: 10px;
 }
 /*////////////////////////////////////////////*/
 #role-info_popover{

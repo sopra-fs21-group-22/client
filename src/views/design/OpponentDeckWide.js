@@ -91,10 +91,11 @@ export default function OpponentDeckWide({
             if (targetOnlyEnemies && ignoreRange) {
                 setWidth(5);
             }
-            if (targetNotSheriff && opponent.gameRole !== "SHERIFF") {
+            if (targetNotSheriff && opponent.gameRole !== "SHERIFF" && !inJail) {
                 setWidth(5);
-            }
-            if (targetNotSheriff && opponent.gameRole === "SHERIFF") {
+            } else if (targetNotSheriff && opponent.gameRole !== "SHERIFF" && inJail) {
+                setWidth(0);
+            }else if (targetNotSheriff && opponent.gameRole === "SHERIFF") {
                 setWidth(0);
             }
         }
@@ -385,9 +386,28 @@ export default function OpponentDeckWide({
                 }
                 return numberCards === 0;
             }
-        }
-        else {
+        } else {
             return true;
+        }
+    }
+
+    function modalSize() {
+        if (curr_card != null) {
+            if (curr_card.card === "CATBALOU") {
+                let numberCards = opponent.onFieldCards.onFieldCards.length;
+                return numberCards > 4 ? "xl":(numberCards > 2 ? "lg":(numberCards > 1 ? "m":"sm"))
+            }
+            if (curr_card.card === "PANIC") {
+                let numberCards = opponent.onFieldCards.onFieldCards.length;
+                for (let card of opponent.onFieldCards.onFieldCards) {
+                    if (card.card === "JAIL" || card.card === "DYNAMITE") {
+                        numberCards--;
+                    }
+                }
+                return numberCards > 4 ? "xl":(numberCards > 2 ? "lg":(numberCards > 1 ? "m":"sm"))
+            }
+        } else {
+            return "sm";
         }
     }
 
@@ -757,7 +777,7 @@ export default function OpponentDeckWide({
                     <Button id="custombutton" onClick={onFieldCard} disabled={availableOnFieldCards()}>
                         On field card
                     </Button>
-                    <Button id="custombutton" variant="danger" onClick={closeDestroyOrSteal}>
+                    <Button variant="danger" onClick={closeDestroyOrSteal}>
                         Cancel
                     </Button>
                 </Modal.Footer>
@@ -779,43 +799,39 @@ export default function OpponentDeckWide({
                     </Button>
                 </Modal.Footer>
             </Modal>}
-            {<Modal show={show_onFieldCards} centered animation size="sm" rootClose animation>
-                <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's on field
+            {<Modal show={show_onFieldCards} centered animation size={modalSize()} rootClose animation>
+                <Modal.Header id="global_modal_header">
+                    <Modal.Title id="global_modal_header_title" centered><b>Opponent's on field
                         cards</b></Modal.Title>
                 </Modal.Header>
-                <Modal.Body id="chosen-role_modal_body" centered>
+                <Modal.Body id="global_modal_body" centered>
                     {curr_card ? (
                         curr_card.card === "PANIC" ? (
                             <p>Click the one you want to steal:
-                                <br/>
+                                <br/><br/>
                                 {opponent.onFieldCards.onFieldCards.map((curr) => (
                                     curr.card !== "DYNAMITE" && curr.card !== "JAIL" ? (
-                                        <Col>
-                                            <Image
-                                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                                onClick={() => selectOnFieldCard(curr)}
-                                                id="chosen-role_modal_body_image"/>
-                                        </Col>
+                                        <Image
+                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                            onClick={() => selectOnFieldCard(curr)}
+                                            id="global_modal_body_image"/>
                                     ) : null
                                 ))}
                             </p>
                         ) : (
                             <p>Click the one you want to throw away:
-                                <br/>
+                                <br/><br/>
                                 {opponent.onFieldCards.onFieldCards.map((curr) => (
-                                    <Col>
-                                        <Image
-                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                            onClick={() => selectOnFieldCard(curr)}
-                                            id="chosen-role_modal_body_image"/>
-                                    </Col>
+                                    <Image
+                                        src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                        onClick={() => selectOnFieldCard(curr)}
+                                        id="global_modal_body_image"/>
                                 ))}
                             </p>
                         )) : null}
                 </Modal.Body>
-                <ModalFooter id="chosen-role_modal_footer">
-                    <Button id="custombutton" variant="danger" onClick={closeOnFieldCards}>
+                <ModalFooter id="global_modal_footer">
+                    <Button variant="danger" onClick={closeOnFieldCards}>
                         Cancel
                     </Button>
                 </ModalFooter>
