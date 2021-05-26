@@ -780,12 +780,12 @@ export default function OpponentDeckWide({
                     </Button>
                 </Modal.Footer>
             </Modal>}
-            {<Modal show={show_onFieldCards} centered animation size="sm" rootClose animation>
-                <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's on field
+            {<Modal show={show_onFieldCards} centered animation size="xl" rootClose animation>
+                <Modal.Header id="global_modal_header">
+                    <Modal.Title id="global_modal_header_title" centered><b>Opponent's on field
                         cards</b></Modal.Title>
                 </Modal.Header>
-                <Modal.Body id="chosen-role_modal_body" centered>
+                <Modal.Body id="global_modal_body" centered>
                     {curr_card ? (
                         curr_card.card === "PANIC" ? (
                             <p>Click the one you want to steal:
@@ -796,7 +796,7 @@ export default function OpponentDeckWide({
                                             <Image
                                                 src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
                                                 onClick={() => selectOnFieldCard(curr)}
-                                                id="chosen-role_modal_body_image"/>
+                                                id="global_modal_body_image"/>
                                         </Col>
                                     ) : null
                                 ))}
@@ -809,13 +809,13 @@ export default function OpponentDeckWide({
                                         <Image
                                             src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
                                             onClick={() => selectOnFieldCard(curr)}
-                                            id="chosen-role_modal_body_image"/>
+                                            id="global_modal_body_image"/>
                                     </Col>
                                 ))}
                             </p>
                         )) : null}
                 </Modal.Body>
-                <ModalFooter id="chosen-role_modal_footer">
+                <ModalFooter id="global_modal_footer">
                     <Button variant="danger" onClick={closeOnFieldCards}>
                         Cancel
                     </Button>

@@ -317,21 +317,21 @@ export default function PlayerCards({
                     ))}
                 </Row>
             </Container>
-            {<Modal show={show_drawnCards} centered animation size="sm" rootClose animation>
-                <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Drawn
+            {<Modal show={show_drawnCards} centered animation size="lg" rootClose animation>
+                <Modal.Header id="global_modal_header">
+                    <Modal.Title id="global_modal_header_title" centered><b>Drawn
                         Cards</b></Modal.Title>
                 </Modal.Header>
-                <Modal.Body id="chosen-role_modal_body" centered>
+                <Modal.Body id="global_modal_body" centered>
                     {drawnCards.map((curr) => (
                         <Col>
                             <Image
                                 src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                id="chosen-role_modal_body_image"/>
+                                id="global_modal_body_image"/>
                         </Col>
                     ))}
                 </Modal.Body>
-                <Modal.Footer id="chosen-role_modal_footer">
+                <Modal.Footer id="global_modal_footer">
                     <Button id="custombutton" onClick={closeDrawnCards}>
                         Okay
                     </Button>

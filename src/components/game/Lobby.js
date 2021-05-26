@@ -434,7 +434,7 @@ function Lobby({
                         </Modal.Footer>
                     </Modal>}
 
-                    {<Modal show={show_drawnCards} centered animation size="lg" rootClose animation>
+                    {<Modal show={show_drawnCards} centered animation size="m" rootClose animation>
                         <Modal.Header id="global_modal_header">
                             <Modal.Title id="global_modal_header_title" centered><b>Drawn
                                 Cards</b></Modal.Title>
