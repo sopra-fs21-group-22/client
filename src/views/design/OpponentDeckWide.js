@@ -113,7 +113,7 @@ export default function OpponentDeckWide({
         } else {
             setDynamite(false);
         }
-        detectMissed();
+        detectHitOrMissed();
         detectImages();
         detectMessages();
     }, 1000);
@@ -432,7 +432,8 @@ export default function OpponentDeckWide({
     const [displayName, setDisplayName] = useState("loading character name...");
     const [setupCharacter, setSetupCharacter] = useState(true);
     const characterRef = useRef();
-    const [missedNoteHidden, setMissedNoteHidden] = useState(true);
+    const [hitOrMissedNoteHidden, setHitOrMissedNoteHidden] = useState(true);
+    const [hitOrMissedMessage, setHitOrMissedMessage] = useState("default message");
     const [notificationImage, setNotificationImage] = useState("/images/back.png");
     const [notificationImageHidden, setNotificationImageHidden] = useState(true);
     const [notificationmessage, setNotificationMessage] = useState("default message");
@@ -452,18 +453,42 @@ export default function OpponentDeckWide({
         </Popover>
     )
 
+    function detectHitOrMissed(){
+        if(detectMissed() || detectHit()){
+            setHitOrMissedNoteHidden(false);
+            return;
+        }
+        setHitOrMissedNoteHidden(true);
+    }
+
+    function detectHit(){
+        if (newGameMoves.length == 0){
+            setHitOrMissedNoteHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action=="HOLED"){
+                setHitOrMissedMessage("HIT");
+                setHitOrMissedNoteHidden(false);
+                return true;
+            }
+        }
+        return false;
+    }
+
     function detectMissed(){
         if (newGameMoves.length == 0){
-            setMissedNoteHidden(true);
-            return;
+            setHitOrMissedNoteHidden(true);
+            return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
             if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
-                setMissedNoteHidden(false);
-                return;
+                setHitOrMissedMessage("MISSED");
+                setHitOrMissedNoteHidden(false);
+                return true;
             }
         }
-        setMissedNoteHidden(true);
+        return false;
     }
 
     function detectMessages(){
@@ -503,7 +528,7 @@ export default function OpponentDeckWide({
     }
 
     function detectImages(){
-        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite() || detectIndiansGotHit()){
+        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite()/*  || detectIndiansGotHit() */){
             setNotificationImageHidden(false);
             return;
         }
@@ -524,7 +549,7 @@ export default function OpponentDeckWide({
         }
     }
 
-    function detectIndiansGotHit(){
+    /* function detectIndiansGotHit(){
         if (newGameMoves.length == 0){
             setNotificationImageHidden(true);
             return false;
@@ -536,7 +561,7 @@ export default function OpponentDeckWide({
                 return true;
             }
         }
-    }
+    } */
 
     function detectGatling(){
         if (newGameMoves.length == 0){
@@ -613,8 +638,8 @@ export default function OpponentDeckWide({
         
         <div>
             <>
-                <h hidden={missedNoteHidden} id="notification">
-                <b>MISSED</b></h>
+                <h hidden={hitOrMissedNoteHidden} id="notification">
+                <b>{hitOrMissedMessage}</b></h>
             </>
             <>
                 <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>

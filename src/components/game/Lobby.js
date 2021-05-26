@@ -81,6 +81,15 @@ function Lobby({
             }
         }
         setGameMoves(currPt.gameMoves);
+        if (endOfGame){
+            for (let i=0; i<currPt.gameMoves.length; i++){
+                if (currPt.gameMoves[i].action=="WIN"){
+                    setWinnerMessage(currPt.gameMoves[i].message);
+                    setEndOfGame(false);
+                };
+                
+            }
+        }
 
 
 
@@ -125,6 +134,9 @@ function Lobby({
     
     const [newGameMoves, setNewGameMoves] = useState([]);
     const [gameMoves, setGameMoves] = useState([]);
+
+    const [endOfGame, setEndOfGame] = useState(true);
+    const [winnerMessage, setWinnerMessage] = useState();
 
     useEffect(async () => {
         try {
@@ -331,6 +343,8 @@ function Lobby({
 
 
     return (
+        <>
+        <p hidden={endOfGame} style={{textAlign:"center", fontSize:"50px"}}><b>{winnerMessage}</b></p>
         <Container fluid className="background_container">
             {!currPlayer_table || !currPlayer ? (
                 <>
@@ -452,7 +466,7 @@ function Lobby({
                             </Button>
                         </Modal.Footer>
                     </Modal>}
-
+                    
                     <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table}
                                     orderarray={orderArray}
                                     visibility={hidden_gamefield} player={currPlayer} roleinformation={role_information} newGameMoves={newGameMoves}/>
@@ -460,6 +474,7 @@ function Lobby({
                     {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
                     {/*    <Button id="custombutton">Show role information</Button>*/}
                     {/*</OverlayTrigger>*/}
+                    
 
                     <Button disabled={currPlayer_table.playerOnTurn.id != currPlayer.id}
                             hidden={currPlayer_table.gameStatus == "ENDED"} onClick={endTurn} id="custombutton">End
@@ -481,6 +496,7 @@ function Lobby({
 
             )}
         </Container>
+        </>
     );
 }
 
