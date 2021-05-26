@@ -231,6 +231,20 @@ export default function PlayerCards({
         updateBorder("none");
     }
 
+    function duplicatesCheck(duplicate) {
+        return (searchForOn_FieldCards(duplicate) && curr_card.card === duplicate);
+    }
+
+    function disabledPlayButton() {
+        return (((player.stillPlayableBangsThisRound === 0 && curr_card.card === "BANG") ||
+            curr_card.card === "MISSED" ||
+            (curr_card.card === "BEER" && player.maxBullets < player.bullets + 1)) ||
+            duplicatesCheck("BARREL") || duplicatesCheck("CARABINE") ||
+            duplicatesCheck("REMINGTON") || duplicatesCheck("SCHOFIELD") ||
+            duplicatesCheck("VOLCANIC") || duplicatesCheck("WINCHESTER") ||
+            duplicatesCheck("MUSTANG") || duplicatesCheck("APPALOOSA"));
+    }
+
     return (
         <>
             <Container className="shelf">
@@ -290,11 +304,8 @@ export default function PlayerCards({
                                             <Button id="custombutton" onClick={closeCard}>
                                                 Return
                                             </Button>
-                                            <Button id="custombutton" variant="success"
-                                                    disabled={((player.stillPlayableBangsThisRound === 0 && curr_card.card === "BANG") ||
-                                                        curr_card.card === "MISSED" ||
-                                                        (curr_card.card === "BEER" && player.maxBullets < player.bullets + 1)) ||
-                                                        (searchForOn_FieldCards("BARREL") && curr_card.card === "BARREL")}
+                                            <Button id="custombutton"
+                                                    disabled={disabledPlayButton()}
                                                     onClick={playCard}>
                                                 Play
                                             </Button>
