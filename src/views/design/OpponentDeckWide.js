@@ -646,7 +646,7 @@ export default function OpponentDeckWide({
                         </Col>
                         <Col>
                             <Figure>
-                                <OverlayTrigger trigger="click" overlay={character_information} rootClose>
+                                <OverlayTrigger trigger="click" placement="right" overlay={character_information} rootClose>
                                     <Figure.Image id="character-image_FigureImage"
                                                   style={{borderStyle: highlightImage}}
                                                   ref={characterRef}
