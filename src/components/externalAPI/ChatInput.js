@@ -1,4 +1,4 @@
-import {Button, FormControl, InputGroup} from "react-bootstrap";
+import {Button, Container, Form, FormControl, InputGroup} from "react-bootstrap";
 import React, {Component} from "react";
 import {authApi} from "../../helpers/api";/* 
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
@@ -10,64 +10,93 @@ class ChatInput extends Component {
         super(props, context);
 
         this.handleChange = this.handleChange.bind(this);
+        this.onKeyUp = this.onKeyUp.bind(this);
 
         this.state = {
             value: '',
             player: player,
-            playertable: playertable
+            playertable: playertable,
+            sending: false,
         };
     }
 
+    /*
+        async sendMessage(e) {
+            console.log("testtest");
+            console.log(e);
+            /*
+            e.preventDefault();
+            try {
+                const requestBody = JSON.stringify({
+                    "content": this.state.value,
+                    "name": this.props.player.user,
+                })
+                console.log("before");
+                const bla = await authApi().put(`/games/${this.props.playertable.id}/players/${this.props.player.id}/chat`, requestBody);
+                console.log("bla ", bla);
+                console.log("after");
+                this.setState({value: ""});
+
+            } catch (e) {
+                console.log(e);
+            }
+                }
+     */
 
 
-    sendMessage(e) {
-        e.preventDefault();
-        try{
+    async sendMessage() {
+        this.state.sending = true;
+        console.log("before", this.state.sending);
+        try {
             const requestBody = JSON.stringify({
                 "content": this.state.value,
                 "name": this.props.player.user,
-            })
-            console.log("props before: ", this.props);
-            console.log("message before: ", this.state.value);
-            const playertable = this.props.playertable;
-            const player = this.props.player;
-            authApi().put(`/games/${playertable.id}/players/${player.id}/chat`, requestBody);
-
-            console.log("props after: ", this.props);
-            // console.log("message after: ", response);
-            this.setState({value: " "});
-            console.log("message after: ", this.state.value);
-        } catch (e) {
-            console.log(e);
+            });
+            await authApi().put(`/games/${this.props.playertable.id}/players/${this.props.player.id}/chat`, requestBody);
+            this.setState({value: ""});
+        } catch (error) {
+            console.warn(error);
+        } finally {
+            this.state.sending = false;
+            console.log("before", this.state.sending);
         }
-
     }
-
 
     handleChange(e) {
         e.preventDefault();
         this.setState({value: e.target.value});
     }
-    
+
+    onKeyUp(event) {
+        if (event.charCode === 13) { // 13 is an identifier for the enter key
+            this.sendMessage();
+        }
+    }
 
 
     render() {
         return (
-                <InputGroup
-                    controlId="formBasicText"
-                >
-                    <input
-                        type="text"
-                        value={this.state.value}
-                        placeholder="Message"
-                        onChange={e => this.handleChange(e)}
-                    />
-                    <InputGroup.Append>
-                        <Button id="custombutton"
-                                variant="outline-secondary"
-                                onClick={(e) => {this.sendMessage(e)}}>Send</Button>
-                    </InputGroup.Append>
-                </InputGroup>
+            <InputGroup
+                controlId="formBasicText"
+            >
+                <FormControl
+                    type="text"
+                    value={this.state.value}
+                    placeholder="Message"
+                    onChange={e => this.handleChange(e)}
+                    onKeyPress={this.onKeyUp}
+                />
+                <InputGroup.Append>
+                    <Button id="custombutton"
+                            disabled={!this.state.value || this.state.sending}
+                            variant="outline-secondary"
+                            onClick={(e) => {
+                                this.sendMessage()
+                            }}
+
+                    >Send</Button>
+                </InputGroup.Append>
+            </InputGroup>
         );
     }
 }
