@@ -149,8 +149,6 @@ export default function PlayerCards({
                 updateBorder("none");
                 updateCurr_card(null);
                 return;
-            case "GATLING":
-            case "INDIANS":
             case "SALOON":
             case "BEER":
             case "DYNAMITE":
@@ -160,6 +158,8 @@ export default function PlayerCards({
                 return;
             case "STAGECOACH":
             case "WELLSFARGO":
+            case "GATLING":
+            case "INDIANS":
                 const beforeDrawingCards = player.hand.playCards;
                 await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}`);
                 let playerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
@@ -167,9 +167,13 @@ export default function PlayerCards({
                 const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
                 setCards(newCards);
                 updateBorder("none");
-                updateCurr_card(null);
+                // updateCurr_card(null); this happens once modal is closed
                 return;
             case "BANG":
+                localStorage.setItem("cards", JSON.stringify(player.hand.playCards));
+                updateBorder("solid");
+                updateHideCancel_PlayCard(false);
+                return;
             case "PANIC":
             case "CATBALOU":
             case "JAIL":
@@ -208,8 +212,12 @@ export default function PlayerCards({
     }
 
     function setCards(newCards) {
-        setDrawnCards(newCards);
-        setShow_drawnCards(true);
+        if (newCards.length > 0) {
+            setDrawnCards(newCards);
+            setShow_drawnCards(true);
+        } else {
+            updateCurr_card(null);
+        }
     }
 
     function discardCard() {
@@ -255,10 +263,10 @@ export default function PlayerCards({
                         <Modal.Header id="chosen-role_modal_header">
                             <Modal.Title id="chosen-role_modal_header_title" centered>
                                 <b>You already have a {(curr_card.card === "CARABINE" ||
-                                        curr_card.card === "REMINGTON" ||
-                                        curr_card.card === "SCHOFIELD" ||
-                                        curr_card.card === "VOLCANIC" ||
-                                        curr_card.card === "WINCHESTER") ? "weapon" : "horse"}</b></Modal.Title>
+                                    curr_card.card === "REMINGTON" ||
+                                    curr_card.card === "SCHOFIELD" ||
+                                    curr_card.card === "VOLCANIC" ||
+                                    curr_card.card === "WINCHESTER") ? "weapon" : "horse"}</b></Modal.Title>
                         </Modal.Header>
                         <Modal.Body id="chosen-role_modal_body" centered>
                             <p>Do you want to replace it?</p>
@@ -317,18 +325,41 @@ export default function PlayerCards({
                     ))}
                 </Row>
             </Container>
-            {<Modal show={show_drawnCards} centered animation size={drawnCards.length > 2 ? "lg":"m"} rootClose animation>
-                <Modal.Header id="global_modal_header">
-                    <Modal.Title id="global_modal_header_title" centered><b>Drawn
-                        Cards</b></Modal.Title>
-                </Modal.Header>
-                <Modal.Body id="global_modal_body" centered>
-                    {drawnCards.map((curr) => (
-                        <Image
-                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                            id="global_modal_body_image"/>
-                    ))}
-                </Modal.Body>
+            {<Modal show={show_drawnCards} centered animation size={drawnCards.length > 2 ? "lg" : "m"} rootClose
+                    animation>
+                {curr_card ? (
+                    (curr_card.card === "WELLSFARGO" || curr_card.card === "STAGECOACH") ? (
+                        <>
+                            <Modal.Header id="global_modal_header">
+                                <Modal.Title id="global_modal_header_title" centered><b>Drawn
+                                    Cards</b></Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body id="global_modal_body" centered>
+                                {drawnCards.map((curr) => (
+                                    <Image
+                                        src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                        id="global_modal_body_image"/>
+                                ))}
+                            </Modal.Body>
+                        </>
+                    ) : (
+                        <>
+                            <Modal.Header id="global_modal_header">
+                                <Modal.Title id="global_modal_header_title" centered><b>Reward
+                                    Cards</b></Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body id="global_modal_body" centered>
+                                <p>You killed an Outlaw and therefore are rewarded with 3 cards!
+                                    <br/><br/>
+                                    {drawnCards.map((curr) => (
+                                        <Image
+                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                            id="global_modal_body_image"/>
+                                    ))}
+                                </p>
+                            </Modal.Body>
+                        </>
+                    )):null}
                 <Modal.Footer id="global_modal_footer">
                     <Button id="custombutton" onClick={closeDrawnCards}>
                         Okay
