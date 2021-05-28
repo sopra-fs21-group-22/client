@@ -88,7 +88,8 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                    targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
-                                   updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card} updateChat={updateChat} chat={chat}
+                                   roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat}
                                    />;
@@ -102,7 +103,8 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                    targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
-                                   updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card} updateChat={updateChat} chat={chat}
+                                   roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat}
                                    />;
@@ -116,7 +118,8 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetOnlyEnemies={targetOnlyEnemies}
                                    updateTargetOnlyEnemies={updateTargetOnlyEnemies}
                                    targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
-                                   updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
+                                   updateCurr_card={updateCurr_card} curr_card={curr_card} updateChat={updateChat} chat={chat}
+                                   roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat}
                                    />;

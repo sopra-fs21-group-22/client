@@ -76,9 +76,6 @@ function Layout4players({
         setFill_array(value);
     }
 
-    //TODO instead of test message take the newest message from the chat dynamically
-    const testMessage = {content: "Mech chamer ersch lösche wenns met em backend fonktioniert.", name: "testName"}
-
     function updateChatLog() { // fetches all chat messages from the backend
         if (playertable.chat.messages.length > chat.length) {
             setNewMessage(true);
