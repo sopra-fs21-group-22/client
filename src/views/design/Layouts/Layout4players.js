@@ -20,6 +20,7 @@ import "../styling/custom_button_styling.css";
 import useInterval from "../../../components/game/useInterval.js";
 import PlayerModel from "../../../components/shared/models/PlayerModel.js";
 import ChatPopUp from "../../../components/externalAPI/ChatPopUp";
+import "../styling/lobby_styling.css";
 
 function Layout4players({
                             playertable,
@@ -116,7 +117,7 @@ function Layout4players({
     }
 
     return (
-        <Container hidden={visibility} fluid className="h-100">
+        <Container hidden={visibility} fluid className="background_container">
             <Row className="h-25">
                 <Col/>
                 <Col xs={8}>
@@ -138,7 +139,7 @@ function Layout4players({
                 <Col/>
             </Row>
             <Row className="align-items-center h-25">
-                <Col xs={5}>
+                <Col xs={4}>
                     <OpponentDeckWide opponent={playerList[3]} player={playerList[0]}
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
@@ -162,7 +163,7 @@ function Layout4players({
                     <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}/>
                 )}
                 </Col>
-                <Col xs={5}>
+                <Col xs={4}>
                     <OpponentDeckWide opponent={playerList[1]} player={playerList[0]}
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}

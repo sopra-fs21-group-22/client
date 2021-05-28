@@ -6,6 +6,7 @@ import ProfilePage from "../../game/ProfilePage";
 import ProfilePageEdit from "../../game/ProfilePageEdit";
 import Lobby from "../../game/Lobby";
 import WaitingRoom from "../../game/WaitingRoom";
+import "../../../views/design/styling/lobby_styling.css";
 
 
 const Container = styled.div`
@@ -28,7 +29,7 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
     }
     
     return (
-        <>
+        <Container fluid className="background_container">
             <Route
                 exact
                 path={`${base}/dashboard`}
@@ -82,7 +83,7 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
                                             updatePlayerId={updatePlayerId}/>}
             />
 
-        </>
+        </Container>
     );
 }
 
