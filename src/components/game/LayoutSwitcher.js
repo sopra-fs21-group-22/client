@@ -60,6 +60,8 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
     }
 
     switch (playeramount) {
+        case -1:
+            return (null);
         case 4:
             return <Layout4players playertable={playertable} orderarray={orderarray} visibility={visibility}
                                    player={player} hideCancel_PlayCard={hideCancel_PlayCard}

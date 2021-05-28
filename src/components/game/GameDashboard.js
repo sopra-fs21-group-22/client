@@ -62,6 +62,10 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
         updatePlayerId(response.data.player);
         updateTableId(response.data.tableId);
         const id = response.data.tableId;
+        localStorage.setItem("playertableid", JSON.stringify(response.data.tableId));
+        localStorage.setItem("playerid", JSON.stringify(response.data.player));
+        let showrolechoose=true;
+        localStorage.setItem("showrolechoose", JSON.stringify(showrolechoose));
 
         /*let currPt = new PlayerTable(response.data);
         updatePlayer_table(currPt);
@@ -73,6 +77,8 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
 
     async function rejoin() {
         const target = "/game/dashboard/lobby/public/waiting/" + tableId;
+        let showrolechoose=false;
+        localStorage.setItem("showrolechoose", JSON.stringify(showrolechoose));
         history.push(target);
         
     }
