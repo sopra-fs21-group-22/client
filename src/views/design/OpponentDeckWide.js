@@ -66,8 +66,9 @@ export default function OpponentDeckWide({
             setBackgroundColor("#808080");
             setWidth(0);
             setOpacity(0.8);
-            if (playertable.gameStatus !== "ENDED") {
-                setHideEndRole(false);
+            setHideEndRole(false);
+            if (deputyKillCheck) {
+                sheriffKilledDeputy();
             }
         }
 
@@ -203,6 +204,20 @@ export default function OpponentDeckWide({
             updateFill_array(true);
             //TODO: enable other player cards again
         }
+    }
+
+    function sheriffKilledDeputy() {
+        if (playeronturn != null && player.id === playeronturn.id && player.gameRole === "SHERIFF") {
+            if (opponent.gameRole === "DEPUTY") {
+                setShow_sheriffKilledDeputy(true);
+            }
+        }
+        setDeputyKillCheck(false);
+    }
+
+    function closeSheriffKilledDeputy() {
+        setShow_sheriffKilledDeputy(false);
+        updateCurr_card(null);
     }
 
     function getNewCards(before, after) {
@@ -467,6 +482,8 @@ export default function OpponentDeckWide({
     const [show_noCardsToGet, setShow_noCardsToGet] = useState(false);
     const [show_rewardCards, setShow_rewardCards] = useState(false);
     const [rewardCards, setRewardCards] = useState([]);
+    const [show_sheriffKilledDeputy, setShow_sheriffKilledDeputy] = useState(false);
+    const [deputyKillCheck, setDeputyKillCheck] = useState(true);
 
     const [inJail, setInJail] = useState(false);
     const [dynamite, setDynamite] = useState(false);
@@ -924,6 +941,20 @@ export default function OpponentDeckWide({
                 </Modal.Body>
                 <Modal.Footer id="global_modal_footer">
                     <Button id="custombutton" onClick={closeRewardCards}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+            {<Modal show={show_sheriffKilledDeputy} animation size="sm" backdrop="static" keyboard={false}>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered>
+                        <b>You killed one of your own!</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    <p>You killed a deputy! As punishment you lose all your hand as well as on-field cards!</p>
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeSheriffKilledDeputy}>
                         Okay
                     </Button>
                 </Modal.Footer>
