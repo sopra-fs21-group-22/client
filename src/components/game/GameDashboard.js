@@ -124,7 +124,7 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
                     {!tableId ? (
                     <Button id="custombutton" onClick={join_public_lobby} block>join game</Button>
                     ) : (
-                    <Button id="custombutton" onClick={rejoin} block>re-join game</Button>
+                    <Button variant="success" onClick={rejoin} block>rejoin game</Button>
                     )}
                     <br></br>
                     <h4>All Users</h4>
