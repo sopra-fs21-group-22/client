@@ -61,7 +61,7 @@ function Login({ user, updateUser, updateTableId, updatePlayerId }) {
   return (
 
     <Container>
-      <Button onClick={()=>synthesizeSpeech("en-IN-PrabhatNeural", "text to speech, hell yeah")}>click me</Button>
+      <Button hidden onClick={()=>synthesizeSpeech("en-IN-PrabhatNeural", "text to speech, hell yeah")}>click me</Button>
       <Form>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>

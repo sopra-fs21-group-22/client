@@ -21,6 +21,9 @@ import {withRouter, useHistory, Link, useRouteMatch,} from 'react-router-dom';
 import PlayerTable from '../shared/models/PlayerTable';
 import PlayerModel from "../shared/models/PlayerModel";
 import Badge from 'react-bootstrap/Badge';
+import Popover from 'react-bootstrap/Popover';
+import Overlay from 'react-bootstrap/Overlay';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 
 function WaitingRoom({
@@ -88,6 +91,15 @@ function WaitingRoom({
     const [loop, setLoop] = useState(true);
     const [allplayersready, setAllplayersready] = useState(false);
     const [buffer, setBuffer] = useState(true);
+
+    const game_information = (
+        <Popover id="role-info_popover">
+            {/* <Popover.Title id="role-info_popover_title"><b>title</b></Popover.Title> */}
+            <Popover.Content id="role-info_popover_content">
+                You need atleast 4 players and atmost 7 players to start a game
+            </Popover.Content>
+        </Popover>
+    )
 
 
     function correctOrder() {
@@ -158,7 +170,7 @@ function WaitingRoom({
                     </>
                 ) : (
                     <>
-                    <p style={{textAlign:"center"}}><b>Waiting for players to join...</b></p>
+                    <p style={{textAlign:"center", fontSize:50}}><b>Waiting for players to join...</b></p>
             
                     {
                         <ListGroup>
@@ -191,6 +203,9 @@ function WaitingRoom({
                     <br></br>
                     <Button variant={ready_button_color} disabled={currPlayer_table.gameStatus=="ONGOING"} onClick={toggleReady}>{ready_button_text}</Button>
                     <Button onClick={leave} variant="danger">Leave game</Button>
+                    <OverlayTrigger trigger="click" placement="right" overlay={game_information} rootClose>
+                        <Button id="custombutton">Info</Button>
+                    </OverlayTrigger>
                     </>
                 )}
                 </>
