@@ -1,6 +1,9 @@
 import {Button, Container, Form, FormControl, InputGroup} from "react-bootstrap";
 import React, {Component} from "react";
-import {authApi} from "../../helpers/api";/* 
+import {authApi} from "../../helpers/api";
+import {synthesizeSpeech} from "./synthesizeSpeech";
+
+/*
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import "..externalAPI/SpeakerOutPut.js"; */
 
@@ -46,7 +49,6 @@ class ChatInput extends Component {
 
     async sendMessage() {
         this.state.sending = true;
-        console.log("before", this.state.sending);
         try {
             const requestBody = JSON.stringify({
                 "content": this.state.value,
@@ -54,11 +56,11 @@ class ChatInput extends Component {
             });
             await authApi().put(`/games/${this.props.playertable.id}/players/${this.props.player.id}/chat`, requestBody);
             this.setState({value: ""});
+            console.log("player: ", this.props.player);
         } catch (error) {
             console.warn(error);
         } finally {
             this.state.sending = false;
-            console.log("before", this.state.sending);
         }
     }
 
@@ -92,9 +94,12 @@ class ChatInput extends Component {
                             variant="outline-secondary"
                             onClick={(e) => {
                                 this.sendMessage()
+
                             }}
 
                     >Send</Button>
+                    <Button hidden onClick={()=>synthesizeSpeech("en-IN-PrabhatNeural", "text to speech, hell yeah")}>click me</Button>
+
                 </InputGroup.Append>
             </InputGroup>
         );

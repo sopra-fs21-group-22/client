@@ -2,25 +2,22 @@ import {
     Col,
     Row,
     Container,
-    Card,
-    ListGroup,
-    ListGroupItem,
-    CardDeck,
     Button,
-    Modal,
-    Image,
-    ModalBody, Toast
+    Toast
 } from 'react-bootstrap';
 import OpponentDeckWide from "../OpponentDeckWide";
 import PlayerDeck from "../PlayerDeck";
 import PlayerCards from "../PlayerCards";
 import DeckDiscardPiles from "../DeckDiscardPiles";
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import "../styling/custom_button_styling.css";
 import useInterval from "../../../components/game/useInterval.js";
 import PlayerModel from "../../../components/shared/models/PlayerModel.js";
 import ChatPopUp from "../../../components/externalAPI/ChatPopUp";
 import "../styling/lobby_styling.css";
+import {authApi} from "../../../helpers/api";
+import {synthesizeSpeech} from "../../../components/externalAPI/synthesizeSpeech";
+import {forEach} from "react-bootstrap/ElementChildren";
 
 function Layout4players({
                             playertable,
@@ -52,9 +49,9 @@ function Layout4players({
         console.log(`${playerList[2].user}layoutversion: ${playerList[2].bullets}`);
         console.log(`${playerList[3].user}layoutversion: ${playerList[3].bullets}`);
         console.log("sduifhsoduf"); */
+
         fillPlayerList();
-        // updateChatLog();
-        setNewMessage(false); //TODO delete this when coupled to backend
+        updateChatLog();
     }, 1000);
 
 
@@ -63,9 +60,9 @@ function Layout4players({
     const [fill_array, setFill_array] = useState(true);
     const [playerList, setPlayerList] = useState(orderarray);
     const [displayChat, setDisplayChat] = useState(false); // boolean whether the Chat Popup should be displayed or not
-    const [newMessage, setNewMessage] = useState(true); // Array of new messages
-    const [show, setShow] = useState(false);
-
+    const [newMessage, setNewMessage] = useState(true); // boolean whether there is a new message
+    const [newMessageData, setNewMessageData] = useState({name: "BANG!", content: "Welcome to the Game!"}); // new message as an object
+    const [show, setShow] = useState(true); // boolean whether a toast is shown or not
 
     const updateBorder = (value) => {
         setBorder(value);
@@ -84,8 +81,54 @@ function Layout4players({
     function updateChatLog() { // fetches all chat messages from the backend
         if (playertable.chat.messages.length > chat.length) {
             setNewMessage(true);
+            setShow(true);
+            if(chat.length>0){
+                const m = playertable.chat.messages[playertable.chat.messages.length - 1];
+                setNewMessageData(m);
+                characterToSpeech(m);
+            }
         }
         updateChat(playertable.chat.messages);
+    }
+
+    function getIdByUsername(user){
+        return playertable.players.filter(player => player.user === user);
+    }
+
+
+    async function characterToSpeech(message){
+        const playerID = getIdByUsername(message.name);
+
+        let character_response = await authApi().get(`/games/${playertable.id}/players/${playerID[0].id}/characters`);
+        const characterName = character_response.data.name;
+
+        /*  const voices=["en-PH-JamesNeural", "en-US-GuyNeural", "en-GB-LibbyNeural", "en-IE-ConnorNeural", "en-CA-LiamNeural", "en-IN-PrabhatNeural", "en-AU-NatashaNeural"];
+            const characters=["elgringo", "willythekid", "rosedoolan", "paulregret", "jourdonnais", "bartcassidy", "suzylafayette"]; */
+        let voice = "";
+        switch(characterName){
+            case "elgringo":
+                voice = "en-PH-JamesNeural";
+                break;
+            case "willythekid":
+                voice = "en-US-GuyNeural";
+                break;
+            case "rosedoolan":
+                voice = "en-GB-LibbyNeural";
+                break;
+            case "paulregret":
+                voice = "en-IE-ConnorNeural";
+                break;
+            case "jourdonnais":
+                voice = "en-CA-LiamNeural";
+                break;
+            case "bartcassidy":
+                voice = "en-IN-PrabhatNeural";
+                break;
+            case "suzylafayette":
+                voice = "en-AU-NatashaNeural";
+                break;
+        }
+        synthesizeSpeech(voice, message.content);
     }
 
 
@@ -189,9 +232,9 @@ function Layout4players({
 
                     <Toast show={newMessage && show} onClose={() => setShow(false)} delay={2000} autohide>
                         <Toast.Header>
-                            <strong className="mr-auto">{testMessage.name}</strong>
+                            <strong className="mr-auto">{newMessageData.name}</strong>
                         </Toast.Header>
-                        <Toast.Body>{testMessage.content}</Toast.Body>
+                        <Toast.Body>{newMessageData.content}</Toast.Body>
                     </Toast>
                 </Col>
                 <Button variant="outline-dark" size="lg" style={{height: 50, marginTop: 50}} onClick={() => {
