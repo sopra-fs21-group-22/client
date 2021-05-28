@@ -151,7 +151,7 @@ function Layout5players({
             </Row>
             <br/>
             <Row className="align-items-center">
-                <Col xs={4}>
+                <Col xs={5}>
                     <OpponentDeckWide opponent={playerList[4]} player={playerList[0]}
                                       playeronturn={playertable.playerOnTurn}
                                       playertable={playertable} border={border} updateBorder={updateBorder}
@@ -175,7 +175,7 @@ function Layout5players({
                     <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}/>
                 )}
                 </Col>
-                <Col xs={4}>
+                <Col xs={5}>
                     <OpponentDeckWide opponent={playerList[1]} player={playerList[0]}
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
