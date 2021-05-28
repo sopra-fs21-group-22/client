@@ -162,7 +162,7 @@ export default function OpponentDeckWide({
         }
     }
 
-    function selecttarget() {
+    async function selecttarget() {
         if (border == "solid" && width > 0) {
             updateBorder("none");
             setWidth(5);
@@ -182,17 +182,71 @@ export default function OpponentDeckWide({
                 return;
             }
             console.log(`selecttarget: opponent: ${curr_card}`);
-            authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`);
+            if (curr_card.card === "BANG") {
+                const beforeDrawingCards = stripBangCard(JSON.parse(localStorage.getItem("cards")));
+                await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`);
+                let playerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
+                const afterDrawingCards = playerAfterRequest.data.hand.playCards;
+                const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
+                setCards(newCards);
+                // updateCurr_card(null); gets set in setCards method or once modal closes
+            } else {
+                authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`);
+                updateCurr_card(null);
+            }
 
             updateHideCancel_PlayCard(true);
             updateTargetSelf(false);
             updateIgnoreRange(false);
             updateTargetOnlyEnemies(false);
             updateTargetNotSheriff(false);
-            updateCurr_card(null);
             updateFill_array(true);
             //TODO: enable other player cards again
         }
+    }
+
+    function getNewCards(before, after) {
+        const beforeIds = getCardIds(before);
+        const afterIds = getCardIds(after);
+        let curr = [];
+        for (let id of afterIds) {
+            if (beforeIds.indexOf(id) === -1) {
+                curr.push(after[afterIds.indexOf(id)]);
+            }
+        }
+        return curr;
+    }
+
+    function getCardIds(cards) {
+        let curr = [];
+        for (let card of cards) {
+            curr.push(card.id);
+        }
+        return curr;
+    }
+
+    function closeRewardCards() {
+        setShow_rewardCards(false);
+        updateCurr_card(null);
+    }
+
+    function setCards(newCards) {
+        if (newCards.length > 0) {
+            setRewardCards(newCards);
+            setShow_rewardCards(true);
+        } else {
+            updateCurr_card(null);
+        }
+    }
+
+    function stripBangCard(playerCards) {
+        let curr = []
+        for (let card of playerCards) {
+            if (curr_card.id !== card.id) {
+                curr.push(card);
+            }
+        }
+        return curr;
     }
 
     function searchForOn_FieldCards(cardtobefound) {
@@ -421,6 +475,8 @@ export default function OpponentDeckWide({
     const [stolenCard, setStolenCard] = useState();
     const [show_onFieldCards, setShow_onFieldCards] = useState(false);
     const [show_noCardsToGet, setShow_noCardsToGet] = useState(false);
+    const [show_rewardCards, setShow_rewardCards] = useState(false);
+    const [rewardCards, setRewardCards] = useState([]);
 
     const [inJail, setInJail] = useState(false);
     const [dynamite, setDynamite] = useState(false);
@@ -860,6 +916,27 @@ export default function OpponentDeckWide({
                         Cancel
                     </Button>
                 </ModalFooter>
+            </Modal>}
+            {<Modal show={show_rewardCards} centered animation size="lg" rootClose animation>
+                <Modal.Header id="global_modal_header">
+                    <Modal.Title id="global_modal_header_title" centered><b>Reward
+                        Cards</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="global_modal_body" centered>
+                    <p>You killed an Outlaw and therefore are rewarded with 3 cards!
+                        <br/><br/>
+                        {rewardCards.map((curr) => (
+                            <Image
+                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                id="global_modal_body_image"/>
+                        ))}
+                    </p>
+                </Modal.Body>
+                <Modal.Footer id="global_modal_footer">
+                    <Button id="custombutton" onClick={closeRewardCards}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
             </Modal>}
         </div>
     )

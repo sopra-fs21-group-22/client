@@ -167,9 +167,13 @@ export default function PlayerCards({
                 const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
                 setCards(newCards);
                 updateBorder("none");
-                updateCurr_card(null);
+                // updateCurr_card(null); this happens once modal is closed
                 return;
             case "BANG":
+                localStorage.setItem("cards", JSON.stringify(player.hand.playCards));
+                updateBorder("solid");
+                updateHideCancel_PlayCard(false);
+                return;
             case "PANIC":
             case "CATBALOU":
             case "JAIL":

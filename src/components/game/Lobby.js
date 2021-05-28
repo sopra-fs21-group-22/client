@@ -54,7 +54,6 @@ function Lobby({
     const [timer, setTimer] = useState(100);
     const interval = useInterval(async () => {
         //repeating requests to keep player_table and player up to date
-        console.log("useinterval");
 
         const response = await authApi().get(`/games/${JSON.parse(localStorage.getItem("playertableid"))}/players/${JSON.parse(localStorage.getItem("playerid"))}`);
         let currp = new PlayerModel(response.data);
@@ -68,7 +67,6 @@ function Lobby({
         setToomanycards(currp.hand.playCards.length - currp.bullets);
 
         if (currPlayer_table!=null && currPlayer!=null){
-            console.log("correctorder")
             correctOrder();
             setPlayeramount(currPlayer_table.players.length);
             setupRole();
