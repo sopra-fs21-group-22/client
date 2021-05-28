@@ -95,7 +95,7 @@ export default function PlayerDeck({
         } else {
             setDynamite(false);
         }
-        detectMissed();
+        detectHitOrMissed();
         detectMessages(detectMissed(), detectImages());
         detectImages();
         detectSavedByBeer();
@@ -255,18 +255,41 @@ export default function PlayerDeck({
         alert("you clicked on a weapon. Congrats.");
     }
 
+    function detectHitOrMissed(){
+        if(detectMissed() || detectHit()){
+            setHitOrMissedNoteHidden(false);
+            return;
+        }
+        setHitOrMissedNoteHidden(true);
+    }
+
+    function detectHit(){
+        if (newGameMoves.length == 0){
+            setHitOrMissedNoteHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action=="HOLED"){
+                setHitOrMissedMessage("HIT");
+                setHitOrMissedNoteHidden(false);
+                return true;
+            }
+        }
+        return false;
+    }
+
     function detectMissed(){
         if (newGameMoves.length == 0){
-            setMissedNoteHidden(true);
+            setHitOrMissedNoteHidden(true);
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
             if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == player.id && newGameMoves[i].action=="SUCCESS"){
-                setMissedNoteHidden(false);
+                setHitOrMissedMessage("MISSED");
+                setHitOrMissedNoteHidden(false);
                 return true;
             }
         }
-        setMissedNoteHidden(true);
         return false;
     }
 
@@ -289,7 +312,7 @@ export default function PlayerDeck({
         if (detectBarrel()){
             barrelcheck=true;
         }
-        if (detectBarrel() || detectBeer() || detectExplodingDynamite() || detectIndiansGotHit()){
+        if (detectBarrel() || detectBeer() || detectExplodingDynamite()/*  || detectIndiansGotHit() */){
             setNotificationImageHidden(false);
             return barrelcheck;
         }
@@ -297,7 +320,7 @@ export default function PlayerDeck({
         return barrelcheck;
     }
 
-    function detectIndiansGotHit(){
+    /* function detectIndiansGotHit(){
         if (newGameMoves.length == 0){
             setNotificationImageHidden(true);
             return false;
@@ -309,7 +332,7 @@ export default function PlayerDeck({
                 return true;
             }
         }
-    }
+    } */
 
     function detectBarrel(){
         if (newGameMoves.length == 0){
@@ -451,7 +474,8 @@ export default function PlayerDeck({
     const [displayName, setDisplayName] = useState("loading character name...");
     const [setupCharacter, setSetupCharacter] = useState(true);
     const characterRef = useRef();
-    const [missedNoteHidden, setMissedNoteHidden] = useState(true);
+    const [hitOrMissedNoteHidden, setHitOrMissedNoteHidden] = useState(true);
+    const [hitOrMissedMessage, setHitOrMissedMessage] = useState("default message");
     const [notificationImage, setNotificationImage] = useState("/images/back.png");
     const [notificationImageHidden, setNotificationImageHidden] = useState(true);
     const [notificationmessage, setNotificationMessage] = useState("default message");
@@ -475,8 +499,8 @@ export default function PlayerDeck({
     return (
         <div style={{marginBottom: 5}}>
             <>
-                <h hidden={missedNoteHidden} id="notification">
-                <b>MISSED</b></h>
+                <h hidden={hitOrMissedNoteHidden} id="notification">
+                <b>{hitOrMissedMessage}</b></h>
             </>
             <>
                 <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>
@@ -533,7 +557,7 @@ export default function PlayerDeck({
                             </Col>
                             <Col>
                                 <Figure>
-                                    <OverlayTrigger trigger="click" overlay={character_information} rootClose>
+                                    <OverlayTrigger trigger="click" placement="right" overlay={character_information} rootClose>
                                         <Figure.Image id="character-image_FigureImage"
                                                       style={{borderStyle: highlightImage}}
                                                       ref={characterRef}

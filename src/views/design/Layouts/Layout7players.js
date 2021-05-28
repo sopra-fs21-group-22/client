@@ -20,6 +20,7 @@ import "../styling/custom_button_styling.css";
 import useInterval from "../../../components/game/useInterval";
 import PlayerModel from "../../../components/shared/models/PlayerModel";
 import ChatPopUp from "../../../components/externalAPI/ChatPopUp";
+import "../styling/lobby_styling.css";
 
 function Layout7players({
                             playertable,
@@ -110,7 +111,7 @@ function Layout7players({
         }
     }
 
-    return (<Container hidden={visibility} fluid className="h-100">
+    return (<Container hidden={visibility} fluid className="background_container">
         <Row>
             <Col>
                 <OpponentDeckWide opponent={playerList[4]} player={playerList[0]}
@@ -147,7 +148,7 @@ function Layout7players({
         </Row>
         <br/>
         <Row className="align-items-center">
-            <Col xs={5}>
+            <Col xs={4}>
                 <OpponentDeckWide opponent={playerList[5]} player={playerList[0]}
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
@@ -171,7 +172,7 @@ function Layout7players({
                 <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}/>
             )}
             </Col>
-            <Col xs={5}>
+            <Col xs={4}>
                 <OpponentDeckWide opponent={playerList[2]} player={playerList[0]}
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
@@ -243,7 +244,7 @@ function Layout7players({
             <Col/>
         </Row>
         <br/>
-        <Row className="h-25">
+        <Row className="h-25 align-items-center">
             <Col hidden={displayChat} style={{maxHeight: 200}}>
                 <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={200} width={500}/>
             </Col>
@@ -275,8 +276,10 @@ function Layout7players({
             )}
 
             </Col>
+            <Col>
+                <Button variant="danger" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
+            </Col>
         </Row>
-        <Button id="custombutton" hidden={hideCancel_PlayCard} block onClick={back}>Cancel</Button>
     </Container>);
 }
 

@@ -20,6 +20,7 @@ import "../styling/custom_button_styling.css";
 import useInterval from "../../../components/game/useInterval.js";
 import PlayerModel from "../../../components/shared/models/PlayerModel.js";
 import ChatPopUp from "../../../components/externalAPI/ChatPopUp";
+import "../styling/lobby_styling.css";
 
 function Layout4players({
                             playertable,
@@ -116,7 +117,7 @@ function Layout4players({
     }
 
     return (
-        <Container hidden={visibility} fluid className="h-100">
+        <Container hidden={visibility} fluid className="background_container">
             <Row className="h-25">
                 <Col/>
                 <Col xs={8}>
@@ -214,7 +215,7 @@ function Layout4players({
                 </Col>
                 <Col/>
             </Row>
-            <Row className="h-25">
+            <Row className="h-25 align-items-center">
                 <Col/>
                 <Col xs={7}>{playertable.gameStatus == "ENDED" ? (
                     <>
@@ -230,9 +231,10 @@ function Layout4players({
                 )}
 
                 </Col>
-                <Col/>
+                <Col>
+                    <Button variant="danger" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
+                </Col>
             </Row>
-            <Button id="custombutton" hidden={hideCancel_PlayCard} block onClick={back}>Cancel</Button>
         </Container>);
 }
 

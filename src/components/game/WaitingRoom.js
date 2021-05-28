@@ -20,6 +20,10 @@ import {api, authApi, handleError} from '../../helpers/api';
 import {withRouter, useHistory, Link, useRouteMatch,} from 'react-router-dom';
 import PlayerTable from '../shared/models/PlayerTable';
 import PlayerModel from "../shared/models/PlayerModel";
+import Badge from 'react-bootstrap/Badge';
+import Popover from 'react-bootstrap/Popover';
+import Overlay from 'react-bootstrap/Overlay';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 
 function WaitingRoom({
@@ -88,6 +92,15 @@ function WaitingRoom({
     const [allplayersready, setAllplayersready] = useState(false);
     const [buffer, setBuffer] = useState(true);
 
+    const game_information = (
+        <Popover id="role-info_popover">
+            {/* <Popover.Title id="role-info_popover_title"><b>title</b></Popover.Title> */}
+            <Popover.Content id="role-info_popover_content">
+                You need atleast 4 players and atmost 7 players to start a game
+            </Popover.Content>
+        </Popover>
+    )
+
 
     function correctOrder() {
         let current_array = [];
@@ -142,16 +155,59 @@ function WaitingRoom({
 
     return (
         <Container>
-            <p>Waiting for players to join...</p>
             <br></br>
             
             <br></br><br></br>
+            
             {!currPlayer_table || !currPlayer ? (
-                <Spinner></Spinner>
+                <p style={{textAlign:"center"}}><Spinner></Spinner><br></br><b>Loading...</b></p>
             ) : (
                 <>
-                <Button variant={ready_button_color} disabled={currPlayer_table.gameStatus=="ONGOING"} onClick={toggleReady}>{ready_button_text}</Button>
-                <Button onClick={leave} variant="danger">Leave game</Button>
+                {currPlayer_table.gameStatus=="ONGOING" || currPlayer_table.gameStatus=="ENDED" ? (
+                    <>
+                    
+                    <p style={{textAlign:"center"}}><Spinner></Spinner><br></br><b>Game in progress. Redirecting...</b></p>
+                    </>
+                ) : (
+                    <>
+                    <p style={{textAlign:"center", fontSize:50}}><b>Waiting for players to join...</b></p>
+            
+                    {
+                        <ListGroup>
+                        <ListGroup.Item>
+                            <Row>
+                                <Col>Username</Col>
+                                <Col>Status</Col>
+                            </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item variant="primary">
+                                <Row>
+                                    <Col>{currPlayer.user}</Col>
+                                    <Col>{currPlayer.ready ? <Badge variant="success">Ready</Badge> : <Badge variant="danger">Not ready</Badge>}</Col>
+                                </Row>
+                            </ListGroup.Item>
+    
+                        {
+                            // removing logged in user as they already are in the list
+                            currPlayer_table.players.filter((player) => player.user != currPlayer.user)
+                            .map((player) => (
+                                    <ListGroup.Item key={player.id}>
+                                        <Row>
+                                            <Col>{player.user}</Col>
+                                            <Col>{player.ready ? <Badge variant="success">Ready</Badge> : <Badge variant="danger">Not ready</Badge>}</Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                ))}
+                    </ListGroup>}
+                    
+                    <br></br>
+                    <Button variant={ready_button_color} disabled={currPlayer_table.gameStatus=="ONGOING"} onClick={toggleReady}>{ready_button_text}</Button>
+                    <Button onClick={leave} variant="danger">Leave game</Button>
+                    <OverlayTrigger trigger="click" placement="right" overlay={game_information} rootClose>
+                        <Button id="custombutton">Info</Button>
+                    </OverlayTrigger>
+                    </>
+                )}
                 </>
             )}
             

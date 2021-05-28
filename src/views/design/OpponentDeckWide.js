@@ -91,10 +91,11 @@ export default function OpponentDeckWide({
             if (targetOnlyEnemies && ignoreRange) {
                 setWidth(5);
             }
-            if (targetNotSheriff && opponent.gameRole !== "SHERIFF") {
+            if (targetNotSheriff && opponent.gameRole !== "SHERIFF" && !inJail) {
                 setWidth(5);
-            }
-            if (targetNotSheriff && opponent.gameRole === "SHERIFF") {
+            } else if (targetNotSheriff && opponent.gameRole !== "SHERIFF" && inJail) {
+                setWidth(0);
+            }else if (targetNotSheriff && opponent.gameRole === "SHERIFF") {
                 setWidth(0);
             }
         }
@@ -112,7 +113,7 @@ export default function OpponentDeckWide({
         } else {
             setDynamite(false);
         }
-        detectMissed();
+        detectHitOrMissed();
         detectImages();
         detectMessages();
     }, 1000);
@@ -385,9 +386,28 @@ export default function OpponentDeckWide({
                 }
                 return numberCards === 0;
             }
-        }
-        else {
+        } else {
             return true;
+        }
+    }
+
+    function modalSize() {
+        if (curr_card != null) {
+            if (curr_card.card === "CATBALOU") {
+                let numberCards = opponent.onFieldCards.onFieldCards.length;
+                return numberCards > 4 ? "xl":(numberCards > 2 ? "lg":(numberCards > 1 ? "m":"sm"))
+            }
+            if (curr_card.card === "PANIC") {
+                let numberCards = opponent.onFieldCards.onFieldCards.length;
+                for (let card of opponent.onFieldCards.onFieldCards) {
+                    if (card.card === "JAIL" || card.card === "DYNAMITE") {
+                        numberCards--;
+                    }
+                }
+                return numberCards > 4 ? "xl":(numberCards > 2 ? "lg":(numberCards > 1 ? "m":"sm"))
+            }
+        } else {
+            return "sm";
         }
     }
 
@@ -412,7 +432,8 @@ export default function OpponentDeckWide({
     const [displayName, setDisplayName] = useState("loading character name...");
     const [setupCharacter, setSetupCharacter] = useState(true);
     const characterRef = useRef();
-    const [missedNoteHidden, setMissedNoteHidden] = useState(true);
+    const [hitOrMissedNoteHidden, setHitOrMissedNoteHidden] = useState(true);
+    const [hitOrMissedMessage, setHitOrMissedMessage] = useState("default message");
     const [notificationImage, setNotificationImage] = useState("/images/back.png");
     const [notificationImageHidden, setNotificationImageHidden] = useState(true);
     const [notificationmessage, setNotificationMessage] = useState("default message");
@@ -432,18 +453,42 @@ export default function OpponentDeckWide({
         </Popover>
     )
 
+    function detectHitOrMissed(){
+        if(detectMissed() || detectHit()){
+            setHitOrMissedNoteHidden(false);
+            return;
+        }
+        setHitOrMissedNoteHidden(true);
+    }
+
+    function detectHit(){
+        if (newGameMoves.length == 0){
+            setHitOrMissedNoteHidden(true);
+            return false;
+        }
+        for (let i=0; i<newGameMoves.length; i++){
+            if (newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action=="HOLED"){
+                setHitOrMissedMessage("HIT");
+                setHitOrMissedNoteHidden(false);
+                return true;
+            }
+        }
+        return false;
+    }
+
     function detectMissed(){
         if (newGameMoves.length == 0){
-            setMissedNoteHidden(true);
-            return;
+            setHitOrMissedNoteHidden(true);
+            return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
             if (newGameMoves[i].card == "MISSED" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
-                setMissedNoteHidden(false);
-                return;
+                setHitOrMissedMessage("MISSED");
+                setHitOrMissedNoteHidden(false);
+                return true;
             }
         }
-        setMissedNoteHidden(true);
+        return false;
     }
 
     function detectMessages(){
@@ -483,7 +528,7 @@ export default function OpponentDeckWide({
     }
 
     function detectImages(){
-        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite() || detectIndiansGotHit()){
+        if (detectGatling() || detectIndians() || detectSaloon() || detectBarrel() ||detectBeer() || detectExplodingDynamite()/*  || detectIndiansGotHit() */){
             setNotificationImageHidden(false);
             return;
         }
@@ -504,7 +549,7 @@ export default function OpponentDeckWide({
         }
     }
 
-    function detectIndiansGotHit(){
+    /* function detectIndiansGotHit(){
         if (newGameMoves.length == 0){
             setNotificationImageHidden(true);
             return false;
@@ -516,7 +561,7 @@ export default function OpponentDeckWide({
                 return true;
             }
         }
-    }
+    } */
 
     function detectGatling(){
         if (newGameMoves.length == 0){
@@ -593,8 +638,8 @@ export default function OpponentDeckWide({
         
         <div>
             <>
-                <h hidden={missedNoteHidden} id="notification">
-                <b>MISSED</b></h>
+                <h hidden={hitOrMissedNoteHidden} id="notification">
+                <b>{hitOrMissedMessage}</b></h>
             </>
             <>
                 <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>
@@ -646,7 +691,7 @@ export default function OpponentDeckWide({
                         </Col>
                         <Col>
                             <Figure>
-                                <OverlayTrigger trigger="click" overlay={character_information} rootClose>
+                                <OverlayTrigger trigger="click" placement="right" overlay={character_information} rootClose>
                                     <Figure.Image id="character-image_FigureImage"
                                                   style={{borderStyle: highlightImage}}
                                                   ref={characterRef}
@@ -735,7 +780,7 @@ export default function OpponentDeckWide({
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeNoCardsToGet}>
-                        Cancel
+                        Okay
                     </Button>
                 </Modal.Footer>
             </Modal>}
@@ -757,7 +802,7 @@ export default function OpponentDeckWide({
                     <Button id="custombutton" onClick={onFieldCard} disabled={availableOnFieldCards()}>
                         On field card
                     </Button>
-                    <Button id="custombutton" onClick={closeDestroyOrSteal}>
+                    <Button variant="danger" onClick={closeDestroyOrSteal}>
                         Cancel
                     </Button>
                 </Modal.Footer>
@@ -779,43 +824,39 @@ export default function OpponentDeckWide({
                     </Button>
                 </Modal.Footer>
             </Modal>}
-            {<Modal show={show_onFieldCards} centered animation size="sm" rootClose animation>
-                <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's on field
+            {<Modal show={show_onFieldCards} centered animation size={modalSize()} rootClose animation>
+                <Modal.Header id="global_modal_header">
+                    <Modal.Title id="global_modal_header_title" centered><b>Opponent's on field
                         cards</b></Modal.Title>
                 </Modal.Header>
-                <Modal.Body id="chosen-role_modal_body" centered>
+                <Modal.Body id="global_modal_body" centered>
                     {curr_card ? (
                         curr_card.card === "PANIC" ? (
                             <p>Click the one you want to steal:
-                                <br/>
+                                <br/><br/>
                                 {opponent.onFieldCards.onFieldCards.map((curr) => (
                                     curr.card !== "DYNAMITE" && curr.card !== "JAIL" ? (
-                                        <Col>
-                                            <Image
-                                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                                onClick={() => selectOnFieldCard(curr)}
-                                                id="chosen-role_modal_body_image"/>
-                                        </Col>
+                                        <Image
+                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                            onClick={() => selectOnFieldCard(curr)}
+                                            id="global_modal_body_image"/>
                                     ) : null
                                 ))}
                             </p>
                         ) : (
                             <p>Click the one you want to throw away:
-                                <br/>
+                                <br/><br/>
                                 {opponent.onFieldCards.onFieldCards.map((curr) => (
-                                    <Col>
-                                        <Image
-                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                            onClick={() => selectOnFieldCard(curr)}
-                                            id="chosen-role_modal_body_image"/>
-                                    </Col>
+                                    <Image
+                                        src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                        onClick={() => selectOnFieldCard(curr)}
+                                        id="global_modal_body_image"/>
                                 ))}
                             </p>
                         )) : null}
                 </Modal.Body>
-                <ModalFooter id="chosen-role_modal_footer">
-                    <Button id="custombutton" onClick={closeOnFieldCards}>
+                <ModalFooter id="global_modal_footer">
+                    <Button variant="danger" onClick={closeOnFieldCards}>
                         Cancel
                     </Button>
                 </ModalFooter>

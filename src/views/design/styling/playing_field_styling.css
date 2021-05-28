@@ -1,3 +1,29 @@
+#global_modal{
+    width: auto;
+}
+#global_modal_header{
+    background-color: rgba(174, 136, 53, 0.7);
+    border-color:rgba(174, 136, 53, 0.8);
+}
+#global_modal_header_title{
+    font-size: x-large;
+    width: 100%;
+    text-align: center;
+}
+#global_modal_body{
+    background-color: rgba(174, 136, 53, 0.6);
+    text-align: center;
+}
+#global_modal_body_image{
+    margin-right: 10px;
+    height: 250px;
+    display: inline-block;
+}
+#global_modal_footer{
+    background-color: rgba(174, 136, 53, 0.6);
+    border: none;
+}
+
 .opponent-player-deck_container-card{
     background: rgba(153, 76, 0, 0.5);
     padding-top: 10px;
