@@ -29,7 +29,7 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
     }
     
     return (
-        <Container fluid className="background_container">
+        <>
             <Route
                 exact
                 path={`${base}/dashboard`}
@@ -83,7 +83,7 @@ function GameRouter({currUser, base, updateUser, currPlayer_table, updatePlayer_
                                             updatePlayerId={updatePlayerId}/>}
             />
 
-        </Container>
+        </>
     );
 }
 

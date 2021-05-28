@@ -341,7 +341,7 @@ function Lobby({
 
 
     return (
-        <Container fluid className="background_container">
+        <>
             <p hidden={endOfGame} style={{textAlign: "center", fontSize: "50px"}}><b>{winnerMessage}</b></p>
             <Container fluid className="background_container">
                 {!currPlayer_table || !currPlayer ? (
@@ -495,7 +495,7 @@ function Lobby({
 
                 )}
             </Container>
-        </Container>
+        </>
     );
 }
 
