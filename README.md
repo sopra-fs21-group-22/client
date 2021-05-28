@@ -49,7 +49,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 - Lobby
 
 ## Roadmap
-- CSS Wizard to make it look totally dope
+- CSS Wizard to make it look even more classy
 - Adding other users as friends
 - Private Lobbies
 
