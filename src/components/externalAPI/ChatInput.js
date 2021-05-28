@@ -75,16 +75,31 @@ class ChatInput extends Component {
             const characters=["elgringo", "willythekid", "rosedoolan", "paulregret", "jourdonnais", "bartcassidy", "suzylafayette"]; */
         let voice = "";
         switch(characterName){
-            case "elgringo": voice = "en-PH-JamesNeural";
-            case "willythekid": voice = "en-US-GuyNeural";
-            case "rosedoolan": voice = "en-GB-LibbyNeural";
-            case "paulregret": voice = "en-IE-ConnorNeural";
-            case "jourdonnais": voice = "en-CA-LiamNeural";
-            case "bartcassidy": voice = "en-IN-PrabhatNeural";
-            case "suzylafayette": voice = "en-AU-NatashaNeural";
+            case "elgringo":
+                voice = "en-PH-JamesNeural";
+                break;
+            case "willythekid":
+                voice = "en-US-GuyNeural";
+                break;
+            case "rosedoolan":
+                voice = "en-GB-LibbyNeural";
+                break;
+            case "paulregret":
+                voice = "en-IE-ConnorNeural";
+                break;
+            case "jourdonnais":
+                voice = "en-CA-LiamNeural";
+                break;
+            case "bartcassidy":
+                voice = "en-IN-PrabhatNeural";
+                break;
+            case "suzylafayette":
+                voice = "en-AU-NatashaNeural";
+                break;
         }
         synthesizeSpeech(voice, this.state.value);
-
+        console.log("voice: ", voice);
+        console.log("character: ", characterName);
     }
 
     handleChange(e) {
