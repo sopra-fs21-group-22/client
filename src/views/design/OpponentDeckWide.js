@@ -183,7 +183,7 @@ export default function OpponentDeckWide({
             }
             console.log(`selecttarget: opponent: ${curr_card}`);
             if (curr_card.card === "BANG") {
-                const beforeDrawingCards = stripBangCard(JSON.parse(localStorage.getItem("cards")));
+                const beforeDrawingCards = JSON.parse(localStorage.getItem("cards"));
                 await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}/target/${opponent.id}`);
                 let playerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
                 const afterDrawingCards = playerAfterRequest.data.hand.playCards;
@@ -237,16 +237,6 @@ export default function OpponentDeckWide({
         } else {
             updateCurr_card(null);
         }
-    }
-
-    function stripBangCard(playerCards) {
-        let curr = []
-        for (let card of playerCards) {
-            if (curr_card.id !== card.id) {
-                curr.push(card);
-            }
-        }
-        return curr;
     }
 
     function searchForOn_FieldCards(cardtobefound) {
