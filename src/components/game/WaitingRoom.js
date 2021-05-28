@@ -148,17 +148,17 @@ function WaitingRoom({
             <br></br><br></br>
             
             {!currPlayer_table || !currPlayer ? (
-                <Spinner></Spinner>
+                <p style={{textAlign:"center"}}><Spinner></Spinner><br></br><b>Loading...</b></p>
             ) : (
                 <>
-                {currPlayer_table.gameStatus!="PREPARATION" ? (
+                {currPlayer_table.gameStatus=="ONGOING" || currPlayer_table.gameStatus=="ENDED" ? (
                     <>
                     
                     <p style={{textAlign:"center"}}><Spinner></Spinner><br></br><b>Game in progress. Redirecting...</b></p>
                     </>
                 ) : (
                     <>
-                    <p>Waiting for players to join...</p>
+                    <p style={{textAlign:"center"}}><b>Waiting for players to join...</b></p>
             
                     {
                         <ListGroup>
