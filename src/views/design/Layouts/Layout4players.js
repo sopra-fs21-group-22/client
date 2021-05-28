@@ -17,7 +17,6 @@ import ChatPopUp from "../../../components/externalAPI/ChatPopUp";
 import "../styling/lobby_styling.css";
 import {authApi} from "../../../helpers/api";
 import {synthesizeSpeech} from "../../../components/externalAPI/synthesizeSpeech";
-import {forEach} from "react-bootstrap/ElementChildren";
 
 function Layout4players({
                             playertable,
@@ -60,7 +59,7 @@ function Layout4players({
     const [card_played, setCard_played] = useState(false);
     const [fill_array, setFill_array] = useState(true);
     const [playerList, setPlayerList] = useState(orderarray);
-    const [displayChat, setDisplayChat] = useState(false); // boolean whether the Chat Popup should be displayed or not
+    const [displayChat, setDisplayChat] = useState(true); // boolean whether the Chat Popup should be displayed or not
     const [newMessage, setNewMessage] = useState(true); // boolean whether there is a new message
     const [newMessageData, setNewMessageData] = useState({name: "BANG!", content: "Welcome to the Game!"}); // new message as an object
     const [show, setShow] = useState(true); // boolean whether a toast is shown or not
@@ -225,7 +224,7 @@ function Layout4players({
             </Row>
             <Row className="h-25">
                 <Col hidden={displayChat}>
-                    <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={300} width={300}/>
+                    <ChatPopUp player={player} playertable={playertable} height={300} width={300}/>
                 </Col>
                 <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10}}
                      hidden={!displayChat}>

@@ -1,12 +1,7 @@
-import {Button, Container, Form, FormControl, InputGroup} from "react-bootstrap";
+import {Button, FormControl, InputGroup} from "react-bootstrap";
 import React, {Component} from "react";
 import {authApi} from "../../helpers/api";
 import {synthesizeSpeech} from "./synthesizeSpeech";
-
-/*
-import * as sdk from "microsoft-cognitiveservices-speech-sdk";
-import "..externalAPI/SpeakerOutPut.js"; */
-
 
 class ChatInput extends Component {
     constructor(props, context, player, playertable) {
@@ -22,30 +17,6 @@ class ChatInput extends Component {
             sending: false,
         };
     }
-
-    /*
-        async sendMessage(e) {
-            console.log("testtest");
-            console.log(e);
-            /*
-            e.preventDefault();
-            try {
-                const requestBody = JSON.stringify({
-                    "content": this.state.value,
-                    "name": this.props.player.user,
-                })
-                console.log("before");
-                const bla = await authApi().put(`/games/${this.props.playertable.id}/players/${this.props.player.id}/chat`, requestBody);
-                console.log("bla ", bla);
-                console.log("after");
-                this.setState({value: ""});
-
-            } catch (e) {
-                console.log(e);
-            }
-                }
-     */
-
 
     async sendMessage() {
         this.state.sending = true;
