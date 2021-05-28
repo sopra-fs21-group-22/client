@@ -479,10 +479,10 @@ function Lobby({
                                 hidden={currPlayer_table.gameStatus == "ENDED"} onClick={endTurn} id="custombutton">End
                             Turn</Button>
                         <Button onClick={openRules} id="custombutton">Rules</Button>
-                        {currPlayer_table.gameStatus == "ENDED" ? (
-                            <Button onClick={resign} id="custombutton">Leave</Button>
+                        {currPlayer_table.gameStatus == "ENDED"||currPlayer.bullets === 0 ? (
+                            <Button onClick={resign} variant="danger">Leave</Button>
                         ) : (
-                            <Button onClick={resign} id="custombutton">Resign</Button>
+                            <Button onClick={resign} variant="danger">Resign</Button>
                         )}
                         <br/>
                         <ProgressBar
