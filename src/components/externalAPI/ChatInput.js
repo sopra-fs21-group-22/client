@@ -1,6 +1,9 @@
 import {Button, Container, Form, FormControl, InputGroup} from "react-bootstrap";
 import React, {Component} from "react";
-import {authApi} from "../../helpers/api";/* 
+import {authApi} from "../../helpers/api";
+import {synthesizeSpeech} from "./synthesizeSpeech";
+
+/*
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import "..externalAPI/SpeakerOutPut.js"; */
 
@@ -53,13 +56,35 @@ class ChatInput extends Component {
                 "name": this.props.player.user,
             });
             await authApi().put(`/games/${this.props.playertable.id}/players/${this.props.player.id}/chat`, requestBody);
+            await this.characterToSpeech();
             this.setState({value: ""});
+            console.log("player: ", this.props.player);
         } catch (error) {
             console.warn(error);
         } finally {
             this.state.sending = false;
             console.log("before", this.state.sending);
         }
+    }
+
+    async characterToSpeech(){
+        let character_response = await authApi().get(`/games/${this.props.playertable.id}/players/${this.props.player.id}/characters`);
+        const characterName = character_response.data.name;
+
+        /*  const voices=["en-PH-JamesNeural", "en-US-GuyNeural", "en-GB-LibbyNeural", "en-IE-ConnorNeural", "en-CA-LiamNeural", "en-IN-PrabhatNeural", "en-AU-NatashaNeural"];
+            const characters=["elgringo", "willythekid", "rosedoolan", "paulregret", "jourdonnais", "bartcassidy", "suzylafayette"]; */
+        let voice = "";
+        switch(characterName){
+            case "elgringo": voice = "en-PH-JamesNeural";
+            case "willythekid": voice = "en-US-GuyNeural";
+            case "rosedoolan": voice = "en-GB-LibbyNeural";
+            case "paulregret": voice = "en-IE-ConnorNeural";
+            case "jourdonnais": voice = "en-CA-LiamNeural";
+            case "bartcassidy": voice = "en-IN-PrabhatNeural";
+            case "suzylafayette": voice = "en-AU-NatashaNeural";
+        }
+        synthesizeSpeech(voice, this.state.value);
+
     }
 
     handleChange(e) {
@@ -92,9 +117,12 @@ class ChatInput extends Component {
                             variant="outline-secondary"
                             onClick={(e) => {
                                 this.sendMessage()
+
                             }}
 
                     >Send</Button>
+                    <Button hidden onClick={()=>synthesizeSpeech("en-IN-PrabhatNeural", "text to speech, hell yeah")}>click me</Button>
+
                 </InputGroup.Append>
             </InputGroup>
         );
