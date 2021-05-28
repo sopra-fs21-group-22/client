@@ -62,6 +62,10 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
         updatePlayerId(response.data.player);
         updateTableId(response.data.tableId);
         const id = response.data.tableId;
+        localStorage.setItem("playertableid", JSON.stringify(response.data.tableId));
+        localStorage.setItem("playerid", JSON.stringify(response.data.player));
+        let showrolechoose=true;
+        localStorage.setItem("showrolechoose", JSON.stringify(showrolechoose));
 
         /*let currPt = new PlayerTable(response.data);
         updatePlayer_table(currPt);
@@ -73,6 +77,8 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
 
     async function rejoin() {
         const target = "/game/dashboard/lobby/public/waiting/" + tableId;
+        let showrolechoose=false;
+        localStorage.setItem("showrolechoose", JSON.stringify(showrolechoose));
         history.push(target);
         
     }
@@ -132,7 +138,6 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
                         <ListGroup.Item>
                             <Row>
                                 <Col>Username</Col>
-                                <Col>ID</Col>
                                 <Col>Join Date</Col>
                                 <Col>Status</Col>
                             </Row>
@@ -145,7 +150,6 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
                                 <Col>
                                     <Link to={`/game/dashboard/${currUser.id}`}>{currUser.username} (You)</Link>
                                 </Col>
-                                <Col>{currUser.id}</Col>
                                 <Col>{currUser.creationDate}</Col>
                                 <Col><UserStatus user={currUser}/></Col>
                             </Row>
@@ -160,7 +164,6 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
                                             <Col>
                                                 <Link to={`/game/dashboard/${user.id}`}>{user.username}</Link>
                                             </Col>
-                                            <Col>{user.id}</Col>
                                             <Col>{user.creationDate}</Col>
                                             <Col><UserStatus user={user}/></Col>
 

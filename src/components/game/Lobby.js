@@ -49,22 +49,31 @@ function Lobby({
     const history = useHistory();
     /* const [count, setCount] = useState(0); */
     const [firstTurn, setFirstTurn] = useState(true);
-    const [playeramount, setPlayeramount] = useState(currPlayer_table.players.length);
+    const [playeramount, setPlayeramount] = useState();
     const [toomanycards, setToomanycards] = useState("loading");//TODO uncomment this
     const [timer, setTimer] = useState(100);
     const interval = useInterval(async () => {
         //repeating requests to keep player_table and player up to date
+        console.log("useinterval");
 
-        const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
+        const response = await authApi().get(`/games/${JSON.parse(localStorage.getItem("playertableid"))}/players/${JSON.parse(localStorage.getItem("playerid"))}`);
         let currp = new PlayerModel(response.data);
         updateCurrPlayer(currp);
-        setupRole();
+        
 
         //get information about the other players
-        const playertable_response = await authApi().get(`/games/${currPlayer_table.id}/players`);
+        const playertable_response = await authApi().get(`/games/${JSON.parse(localStorage.getItem("playertableid"))}/players`);
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
         setToomanycards(currp.hand.playCards.length - currp.bullets);
+
+        if (currPlayer_table!=null && currPlayer!=null){
+            console.log("correctorder")
+            correctOrder();
+            setPlayeramount(currPlayer_table.players.length);
+            setupRole();
+        }
+        
 
         let currentlength = currPt.gameMoves.length;
         let pastlength = gameMoves.length;
@@ -155,10 +164,36 @@ function Lobby({
         }
     }, []);
 
+    function correctOrder() {
+        let current_array = [];
+        for (let i = 0; i < currPlayer_table.players.length; i++) {
+            if (currPlayer.id === currPlayer_table.players[i].id) {
+                current_array[0] = searchbyid(currPlayer.id);
+            }
+        }
+        for (let i = 0; i < currPlayer_table.players.length - 1; i++) {
+            current_array[i + 1] = searchbyid(current_array[i].rightNeighbor);
+        }
+        updateOrderArray(current_array);
+    }
+
+    function searchbyid(id) {
+        for (let x = 0; x < currPlayer_table.players.length; x++) {
+            if (currPlayer_table.players[x].id == id) {
+                let a = new PlayerModel(currPlayer_table.players[x]);
+                return a;
+            }
+        }
+    }
+
 //Buttons
     function resign() {
         authApi().delete(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
         localStorage.removeItem("cards");
+        localStorage.removeItem("playertable");
+        localStorage.removeItem("playerid");
+        localStorage.removeItem("playertableid");
+        localStorage.removeItem("showrolechoose");
         updateTableId(null);
         updatePlayerId(null);
         history.push("/game/dashboard");
@@ -344,10 +379,9 @@ function Lobby({
         <>
             <p hidden={endOfGame} style={{textAlign: "center", fontSize: "50px"}}><b>{winnerMessage}</b></p>
             <Container fluid className="background_container">
-                {!currPlayer_table || !currPlayer ? (
+                {!orderArray || !currPlayer || !currPlayer_table ? (
                     <>
-                        <Spinner/>
-                        <p>we be loading them data</p>
+                        <p style={{textAlign:"center"}}><Spinner></Spinner><br></br><b>Loading...</b></p>
                     </>
                     /* ) : ( currPlayer_table.gameStatus == "ENDED" ? (
                         <>
@@ -415,7 +449,7 @@ function Lobby({
                         </Modal>}
 
 
-                        {<Modal id="choose-role_modal" size="lg" show={show_rolechoose} centered backdrop="static"
+                        {<Modal id="choose-role_modal" size="lg" show={show_rolechoose && JSON.parse(localStorage.getItem("showrolechoose"))} centered backdrop="static"
                                 keyboard={false}
                                 animation>
                             <Modal.Header id="choose-role_modal_header">
@@ -465,9 +499,9 @@ function Lobby({
                             </Modal.Footer>
                         </Modal>}
 
-                        <LayoutSwitcher playeramount={playeramount} playertable={currPlayer_table}
-                                        orderarray={orderArray}
-                                        visibility={hidden_gamefield} player={currPlayer}
+                        <LayoutSwitcher playeramount={!playeramount ? -1:playeramount} playertable={!currPlayer_table ? 0:currPlayer_table}
+                                        orderarray={!orderArray ? 0:orderArray}
+                                        visibility={hidden_gamefield} player={!currPlayer ? 0:currPlayer}
                                         roleinformation={role_information} newGameMoves={newGameMoves}/>
 
                         {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
@@ -475,20 +509,20 @@ function Lobby({
                         {/*</OverlayTrigger>*/}
 
 
-                        <Button disabled={currPlayer_table.playerOnTurn.id != currPlayer.id}
-                                hidden={currPlayer_table.gameStatus == "ENDED"} onClick={endTurn} id="custombutton">End
+                        <Button disabled={currPlayer_table ? currPlayer_table.playerOnTurn.id != currPlayer.id : true}
+                                hidden={currPlayer_table ? currPlayer_table.gameStatus == "ENDED" : true} onClick={endTurn} id="custombutton">End
                             Turn</Button>
                         <Button onClick={openRules} id="custombutton">Rules</Button>
-                        {currPlayer_table.gameStatus == "ENDED" ? (
+                        {!currPlayer ? (<p hidden={true}></p>) : (currPlayer.bullets == 0 || currPlayer_table.gameStatus=="ENDED" ? (
                             <Button onClick={resign} id="custombutton">Leave</Button>
                         ) : (
                             <Button onClick={resign} id="custombutton">Resign</Button>
-                        )}
+                        ))}
                         <br/>
                         <ProgressBar
-                            hidden={currPlayer_table.playerOnTurn.id != currPlayer.id || currPlayer_table.gameStatus == "ENDED"}
-                            max={120} now={currPlayer_table.timeRemaining / 1000} variant={"info"}/>
-                        <p hidden={currPlayer_table.gameStatus == "ENDED"}><b>strikes: {currPlayer.strikes}/3</b></p>
+                            hidden={!currPlayer_table || !currPlayer ? true:currPlayer_table.playerOnTurn.id != currPlayer.id || currPlayer_table.gameStatus == "ENDED"}
+                            max={120} now={!currPlayer_table ? 0:currPlayer_table.timeRemaining / 1000} variant={"info"}/>
+                        <p hidden={!currPlayer_table ? true:currPlayer_table.gameStatus == "ENDED"}><b>strikes: {!currPlayer ? 0:currPlayer.strikes}/3</b></p>
                         <br/>
                     </Container>
 
