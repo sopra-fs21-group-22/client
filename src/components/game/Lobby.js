@@ -54,6 +54,7 @@ function Lobby({
     const [timer, setTimer] = useState(100);
     const interval = useInterval(async () => {
         //repeating requests to keep player_table and player up to date
+        console.log("useinterval");
 
         const response = await authApi().get(`/games/${currPlayer_table.id}/players/${currPlayer.id}`);
         let currp = new PlayerModel(response.data);
@@ -65,6 +66,12 @@ function Lobby({
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
         setToomanycards(currp.hand.playCards.length - currp.bullets);
+
+        if (currPlayer_table!=null){
+            console.log("correctorder")
+            correctOrder();
+        }
+        
 
         let currentlength = currPt.gameMoves.length;
         let pastlength = gameMoves.length;
@@ -154,6 +161,28 @@ function Lobby({
             alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
         }
     }, []);
+
+    function correctOrder() {
+        let current_array = [];
+        for (let i = 0; i < currPlayer_table.players.length; i++) {
+            if (currPlayer.id === currPlayer_table.players[i].id) {
+                current_array[0] = searchbyid(currPlayer.id);
+            }
+        }
+        for (let i = 0; i < currPlayer_table.players.length - 1; i++) {
+            current_array[i + 1] = searchbyid(current_array[i].rightNeighbor);
+        }
+        updateOrderArray(current_array);
+    }
+
+    function searchbyid(id) {
+        for (let x = 0; x < currPlayer_table.players.length; x++) {
+            if (currPlayer_table.players[x].id == id) {
+                let a = new PlayerModel(currPlayer_table.players[x]);
+                return a;
+            }
+        }
+    }
 
 //Buttons
     function resign() {
@@ -344,10 +373,9 @@ function Lobby({
         <>
             <p hidden={endOfGame} style={{textAlign: "center", fontSize: "50px"}}><b>{winnerMessage}</b></p>
             <Container fluid className="background_container">
-                {!currPlayer_table || !currPlayer ? (
+                {!orderArray ? (
                     <>
-                        <Spinner/>
-                        <p>we be loading them data</p>
+                        <p style={{textAlign:"center"}}><Spinner></Spinner><br></br><b>Loading...</b></p>
                     </>
                     /* ) : ( currPlayer_table.gameStatus == "ENDED" ? (
                         <>
