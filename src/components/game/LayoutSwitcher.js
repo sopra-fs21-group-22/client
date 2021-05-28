@@ -8,7 +8,7 @@ import {Row} from "react-bootstrap";
 import { authApi } from '../../helpers/api';
 
 
-function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player, roleinformation, newGameMoves}) {
+function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player, roleinformation, newGameMoves, muteChat}) {
 // function LayoutSwitcher({playeramount, visibility}){
 
     /* const interval = useInterval(async () => {    
@@ -75,6 +75,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    updateCurr_card={updateCurr_card} curr_card={curr_card}
                                    updateChat={updateChat} chat={chat} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
+                                   muteChat={muteChat}
                                    />;
 
         case 5:
@@ -89,6 +90,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
+                                   muteChat={muteChat}
                                    />;
         case 6:
             return <Layout6players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -102,6 +104,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
+                                   muteChat={muteChat}
                                    />;
         case 7:
             return <Layout7players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -115,6 +118,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    targetNotSheriff={targetNotSheriff} updateTargetNotSheriff={updateTargetNotSheriff}
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
+                                   muteChat={muteChat}
                                    />;
     }
 }

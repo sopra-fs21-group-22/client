@@ -143,6 +143,8 @@ function Lobby({
     const [endOfGame, setEndOfGame] = useState(true);
     const [winnerMessage, setWinnerMessage] = useState();
 
+    const [muteChat, setMuteChat] = useState(false);
+
     useEffect(async () => {
         try {
             /*const userData = JSON.parse(localStorage.getItem('player_table'));
@@ -333,6 +335,10 @@ function Lobby({
         setShow_drawnCards(true);
     }
 
+    function mute(){
+        setMuteChat(!muteChat);
+    }
+
 /////////////////////////////////////////////////
 
     const [show_rolechoose, setShow_rolechoose] = useState(true);
@@ -500,7 +506,8 @@ function Lobby({
                         <LayoutSwitcher playeramount={!playeramount ? -1:playeramount} playertable={!currPlayer_table ? 0:currPlayer_table}
                                         orderarray={!orderArray ? 0:orderArray}
                                         visibility={hidden_gamefield} player={!currPlayer ? 0:currPlayer}
-                                        roleinformation={role_information} newGameMoves={newGameMoves}/>
+                                        roleinformation={role_information} newGameMoves={newGameMoves}
+                                        muteChat={muteChat}/>
 
                         {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
                         {/*    <Button id="custombutton">Show role information</Button>*/}
@@ -511,6 +518,7 @@ function Lobby({
                                 hidden={currPlayer_table ? currPlayer_table.gameStatus == "ENDED" : true} onClick={endTurn} id="custombutton">End
                             Turn</Button>
                         <Button onClick={openRules} id="custombutton">Rules</Button>
+                        <Button /* style={{height: 50, marginTop: 50}} */ id="custombutton" onClick={mute}>{muteChat ? "Unmute" : "Mute"}</Button>
                         {!currPlayer ? (<p hidden={true}></p>) : (currPlayer.bullets == 0 || currPlayer_table.gameStatus=="ENDED" ? (
                             <Button onClick={resign} variant="danger">Leave</Button>
                         ) : (

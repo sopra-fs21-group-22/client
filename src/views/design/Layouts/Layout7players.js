@@ -44,7 +44,8 @@ function Layout7players({
                             updateChat,
                             chat,
                             roleinformation,
-                            newGameMoves
+                            newGameMoves,
+                            muteChat
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);

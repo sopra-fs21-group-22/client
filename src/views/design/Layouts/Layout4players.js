@@ -41,7 +41,8 @@ function Layout4players({
                             updateChat,
                             chat,
                             roleinformation,
-                            newGameMoves
+                            newGameMoves,
+                            muteChat
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -128,7 +129,9 @@ function Layout4players({
                 voice = "en-AU-NatashaNeural";
                 break;
         }
-        synthesizeSpeech(voice, message.content);
+        if (!muteChat){
+            synthesizeSpeech(voice, message.content);
+        }
     }
 
 
