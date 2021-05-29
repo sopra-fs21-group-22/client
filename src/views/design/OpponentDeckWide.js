@@ -7,6 +7,7 @@ import {api, authApi} from '../../helpers/api';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { TranscriberRecognizer } from "microsoft-cognitiveservices-speech-sdk/distrib/lib/src/common.speech/Exports";
+import {Spinner} from "./Spinner";
 
 export default function OpponentDeckWide({
                                              opponent,
@@ -970,7 +971,7 @@ export default function OpponentDeckWide({
                     {curr_card ? (
                         <p>Do you want to {curr_card.card === "PANIC" ? "steal" : "throw away"} one of the opponent's
                             hand or on field cards?</p>
-                    ) : null}
+                    ) : <Spinner/>}
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={handCard} disabled={opponent.hand.cardsInHand === 0}>
@@ -993,7 +994,7 @@ export default function OpponentDeckWide({
                         <Image
                             src={`/images/play_cards/${stolenCard.color}_${stolenCard.card}_${stolenCard.suit}_${stolenCard.rank}.png`}
                             id="chosen-role_modal_body_image"/>
-                    ) : null}
+                    ) : <Spinner/>}
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeStolenCard}>
@@ -1030,7 +1031,7 @@ export default function OpponentDeckWide({
                                         id="global_modal_body_image"/>
                                 ))}
                             </p>
-                        )) : null}
+                        )) : <Spinner/>}
                 </Modal.Body>
                 <ModalFooter id="global_modal_footer">
                     <Button variant="danger" onClick={closeOnFieldCards}>
@@ -1082,7 +1083,7 @@ export default function OpponentDeckWide({
                         <Image
                             src={clickedOnFieldCard}
                             id="chosen-role_modal_body_image"/>
-                    ) : null}
+                    ) : <Spinner/>}
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeClickedOnFieldCard}>

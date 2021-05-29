@@ -6,6 +6,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {authApi} from "../../helpers/api";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import {Spinner} from "./Spinner";
 
 export default function PlayerDeck({
                                        player, opponent,
@@ -734,7 +735,7 @@ export default function PlayerDeck({
                         <Image
                             src={clickedOnFieldCard}
                             id="chosen-role_modal_body_image"/>
-                    ) : null}
+                    ) : <Spinner/>}
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeClickedOnFieldCard}>
