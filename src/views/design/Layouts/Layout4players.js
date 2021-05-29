@@ -276,7 +276,7 @@ function Layout4players({
 
                 </Col>
                 <Col>
-                    <Button variant="danger" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
+                    <Button id="biggerbutton" size="lg" variant="dark" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
                 </Col>
             </Row>
         </Container>);
