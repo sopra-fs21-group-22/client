@@ -32,7 +32,9 @@ export default function PlayerDeck({
                                        fill_array,
                                        updateFill_array,
                                        newGameMoves,
-                                       orderarray
+                                       orderarray,
+                                       show_characterDisplay,
+                                       updateShow_characterDisplay
                                    }) {
     const interval = useInterval(async () => {
         /* console.log(`${player.user} other: ${player.bullets}`);
@@ -526,6 +528,10 @@ export default function PlayerDeck({
         }
     }
 
+    function closeCharacterDisplay() {
+        updateShow_characterDisplay(false);
+    }
+
     const [hideEndRole, setHideEndRole] = useState(true);
     const [opacity, setOpacity] = useState(1);
     const [backgroundColor, setBackgroundColor] = useState("none");
@@ -739,6 +745,32 @@ export default function PlayerDeck({
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeClickedOnFieldCard}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+            {<Modal show={show_characterDisplay} centered animation size="m" backdrop="static" keyboard={false}
+                    animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered>
+                        {characterRef.current ? (
+                            <b>Your game character is {displayName}</b>
+                        ):null}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body  id="chosen-role_modal_body" centered>
+                    {!characterRef.current ? (
+                        <p style={{textAlign:"center"}}><Spinner/><br/><b>Please wait...</b></p>
+                    ):(
+                        <>
+                            <Image src={`/images/character_cards/${characterName}.png`} id="chosen-role_modal_body_image"/>
+                            <br/>
+                            <p style={{textAlign: "center", fontSize: "20px"}}><b>{characterDescription}</b></p>
+                        </>
+                    )}
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button hidden={!characterRef.current} id="custombutton" onClick={closeCharacterDisplay}>
                         Okay
                     </Button>
                 </Modal.Footer>

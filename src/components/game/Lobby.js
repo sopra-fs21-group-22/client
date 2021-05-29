@@ -50,7 +50,7 @@ function Lobby({
     /* const [count, setCount] = useState(0); */
     const [firstTurn, setFirstTurn] = useState(true);
     const [playeramount, setPlayeramount] = useState();
-    const [toomanycards, setToomanycards] = useState("loading");//TODO uncomment this
+    const [toomanycards, setToomanycards] = useState("loading");
     const [timer, setTimer] = useState(100);
     const interval = useInterval(async () => {
         //repeating requests to keep player_table and player up to date
@@ -210,6 +210,7 @@ function Lobby({
     function roledisplayokay() {
         setShow_roledisplay(false);
         setHidden_gamefield(false);
+        setShow_characterDisplay(true);
     }
 
     function openRules() {
@@ -378,6 +379,12 @@ function Lobby({
         </Popover>
     )
 
+    const [show_characterDisplay, setShow_characterDisplay] = useState(false);
+
+    const updateShow_characterDisplay = (value) => {
+        setShow_characterDisplay(value);
+    }
+
 //use this button to walk through the different layouts
 //     async function changelayout() {
 //         if (playeramount == 7) {
@@ -530,7 +537,8 @@ function Lobby({
                                         visibility={hidden_gamefield && JSON.parse(localStorage.getItem("showrolechoose"))}
                                         player={!currPlayer ? 0 : currPlayer}
                                         roleinformation={role_information} newGameMoves={newGameMoves}
-                                        muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}/>
+                                        muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
+                                        show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}/>
 
                         {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
                         {/*    <Button id="custombutton">Show role information</Button>*/}

@@ -23,6 +23,7 @@ import ChatPopUp from "../../../components/externalAPI/ChatPopUp";
 import "../styling/lobby_styling.css";
 import {authApi} from "../../../helpers/api";
 import {synthesizeSpeech} from "../../../components/externalAPI/synthesizeSpeech";
+import LayoutSwitcher from "../../../components/game/LayoutSwitcher";
 
 function Layout7players({
                             playertable,
@@ -49,7 +50,9 @@ function Layout7players({
                             newGameMoves,
                             muteChat,
                             endOfGame,
-                            winnerMessage
+                            winnerMessage,
+                            show_characterDisplay,
+                            updateShow_characterDisplay
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -290,7 +293,8 @@ function Layout7players({
                             updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                             updateFill_array={updateFill_array}
                             newGameMoves={newGameMoves}
-                            orderarray={orderarray}/>
+                            orderarray={orderarray} show_characterDisplay={show_characterDisplay}
+                            updateShow_characterDisplay={updateShow_characterDisplay}/>
             </Col>
             <Col>
                 <OpponentDeckWide opponent={playerList[1]} player={playerList[0]}
