@@ -9,7 +9,7 @@ import {
     Button,
     Modal,
     Image,
-    ModalBody, Toast
+    ModalBody, Toast, Popover, OverlayTrigger
 } from 'react-bootstrap';
 import OpponentDeckWide from "../OpponentDeckWide";
 import PlayerDeck from "../PlayerDeck";
@@ -68,6 +68,7 @@ function Layout7players({
     const [fill_array, setFill_array] = useState(true);
     const [playerList, setPlayerList] = useState(orderarray);
     const [displayChat, setDisplayChat] = useState(false); // boolean whether the Chat Popup should be displayed or not
+    const [displayGameLog, setDisplayGameLog] = useState(false); // boolean whether the game log Popup should be displayed or not
     const [newMessage, setNewMessage] = useState(true); // boolean whether there is a new message
     const [newMessageData, setNewMessageData] = useState({name: "BANG!", content: "Welcome to the Game!"}); // new message as an object
     const [show, setShow] = useState(true); // boolean whether a toast is shown or not
@@ -95,6 +96,14 @@ function Layout7players({
         }
         updateChat(playertable.chat.messages);
     }
+    const popover = (
+        <Popover id="popover-basic" style={{backgroundColor: "none", opacity: 0.8}}>
+            <Popover.Title as="h3">Game Moves Log</Popover.Title>
+            <Popover.Content>
+                <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={200} width={500}/>
+            </Popover.Content>
+        </Popover>
+    );
 
     function getIdByUsername(user){
         return playertable.players.filter(player => player.user === user);
@@ -332,6 +341,11 @@ function Layout7players({
 
             </Col>
             <Col>
+                <OverlayTrigger trigger="click" placement="top" overlay={popover}>
+                    <Button variant="outline-dark" size="lg" style={{height: 50, marginTop: 50}}>
+                        Game
+                    </Button>
+                </OverlayTrigger>
                 <Button variant="danger" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
             </Col>
         </Row>

@@ -68,9 +68,13 @@ function Layout5players({
     const [fill_array, setFill_array] = useState(true);
     const [playerList, setPlayerList] = useState(orderarray);
     const [displayChat, setDisplayChat] = useState(false); // boolean whether the Chat Popup should be displayed or not
+    const [displayGameLog, setDisplayGameLog] = useState(true); // boolean whether the Game Log Popup should be displayed or not
     const [newMessage, setNewMessage] = useState(true); // boolean whether there is a new message
     const [newMessageData, setNewMessageData] = useState({name: "BANG!", content: "Welcome to the Game!"}); // new message as an object
     const [show, setShow] = useState(true); // boolean whether a toast is shown or not
+    const [showChatToast, setShowChatToast] = useState(true); // boolean whether a toast is shown or not
+    const [showGameLogToast, setShowGameLogToast] = useState(true); // boolean whether a toast is shown or not
+
 
     const updateBorder = (value) => {
         setBorder(value);
@@ -278,8 +282,25 @@ function Layout5players({
                                 newGameMoves={newGameMoves}
                                 orderarray={orderarray}/>
                 </Col>
-                <Col/>
-            </Row>
+                <Row className="h-25">
+                    <Button variant="outline-dark" size="lg" style={{height: 50, marginTop: 50, marginLeft: 10}} onClick={() => {
+                        setDisplayGameLog(!displayGameLog)
+                    }}>
+                        Game
+                    </Button>
+                    <Col hidden={displayGameLog}>
+                        <ChatPopUp player={player} playertable={playertable} height={200} width={300}/>
+                    </Col>
+                    <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 330, marginTop: 10}}
+                         hidden={!displayGameLog}>
+                        <Toast show={newMessage && showChatToast} onClose={() => setShowChatToast(false)} delay={2000} autohide>
+                            <Toast.Header>
+                                <strong className="mr-auto">{newMessageData.name}</strong>
+                            </Toast.Header>
+                            <Toast.Body>{newMessageData.content}</Toast.Body>
+                        </Toast>
+                    </Col>
+                </Row>            </Row>
             <Row className="align-items-center">
                 <Col/>
                 <Col xs={7}>{playertable.gameStatus == "ENDED" ? (
