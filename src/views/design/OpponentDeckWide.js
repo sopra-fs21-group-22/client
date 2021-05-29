@@ -1,6 +1,6 @@
 import useInterval from "../../components/game/useInterval.js";
 import React, {useState, useEffect, useRef} from 'react';
-import {Col, Row, Container, Card, Figure, Image, Button, Modal, ModalFooter} from 'react-bootstrap';
+import {Col, Row, Container, Card, Figure, Image, Button, Modal, ModalFooter, Tooltip} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import {api, authApi} from '../../helpers/api';
@@ -549,6 +549,12 @@ export default function OpponentDeckWide({
         </Popover>
     )
 
+    const life_information = (
+        <Tooltip id="button-tooltip">
+            {opponent.bullets} {opponent.bullets === 1 ? ("life"):("lives")}
+        </Tooltip>
+    )
+
     function detectHitOrMissed(){
         if(detectMissed() || detectHit()){
             setHitOrMissedNoteHidden(false);
@@ -794,7 +800,7 @@ export default function OpponentDeckWide({
                         </Col>
                         <Col>
                             <Figure>
-                                <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={character_information} rootClose>
+                                <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={character_information}>
                                     <Figure.Image id="character-image_FigureImage"
                                                   style={{borderStyle: highlightImage}}
                                                   ref={characterRef}
@@ -821,9 +827,11 @@ export default function OpponentDeckWide({
                             <Row hidden={opponent.bullets < 2}>
                                 <Life/>
                             </Row>
-                            <Row hidden={opponent.bullets < 1}>
-                                <Life/>
-                            </Row>
+                            <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="left" overlay={life_information}>
+                                <Row hidden={opponent.bullets < 1}>
+                                    <Life/>
+                                </Row>
+                            </OverlayTrigger>
                         </Col>
                         <Col>
                             <Figure>
@@ -834,7 +842,7 @@ export default function OpponentDeckWide({
                                     alt="80x100"
                                     src="/images/back.png"/>
                                 <Figure.Caption
-                                    id="opponent-player-deck_caption">{opponent.hand.cardsInHand} card(s)</Figure.Caption>
+                                    id="opponent-player-deck_caption">{opponent.hand.cardsInHand} {opponent.hand.cardsInHand === 1 ? ("card"):("cards")}</Figure.Caption>
                             </Figure>
                         </Col>
                         <Col>

@@ -1,5 +1,5 @@
 import useInterval from "../../components/game/useInterval.js";
-import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-bootstrap';
+import {Col, Row, Container, Card, Figure, Image, Button, Modal, Tooltip} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, {useState, useEffect, useRef} from 'react';
@@ -528,6 +528,12 @@ export default function PlayerDeck({
         </Popover>
     )
 
+    const life_information = (
+        <Tooltip id="button-tooltip">
+            {player.bullets} {player.bullets === 1 ? ("life"):("lives")}
+        </Tooltip>
+    )
+
 
     return (
         <div style={{marginBottom: 5}}>
@@ -617,9 +623,11 @@ export default function PlayerDeck({
                                 <Row hidden={player.bullets < 2}>
                                     <Life/>
                                 </Row>
-                                <Row hidden={player.bullets < 1}>
-                                    <Life/>
-                                </Row>
+                                <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="left" overlay={life_information}>
+                                    <Row hidden={player.bullets < 1}>
+                                        <Life/>
+                                    </Row>
+                                </OverlayTrigger>
                             </Col>
                             <Col>
                                 <Figure>
