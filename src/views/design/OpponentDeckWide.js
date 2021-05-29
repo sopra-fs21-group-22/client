@@ -611,9 +611,9 @@ export default function OpponentDeckWide({
 
     const sheriff_information = (
         <Popover placement="bottom" id="role-info_popover">
-            <Popover.Title id="role-info_popover_title"><b>Sheriff</b></Popover.Title>
+            <Popover.Title id="role-info_popover_title"><b>SHERIFF</b></Popover.Title>
             <Popover.Content id="role-info_popover_content">
-                <p>This player's role is Sheriff. The Sheriff has to kill all Outlaws and Renegades.</p>
+                <p>This player's role is SHERIFF. The SHERIFF has to kill all OUTLAWs and the RENEGADE.</p>
             </Popover.Content>
         </Popover>
     )

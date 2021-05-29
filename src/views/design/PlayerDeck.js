@@ -584,9 +584,9 @@ export default function PlayerDeck({
 
     const sheriff_information = (
         <Popover placement="bottom" id="role-info_popover">
-            <Popover.Title id="role-info_popover_title"><b>Sheriff</b></Popover.Title>
+            <Popover.Title id="role-info_popover_title"><b>SHERIFF</b></Popover.Title>
             <Popover.Content id="role-info_popover_content">
-                <p>Your role is Sheriff and can be seen by everybody. Kill all Outlaws and Renegades.</p>
+                <p>Your role is SHERIFF and can be seen by everybody. Kill all OUTLAWs and the RENEGADE.</p>
             </Popover.Content>
         </Popover>
     )

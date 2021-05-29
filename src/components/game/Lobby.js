@@ -247,26 +247,26 @@ function Lobby({
             case "SHERIFF":
                 setRole_picture_source("/images/role_cards/sheriff.png");
                 setRole_icon_source("/images/role_cards/SHERIFF_icon.png");
-                setPlayer_role("Sheriff");
-                setRole_information_text("Kill all outlaws and the renegade to win!");
+                setPlayer_role("SHERIFF");
+                setRole_information_text("Kill all OUTLAWs and the RENEGADE to win!");
                 break;
             case "DEPUTY":
                 setRole_picture_source("/images/role_cards/deputy.png");
                 setRole_icon_source("/images/role_cards/DEPUTY_icon.png");
-                setPlayer_role("Deputy");
-                setRole_information_text("Kill all outlaws and the renegade to win!");
+                setPlayer_role("DEPUTY");
+                setRole_information_text("Kill all OUTLAWs and the RENEGADE to win!");
                 break;
             case "OUTLAW":
                 setRole_picture_source("/images/role_cards/outlaw.png");
                 setRole_icon_source("/images/role_cards/OUTLAW_icon.png");
-                setPlayer_role("Outlaw");
-                setRole_information_text("Kill the sheriff to win!");
+                setPlayer_role("OUTLAW");
+                setRole_information_text("Kill the SHERIFF to win!");
                 break;
             case "RENEGADE":
                 setRole_picture_source("/images/role_cards/renegade.png");
                 setRole_icon_source("/images/role_cards/RENEGADE_icon.png");
-                setPlayer_role("Renegade");
-                setRole_information_text("First kill all outlaws then any deputies and lastly the sheriff to win!");
+                setPlayer_role("RENEGADE");
+                setRole_information_text("First kill all OUTLAWs then any DEPUTYs and lastly the SHERIFF to win!");
                 break;
             default:
                 setRole_picture_source("/images/back.png");
@@ -428,7 +428,7 @@ function Lobby({
                                 animation>
                             <Modal.Header id="chosen-role_modal_header">
                                 <Modal.Title id="chosen-role_modal_header_title" centered>
-                                    {player_role ? (
+                                    {role_picture_source ? (
                                         <b>Your role is {player_role}</b>
                                     ):null}
                                 </Modal.Title>
@@ -439,7 +439,8 @@ function Lobby({
                                 ):(
                                     <>
                                         <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
-                                        <p style={{textAlign: "center"}}><br>{role_information_text}</br></p>
+                                        <br/>
+                                        <p style={{textAlign: "center", fontSize: "20px"}}><b>{role_information_text}</b></p>
                                     </>
                                 )}
                             </Modal.Body>
