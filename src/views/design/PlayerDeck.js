@@ -244,15 +244,37 @@ export default function PlayerDeck({
     }
 
     function showBarrel() {
-        alert("you clicked on a barrel. Congrats.");
+        if (getBarrel() === "/images/back.png") {
+            alert("You don't have a barrel.");
+        } else {
+            setClickOnFieldType("Barrel");
+            setClickedOnFieldCard(getBarrel());
+            setShow_clickedOnField(true);
+        }
     }
 
     function showHorse() {
-        alert("you clicked on a horse. Congrats.");
+        if (getHorse() === "/images/back.png") {
+            alert("You don't have a horse.");
+        } else {
+            setClickOnFieldType("Horse");
+            setClickedOnFieldCard(getHorse());
+            setShow_clickedOnField(true);
+        }
     }
 
     function showWeapon() {
-        alert("you clicked on a weapon. Congrats.");
+        if (getWeapon() === "/images/back.png") {
+            alert("You don't have a weapon.");
+        } else {
+            setClickOnFieldType("Weapon");
+            setClickedOnFieldCard(getWeapon());
+            setShow_clickedOnField(true);
+        }
+    }
+
+    function closeClickedOnFieldCard() {
+        setShow_clickedOnField(false);
     }
 
     function detectHitOrMissed(){
@@ -468,6 +490,9 @@ export default function PlayerDeck({
     const [barrel, setBarrel] = useState("/images/back.png");
     const [weapon, setWeapon] = useState("/images/back.png");
     const [horse, setHorse] = useState("/images/back.png");
+    const [show_clickedOnField, setShow_clickedOnField] = useState(false);
+    const [clickOnFieldType, setClickOnFieldType] = useState("default");
+    const [clickedOnFieldCard, setClickedOnFieldCard] = useState();
 
     const [characterName, setCharacterName] = useState("loading character name...");
     const [characterDescription, setCharacterDescription] = useState("loading character description...");
@@ -625,6 +650,23 @@ export default function PlayerDeck({
                     </Container>
                 </div>
             </>
+            {<Modal show={show_clickedOnField} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your {clickOnFieldType}</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    {clickedOnFieldCard ? (
+                        <Image
+                            src={clickedOnFieldCard}
+                            id="chosen-role_modal_body_image"/>
+                    ) : null}
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeClickedOnFieldCard}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
         </div>
     )
 }

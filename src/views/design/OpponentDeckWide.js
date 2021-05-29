@@ -346,15 +346,37 @@ export default function OpponentDeckWide({
     }
 
     function showBarrel() {
-        alert("you clicked on a barrel. Congrats.");
+        if (getBarrel() === "/images/back.png") {
+            alert("This player has no barrel.");
+        } else {
+            setClickOnFieldType("Barrel");
+            setClickedOnFieldCard(getBarrel());
+            setShow_clickedOnField(true);
+        }
     }
 
     function showHorse() {
-        alert("you clicked on a horse. Congrats.");
+        if (getHorse() === "/images/back.png") {
+            alert("This player has no horse.");
+        } else {
+            setClickOnFieldType("Horse");
+            setClickedOnFieldCard(getHorse());
+            setShow_clickedOnField(true);
+        }
     }
 
     function showWeapon() {
-        alert("you clicked on a weapon. Congrats.");
+        if (getWeapon() === "/images/back.png") {
+            alert("This player has no weapon.");
+        } else {
+            setClickOnFieldType("Weapon");
+            setClickedOnFieldCard(getWeapon());
+            setShow_clickedOnField(true);
+        }
+    }
+
+    function closeClickedOnFieldCard() {
+        setShow_clickedOnField(false);
     }
 
     async function handCard() {
@@ -479,6 +501,9 @@ export default function OpponentDeckWide({
     const [show_stolenCard, setShow_stolenCard] = useState(false);
     const [stolenCard, setStolenCard] = useState();
     const [show_onFieldCards, setShow_onFieldCards] = useState(false);
+    const [show_clickedOnField, setShow_clickedOnField] = useState(false);
+    const [clickOnFieldType, setClickOnFieldType] = useState("default");
+    const [clickedOnFieldCard, setClickedOnFieldCard] = useState();
     const [show_noCardsToGet, setShow_noCardsToGet] = useState(false);
     const [show_rewardCards, setShow_rewardCards] = useState(false);
     const [rewardCards, setRewardCards] = useState([]);
@@ -955,6 +980,23 @@ export default function OpponentDeckWide({
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">
                     <Button id="custombutton" onClick={closeSheriffKilledDeputy}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+            {<Modal show={show_clickedOnField} centered animation size="sm" rootClose animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's {clickOnFieldType}</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="chosen-role_modal_body" centered>
+                    {clickedOnFieldCard ? (
+                        <Image
+                            src={clickedOnFieldCard}
+                            id="chosen-role_modal_body_image"/>
+                    ) : null}
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeClickedOnFieldCard}>
                         Okay
                     </Button>
                 </Modal.Footer>
