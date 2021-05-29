@@ -165,7 +165,7 @@ function WaitingRoom({
 
             <br/><br/>
 
-            {!currPlayer_table || !currPlayer ? (
+            {(!currPlayer_table || !currPlayer || currPlayer_table.gameStatus === "ENDED") ? (
                 <p style={{textAlign: "center"}}><Spinner/><br/><b>Loading...</b></p>
             ) : (
                 <>
@@ -173,72 +173,66 @@ function WaitingRoom({
                         <p style={{textAlign: "center"}}><Spinner/><br/><b>Game in progress. Redirecting...</b></p>
                     ) : (
                         <>
-                            {currPlayer_table.gameStatus === "ENDED" ? (
-                                <p style={{textAlign: "center"}}><Spinner/><br/><b>Loading...</b></p>
-                            ) : (
-                                <>
-                                    <p style={{textAlign: "center", fontSize: 50}}>
-                                        {currPlayer_table.players.length < 4 ? (
+                            <p style={{textAlign: "center", fontSize: 50}}>
+                                {currPlayer_table.players.length < 4 ? (
+                                    <>
+                                        <b>Waiting for players to join...</b><br/><Spinner/>
+                                    </>
+                                ) : (
+                                    <>
+                                        {currPlayer_table.players.length !== everybodyReady(currPlayer_table) ? (
                                             <>
-                                                <b>Waiting for players to join...</b><br/><Spinner/>
+                                                <b>Waiting for everybody to be ready...</b><br/><Spinner/>
                                             </>
                                         ) : (
-                                            <>
-                                                {currPlayer_table.players.length !== everybodyReady(currPlayer_table) ? (
-                                                    <>
-                                                        <b>Waiting for everybody to be ready...</b><br/><Spinner/>
-                                                    </>
-                                                ):(
-                                                    <b>Ready!</b>
-                                                )}
-                                            </>
+                                            <b>Ready!</b>
                                         )}
-                                    </p>
+                                    </>
+                                )}
+                            </p>
+
+                            {
+                                <ListGroup>
+                                    <ListGroup.Item>
+                                        <Row>
+                                            <Col>Username</Col>
+                                            <Col>Status</Col>
+                                        </Row>
+                                    </ListGroup.Item>
+                                    <ListGroup.Item variant="primary">
+                                        <Row>
+                                            <Col>{currPlayer.user}</Col>
+                                            <Col>{currPlayer.ready ? <Badge variant="success">Ready</Badge> :
+                                                <Badge variant="danger">Not ready</Badge>}</Col>
+                                        </Row>
+                                    </ListGroup.Item>
 
                                     {
-                                        <ListGroup>
-                                            <ListGroup.Item>
-                                                <Row>
-                                                    <Col>Username</Col>
-                                                    <Col>Status</Col>
-                                                </Row>
-                                            </ListGroup.Item>
-                                            <ListGroup.Item variant="primary">
-                                                <Row>
-                                                    <Col>{currPlayer.user}</Col>
-                                                    <Col>{currPlayer.ready ? <Badge variant="success">Ready</Badge> :
-                                                        <Badge variant="danger">Not ready</Badge>}</Col>
-                                                </Row>
-                                            </ListGroup.Item>
+                                        // removing logged in user as they already are in the list
+                                        currPlayer_table.players.filter((player) => player.user != currPlayer.user)
+                                            .map((player) => (
+                                                <ListGroup.Item key={player.id}>
+                                                    <Row>
+                                                        <Col>{player.user}</Col>
+                                                        <Col>{player.ready ?
+                                                            <Badge variant="success">Ready</Badge> :
+                                                            <Badge variant="danger">Not ready</Badge>}</Col>
+                                                    </Row>
+                                                </ListGroup.Item>
+                                            ))}
+                                </ListGroup>}
 
-                                            {
-                                                // removing logged in user as they already are in the list
-                                                currPlayer_table.players.filter((player) => player.user != currPlayer.user)
-                                                    .map((player) => (
-                                                        <ListGroup.Item key={player.id}>
-                                                            <Row>
-                                                                <Col>{player.user}</Col>
-                                                                <Col>{player.ready ?
-                                                                    <Badge variant="success">Ready</Badge> :
-                                                                    <Badge variant="danger">Not ready</Badge>}</Col>
-                                                            </Row>
-                                                        </ListGroup.Item>
-                                                    ))}
-                                        </ListGroup>}
-
-                                    <br/>
-                                    <Button variant={ready_button_color}
-                                            disabled={currPlayer_table.gameStatus === "ONGOING"}
-                                            onClick={toggleReady}>{ready_button_text}</Button>
-                                    <div className="lobby-divider"/>
-                                    <Button onClick={leave} variant="danger">Leave game</Button>
-                                    <div className="lobby-divider"/>
-                                    <OverlayTrigger trigger="click" placement="right" overlay={game_information}
-                                                    rootClose>
-                                        <Button id="custombutton">Info</Button>
-                                    </OverlayTrigger>
-                                </>
-                            )}
+                            <br/>
+                            <Button variant={ready_button_color}
+                                    disabled={currPlayer_table.gameStatus === "ONGOING"}
+                                    onClick={toggleReady}>{ready_button_text}</Button>
+                            <div className="lobby-divider"/>
+                            <Button onClick={leave} variant="danger">Leave game</Button>
+                            <div className="lobby-divider"/>
+                            <OverlayTrigger trigger="click" placement="right" overlay={game_information}
+                                            rootClose>
+                                <Button id="custombutton">Info</Button>
+                            </OverlayTrigger>
                         </>
                     )}
                 </>

@@ -87,8 +87,15 @@
 }
 
 .death-message{
-    background: rgba(0, 0, 0, 1);
+    background: rgb(0, 0, 0);
     width: 50%;
+}
+
+.winner-message{
+    background: black;
+    color: white;
+    text-align: center;
+    font-size: 50px;
 }
 
 @keyframes fadeIn {

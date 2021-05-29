@@ -196,6 +196,9 @@ function Lobby({
         localStorage.removeItem("showrolechoose");
         updateTableId(null);
         updatePlayerId(null);
+        updateCurrPlayer(null);
+        updateOrderArray(null);
+        updatePlayer_table(null);
         history.push("/game/dashboard");
     }
 
@@ -381,7 +384,6 @@ function Lobby({
 
     return (
         <>
-            <p hidden={endOfGame || hidden_gamefield} style={{textAlign: "center", fontSize: "50px"}}><b>{winnerMessage}</b></p>
             <Container fluid className="background_container">
                 {!orderArray || !currPlayer || !currPlayer_table ? (
                     <>
@@ -514,7 +516,7 @@ function Lobby({
                                         orderarray={!orderArray ? 0 : orderArray}
                                         visibility={hidden_gamefield} player={!currPlayer ? 0 : currPlayer}
                                         roleinformation={role_information} newGameMoves={newGameMoves}
-                                        muteChat={muteChat}/>
+                                        muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}/>
 
                         {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
                         {/*    <Button id="custombutton">Show role information</Button>*/}
