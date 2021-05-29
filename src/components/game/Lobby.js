@@ -432,7 +432,7 @@ function Lobby({
                             </Modal.Header>
                             <Modal.Body  id="chosen-role_modal_body" centered>
                                 {!role_picture_source ? (
-                                    <p style={{textAlign:"center"}}><Spinner/><br/><b>Loading...</b></p>
+                                    <p style={{textAlign:"center"}}><Spinner/><br/><b>Please wait...</b></p>
                                 ):(
                                     <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
                                 )}
