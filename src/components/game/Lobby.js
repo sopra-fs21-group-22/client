@@ -103,7 +103,7 @@ function Lobby({
             //this stops once the game starts
             if (firstTurn) {
                 if (currPt.gameStatus === "ONGOING") {
-                    localStorage.setItem("cards", JSON.stringify(currPlayer.hand.playCards));
+                    localStorage.setItem("cards", JSON.stringify(currp.hand.playCards));
                     setFirstTurn(false);
                 }
             }

@@ -249,7 +249,7 @@ export default function PlayerDeck({
             if (getBarrel() === "/images/back.png") {
                 alert("You don't have a barrel.");
             } else {
-                setClickOnFieldType("Barrel");
+                setClickOnFieldType("Your Barrel");
                 setClickedOnFieldCard(getBarrel());
                 setShow_clickedOnField(true);
             }
@@ -261,7 +261,7 @@ export default function PlayerDeck({
             if (getHorse() === "/images/back.png") {
                 alert("You don't have a horse.");
             } else {
-                setClickOnFieldType("Horse");
+                setClickOnFieldType("Your Horse");
                 setClickedOnFieldCard(getHorse());
                 setShow_clickedOnField(true);
             }
@@ -273,7 +273,7 @@ export default function PlayerDeck({
             if (getWeapon() === "/images/back.png") {
                 alert("You don't have a weapon.");
             } else {
-                setClickOnFieldType("Weapon");
+                setClickOnFieldType("Your Weapon");
                 setClickedOnFieldCard(getWeapon());
                 setShow_clickedOnField(true);
             }
@@ -679,7 +679,7 @@ export default function PlayerDeck({
             </>
             {<Modal show={show_clickedOnField} centered animation size="sm" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your {clickOnFieldType}</b></Modal.Title>
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>{clickOnFieldType}</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
                     {clickedOnFieldCard ? (

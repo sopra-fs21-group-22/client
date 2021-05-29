@@ -206,7 +206,8 @@ function Layout4players({
                         <p hidden={true}>nothing to see here</p>
                     </>
                 ) : (
-                    <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}/>
+                    <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}
+                                      hideCancel_PlayCard={hideCancel_PlayCard}/>
                 )}
                 </Col>
                 <Col xs={5}>
