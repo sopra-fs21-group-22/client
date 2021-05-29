@@ -262,7 +262,7 @@ function Lobby({
             case "RENEGADE":
                 setRole_picture_source("/images/role_cards/renegade.png");
                 setPlayer_role("Renegade");
-                setRole_information_text("First kill all outlaws then the sheriff to win!");
+                setRole_information_text("First kill all outlaws then any deputies and lastly the sheriff to win!");
                 break;
             default:
                 setRole_picture_source("/images/back.png");
@@ -514,7 +514,8 @@ function Lobby({
                         <LayoutSwitcher playeramount={!playeramount ? -1 : playeramount}
                                         playertable={!currPlayer_table ? 0 : currPlayer_table}
                                         orderarray={!orderArray ? 0 : orderArray}
-                                        visibility={hidden_gamefield} player={!currPlayer ? 0 : currPlayer}
+                                        visibility={hidden_gamefield && JSON.parse(localStorage.getItem("showrolechoose"))}
+                                        player={!currPlayer ? 0 : currPlayer}
                                         roleinformation={role_information} newGameMoves={newGameMoves}
                                         muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}/>
 
@@ -522,7 +523,7 @@ function Lobby({
                         {/*    <Button id="custombutton">Show role information</Button>*/}
                         {/*</OverlayTrigger>*/}
 
-                        {hidden_gamefield ? (
+                        {hidden_gamefield && JSON.parse(localStorage.getItem("showrolechoose")) ? (
                             <p style={{textAlign:"center"}}><Spinner/><br/><b>Waiting for player to pick role...</b></p>
                         ):(
                             <>

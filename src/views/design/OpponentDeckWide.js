@@ -739,16 +739,23 @@ export default function OpponentDeckWide({
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
                     <br/>
-                    <p className="death-message">
-                        This player is dead or left the game. The player's role is {opponent.gameRole}
-                    </p>
+                    {opponent.user !== "\<\User left Game\>" ? (
+                        <p className="death-message">
+                            {opponent.user} is dead. The player's role was {opponent.gameRole}
+                        </p>
+                    ):(
+                        <p className="death-message">
+                            This player left the game. The player's role was {opponent.gameRole}
+                        </p>
+                    )}
+
                 </p>
             ) : (
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
                     <br/>
                     <p className="death-message">
-                        This player's role is {opponent.gameRole}
+                        This player's role was {opponent.gameRole}
                     </p>
                 </p>
             )}

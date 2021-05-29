@@ -543,7 +543,7 @@ export default function PlayerDeck({
                         <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
                         <br/>
                         <p className="death-message">
-                            You are dead. Your role is {player.gameRole}
+                            You are dead. Your role was {player.gameRole}
                         </p>
                     </p>
                 ) : (
@@ -551,7 +551,7 @@ export default function PlayerDeck({
                         <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
                         <br/>
                         <p className="death-message">
-                            Your role is {player.gameRole}
+                            Your role was {player.gameRole}
                         </p>
                     </p>
                 )}

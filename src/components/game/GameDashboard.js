@@ -148,7 +148,7 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
                         <ListGroup.Item variant="primary">
                             <Row>
                                 <Col>
-                                    <Link to={`/game/dashboard/${currUser.id}`}>{currUser.username} (You)</Link>
+                                    <Link to={`/game/dashboard/${currUser.id}`}>{currUser.username} (you)</Link>
                                 </Col>
                                 <Col>{currUser.creationDate}</Col>
                                 <Col><UserStatus user={currUser}/></Col>
