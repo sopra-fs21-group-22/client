@@ -18,7 +18,9 @@ function LayoutSwitcher({
                             newGameMoves,
                             muteChat,
                             endOfGame,
-                            winnerMessage
+                            winnerMessage,
+                            show_characterDisplay,
+                            updateShow_characterDisplay
                         }) {
 // function LayoutSwitcher({playeramount, visibility}){
 
@@ -87,6 +89,7 @@ function LayoutSwitcher({
                                    updateChat={updateChat} chat={chat} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
+                                   show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}
                                    />;
 
         case 5:
@@ -103,6 +106,7 @@ function LayoutSwitcher({
                                    roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
+                                   show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}
                                    />;
         case 6:
             return <Layout6players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -118,6 +122,7 @@ function LayoutSwitcher({
                                    roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
+                                   show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}
                                    />;
         case 7:
             return <Layout7players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -133,6 +138,7 @@ function LayoutSwitcher({
                                    roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
+                                   show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}
                                    />;
     }
 }
