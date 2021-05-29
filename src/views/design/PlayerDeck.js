@@ -14,6 +14,7 @@ export default function PlayerDeck({
                                        updateBorder,
                                        playertable,
                                        updateCard_played,
+                                       hideCancel_PlayCard,
                                        updateHideCancel_PlayCard,
                                        ignoreRange,
                                        updateIgnoreRange,
@@ -244,32 +245,38 @@ export default function PlayerDeck({
     }
 
     function showBarrel() {
-        if (getBarrel() === "/images/back.png") {
-            alert("You don't have a barrel.");
-        } else {
-            setClickOnFieldType("Barrel");
-            setClickedOnFieldCard(getBarrel());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getBarrel() === "/images/back.png") {
+                alert("You don't have a barrel.");
+            } else {
+                setClickOnFieldType("Barrel");
+                setClickedOnFieldCard(getBarrel());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
     function showHorse() {
-        if (getHorse() === "/images/back.png") {
-            alert("You don't have a horse.");
-        } else {
-            setClickOnFieldType("Horse");
-            setClickedOnFieldCard(getHorse());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getHorse() === "/images/back.png") {
+                alert("You don't have a horse.");
+            } else {
+                setClickOnFieldType("Horse");
+                setClickedOnFieldCard(getHorse());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
     function showWeapon() {
-        if (getWeapon() === "/images/back.png") {
-            alert("You don't have a weapon.");
-        } else {
-            setClickOnFieldType("Weapon");
-            setClickedOnFieldCard(getWeapon());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getWeapon() === "/images/back.png") {
+                alert("You don't have a weapon.");
+            } else {
+                setClickOnFieldType("Weapon");
+                setClickedOnFieldCard(getWeapon());
+                setShow_clickedOnField(true);
+            }
         }
     }
 

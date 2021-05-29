@@ -173,6 +173,7 @@ function Layout7players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}
@@ -189,6 +190,7 @@ function Layout7players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}
@@ -208,6 +210,7 @@ function Layout7players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}
@@ -232,6 +235,7 @@ function Layout7players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}
@@ -251,6 +255,7 @@ function Layout7players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}
@@ -265,6 +270,7 @@ function Layout7players({
             <Col>
                 <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
                             border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
+                            hideCancel_PlayCard={hideCancel_PlayCard}
                             updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                             ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
                             updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
@@ -281,6 +287,7 @@ function Layout7players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}

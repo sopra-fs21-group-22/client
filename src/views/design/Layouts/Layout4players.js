@@ -169,6 +169,7 @@ function Layout4players({
                                      playeronturn={playertable.playerOnTurn}
                                      playertable={playertable} border={border} updateBorder={updateBorder}
                                      updateCard_played={updateCard_played}
+                                     hideCancel_PlayCard={hideCancel_PlayCard}
                                      updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                      ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                      targetSelf={targetSelf}
@@ -188,6 +189,7 @@ function Layout4players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}
@@ -212,6 +214,7 @@ function Layout4players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}
@@ -246,6 +249,7 @@ function Layout4players({
                 <Col xs={5}>
                     <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
                                 border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
+                                hideCancel_PlayCard={hideCancel_PlayCard}
                                 updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                 ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
                                 updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}

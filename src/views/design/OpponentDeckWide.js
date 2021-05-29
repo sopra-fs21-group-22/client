@@ -16,6 +16,7 @@ export default function OpponentDeckWide({
                                              updateBorder,
                                              playertable,
                                              updateCard_played,
+                                             hideCancel_PlayCard,
                                              updateHideCancel_PlayCard,
                                              ignoreRange,
                                              updateIgnoreRange,
@@ -346,32 +347,38 @@ export default function OpponentDeckWide({
     }
 
     function showBarrel() {
-        if (getBarrel() === "/images/back.png") {
-            alert("This player has no barrel.");
-        } else {
-            setClickOnFieldType("Barrel");
-            setClickedOnFieldCard(getBarrel());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getBarrel() === "/images/back.png") {
+                alert("This player has no barrel.");
+            } else {
+                setClickOnFieldType("Barrel");
+                setClickedOnFieldCard(getBarrel());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
     function showHorse() {
-        if (getHorse() === "/images/back.png") {
-            alert("This player has no horse.");
-        } else {
-            setClickOnFieldType("Horse");
-            setClickedOnFieldCard(getHorse());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getHorse() === "/images/back.png") {
+                alert("This player has no horse.");
+            } else {
+                setClickOnFieldType("Horse");
+                setClickedOnFieldCard(getHorse());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
     function showWeapon() {
-        if (getWeapon() === "/images/back.png") {
-            alert("This player has no weapon.");
-        } else {
-            setClickOnFieldType("Weapon");
-            setClickedOnFieldCard(getWeapon());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getWeapon() === "/images/back.png") {
+                alert("This player has no weapon.");
+            } else {
+                setClickOnFieldType("Weapon");
+                setClickedOnFieldCard(getWeapon());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
