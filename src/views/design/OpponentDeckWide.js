@@ -977,7 +977,7 @@ export default function OpponentDeckWide({
                         Hand card
                     </Button>
                     <Button id="custombutton" onClick={onFieldCard} disabled={availableOnFieldCards()}>
-                        On field card
+                        On-field card
                     </Button>
                     <Button variant="danger" onClick={closeDestroyOrSteal}>
                         Cancel
@@ -1003,7 +1003,7 @@ export default function OpponentDeckWide({
             </Modal>}
             {<Modal show={show_onFieldCards} centered animation size={modalSize()} rootClose animation>
                 <Modal.Header id="global_modal_header">
-                    <Modal.Title id="global_modal_header_title" centered><b>Opponent's on field
+                    <Modal.Title id="global_modal_header_title" centered><b>Opponent's on-field
                         cards</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="global_modal_body" centered>
