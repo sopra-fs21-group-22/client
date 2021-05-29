@@ -1,5 +1,5 @@
 import useInterval from "../../components/game/useInterval.js";
-import {Col, Row, Container, Card, Figure, Image, Button, Modal} from 'react-bootstrap';
+import {Col, Row, Container, Card, Figure, Image, Button, Modal, Tooltip} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import React, {useState, useEffect, useRef} from 'react';
@@ -14,6 +14,7 @@ export default function PlayerDeck({
                                        updateBorder,
                                        playertable,
                                        updateCard_played,
+                                       hideCancel_PlayCard,
                                        updateHideCancel_PlayCard,
                                        ignoreRange,
                                        updateIgnoreRange,
@@ -244,32 +245,38 @@ export default function PlayerDeck({
     }
 
     function showBarrel() {
-        if (getBarrel() === "/images/back.png") {
-            alert("You don't have a barrel.");
-        } else {
-            setClickOnFieldType("Barrel");
-            setClickedOnFieldCard(getBarrel());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getBarrel() === "/images/back.png") {
+                alert("You don't have a barrel.");
+            } else {
+                setClickOnFieldType("Your Barrel");
+                setClickedOnFieldCard(getBarrel());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
     function showHorse() {
-        if (getHorse() === "/images/back.png") {
-            alert("You don't have a horse.");
-        } else {
-            setClickOnFieldType("Horse");
-            setClickedOnFieldCard(getHorse());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getHorse() === "/images/back.png") {
+                alert("You don't have a horse.");
+            } else {
+                setClickOnFieldType("Your Horse");
+                setClickedOnFieldCard(getHorse());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
     function showWeapon() {
-        if (getWeapon() === "/images/back.png") {
-            alert("You don't have a weapon.");
-        } else {
-            setClickOnFieldType("Weapon");
-            setClickedOnFieldCard(getWeapon());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getWeapon() === "/images/back.png") {
+                alert("You don't have a weapon.");
+            } else {
+                setClickOnFieldType("Your Weapon");
+                setClickedOnFieldCard(getWeapon());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
@@ -515,7 +522,23 @@ export default function PlayerDeck({
                     <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered
                               src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`)}/>
                 </Card>
+                <br/>
                 {characterDescription}
+            </Popover.Content>
+        </Popover>
+    )
+
+    const life_information = (
+        <Tooltip id="button-tooltip">
+            {player.bullets} {player.bullets === 1 ? ("life"):("lives")}
+        </Tooltip>
+    )
+
+    const role_information = (
+        <Popover placement="bottom" id="role-info_popover">
+            <Popover.Title id="role-info_popover_title"><b>Sheriff</b></Popover.Title>
+            <Popover.Content id="role-info_popover_content">
+                <p>Your role is Sheriff and can be seen by everybody. Kill all Outlaws and Renegades.</p>
             </Popover.Content>
         </Popover>
     )
@@ -572,17 +595,19 @@ export default function PlayerDeck({
                                 <Row className="justify-content-center">
                                     <Figure
                                         hidden={!(player.gameRole === "SHERIFF")}>
+                                        <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={role_information}>
                                         <Figure.Image
                                             width={80}
                                             height={80}
                                             alt="80x80"
                                             src="/images/icons/sheriff.png"/>
+                                        </OverlayTrigger>
                                     </Figure>
                                 </Row>
                             </Col>
                             <Col>
                                 <Figure>
-                                    <OverlayTrigger trigger="click" placement="right" overlay={character_information} rootClose>
+                                    <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={character_information}>
                                         <Figure.Image id="character-image_FigureImage"
                                                       style={{borderStyle: highlightImage}}
                                                       ref={characterRef}
@@ -609,9 +634,11 @@ export default function PlayerDeck({
                                 <Row hidden={player.bullets < 2}>
                                     <Life/>
                                 </Row>
-                                <Row hidden={player.bullets < 1}>
-                                    <Life/>
-                                </Row>
+                                <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="left" overlay={life_information}>
+                                    <Row hidden={player.bullets < 1}>
+                                        <Life/>
+                                    </Row>
+                                </OverlayTrigger>
                             </Col>
                             <Col>
                                 <Figure>
@@ -652,7 +679,7 @@ export default function PlayerDeck({
             </>
             {<Modal show={show_clickedOnField} centered animation size="sm" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Your {clickOnFieldType}</b></Modal.Title>
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>{clickOnFieldType}</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
                     {clickedOnFieldCard ? (

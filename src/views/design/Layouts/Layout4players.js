@@ -171,6 +171,7 @@ function Layout4players({
                                      playeronturn={playertable.playerOnTurn}
                                      playertable={playertable} border={border} updateBorder={updateBorder}
                                      updateCard_played={updateCard_played}
+                                     hideCancel_PlayCard={hideCancel_PlayCard}
                                      updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                      ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                      targetSelf={targetSelf}
@@ -190,6 +191,7 @@ function Layout4players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}
@@ -206,7 +208,8 @@ function Layout4players({
                         <p hidden={true}>nothing to see here</p>
                     </>
                 ) : (
-                    <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}/>
+                    <DeckDiscardPiles playertable={playertable} playeronturn={playertable.playerOnTurn}
+                                      hideCancel_PlayCard={hideCancel_PlayCard}/>
                 )}
                 </Col>
                 <Col xs={5}>
@@ -214,6 +217,7 @@ function Layout4players({
                                   playeronturn={playertable.playerOnTurn}
                                   playertable={playertable} border={border} updateBorder={updateBorder}
                                   updateCard_played={updateCard_played}
+                                  hideCancel_PlayCard={hideCancel_PlayCard}
                                   updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                   ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange}
                                   targetSelf={targetSelf}
@@ -248,6 +252,7 @@ function Layout4players({
                 <Col xs={5}>
                     <PlayerDeck player={player} playeronturn={playertable.playerOnTurn} playertable={playertable}
                                 border={border} updateBorder={updateBorder} updateCard_played={updateCard_played}
+                                hideCancel_PlayCard={hideCancel_PlayCard}
                                 updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                                 ignoreRange={ignoreRange} updateIgnoreRange={updateIgnoreRange} targetSelf={targetSelf}
                                 updateTargetSelf={updateTargetSelf} targetEveryone={targetEveryone}
@@ -296,7 +301,7 @@ function Layout4players({
 
                 </Col>
                 <Col>
-                    <Button variant="danger" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
+                    <Button id="biggerbutton" size="lg" variant="dark" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
                 </Col>
             </Row>
         </Container>);

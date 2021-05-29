@@ -1,6 +1,6 @@
 import useInterval from "../../components/game/useInterval.js";
 import React, {useState, useEffect, useRef} from 'react';
-import {Col, Row, Container, Card, Figure, Image, Button, Modal, ModalFooter} from 'react-bootstrap';
+import {Col, Row, Container, Card, Figure, Image, Button, Modal, ModalFooter, Tooltip} from 'react-bootstrap';
 import "./styling/playing_field_styling.css";
 import Life from "./Life";
 import {api, authApi} from '../../helpers/api';
@@ -16,6 +16,7 @@ export default function OpponentDeckWide({
                                              updateBorder,
                                              playertable,
                                              updateCard_played,
+                                             hideCancel_PlayCard,
                                              updateHideCancel_PlayCard,
                                              ignoreRange,
                                              updateIgnoreRange,
@@ -346,32 +347,44 @@ export default function OpponentDeckWide({
     }
 
     function showBarrel() {
-        if (getBarrel() === "/images/back.png") {
-            alert("This player has no barrel.");
-        } else {
-            setClickOnFieldType("Barrel");
-            setClickedOnFieldCard(getBarrel());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getBarrel() === "/images/back.png") {
+                alert("This player has no barrel.");
+            } else {
+                setClickOnFieldType("Opponent's Barrel");
+                setClickedOnFieldCard(getBarrel());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
     function showHorse() {
-        if (getHorse() === "/images/back.png") {
-            alert("This player has no horse.");
-        } else {
-            setClickOnFieldType("Horse");
-            setClickedOnFieldCard(getHorse());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getHorse() === "/images/back.png") {
+                alert("This player has no horse.");
+            } else {
+                setClickOnFieldType("Opponent's Horse");
+                setClickedOnFieldCard(getHorse());
+                setShow_clickedOnField(true);
+            }
         }
     }
 
     function showWeapon() {
-        if (getWeapon() === "/images/back.png") {
-            alert("This player has no weapon.");
-        } else {
-            setClickOnFieldType("Weapon");
-            setClickedOnFieldCard(getWeapon());
-            setShow_clickedOnField(true);
+        if (hideCancel_PlayCard) {
+            if (getWeapon() === "/images/back.png") {
+                alert("This player has no weapon.");
+            } else {
+                setClickOnFieldType("Opponent's Weapon");
+                setClickedOnFieldCard(getWeapon());
+                setShow_clickedOnField(true);
+            }
+        }
+    }
+
+    function showAmountHandCards() {
+        if (hideCancel_PlayCard) {
+            alert(`${opponent.user} has ${opponent.hand.cardsInHand} ${opponent.hand.cardsInHand === 1 ? ("card"):("cards")} left`);
         }
     }
 
@@ -536,7 +549,23 @@ export default function OpponentDeckWide({
                     <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered
                               src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`)}/>
                 </Card>
+                <br/>
                 {characterDescription}
+            </Popover.Content>
+        </Popover>
+    )
+
+    const life_information = (
+        <Tooltip id="button-tooltip">
+            {opponent.bullets} {opponent.bullets === 1 ? ("life"):("lives")}
+        </Tooltip>
+    )
+
+    const role_information = (
+        <Popover placement="bottom" id="role-info_popover">
+            <Popover.Title id="role-info_popover_title"><b>Sheriff</b></Popover.Title>
+            <Popover.Content id="role-info_popover_content">
+                <p>This player's role is Sheriff. The Sheriff has to kill all Outlaws and Renegades.</p>
             </Popover.Content>
         </Popover>
     )
@@ -776,17 +805,19 @@ export default function OpponentDeckWide({
                             <Row className="justify-content-center">
                                 <Figure
                                     hidden={!(opponent.gameRole === "SHERIFF")}>
-                                    <Figure.Image
-                                        width={80}
-                                        height={80}
-                                        alt="80x80"
-                                        src="/images/icons/sheriff.png"/>
+                                    <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={role_information}>
+                                        <Figure.Image
+                                            width={80}
+                                            height={80}
+                                            alt="80x80"
+                                            src="/images/icons/sheriff.png"/>
+                                    </OverlayTrigger>
                                 </Figure>
                             </Row>
                         </Col>
                         <Col>
                             <Figure>
-                                <OverlayTrigger trigger="click" placement="right" overlay={character_information} rootClose>
+                                <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={character_information}>
                                     <Figure.Image id="character-image_FigureImage"
                                                   style={{borderStyle: highlightImage}}
                                                   ref={characterRef}
@@ -813,20 +844,23 @@ export default function OpponentDeckWide({
                             <Row hidden={opponent.bullets < 2}>
                                 <Life/>
                             </Row>
-                            <Row hidden={opponent.bullets < 1}>
-                                <Life/>
-                            </Row>
+                            <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="left" overlay={life_information}>
+                                <Row hidden={opponent.bullets < 1}>
+                                    <Life/>
+                                </Row>
+                            </OverlayTrigger>
                         </Col>
                         <Col>
                             <Figure>
                                 {/*<Figure hidden={opponent.hand.playCards.length === 0}>*/}
                                 <Figure.Image
+                                    onClick={showAmountHandCards}
                                     width={80}
                                     height={100}
                                     alt="80x100"
                                     src="/images/back.png"/>
                                 <Figure.Caption
-                                    id="opponent-player-deck_caption">{opponent.hand.cardsInHand} card(s)</Figure.Caption>
+                                    id="opponent-player-deck_caption">{opponent.hand.cardsInHand} {opponent.hand.cardsInHand === 1 ? ("card"):("cards")}</Figure.Caption>
                             </Figure>
                         </Col>
                         <Col>
@@ -993,7 +1027,7 @@ export default function OpponentDeckWide({
             </Modal>}
             {<Modal show={show_clickedOnField} centered animation size="sm" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's {clickOnFieldType}</b></Modal.Title>
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>{clickOnFieldType}</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
                     {clickedOnFieldCard ? (
