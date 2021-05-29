@@ -62,9 +62,11 @@ function Layout4players({
     const [fill_array, setFill_array] = useState(true);
     const [playerList, setPlayerList] = useState(orderarray);
     const [displayChat, setDisplayChat] = useState(true); // boolean whether the Chat Popup should be displayed or not
+    const [displayGameLog, setDisplayGameLog] = useState(true); // boolean whether the Game Log Popup should be displayed or not
     const [newMessage, setNewMessage] = useState(true); // boolean whether there is a new message
     const [newMessageData, setNewMessageData] = useState({name: "BANG!", content: "Welcome to the Game!"}); // new message as an object
-    const [show, setShow] = useState(true); // boolean whether a toast is shown or not
+    const [showChatToast, setShowChatToast] = useState(true); // boolean whether a toast is shown or not
+    const [showGameLogToast, setShowGameLogToast] = useState(true); // boolean whether a toast is shown or not
 
     const updateBorder = (value) => {
         setBorder(value);
@@ -80,7 +82,7 @@ function Layout4players({
     function updateChatLog() { // fetches all chat messages from the backend
         if (playertable.chat.messages.length > chat.length) {
             setNewMessage(true);
-            setShow(true);
+            setShowChatToast(true);
             if(chat.length>0){
                 const m = playertable.chat.messages[playertable.chat.messages.length - 1];
                 setNewMessageData(m);
@@ -231,7 +233,7 @@ function Layout4players({
                 <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10}}
                      hidden={!displayChat}>
 
-                    <Toast show={newMessage && show} onClose={() => setShow(false)} delay={2000} autohide>
+                    <Toast show={newMessage && showChatToast} onClose={() => setShowChatToast(false)} delay={2000} autohide>
                         <Toast.Header>
                             <strong className="mr-auto">{newMessageData.name}</strong>
                         </Toast.Header>
@@ -257,7 +259,25 @@ function Layout4players({
                                 newGameMoves={newGameMoves}
                                 orderarray={orderarray}/>
                 </Col>
-                <Col/>
+                <Row className="h-25">
+                    <Button variant="outline-dark" size="lg" style={{height: 50, marginTop: 50, marginLeft: 10}} onClick={() => {
+                        setDisplayGameLog(!displayGameLog)
+                    }}>
+                        Game
+                    </Button>
+                    <Col hidden={displayGameLog}>
+                        <ChatPopUp player={player} playertable={playertable} height={200} width={300}/>
+                    </Col>
+                    <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 330, marginTop: 10}}
+                         hidden={!displayGameLog}>
+                        <Toast show={newMessage && showChatToast} onClose={() => setShowChatToast(false)} delay={2000} autohide>
+                            <Toast.Header>
+                                <strong className="mr-auto">{newMessageData.name}</strong>
+                            </Toast.Header>
+                            <Toast.Body>{newMessageData.content}</Toast.Body>
+                        </Toast>
+                    </Col>
+                </Row>
             </Row>
             <Row className="h-25 align-items-center">
                 <Col/>
