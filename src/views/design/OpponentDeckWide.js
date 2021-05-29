@@ -37,7 +37,7 @@ export default function OpponentDeckWide({
         //console.log(`${player.user}: ${player.bullets}`);
         //repeating requests to keep stuff up-to-date
         //console.log(`${opponent.id}: ${newGameMoves}`);
-        if (playertable.gameStatus != "ENDED") {
+        if (playertable.gameStatus !== "ENDED") {
             if (setupCharacter) {
                 let character_response = await authApi().get(`/games/${playertable.id}/players/${opponent.id}/characters`);
                 setCharacterName(character_response.data.name);
@@ -72,7 +72,7 @@ export default function OpponentDeckWide({
             }
         }
 
-        if (playeronturn != null && opponent.id === playeronturn.id) {
+        if (playeronturn != null && opponent.id === playeronturn.id && playertable.gameStatus !== "ENDED") {
             setHighlightImage("solid");
         }
         if (playeronturn != null && opponent.id !== playeronturn.id) {
