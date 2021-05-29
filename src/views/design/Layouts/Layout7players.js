@@ -342,7 +342,7 @@ function Layout7players({
             </Col>
             <Col>
                 <OverlayTrigger trigger="click" placement="top" overlay={popover}>
-                    <Button variant="outline-dark" size="lg" style={{height: 50, marginTop: 50}}>
+                    <Button variant="outline-dark" size="lg" style={{height: 50, marginRight: 10}}>
                         Game
                     </Button>
                 </OverlayTrigger>
