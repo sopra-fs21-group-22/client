@@ -16,6 +16,7 @@ export default function PlayerCards({
                                         updateBorder,
                                         card_played,
                                         updateCard_played,
+                                        hideCancel_PlayCard,
                                         updateHideCancel_PlayCard,
                                         updateCurr_card,
                                         curr_card,
@@ -44,19 +45,25 @@ export default function PlayerCards({
     const [drawnCards, setDrawnCards] = useState([]);
 
     function lookAtCard(index) {
-        if (playeronturn.id != player.id) {
+        if (playeronturn.id !== player.id) {
             alert("it ain't your turn buddy");
             return;
+        }
+        if (hideCancel_PlayCard) {
+            if (curr_card != null) {
+                alert("You just tried to play the same card twice - slow down ;) Press cancel and choose a different one.");
+                updateHideCancel_PlayCard(false);
+                return;
+            }
+            let curr = show_card;
+            curr[index] = true;
+            setShow_card(curr);
+            getImageSource();
         }
         if (curr_card != null) {
             alert("You already chose a card to play. Press cancel to play another card.");
             updateHideCancel_PlayCard(false);
-            return;
         }
-        let curr = show_card;
-        curr[index] = true;
-        setShow_card(curr);
-        getImageSource();
     }
 
     function closeCard() {
