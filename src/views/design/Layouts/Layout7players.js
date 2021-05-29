@@ -97,7 +97,7 @@ function Layout7players({
         updateChat(playertable.chat.messages);
     }
     const popover = (
-        <Popover id="popover-basic" style={{backgroundColor: "none", opacity: 0.8}}>
+        <Popover id="popover-basic" style={{backgroundColor: "none"}}>
             <Popover.Title as="h3">Game Moves Log</Popover.Title>
             <Popover.Content>
                 <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={200} width={500}/>
@@ -355,6 +355,7 @@ function Layout7players({
                         Game
                     </Button>
                 </OverlayTrigger>
+                <br/><br/>
                 <Button id="biggerbutton" size="lg" variant="dark" hidden={hideCancel_PlayCard} onClick={back}>Cancel</Button>
             </Col>
         </Row>
