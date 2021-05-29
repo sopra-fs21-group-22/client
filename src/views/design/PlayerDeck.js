@@ -244,6 +244,24 @@ export default function PlayerDeck({
         }
     }
 
+    function getJail() {
+        try {
+            let jail = searchForOn_FieldCards("JAIL");
+            let path = "";
+            let currCard;
+
+            if (jail !== -1) {
+                currCard = player.onFieldCards.onFieldCards[jail];
+                path = `/images/play_cards/blue_${currCard.card}_${currCard.suit}_${currCard.rank}.png`
+                return path;
+            } else {
+                return "/images/back.png";
+            }
+        } catch (e) {
+            return "/images/back.png";
+        }
+    }
+
     function showBarrel() {
         if (hideCancel_PlayCard) {
             if (getBarrel() === "/images/back.png") {
@@ -282,6 +300,26 @@ export default function PlayerDeck({
 
     function closeClickedOnFieldCard() {
         setShow_clickedOnField(false);
+    }
+
+    function showDynamite() {
+        if (hideCancel_PlayCard) {
+            setClickOnFieldType("Dynamite");
+            setClickedOnFieldCard("/images/play_cards/blue_DYNAMITE_HEARTS_TWO.png");
+            setShow_clickedOnField(true);
+        }
+    }
+
+    function showJail() {
+        if (hideCancel_PlayCard) {
+            if (getJail() === "/images/back.png") {
+                alert("You are not in jail.");
+            } else {
+                setClickOnFieldType("Jail");
+                setClickedOnFieldCard(getJail());
+                setShow_clickedOnField(true);
+            }
+        }
     }
 
     function detectHitOrMissed(){
@@ -523,6 +561,15 @@ export default function PlayerDeck({
                               src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`)}/>
                 </Card>
                 <br/>
+                {inJail ? (
+                    <>
+                        <p>
+                            You are in jail.<br/><br/>
+                            <Button onClick={showJail} id="custombutton">More Information</Button>
+                        </p>
+                        <br/>
+                    </>
+                ):null}
                 {characterDescription}
             </Popover.Content>
         </Popover>
@@ -534,7 +581,7 @@ export default function PlayerDeck({
         </Tooltip>
     )
 
-    const role_information = (
+    const sheriff_information = (
         <Popover placement="bottom" id="role-info_popover">
             <Popover.Title id="role-info_popover_title"><b>Sheriff</b></Popover.Title>
             <Popover.Content id="role-info_popover_content">
@@ -586,6 +633,7 @@ export default function PlayerDeck({
                                 <Row className="align-items-center justify-content-center">
                                     <Figure hidden={!dynamite}>
                                         <Figure.Image
+                                            onClick={showDynamite}
                                             width={60}
                                             height={30}
                                             alt="60x30"
@@ -595,7 +643,7 @@ export default function PlayerDeck({
                                 <Row className="justify-content-center">
                                     <Figure
                                         hidden={!(player.gameRole === "SHERIFF")}>
-                                        <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={role_information}>
+                                        <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={sheriff_information}>
                                         <Figure.Image
                                             width={80}
                                             height={80}
@@ -607,7 +655,7 @@ export default function PlayerDeck({
                             </Col>
                             <Col>
                                 <Figure>
-                                    <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={character_information}>
+                                    <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={character_information} delay={{hide: 300}}>
                                         <Figure.Image id="character-image_FigureImage"
                                                       style={{borderStyle: highlightImage}}
                                                       ref={characterRef}
@@ -677,7 +725,7 @@ export default function PlayerDeck({
                     </Container>
                 </div>
             </>
-            {<Modal show={show_clickedOnField} centered animation size="sm" rootClose animation>
+            {<Modal show={show_clickedOnField} centered animation size="m" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>{clickOnFieldType}</b></Modal.Title>
                 </Modal.Header>

@@ -333,6 +333,7 @@ function Layout6players({
             ) : (
                 <PlayerCards playeronturn={playertable.playerOnTurn} playertable={playertable} player={player}
                              updateBorder={updateBorder} card_played={card_played} updateCard_played={updateCard_played}
+                             hideCancel_PlayCard={hideCancel_PlayCard}
                              updateHideCancel_PlayCard={updateHideCancel_PlayCard}
                              updateCurr_card={updateCurr_card} curr_card={curr_card} fill_array={fill_array}
                              updateFill_array={updateFill_array} roleinformation={roleinformation}/>

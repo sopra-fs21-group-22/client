@@ -16,6 +16,7 @@ export default function PlayerCards({
                                         updateBorder,
                                         card_played,
                                         updateCard_played,
+                                        hideCancel_PlayCard,
                                         updateHideCancel_PlayCard,
                                         updateCurr_card,
                                         curr_card,
@@ -42,21 +43,29 @@ export default function PlayerCards({
 
     const [show_drawnCards, setShow_drawnCards] = useState(false);
     const [drawnCards, setDrawnCards] = useState([]);
+    const [show_killCards, setShow_killCards] = useState(false);
+    const [killCards, setKillCards] = useState([]);
 
     function lookAtCard(index) {
-        if (playeronturn.id != player.id) {
+        if (playeronturn.id !== player.id) {
             alert("it ain't your turn buddy");
             return;
+        }
+        if (hideCancel_PlayCard) {
+            if (curr_card != null) {
+                alert("You just tried to play the same card twice - slow down ;) Press cancel and choose a different one.");
+                updateHideCancel_PlayCard(false);
+                return;
+            }
+            let curr = show_card;
+            curr[index] = true;
+            setShow_card(curr);
+            getImageSource();
         }
         if (curr_card != null) {
             alert("You already chose a card to play. Press cancel to play another card.");
             updateHideCancel_PlayCard(false);
-            return;
         }
-        let curr = show_card;
-        curr[index] = true;
-        setShow_card(curr);
-        getImageSource();
     }
 
     function closeCard() {
@@ -159,16 +168,25 @@ export default function PlayerCards({
                 return;
             case "STAGECOACH":
             case "WELLSFARGO":
-            case "GATLING":
-            case "INDIANS":
                 const beforeDrawingCards = player.hand.playCards;
                 await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}`);
                 let playerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
                 const afterDrawingCards = playerAfterRequest.data.hand.playCards;
-                const newCards = getNewCards(beforeDrawingCards, afterDrawingCards);
-                setCards(newCards);
+                const newDrawnCards = getNewCards(beforeDrawingCards, afterDrawingCards);
+                setDrawingCards(newDrawnCards);
                 updateBorder("none");
-                // updateCurr_card(null); this happens once modal is closed
+                updateCurr_card(null);
+                return;
+            case "GATLING":
+            case "INDIANS":
+                const beforeKillingCards = player.hand.playCards;
+                await authApi().post(`/games/${playertable.id}/players/${player.id}/hand/${curr_card.id}`);
+                let killerAfterRequest = await authApi().get(`/games/${playertable.id}/players/${player.id}`);
+                const afterKillingCards = killerAfterRequest.data.hand.playCards;
+                const newKillCards = getNewCards(beforeKillingCards, afterKillingCards);
+                setKillingCards(newKillCards);
+                updateBorder("none");
+                updateCurr_card(null);
                 return;
             case "BANG":
                 localStorage.setItem("cards", JSON.stringify(player.hand.playCards));
@@ -209,15 +227,21 @@ export default function PlayerCards({
 
     function closeDrawnCards() {
         setShow_drawnCards(false);
-        updateCurr_card(null);
     }
 
-    function setCards(newCards) {
+    function closeKillCards() {
+        setShow_killCards(false);
+    }
+
+    function setDrawingCards(newCards) {
+        setDrawnCards(newCards);
+        setShow_drawnCards(true);
+    }
+
+    function setKillingCards(newCards) {
         if (newCards.length > 0) {
-            setDrawnCards(newCards);
-            setShow_drawnCards(true);
-        } else {
-            updateCurr_card(null);
+            setKillCards(newCards);
+            setShow_killCards(true);
         }
     }
 
@@ -296,7 +320,7 @@ export default function PlayerCards({
                             <Image className="deck-discard-pile_image-card"
                                    src={`/images/play_cards/${currCard.color}_${currCard.card}_${currCard.suit}_${currCard.rank}.png`}
                                    onClick={() => lookAtCard(index)}/>
-                            {<Modal show={show_card[index]} centered animation size="sm" backdrop="static"
+                            {<Modal show={show_card[index]} centered animation size="m" backdrop="static"
                                     keyboard={false}>
                                 <Modal.Header id="chosen-role_modal_header">
                                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or
@@ -328,41 +352,41 @@ export default function PlayerCards({
             </Container>
             {<Modal show={show_drawnCards} centered animation size={drawnCards.length > 2 ? "lg" : "m"} rootClose
                     animation>
-                {curr_card ? (
-                    (curr_card.card === "WELLSFARGO" || curr_card.card === "STAGECOACH") ? (
-                        <>
-                            <Modal.Header id="global_modal_header">
-                                <Modal.Title id="global_modal_header_title" centered><b>Drawn
-                                    Cards</b></Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body id="global_modal_body" centered>
-                                {drawnCards.map((curr) => (
-                                    <Image
-                                        src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                        id="global_modal_body_image"/>
-                                ))}
-                            </Modal.Body>
-                        </>
-                    ) : (
-                        <>
-                            <Modal.Header id="global_modal_header">
-                                <Modal.Title id="global_modal_header_title" centered><b>Reward
-                                    Cards</b></Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body id="global_modal_body" centered>
-                                <p>You killed an Outlaw and therefore are rewarded with 3 cards!
-                                    <br/><br/>
-                                    {drawnCards.map((curr) => (
-                                        <Image
-                                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
-                                            id="global_modal_body_image"/>
-                                    ))}
-                                </p>
-                            </Modal.Body>
-                        </>
-                    )):null}
+                <Modal.Header id="global_modal_header">
+                    <Modal.Title id="global_modal_header_title" centered><b>Drawn
+                        Cards</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="global_modal_body" centered>
+                    {drawnCards.map((curr) => (
+                        <Image
+                            src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                            id="global_modal_body_image"/>
+                    ))}
+                </Modal.Body>
                 <Modal.Footer id="global_modal_footer">
                     <Button id="custombutton" onClick={closeDrawnCards}>
+                        Okay
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
+            {<Modal show={show_killCards} centered animation size="lg" rootClose
+                    animation>
+                <Modal.Header id="global_modal_header">
+                    <Modal.Title id="global_modal_header_title" centered><b>Reward
+                        Cards</b></Modal.Title>
+                </Modal.Header>
+                <Modal.Body id="global_modal_body" centered>
+                    <p>You killed an Outlaw and therefore are rewarded with 3 cards!
+                        <br/><br/>
+                        {killCards.map((curr) => (
+                            <Image
+                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                id="global_modal_body_image"/>
+                        ))}
+                    </p>
+                </Modal.Body>
+                <Modal.Footer id="global_modal_footer">
+                    <Button id="custombutton" onClick={closeKillCards}>
                         Okay
                     </Button>
                 </Modal.Footer>
