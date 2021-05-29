@@ -427,18 +427,24 @@ function Lobby({
                         {<Modal show={show_roledisplay} centered animation size="m" backdrop="static" keyboard={false}
                                 animation>
                             <Modal.Header id="chosen-role_modal_header">
-                                <Modal.Title id="chosen-role_modal_header_title" centered><b>Your
-                                    role</b></Modal.Title>
+                                <Modal.Title id="chosen-role_modal_header_title" centered>
+                                    {player_role ? (
+                                        <b>Your role is {player_role}</b>
+                                    ):null}
+                                </Modal.Title>
                             </Modal.Header>
                             <Modal.Body  id="chosen-role_modal_body" centered>
                                 {!role_picture_source ? (
                                     <p style={{textAlign:"center"}}><Spinner/><br/><b>Please wait...</b></p>
                                 ):(
-                                    <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
+                                    <>
+                                        <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
+                                        <p style={{textAlign: "center"}}><br>{role_information_text}</br></p>
+                                    </>
                                 )}
                             </Modal.Body>
                             <Modal.Footer id="chosen-role_modal_footer">
-                                <Button disabled={!role_picture_source} id="custombutton" onClick={roledisplayokay}>
+                                <Button hidden={!role_picture_source} id="custombutton" onClick={roledisplayokay}>
                                     Okay
                                 </Button>
                             </Modal.Footer>
