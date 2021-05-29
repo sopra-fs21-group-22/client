@@ -27,18 +27,18 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 
 function WaitingRoom({
-                          currUser,
-                          currPlayer_table,
-                          updatePlayer_table,
-                          orderArray,
-                          updateOrderArray,
-                          currPlayer,
-                          updateCurrPlayer,
-                          tableId,
-                          playerId,
-                          updateTableId,
-                          updatePlayerId
-                      }) {
+                         currUser,
+                         currPlayer_table,
+                         updatePlayer_table,
+                         orderArray,
+                         updateOrderArray,
+                         currPlayer,
+                         updateCurrPlayer,
+                         tableId,
+                         playerId,
+                         updateTableId,
+                         updatePlayerId
+                     }) {
     const interval = useInterval(async () => {
         //if(loop){
         // console.log(`tableid: ${tableId}`);
@@ -54,35 +54,27 @@ function WaitingRoom({
         let currP = new PlayerModel(currPlayer_response.data);
         updateCurrPlayer(currP);
 
-        if (!buffer){
-            var readycounter = 0;
-            if (currPlayer_table.players.length > 3) {
-                for (let x = 0; x < currPlayer_table.players.length; x++) {
-                    if (currPlayer_table.players[x].ready == true) {
-                        readycounter++;
-                    }
-                }
-                if (currPlayer_table.players.length == readycounter) {
-                    setAllplayersready(true);
-                }
+        if (!buffer) {
+            if (currPlayer_table.players.length === everybodyReady(currPlayer_table)) {
+                setAllplayersready(true);
             }
 
-        //console.log(currPlayer_table.players[0].ready);
-        if (allplayersready) {
-            //setCondition(true);
+            //console.log(currPlayer_table.players[0].ready);
+            if (allplayersready) {
+                //setCondition(true);
 
-            correctOrder();
-            setLoop(false);
-            const id = tableId;
-            const target = "/game/dashboard/lobby/public/" + id;
-            history.push(target);
+                correctOrder();
+                setLoop(false);
+                const id = tableId;
+                const target = "/game/dashboard/lobby/public/" + id;
+                history.push(target);
+            }
         }
-        }
-        
+
         setBuffer(false);
         //}   
     }, 3000);
-  
+
     const [condition, setCondition] = useState(false);
     const [status, setStatus] = useState(false);
     const [ready_button_text, setReady_button_text] = useState("Ready up");
@@ -124,6 +116,18 @@ function WaitingRoom({
         }
     }
 
+    function everybodyReady(currPlayer_table) {
+        let readycounter = 0;
+        if (currPlayer_table.players.length > 3) {
+            for (let x = 0; x < currPlayer_table.players.length; x++) {
+                if (currPlayer_table.players[x].ready == true) {
+                    readycounter++;
+                }
+            }
+        }
+        return readycounter;
+    }
+
     function toggleReady() {
         if (status) {
             setStatus(false);
@@ -146,71 +150,97 @@ function WaitingRoom({
         }
         localStorage.removeItem("cards");
     }
-     function leave(){
+
+    function leave() {
         authApi().delete(`/games/${tableId}/players/${playerId}`);
         updatePlayerId(null);
         updateTableId(null);
         history.push("/game/dashboard");
-     }
+    }
 
     return (
         <Container>
             <br/>
-            
+
             <br/><br/>
-            
+
             {!currPlayer_table || !currPlayer ? (
-                <p style={{textAlign:"center"}}><Spinner/><br/><b>Loading...</b></p>
+                <p style={{textAlign: "center"}}><Spinner/><br/><b>Loading...</b></p>
             ) : (
                 <>
-                {currPlayer_table.gameStatus=="ONGOING" ? (
-                    <>
-                    
-                    <p style={{textAlign:"center"}}><Spinner/><br/><b>Game in progress. Redirecting...</b></p>
-                    </>
-                ) : (
-                    <>
-                    <p style={{textAlign:"center", fontSize:50}}><b>Waiting for players to join...</b><br/><Spinner/></p>
-            
-                    {
-                        <ListGroup>
-                        <ListGroup.Item>
-                            <Row>
-                                <Col>Username</Col>
-                                <Col>Status</Col>
-                            </Row>
-                        </ListGroup.Item>
-                        <ListGroup.Item variant="primary">
-                                <Row>
-                                    <Col>{currPlayer.user}</Col>
-                                    <Col>{currPlayer.ready ? <Badge variant="success">Ready</Badge> : <Badge variant="danger">Not ready</Badge>}</Col>
-                                </Row>
-                            </ListGroup.Item>
-    
-                        {
-                            // removing logged in user as they already are in the list
-                            currPlayer_table.players.filter((player) => player.user != currPlayer.user)
-                            .map((player) => (
-                                    <ListGroup.Item key={player.id}>
-                                        <Row>
-                                            <Col>{player.user}</Col>
-                                            <Col>{player.ready ? <Badge variant="success">Ready</Badge> : <Badge variant="danger">Not ready</Badge>}</Col>
-                                        </Row>
-                                    </ListGroup.Item>
-                                ))}
-                    </ListGroup>}
-                    
-                    <br></br>
-                    <Button variant={ready_button_color} disabled={currPlayer_table.gameStatus=="ONGOING"} onClick={toggleReady}>{ready_button_text}</Button>
-                    <Button onClick={leave} variant="danger">Leave game</Button>
-                    <OverlayTrigger trigger="click" placement="right" overlay={game_information} rootClose>
-                        <Button id="custombutton">Info</Button>
-                    </OverlayTrigger>
-                    </>
-                )}
+                    {currPlayer_table.gameStatus === "ONGOING" ? (
+                        <p style={{textAlign: "center"}}><Spinner/><br/><b>Game in progress. Redirecting...</b></p>
+                    ) : (
+                        <>
+                            {currPlayer_table.gameStatus === "ENDED" ? (
+                                <p style={{textAlign: "center"}}><Spinner/><br/><b>Loading...</b></p>
+                            ) : (
+                                <>
+                                    <p style={{textAlign: "center", fontSize: 50}}>
+                                        {currPlayer_table.players.length < 4 ? (
+                                            <>
+                                                <b>Waiting for players to join...</b><br/><Spinner/>
+                                            </>
+                                        ) : (
+                                            <>
+                                                {currPlayer_table.players.length !== everybodyReady(currPlayer_table) ? (
+                                                    <>
+                                                        <b>Waiting for everybody to be ready...</b><br/><Spinner/>
+                                                    </>
+                                                ):(
+                                                    <b>Ready!</b>
+                                                )}
+                                            </>
+                                        )}
+                                    </p>
+
+                                    {
+                                        <ListGroup>
+                                            <ListGroup.Item>
+                                                <Row>
+                                                    <Col>Username</Col>
+                                                    <Col>Status</Col>
+                                                </Row>
+                                            </ListGroup.Item>
+                                            <ListGroup.Item variant="primary">
+                                                <Row>
+                                                    <Col>{currPlayer.user}</Col>
+                                                    <Col>{currPlayer.ready ? <Badge variant="success">Ready</Badge> :
+                                                        <Badge variant="danger">Not ready</Badge>}</Col>
+                                                </Row>
+                                            </ListGroup.Item>
+
+                                            {
+                                                // removing logged in user as they already are in the list
+                                                currPlayer_table.players.filter((player) => player.user != currPlayer.user)
+                                                    .map((player) => (
+                                                        <ListGroup.Item key={player.id}>
+                                                            <Row>
+                                                                <Col>{player.user}</Col>
+                                                                <Col>{player.ready ?
+                                                                    <Badge variant="success">Ready</Badge> :
+                                                                    <Badge variant="danger">Not ready</Badge>}</Col>
+                                                            </Row>
+                                                        </ListGroup.Item>
+                                                    ))}
+                                        </ListGroup>}
+
+                                    <br></br>
+                                    <Button variant={ready_button_color}
+                                            disabled={currPlayer_table.gameStatus == "ONGOING"}
+                                            onClick={toggleReady}>{ready_button_text}</Button>
+                                    <Button onClick={leave} variant="danger">Leave game</Button>
+                                    <OverlayTrigger trigger="click" placement="right" overlay={game_information}
+                                                    rootClose>
+                                        <Button id="custombutton">Info</Button>
+                                    </OverlayTrigger>
+                                </>
+                            )}
+                        </>
+                    )}
                 </>
             )}
-            
+
         </Container>
     );
 }

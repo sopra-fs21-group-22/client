@@ -422,11 +422,15 @@ function Lobby({
                                 <Modal.Title id="chosen-role_modal_header_title" centered><b>Your
                                     role:</b></Modal.Title>
                             </Modal.Header>
-                            <Modal.Body id="chosen-role_modal_body" centered>
-                                <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
+                            <Modal.Body  id="chosen-role_modal_body" centered>
+                                {!role_picture_source ? (
+                                    <p style={{textAlign:"center"}}><Spinner/><br/><b>Loading...</b></p>
+                                ):(
+                                    <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
+                                )}
                             </Modal.Body>
                             <Modal.Footer id="chosen-role_modal_footer">
-                                <Button id="custombutton" onClick={roledisplayokay}>
+                                <Button disabled={!role_picture_source} id="custombutton" onClick={roledisplayokay}>
                                     Okay
                                 </Button>
                             </Modal.Footer>
