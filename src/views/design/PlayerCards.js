@@ -303,7 +303,7 @@ export default function PlayerCards({
                             <Image className="deck-discard-pile_image-card"
                                    src={`/images/play_cards/${currCard.color}_${currCard.card}_${currCard.suit}_${currCard.rank}.png`}
                                    onClick={() => lookAtCard(index)}/>
-                            {<Modal show={show_card[index]} centered animation size="sm" backdrop="static"
+                            {<Modal show={show_card[index]} centered animation size="m" backdrop="static"
                                     keyboard={false}>
                                 <Modal.Header id="chosen-role_modal_header">
                                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or

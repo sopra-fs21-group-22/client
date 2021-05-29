@@ -284,6 +284,14 @@ export default function PlayerDeck({
         setShow_clickedOnField(false);
     }
 
+    function showDynamite() {
+        if (hideCancel_PlayCard) {
+            setClickOnFieldType("Dynamite");
+            setClickedOnFieldCard("/images/play_cards/blue_DYNAMITE_HEARTS_TWO.png");
+            setShow_clickedOnField(true);
+        }
+    }
+
     function detectHitOrMissed(){
         if(detectMissed() || detectHit()){
             setHitOrMissedNoteHidden(false);
@@ -534,7 +542,7 @@ export default function PlayerDeck({
         </Tooltip>
     )
 
-    const role_information = (
+    const sheriff_information = (
         <Popover placement="bottom" id="role-info_popover">
             <Popover.Title id="role-info_popover_title"><b>Sheriff</b></Popover.Title>
             <Popover.Content id="role-info_popover_content">
@@ -586,6 +594,7 @@ export default function PlayerDeck({
                                 <Row className="align-items-center justify-content-center">
                                     <Figure hidden={!dynamite}>
                                         <Figure.Image
+                                            onClick={showDynamite}
                                             width={60}
                                             height={30}
                                             alt="60x30"
@@ -595,7 +604,7 @@ export default function PlayerDeck({
                                 <Row className="justify-content-center">
                                     <Figure
                                         hidden={!(player.gameRole === "SHERIFF")}>
-                                        <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={role_information}>
+                                        <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={sheriff_information}>
                                         <Figure.Image
                                             width={80}
                                             height={80}
@@ -677,7 +686,7 @@ export default function PlayerDeck({
                     </Container>
                 </div>
             </>
-            {<Modal show={show_clickedOnField} centered animation size="sm" rootClose animation>
+            {<Modal show={show_clickedOnField} centered animation size="m" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>{clickOnFieldType}</b></Modal.Title>
                 </Modal.Header>

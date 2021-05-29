@@ -38,7 +38,7 @@ export default function DeckDiscardPiles({playertable, playeronturn, hideCancel_
                     {/*<Image className="deck-discard-pile_image-card" src="/images/back.png"/>*/}
                 </Col>
             </Row>
-            {<Modal show={show_discardPile} centered animation size="sm" rootClose animation>
+            {<Modal show={show_discardPile} centered animation size="m" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
                     <Modal.Title id="chosen-role_modal_header_title" centered><b>Discard Pile</b></Modal.Title>
                 </Modal.Header>

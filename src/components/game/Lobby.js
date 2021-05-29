@@ -424,11 +424,11 @@ function Lobby({
                             </Modal.Footer>
                         </Modal>}
 
-                        {<Modal show={show_roledisplay} centered animation size="sm" backdrop="static" keyboard={false}
+                        {<Modal show={show_roledisplay} centered animation size="m" backdrop="static" keyboard={false}
                                 animation>
                             <Modal.Header id="chosen-role_modal_header">
                                 <Modal.Title id="chosen-role_modal_header_title" centered><b>Your
-                                    role:</b></Modal.Title>
+                                    role</b></Modal.Title>
                             </Modal.Header>
                             <Modal.Body  id="chosen-role_modal_body" centered>
                                 {!role_picture_source ? (
