@@ -24,6 +24,15 @@
     background-color: rgba(174, 136, 53, 0.6);
     border: none;   
 }
+
+#player_cards_footer{
+    background-color: rgba(174, 136, 53, 0.6);
+    text-align: center;
+    margin: auto;
+    width: 100%;
+    padding-right: 35px;
+    border: none;
+}
 /*////////////////////////////////////////////*/
 #choose-role_modal{
     width: fit-content;

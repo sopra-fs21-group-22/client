@@ -304,7 +304,7 @@ export default function PlayerCards({
                                 <Modal.Body id="chosen-role_modal_body" centered>
                                     <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>
                                 </Modal.Body>
-                                <Modal.Footer id="chosen-role_modal_footer">
+                                <Modal.Footer id="player_cards_footer">
                                     {!curr_card ? (
                                         <Spinner/>
                                     ) : (<>
