@@ -37,7 +37,7 @@ export default function OpponentDeckWide({
         //console.log(`${player.user}: ${player.bullets}`);
         //repeating requests to keep stuff up-to-date
         //console.log(`${opponent.id}: ${newGameMoves}`);
-        if (playertable.gameStatus != "ENDED") {
+        if (playertable.gameStatus !== "ENDED") {
             if (setupCharacter) {
                 let character_response = await authApi().get(`/games/${playertable.id}/players/${opponent.id}/characters`);
                 setCharacterName(character_response.data.name);
@@ -72,7 +72,7 @@ export default function OpponentDeckWide({
             }
         }
 
-        if (playeronturn != null && opponent.id === playeronturn.id) {
+        if (playeronturn != null && opponent.id === playeronturn.id && playertable.gameStatus !== "ENDED") {
             setHighlightImage("solid");
         }
         if (playeronturn != null && opponent.id !== playeronturn.id) {
@@ -739,16 +739,23 @@ export default function OpponentDeckWide({
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
                     <br/>
-                    <p className="death-message">
-                        This player is dead or left the game. The player's role is {opponent.gameRole}
-                    </p>
+                    {opponent.user !== "\<\User left Game\>" ? (
+                        <p className="death-message">
+                            {opponent.user} is dead. The player's role was {opponent.gameRole}
+                        </p>
+                    ):(
+                        <p className="death-message">
+                            This player left the game. The player's role was {opponent.gameRole}
+                        </p>
+                    )}
+
                 </p>
             ) : (
                 <p id="opponent-deck_div_gameEnd" hidden={hideEndRole}>
                     <Image className="gameEnd" src={`/images/role_cards/${opponent.gameRole}_icon.png`}/>
                     <br/>
                     <p className="death-message">
-                        This player's role is {opponent.gameRole}
+                        This player's role was {opponent.gameRole}
                     </p>
                 </p>
             )}

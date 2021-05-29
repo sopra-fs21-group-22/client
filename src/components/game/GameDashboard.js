@@ -93,7 +93,7 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
             ) : (
 
                 <div>
-                    <h4>Join public lobby</h4>
+                    <h4>Public Lobby</h4>
                     {/*TODO: use this code for the private lobbies later on*/}
                     {/*<ListGroup>
             <ListGroup.Item>
@@ -148,7 +148,7 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
                         <ListGroup.Item variant="primary">
                             <Row>
                                 <Col>
-                                    <Link to={`/game/dashboard/${currUser.id}`}>{currUser.username} (You)</Link>
+                                    <Link to={`/game/dashboard/${currUser.id}`}>{currUser.username} (you)</Link>
                                 </Col>
                                 <Col>{currUser.creationDate}</Col>
                                 <Col><UserStatus user={currUser}/></Col>

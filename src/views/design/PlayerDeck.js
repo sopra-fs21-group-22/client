@@ -37,7 +37,7 @@ export default function PlayerDeck({
         console.log(`${opponent.user} other: ${opponent.bullets}`); */
 
         //repeating requests to keep stuff up-to-date
-        if (playertable.gameStatus != "ENDED") {
+        if (playertable.gameStatus !== "ENDED") {
             if (setupCharacter) {
                 let character_response = await authApi().get(`/games/${playertable.id}/players/${player.id}/characters`);
                 setCharacterName(character_response.data.name);
@@ -67,7 +67,7 @@ export default function PlayerDeck({
                 setHideEndRole(false);
             }
         }
-        if (playeronturn != null && player.id === playeronturn.id) {
+        if (playeronturn != null && player.id === playeronturn.id && playertable.gameStatus !== "ENDED") {
             setHighlightImage("solid");
         }
         if (playeronturn != null && player.id !== playeronturn.id) {
@@ -543,7 +543,7 @@ export default function PlayerDeck({
                         <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
                         <br/>
                         <p className="death-message">
-                            You are dead. Your role is {player.gameRole}
+                            You are dead. Your role was {player.gameRole}
                         </p>
                     </p>
                 ) : (
@@ -551,7 +551,7 @@ export default function PlayerDeck({
                         <Image className="gameEnd" src={`/images/role_cards/${player.gameRole}_icon.png`}/>
                         <br/>
                         <p className="death-message">
-                            Your role is {player.gameRole}
+                            Your role was {player.gameRole}
                         </p>
                     </p>
                 )}

@@ -58,7 +58,7 @@ function Lobby({
         const response = await authApi().get(`/games/${JSON.parse(localStorage.getItem("playertableid"))}/players/${JSON.parse(localStorage.getItem("playerid"))}`);
         let currp = new PlayerModel(response.data);
         updateCurrPlayer(currp);
-        
+
 
         //get information about the other players
         const playertable_response = await authApi().get(`/games/${JSON.parse(localStorage.getItem("playertableid"))}/players`);
@@ -66,12 +66,12 @@ function Lobby({
         updatePlayer_table(currPt);
         setToomanycards(currp.hand.playCards.length - currp.bullets);
 
-        if (currPlayer_table!=null && currPlayer!=null){
+        if (currPlayer_table != null && currPlayer != null) {
             correctOrder();
             setPlayeramount(currPlayer_table.players.length);
             setupRole();
         }
-        
+
 
         let currentlength = currPt.gameMoves.length;
         let pastlength = gameMoves.length;
@@ -196,6 +196,9 @@ function Lobby({
         localStorage.removeItem("showrolechoose");
         updateTableId(null);
         updatePlayerId(null);
+        updateCurrPlayer(null);
+        updateOrderArray(null);
+        updatePlayer_table(null);
         history.push("/game/dashboard");
     }
 
@@ -259,7 +262,7 @@ function Lobby({
             case "RENEGADE":
                 setRole_picture_source("/images/role_cards/renegade.png");
                 setPlayer_role("Renegade");
-                setRole_information_text("First kill all outlaws then the sheriff to win!");
+                setRole_information_text("First kill all outlaws then any deputies and lastly the sheriff to win!");
                 break;
             default:
                 setRole_picture_source("/images/back.png");
@@ -335,7 +338,7 @@ function Lobby({
         setShow_drawnCards(true);
     }
 
-    function mute(){
+    function mute() {
         setMuteChat(!muteChat);
     }
 
@@ -343,7 +346,7 @@ function Lobby({
 
     const [show_rolechoose, setShow_rolechoose] = useState(true);
     const [show_roledisplay, setShow_roledisplay] = useState(false);
-    const [hidden_gamefield, setHidden_gamefield] = useState(false);
+    const [hidden_gamefield, setHidden_gamefield] = useState(true);
     const [show_rules, setShow_rules] = useState(false);
 
     const [rolecard_border1, setRolecard_border1] = useState(0);
@@ -381,11 +384,10 @@ function Lobby({
 
     return (
         <>
-            <p hidden={endOfGame} style={{textAlign: "center", fontSize: "50px"}}><b>{winnerMessage}</b></p>
             <Container fluid className="background_container">
                 {!orderArray || !currPlayer || !currPlayer_table ? (
                     <>
-                        <p style={{textAlign:"center"}}><Spinner></Spinner><br></br><b>Loading...</b></p>
+                        <p style={{textAlign: "center"}}><Spinner></Spinner><br></br><b>Loading...</b></p>
                     </>
                     /* ) : ( currPlayer_table.gameStatus == "ENDED" ? (
                         <>
@@ -422,11 +424,15 @@ function Lobby({
                                 <Modal.Title id="chosen-role_modal_header_title" centered><b>Your
                                     role:</b></Modal.Title>
                             </Modal.Header>
-                            <Modal.Body id="chosen-role_modal_body" centered>
-                                <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
+                            <Modal.Body  id="chosen-role_modal_body" centered>
+                                {!role_picture_source ? (
+                                    <p style={{textAlign:"center"}}><Spinner/><br/><b>Loading...</b></p>
+                                ):(
+                                    <Image src={role_picture_source} id="chosen-role_modal_body_image"/>
+                                )}
                             </Modal.Body>
                             <Modal.Footer id="chosen-role_modal_footer">
-                                <Button id="custombutton" onClick={roledisplayokay}>
+                                <Button disabled={!role_picture_source} id="custombutton" onClick={roledisplayokay}>
                                     Okay
                                 </Button>
                             </Modal.Footer>
@@ -453,7 +459,9 @@ function Lobby({
                         </Modal>}
 
 
-                        {<Modal id="choose-role_modal" size="lg" show={show_rolechoose && JSON.parse(localStorage.getItem("showrolechoose"))} centered backdrop="static"
+                        {<Modal id="choose-role_modal" size="lg"
+                                show={show_rolechoose && JSON.parse(localStorage.getItem("showrolechoose"))} centered
+                                backdrop="static"
                                 keyboard={false}
                                 animation>
                             <Modal.Header id="choose-role_modal_header">
@@ -503,33 +511,48 @@ function Lobby({
                             </Modal.Footer>
                         </Modal>}
 
-                        <LayoutSwitcher playeramount={!playeramount ? -1:playeramount} playertable={!currPlayer_table ? 0:currPlayer_table}
-                                        orderarray={!orderArray ? 0:orderArray}
-                                        visibility={hidden_gamefield} player={!currPlayer ? 0:currPlayer}
+                        <LayoutSwitcher playeramount={!playeramount ? -1 : playeramount}
+                                        playertable={!currPlayer_table ? 0 : currPlayer_table}
+                                        orderarray={!orderArray ? 0 : orderArray}
+                                        visibility={hidden_gamefield && JSON.parse(localStorage.getItem("showrolechoose"))}
+                                        player={!currPlayer ? 0 : currPlayer}
                                         roleinformation={role_information} newGameMoves={newGameMoves}
-                                        muteChat={muteChat}/>
+                                        muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}/>
 
                         {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
                         {/*    <Button id="custombutton">Show role information</Button>*/}
                         {/*</OverlayTrigger>*/}
 
-
-                        <Button disabled={currPlayer_table ? currPlayer_table.playerOnTurn.id != currPlayer.id : true}
-                                hidden={currPlayer_table ? currPlayer_table.gameStatus == "ENDED" : true} onClick={endTurn} id="custombutton">End
-                            Turn</Button>
-                        <Button onClick={openRules} id="custombutton">Rules</Button>
-                        <Button /* style={{height: 50, marginTop: 50}} */ id="custombutton" onClick={mute}>{muteChat ? "Unmute" : "Mute"}</Button>
-                        {!currPlayer ? (<p hidden={true}></p>) : (currPlayer.bullets == 0 || currPlayer_table.gameStatus=="ENDED" ? (
-                            <Button onClick={resign} variant="danger">Leave</Button>
-                        ) : (
-                            <Button onClick={resign} variant="danger">Resign</Button>
-                        ))}
-                        <br/>
-                        <ProgressBar
-                            hidden={!currPlayer_table || !currPlayer ? true:currPlayer_table.playerOnTurn.id != currPlayer.id || currPlayer_table.gameStatus == "ENDED"}
-                            max={120} now={!currPlayer_table ? 0:currPlayer_table.timeRemaining / 1000} variant={"info"}/>
-                        <p hidden={!currPlayer_table ? true:currPlayer_table.gameStatus == "ENDED"}><b>strikes: {!currPlayer ? 0:currPlayer.strikes}/3</b></p>
-                        <br/>
+                        {hidden_gamefield && JSON.parse(localStorage.getItem("showrolechoose")) ? (
+                            <p style={{textAlign:"center"}}><Spinner/><br/><b>Waiting for player to pick role...</b></p>
+                        ):(
+                            <>
+                                <Button disabled={currPlayer_table ? currPlayer_table.playerOnTurn.id != currPlayer.id : true}
+                                        hidden={currPlayer_table ? currPlayer_table.gameStatus == "ENDED" : true}
+                                        onClick={endTurn} id="custombutton">End
+                                    Turn</Button>
+                                <div className="lobby-divider"/>
+                                <Button onClick={openRules} id="custombutton">Rules</Button>
+                                <div className="lobby-divider"/>
+                                <Button /* style={{height: 50, marginTop: 50}} */ id="custombutton"
+                                      onClick={mute}>{muteChat ? "Unmute" : "Mute"}</Button>
+                                <div className="lobby-divider"/>
+                                {!currPlayer ? (
+                                    <p hidden={true}></p>) : (currPlayer.bullets == 0 || currPlayer_table.gameStatus == "ENDED" ? (
+                                    <Button onClick={resign} variant="danger">Leave</Button>
+                                ) : (
+                                    <Button onClick={resign} variant="danger">Resign</Button>
+                                ))}
+                                <br/><br/>
+                                <ProgressBar
+                                    hidden={!currPlayer_table || !currPlayer ? true : currPlayer_table.playerOnTurn.id != currPlayer.id || currPlayer_table.gameStatus == "ENDED"}
+                                    max={120} now={!currPlayer_table ? 0 : currPlayer_table.timeRemaining / 1000}
+                                    variant={"info"}/>
+                                <p hidden={!currPlayer_table ? true : currPlayer_table.gameStatus == "ENDED"}>
+                                    <b>strikes: {!currPlayer ? 0 : currPlayer.strikes}/3</b></p>
+                                <br/>
+                            </>
+                        )}
                     </Container>
 
 

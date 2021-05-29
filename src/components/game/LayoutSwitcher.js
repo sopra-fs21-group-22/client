@@ -8,7 +8,18 @@ import {Row} from "react-bootstrap";
 import { authApi } from '../../helpers/api';
 
 
-function LayoutSwitcher({playeramount, playertable, orderarray, visibility, player, roleinformation, newGameMoves, muteChat}) {
+function LayoutSwitcher({
+                            playeramount,
+                            playertable,
+                            orderarray,
+                            visibility,
+                            player,
+                            roleinformation,
+                            newGameMoves,
+                            muteChat,
+                            endOfGame,
+                            winnerMessage
+                        }) {
 // function LayoutSwitcher({playeramount, visibility}){
 
     /* const interval = useInterval(async () => {    
@@ -75,7 +86,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    updateCurr_card={updateCurr_card} curr_card={curr_card}
                                    updateChat={updateChat} chat={chat} roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
-                                   muteChat={muteChat}
+                                   muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
                                    />;
 
         case 5:
@@ -91,7 +102,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} updateChat={updateChat} chat={chat}
                                    roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
-                                   muteChat={muteChat}
+                                   muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
                                    />;
         case 6:
             return <Layout6players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -106,7 +117,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} updateChat={updateChat} chat={chat}
                                    roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
-                                   muteChat={muteChat}
+                                   muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
                                    />;
         case 7:
             return <Layout7players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -121,7 +132,7 @@ function LayoutSwitcher({playeramount, playertable, orderarray, visibility, play
                                    updateCurr_card={updateCurr_card} curr_card={curr_card} updateChat={updateChat} chat={chat}
                                    roleinformation={roleinformation}
                                    newGameMoves={newGameMoves}
-                                   muteChat={muteChat}
+                                   muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
                                    />;
     }
 }

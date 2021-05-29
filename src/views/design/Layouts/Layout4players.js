@@ -41,7 +41,9 @@ function Layout4players({
                             chat,
                             roleinformation,
                             newGameMoves,
-                            muteChat
+                            muteChat,
+                            endOfGame,
+                            winnerMessage
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -261,7 +263,7 @@ function Layout4players({
                 <Col/>
                 <Col xs={7}>{playertable.gameStatus == "ENDED" ? (
                     <>
-                        <p hidden={true}>nothing to see here</p>
+                        <p hidden={endOfGame || visibility} className="winner-message"><b>{winnerMessage}</b></p>
                     </>
                 ) : (
                     <PlayerCards playeronturn={playertable.playerOnTurn} playertable={playertable} player={player}
