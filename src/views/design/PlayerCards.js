@@ -286,7 +286,7 @@ export default function PlayerCards({
 
                 <Row>
                     <Col>
-                        <OverlayTrigger trigger="click" overlay={roleinformation} rootClose>
+                        <OverlayTrigger trigger="hover" overlay={roleinformation} rootClose>
                             <Image className="deck-discard-pile_image-card"
                                    src={`/images/role_cards/${player.gameRole.toLowerCase()}.png`}/>
                         </OverlayTrigger>

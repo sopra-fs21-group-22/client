@@ -534,6 +534,15 @@ export default function PlayerDeck({
         </Tooltip>
     )
 
+    const role_information = (
+        <Popover placement="bottom" id="role-info_popover">
+            <Popover.Title id="role-info_popover_title"><b>Sheriff</b></Popover.Title>
+            <Popover.Content id="role-info_popover_content">
+                <p>Your role is Sheriff and can be seen by everybody. Kill all Outlaws and Renegades.</p>
+            </Popover.Content>
+        </Popover>
+    )
+
 
     return (
         <div style={{marginBottom: 5}}>
@@ -586,17 +595,19 @@ export default function PlayerDeck({
                                 <Row className="justify-content-center">
                                     <Figure
                                         hidden={!(player.gameRole === "SHERIFF")}>
+                                        <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={role_information}>
                                         <Figure.Image
                                             width={80}
                                             height={80}
                                             alt="80x80"
                                             src="/images/icons/sheriff.png"/>
+                                        </OverlayTrigger>
                                     </Figure>
                                 </Row>
                             </Col>
                             <Col>
                                 <Figure>
-                                    <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" size="lg" overlay={character_information} rootClose>
+                                    <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={character_information}>
                                         <Figure.Image id="character-image_FigureImage"
                                                       style={{borderStyle: highlightImage}}
                                                       ref={characterRef}

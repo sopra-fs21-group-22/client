@@ -246,21 +246,25 @@ function Lobby({
         switch (role) {
             case "SHERIFF":
                 setRole_picture_source("/images/role_cards/sheriff.png");
+                setRole_icon_source("/images/role_cards/SHERIFF_icon.png");
                 setPlayer_role("Sheriff");
                 setRole_information_text("Kill all outlaws and the renegade to win!");
                 break;
             case "DEPUTY":
                 setRole_picture_source("/images/role_cards/deputy.png");
+                setRole_icon_source("/images/role_cards/DEPUTY_icon.png");
                 setPlayer_role("Deputy");
                 setRole_information_text("Kill all outlaws and the renegade to win!");
                 break;
             case "OUTLAW":
                 setRole_picture_source("/images/role_cards/outlaw.png");
+                setRole_icon_source("/images/role_cards/OUTLAW_icon.png");
                 setPlayer_role("Outlaw");
                 setRole_information_text("Kill the sheriff to win!");
                 break;
             case "RENEGADE":
                 setRole_picture_source("/images/role_cards/renegade.png");
+                setRole_icon_source("/images/role_cards/RENEGADE_icon.png");
                 setPlayer_role("Renegade");
                 setRole_information_text("First kill all outlaws then any deputies and lastly the sheriff to win!");
                 break;
@@ -357,6 +361,7 @@ function Lobby({
     const [player_role, setPlayer_role] = useState("defaultrole");
     const [role_information_text, setRole_information_text] = useState("default text");
     const [role_picture_source, setRole_picture_source] = useState();
+    const [role_icon_source, setRole_icon_source] = useState();
     const [show_too_many_cards, setShow_too_many_cards] = useState(false);
 
     const role_information = (
@@ -365,8 +370,9 @@ function Lobby({
             <Popover.Content id="role-info_popover_content">
                 <Card id="role-info_popover_content_card">
                     <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered
-                              src={role_picture_source}/>
+                              src={role_icon_source}/>
                 </Card>
+                <br/>
                 {role_information_text}
             </Popover.Content>
         </Popover>
