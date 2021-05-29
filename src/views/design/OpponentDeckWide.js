@@ -986,7 +986,7 @@ export default function OpponentDeckWide({
             </Modal>}
             {<Modal show={show_clickedOnField} centered animation size="sm" rootClose animation>
                 <Modal.Header id="chosen-role_modal_header">
-                    <Modal.Title id="chosen-role_modal_header_title" centered><b>{clickOnFieldType}</b></Modal.Title>
+                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Opponent's {clickOnFieldType}</b></Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="chosen-role_modal_body" centered>
                     {clickedOnFieldCard ? (
