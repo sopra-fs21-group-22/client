@@ -444,12 +444,12 @@ function Lobby({
                             </Modal.Footer>
                         </Modal>}
 
-                        {<Modal show={show_rules} centered size="m" backdrop="static" keyboard={false} animation>
+                        {<Modal show={show_rules} centered size="lg" backdrop="static" keyboard={false} animation>
                             <Modal.Header id="chosen-role_modal_header">
                                 <Modal.Title id="chosen-role_modal_header_title" centered><b>Rules</b></Modal.Title>
                             </Modal.Header>
                             <Modal.Body id="chosen-role_modal_body" centered>
-                                <Image src="/images/rule_card.png" width={400} height={258}/>
+                                <Image src="/images/rule_card.png" width={750}/>
                             </Modal.Body>
                             <Modal.Footer id="chosen-role_modal_footer">
                                 <a href="http://www.dvgiochi.net/bang/bang_rules.pdf" target="_blank"><Image
