@@ -543,6 +543,7 @@ export default function OpponentDeckWide({
                     <Card.Img id="role-info_popover_content_card_cardimg" variant="top" centered
                               src={!characterRef.current ? "/images/back.png" : (inJail ? `/images/character_cards/${characterName}_jail.png` : `/images/character_cards/${characterName}.png`)}/>
                 </Card>
+                <br/>
                 {characterDescription}
             </Popover.Content>
         </Popover>
@@ -793,7 +794,7 @@ export default function OpponentDeckWide({
                         </Col>
                         <Col>
                             <Figure>
-                                <OverlayTrigger trigger="click" placement="right" overlay={character_information} rootClose>
+                                <OverlayTrigger trigger={hideCancel_PlayCard ? "hover":"none"} placement="right" overlay={character_information} rootClose>
                                     <Figure.Image id="character-image_FigureImage"
                                                   style={{borderStyle: highlightImage}}
                                                   ref={characterRef}

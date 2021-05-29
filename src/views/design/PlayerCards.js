@@ -49,7 +49,8 @@ export default function PlayerCards({
             return;
         }
         if (curr_card != null) {
-            alert("you already chose a card to play. press cancel to play another card.");
+            alert("You already chose a card to play. Press cancel to play another card.");
+            updateHideCancel_PlayCard(false);
             return;
         }
         let curr = show_card;
