@@ -93,7 +93,7 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
             ) : (
 
                 <div>
-                    <h4>Join public lobby</h4>
+                    <h4>Public Lobby</h4>
                     {/*TODO: use this code for the private lobbies later on*/}
                     {/*<ListGroup>
             <ListGroup.Item>

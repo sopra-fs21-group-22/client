@@ -1,4 +1,5 @@
 import "../../views/design/styling/custom_button_styling.css";
+import "../../views/design/styling/lobby_styling.css";
 import useInterval from "./useInterval.js";
 import React, {useState, useEffect} from 'react';
 import Lobby from './Lobby';
@@ -225,11 +226,13 @@ function WaitingRoom({
                                                     ))}
                                         </ListGroup>}
 
-                                    <br></br>
+                                    <br/>
                                     <Button variant={ready_button_color}
-                                            disabled={currPlayer_table.gameStatus == "ONGOING"}
+                                            disabled={currPlayer_table.gameStatus === "ONGOING"}
                                             onClick={toggleReady}>{ready_button_text}</Button>
+                                    <div className="lobby-divider"/>
                                     <Button onClick={leave} variant="danger">Leave game</Button>
+                                    <div className="lobby-divider"/>
                                     <OverlayTrigger trigger="click" placement="right" overlay={game_information}
                                                     rootClose>
                                         <Button id="custombutton">Info</Button>

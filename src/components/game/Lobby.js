@@ -528,9 +528,12 @@ function Lobby({
                                         hidden={currPlayer_table ? currPlayer_table.gameStatus == "ENDED" : true}
                                         onClick={endTurn} id="custombutton">End
                                     Turn</Button>
+                                <div className="lobby-divider"/>
                                 <Button onClick={openRules} id="custombutton">Rules</Button>
+                                <div className="lobby-divider"/>
                                 <Button /* style={{height: 50, marginTop: 50}} */ id="custombutton"
-                                                                                  onClick={mute}>{muteChat ? "Unmute" : "Mute"}</Button>
+                                      onClick={mute}>{muteChat ? "Unmute" : "Mute"}</Button>
+                                <div className="lobby-divider"/>
                                 {!currPlayer ? (
                                     <p hidden={true}></p>) : (currPlayer.bullets == 0 || currPlayer_table.gameStatus == "ENDED" ? (
                                     <Button onClick={resign} variant="danger">Leave</Button>

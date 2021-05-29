@@ -62,6 +62,12 @@
     justify-content: center;
 }
 
+.playing-field-divider{
+    width:10px;
+    height:auto;
+    display:inline-block;
+}
+
 /*styling for dead players*/
 #opponent-deck_div_gameEnd{
     position: absolute;
