@@ -410,9 +410,7 @@ function Lobby({
         <>
             <Container fluid className="background_container">
                 {!orderArray || !currPlayer || !currPlayer_table ? (
-                    <>
-                        <p style={{textAlign: "center"}}><Spinner/><br></br><b>Loading...</b></p>
-                    </>
+                    <p style={{textAlign: "center"}}><Spinner/><br></br><b>Loading...</b></p>
                     /* ) : ( currPlayer_table.gameStatus == "ENDED" ? (
                         <>
                         <h1>Game Over</h1>
