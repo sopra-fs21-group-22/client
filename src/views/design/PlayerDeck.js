@@ -601,7 +601,7 @@ export default function PlayerDeck({
     return (
         <div style={{marginBottom: 5}}>
             <>
-                <h hidden={hitOrMissedNoteHidden} id="notification">
+                <h hidden={messageHidden ? hitOrMissedNoteHidden:true} id="notification">
                 <b>{hitOrMissedMessage}</b></h>
             </>
             <>
