@@ -64,4 +64,4 @@ Information about Bootstrap-components can be found [here](https://react-bootstr
 ## License
 
 Licensed under GNU General Public License v3.0
-- See [License]()
+- See [License](LICENSE)
