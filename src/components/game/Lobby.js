@@ -34,6 +34,7 @@ import useInterval from "../game/useInterval.js";
 import LayoutSwitcher from '../game/LayoutSwitcher';
 import {forEach} from "react-bootstrap/ElementChildren";
 import "../../views/design/styling/custom_button_styling.css";
+import QuickGuide from "../../views/design/QuickGuide";
 
 function Lobby({
                    currUser,
@@ -221,6 +222,15 @@ function Lobby({
         setShow_rules(false);
     }
 
+    function openGuide() {
+        setShow_rules(false);
+        setShow_Guide(true);
+    }
+
+    function closeGuide() {
+        setShow_Guide(false);
+    }
+
     async function endTurn() {
         if (currPlayer.hand.playCards.length > currPlayer.bullets) {
             // if (true){
@@ -353,6 +363,7 @@ function Lobby({
     const [show_roledisplay, setShow_roledisplay] = useState(false);
     const [hidden_gamefield, setHidden_gamefield] = useState(true);
     const [show_rules, setShow_rules] = useState(false);
+    const [show_Guide, setShow_Guide] = useState(false);
 
     const [rolecard_border1, setRolecard_border1] = useState(0);
     const [rolecard_border2, setRolecard_border2] = useState(0);
@@ -400,7 +411,7 @@ function Lobby({
             <Container fluid className="background_container">
                 {!orderArray || !currPlayer || !currPlayer_table ? (
                     <>
-                        <p style={{textAlign: "center"}}><Spinner></Spinner><br></br><b>Loading...</b></p>
+                        <p style={{textAlign: "center"}}><Spinner/><br></br><b>Loading...</b></p>
                     </>
                     /* ) : ( currPlayer_table.gameStatus == "ENDED" ? (
                         <>
@@ -420,7 +431,7 @@ function Lobby({
                                 keyboard={false}
                                 animation>
                             <Modal.Body id="chosen-role_modal_body" centered>
-                                <p>You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some
+                                <p>You have {toomanycards} too many card(s).<br></br><br></br> Discard or play some
                                     cards.
                                 </p>
                             </Modal.Body>
@@ -472,8 +483,26 @@ function Lobby({
                                     alt="80x100"/>
                                     <figcaption>Learn More</figcaption>
                                 </a>
+                                <Button variant="dark" onClick={openGuide}>Quick Guide</Button>
                                 <Button id="custombutton" onClick={closeRules}>
                                     Okay
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>}
+
+                        {<Modal show={show_Guide} centered animation size="lg" backdrop="static" keyboard={false}
+                                animation>
+                            <Modal.Header id="chosen-role_modal_header">
+                                <Modal.Title id="carousel-header" centered>
+                                    Quick Guide
+                                </Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body  id="chosen-role_modal_body" centered>
+                                <QuickGuide/>
+                            </Modal.Body>
+                            <Modal.Footer id="chosen-role_modal_footer">
+                                <Button id="custombutton" onClick={closeGuide}>
+                                    Close
                                 </Button>
                             </Modal.Footer>
                         </Modal>}
@@ -512,17 +541,26 @@ function Lobby({
                             </Modal.Footer>
                         </Modal>}
 
-                        {<Modal show={show_drawnCards} centered animation size="m" rootClose animation>
+                        {<Modal show={show_drawnCards} centered animation size={drawnCards.length > 1 ? "m" : "sm"} rootClose animation>
                             <Modal.Header id="global_modal_header">
                                 <Modal.Title id="global_modal_header_title" centered><b>Drawn
                                     Cards</b></Modal.Title>
                             </Modal.Header>
                             <Modal.Body id="global_modal_body" centered>
-                                {drawnCards.map((curr) => (
+                                {drawnCards.length > 1 ? (drawnCards.map((curr) => (
                                     <Image
                                         src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
                                         id="global_modal_body_image"/>
-                                ))}
+                                ))):(
+                                    <p>You drew the <b>DYNAMITE</b> card! It was added to your Player Box automatically.
+                                        <br/><br/>
+                                        {drawnCards.map((curr) => (
+                                            <Image
+                                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                                id="global_modal_body_image"/>
+                                        ))}
+                                    </p>
+                                )}
                             </Modal.Body>
                             <Modal.Footer id="global_modal_footer">
                                 <Button id="custombutton" onClick={closeDrawnCards}>

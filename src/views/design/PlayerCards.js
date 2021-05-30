@@ -307,8 +307,7 @@ export default function PlayerCards({
                             {<Modal show={show_card[index]} centered animation size="m" backdrop="static"
                                     keyboard={false}>
                                 <Modal.Header id="chosen-role_modal_header">
-                                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Play or
-                                        Return</b></Modal.Title>
+                                    <Modal.Title id="chosen-role_modal_header_title" centered><b>Discard, Return or Play</b></Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body id="chosen-role_modal_body" centered>
                                     <Image src={curr_card_image_source} id="chosen-role_modal_body_image"/>

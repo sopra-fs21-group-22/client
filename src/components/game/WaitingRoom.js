@@ -15,7 +15,7 @@ import {
     Button,
     Modal,
     Image,
-    ModalBody
+    ModalBody, Tooltip, Carousel, CarouselItem
 } from 'react-bootstrap';
 import {api, authApi, handleError} from '../../helpers/api';
 import {withRouter, useHistory, Link, useRouteMatch,} from 'react-router-dom';
@@ -25,6 +25,7 @@ import Badge from 'react-bootstrap/Badge';
 import Popover from 'react-bootstrap/Popover';
 import Overlay from 'react-bootstrap/Overlay';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import QuickGuide from "../../views/design/QuickGuide";
 
 
 function WaitingRoom({
@@ -84,16 +85,7 @@ function WaitingRoom({
     const [loop, setLoop] = useState(true);
     const [allplayersready, setAllplayersready] = useState(false);
     const [buffer, setBuffer] = useState(true);
-
-    const game_information = (
-        <Popover id="role-info_popover">
-            {/* <Popover.Title id="role-info_popover_title"><b>title</b></Popover.Title> */}
-            <Popover.Content id="role-info_popover_content">
-                You need atleast 4 players and atmost 7 players to start a game
-            </Popover.Content>
-        </Popover>
-    )
-
+    const [show_Guide, setShow_Guide] = useState(false);
 
     function correctOrder() {
         let current_array = [];
@@ -159,6 +151,18 @@ function WaitingRoom({
         history.push("/game/dashboard");
     }
 
+    function openGuide() {
+        setShow_Guide(true);
+    }
+
+    function closeGuide() {
+        setShow_Guide(false);
+    }
+
+    const quick_guide_tip = (
+        <Tooltip id="guide-tooltip">Already read the <b>"Quick Guide"?</b> It helps understanding the game in just a few steps!</Tooltip>
+    )
+
     return (
         <Container>
             <br/>
@@ -166,23 +170,23 @@ function WaitingRoom({
             <br/><br/>
 
             {(!currPlayer_table || !currPlayer || currPlayer_table.gameStatus === "ENDED") ? (
-                <p style={{textAlign: "center"}}><Spinner/><br/><b>Loading...</b></p>
+                <span style={{textAlign: "center"}}><Spinner/><br/><b>Loading...</b></span>
             ) : (
                 <>
                     {currPlayer_table.gameStatus === "ONGOING" ? (
                         <p style={{textAlign: "center"}}><Spinner/><br/><b>Game in progress. Redirecting...</b></p>
                     ) : (
                         <>
-                            <p style={{textAlign: "center", fontSize: 50}}>
+                            <p style={{textAlign: "center"}}>
                                 {currPlayer_table.players.length < 4 ? (
                                     <>
-                                        <b>Waiting for players to join...</b><br/><Spinner/>
+                                        <Spinner/><br/><b>Waiting for players to join...</b><br/>
                                     </>
                                 ) : (
                                     <>
                                         {currPlayer_table.players.length !== everybodyReady(currPlayer_table) ? (
                                             <>
-                                                <b>Waiting for everybody to be ready...</b><br/><Spinner/>
+                                                <Spinner/><br/><b>Waiting for everybody to be ready...</b><b/>
                                             </>
                                         ) : (
                                             <b>Ready!</b>
@@ -190,56 +194,81 @@ function WaitingRoom({
                                     </>
                                 )}
                             </p>
-
-                            {
-                                <ListGroup>
-                                    <ListGroup.Item>
-                                        <Row>
-                                            <Col>Username</Col>
-                                            <Col>Status</Col>
-                                        </Row>
-                                    </ListGroup.Item>
-                                    <ListGroup.Item variant="primary">
-                                        <Row>
-                                            <Col>{currPlayer.user}</Col>
-                                            <Col>{currPlayer.ready ? <Badge variant="success">Ready</Badge> :
-                                                <Badge variant="danger">Not ready</Badge>}</Col>
-                                        </Row>
-                                    </ListGroup.Item>
-
-                                    {
-                                        // removing logged in user as they already are in the list
-                                        currPlayer_table.players.filter((player) => player.user != currPlayer.user)
-                                            .map((player) => (
-                                                <ListGroup.Item key={player.id}>
-                                                    <Row>
-                                                        <Col>{player.user}</Col>
-                                                        <Col>{player.ready ?
-                                                            <Badge variant="success">Ready</Badge> :
-                                                            <Badge variant="danger">Not ready</Badge>}</Col>
-                                                    </Row>
-                                                </ListGroup.Item>
-                                            ))}
-                                </ListGroup>}
-
                             <br/>
-                            <Button variant={ready_button_color}
-                                    disabled={currPlayer_table.gameStatus === "ONGOING"}
-                                    onClick={toggleReady}>{ready_button_text}</Button>
+                            {<ListGroup>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>Username</Col>
+                                        <Col>Status</Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item variant="primary">
+                                    <Row>
+                                        <Col>{currPlayer.user}</Col>
+                                        <Col>{currPlayer.ready ? <Badge variant="success">Ready</Badge> :
+                                            <Badge variant="danger">Not ready</Badge>}</Col>
+                                    </Row>
+                                </ListGroup.Item>
+
+                                {
+                                    // removing logged in user as they already are in the list
+                                    currPlayer_table.players.filter((player) => player.user != currPlayer.user).map((player) => (
+                                        <ListGroup.Item key={player.id}>
+                                            <Row>
+                                                <Col>{player.user}</Col>
+                                                <Col>{player.ready ?
+                                                    <Badge variant="success">Ready</Badge> :
+                                                    <Badge variant="danger">Not ready</Badge>}
+                                                </Col>
+                                            </Row>
+                                        </ListGroup.Item>
+                                    ))
+                                }
+                            </ListGroup>}
+                            <br/>
+                            <p style={{textAlign: "right"}}>
+                                {currPlayer_table.players.length < 4 ? (
+                                    <span style={{border: "solid", padding: "10px"}}>
+                                        <b>{currPlayer_table.players.length}/7</b> players are in this lobby, at least four are necessary!
+                                    </span>
+                                ) : (
+                                    <span style={{border: "solid", padding: "10px"}}>
+                                        <b>{currPlayer_table.players.length}/7</b> players are in this lobby
+                                    </span>
+                                )}
+                            </p>
+
+                            <OverlayTrigger trigger="hover" placement="top" overlay={quick_guide_tip}>
+                                <Button variant={ready_button_color}
+                                        disabled={currPlayer_table.gameStatus === "ONGOING"}
+                                        onClick={toggleReady}>{ready_button_text}</Button>
+                            </OverlayTrigger>
                             <div className="lobby-divider"/>
                             <Button onClick={leave} variant="danger">Leave game</Button>
                             <div className="lobby-divider"/>
-                            <OverlayTrigger trigger="click" placement="right" overlay={game_information}
-                                            rootClose>
-                                <Button id="custombutton">Info</Button>
-                            </OverlayTrigger>
+                            <Button onClick={openGuide} variant="dark">Quick Guide</Button>
                         </>
                     )}
                 </>
             )}
-
+            {<Modal show={show_Guide} centered animation size="lg" backdrop="static" keyboard={false}
+                    animation>
+                <Modal.Header id="chosen-role_modal_header">
+                    <Modal.Title id="carousel-header" centered>
+                        Quick Guide
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body  id="chosen-role_modal_body" centered>
+                    <QuickGuide/>
+                </Modal.Body>
+                <Modal.Footer id="chosen-role_modal_footer">
+                    <Button id="custombutton" onClick={closeGuide}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>}
         </Container>
     );
 }
 
-export default WaitingRoom;
+export default (WaitingRoom);
