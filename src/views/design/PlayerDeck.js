@@ -484,7 +484,7 @@ export default function PlayerDeck({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "PANIC" && newGameMoves[i].targetPlayer == player.id){
+            if (newGameMoves[i].card == "PANIC" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action!="DISCARD"){
                 setMessageHidden(false);
                 setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} stole one of your cards`);
                 return true;
@@ -498,7 +498,7 @@ export default function PlayerDeck({
             return false;
         }
         for (let i=0; i<newGameMoves.length; i++){
-            if (newGameMoves[i].card == "BANG" && newGameMoves[i].targetPlayer == player.id){
+            if (newGameMoves[i].card == "BANG" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action!="DISCARD"){
                 setMessageHidden(false);
                 setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} banged you`);
                 return true;

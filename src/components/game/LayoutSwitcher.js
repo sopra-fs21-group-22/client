@@ -20,7 +20,8 @@ function LayoutSwitcher({
                             endOfGame,
                             winnerMessage,
                             show_characterDisplay,
-                            updateShow_characterDisplay
+                            updateShow_characterDisplay,
+                            reversedGameMoves
                         }) {
 // function LayoutSwitcher({playeramount, visibility}){
 
@@ -90,6 +91,7 @@ function LayoutSwitcher({
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
                                    show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}
+                                   reversedGameMoves={reversedGameMoves}
                                    />;
 
         case 5:
@@ -107,6 +109,7 @@ function LayoutSwitcher({
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
                                    show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}
+                                   reversedGameMoves={reversedGameMoves}
                                    />;
         case 6:
             return <Layout6players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -123,6 +126,7 @@ function LayoutSwitcher({
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
                                    show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}
+                                   reversedGameMoves={reversedGameMoves}
                                    />;
         case 7:
             return <Layout7players playertable={playertable} orderarray={orderarray} visibility={visibility}
@@ -139,6 +143,7 @@ function LayoutSwitcher({
                                    newGameMoves={newGameMoves}
                                    muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
                                    show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}
+                                   reversedGameMoves={reversedGameMoves}
                                    />;
     }
 }
