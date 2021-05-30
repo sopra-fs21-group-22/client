@@ -431,7 +431,7 @@ function Lobby({
                                 keyboard={false}
                                 animation>
                             <Modal.Body id="chosen-role_modal_body" centered>
-                                <p>You have {toomanycards} too many card(s).<br></br><br></br> Discard some or play some
+                                <p>You have {toomanycards} too many card(s).<br></br><br></br> Discard or play some
                                     cards.
                                 </p>
                             </Modal.Body>
@@ -541,17 +541,26 @@ function Lobby({
                             </Modal.Footer>
                         </Modal>}
 
-                        {<Modal show={show_drawnCards} centered animation size="m" rootClose animation>
+                        {<Modal show={show_drawnCards} centered animation size={drawnCards.length > 1 ? "m" : "sm"} rootClose animation>
                             <Modal.Header id="global_modal_header">
                                 <Modal.Title id="global_modal_header_title" centered><b>Drawn
                                     Cards</b></Modal.Title>
                             </Modal.Header>
                             <Modal.Body id="global_modal_body" centered>
-                                {drawnCards.map((curr) => (
+                                {drawnCards.length > 1 ? (drawnCards.map((curr) => (
                                     <Image
                                         src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
                                         id="global_modal_body_image"/>
-                                ))}
+                                ))):(
+                                    <p>You drew the <b>DYNAMITE</b> card! It was added to your Player Box automatically.
+                                        <br/><br/>
+                                        {drawnCards.map((curr) => (
+                                            <Image
+                                                src={`/images/play_cards/${curr.color}_${curr.card}_${curr.suit}_${curr.rank}.png`}
+                                                id="global_modal_body_image"/>
+                                        ))}
+                                    </p>
+                                )}
                             </Modal.Body>
                             <Modal.Footer id="global_modal_footer">
                                 <Button id="custombutton" onClick={closeDrawnCards}>
