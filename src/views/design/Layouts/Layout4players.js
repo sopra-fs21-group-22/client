@@ -137,6 +137,13 @@ function Layout4players({
         }
     }
 
+    function isPlayerDead(userName){
+        for(let player of playertable.players){
+            if (player.user === userName){
+                return (player.bullets === 0);
+            }
+        }
+    }
 
     function back() {
         updateHideCancel_PlayCard(true);
@@ -281,9 +288,9 @@ function Layout4players({
                          hidden={!displayGameLog}>
                         <Toast show={newMessage && showChatToast} onClose={() => setShowChatToast(false)} delay={2000} autohide>
                             <Toast.Header>
-                                <strong className="mr-auto">{newMessageData.name}</strong>
+                                <strong style={isPlayerDead(newMessageData.name) ? ({color:"gray"}) : ({color:"black"}) } className="mr-auto">{newMessageData.name}</strong>
                             </Toast.Header>
-                            <Toast.Body>{newMessageData.content}</Toast.Body>
+                            <Toast.Body style={isPlayerDead(newMessageData.name) ? ({color:"gray"}) : ({color:"black"}) }>{newMessageData.content} </Toast.Body>
                         </Toast>
                     </Col>
                 </Row>
