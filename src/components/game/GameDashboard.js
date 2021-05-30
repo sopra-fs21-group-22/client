@@ -77,8 +77,6 @@ function GameDashboard({currUser, currPlayer_table, updatePlayer_table, updatePl
 
     async function rejoin() {
         const target = "/game/dashboard/lobby/public/waiting/" + tableId;
-        let showrolechoose=false;
-        localStorage.setItem("showrolechoose", JSON.stringify(showrolechoose));
         history.push(target);
         
     }
