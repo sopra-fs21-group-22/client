@@ -67,7 +67,7 @@ function Lobby({
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
         setToomanycards(currp.hand.playCards.length - currp.bullets);
-        setReversedGameMoves(currPt.gameMoves.reverse());
+        setReversedGameMoves(currPt.gameMoves.slice().reverse());
 
         if (currPlayer_table != null && currPlayer != null) {
             correctOrder();

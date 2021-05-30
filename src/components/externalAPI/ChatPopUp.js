@@ -5,7 +5,6 @@ import ChatInput from "./ChatInput";
 
 function ChatPopUp({player, playertable, height, width}) {
 
-    console.log("playertable: ", playertable)
     const chat = playertable.chat.messages;
     const messages = chat.map((m) =>
         <p style={isPlayerDead(m.name) ? ({color:"gray"}) : ({color:"black"}) } key={m.id}>{m.name + ": " + m.content + "\n"}</p>
