@@ -208,6 +208,8 @@ function Lobby({
     const chooseRole = () => {
         setShow_rolechoose(false);
         setShow_roledisplay(true);
+        let showrolechoose=false;
+        localStorage.setItem("showrolechoose", JSON.stringify(showrolechoose));
     }
 
     function roledisplayokay() {
