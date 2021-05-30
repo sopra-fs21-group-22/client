@@ -284,16 +284,10 @@ function Layout4players({
                         History
                     </Button>
                     <Col hidden={displayGameLog}>
-                        <GameMovesPopUp gamemoves={reversedGameMoves} height={200} width={300}/>
+                        <GameMovesPopUp gamemoves={reversedGameMoves} height={200} width={320}/>
                     </Col>
-                    <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 330, marginTop: 10}}
+                    <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 350, marginTop: 10}}
                          hidden={!displayGameLog}>
-                        <Toast show={false} onClose={() => setShowChatToast(false)} delay={2000} autohide>
-                            <Toast.Header>
-                                <strong style={isPlayerDead(newMessageData.name) ? ({color:"gray"}) : ({color:"black"}) } className="mr-auto">{newMessageData.name}</strong>
-                            </Toast.Header>
-                            <Toast.Body style={isPlayerDead(newMessageData.name) ? ({color:"gray"}) : ({color:"black"}) }>{newMessageData.content} </Toast.Body>
-                        </Toast>
                     </Col>
                 </Row>
             </Row>

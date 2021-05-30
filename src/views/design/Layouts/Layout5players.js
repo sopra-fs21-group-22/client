@@ -263,7 +263,7 @@ function Layout5players({
                 <Col hidden={displayChat}>
                     <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={300} width={300}/>
                 </Col>
-                <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10}}
+                <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10, width: 320}}
                      hidden={!displayChat}>
 
                     <Toast show={newMessage && show} onClose={() => setShow(false)} delay={2000} autohide>
@@ -300,19 +300,14 @@ function Layout5players({
                     }}>
                         History
                     </Button>
-                    <Col hidden={displayGameLog}>
-                        <GameMovesPopUp gamemoves={reversedGameMoves} height={200} width={300}/>
+                    <Col hidden={displayGameLog} style={{width: 300}}>
+                        <GameMovesPopUp gamemoves={reversedGameMoves} height={200} width={320}/>
                     </Col>
-                    <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 330, marginTop: 10}}
+                    <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 300, marginTop: 10}}
                          hidden={!displayGameLog}>
-                        <Toast show={false} onClose={() => setShowChatToast(false)} delay={2000} autohide>
-                            <Toast.Header>
-                                <strong className="mr-auto">{newMessageData.name}</strong>
-                            </Toast.Header>
-                            <Toast.Body>{newMessageData.content}</Toast.Body>
-                        </Toast>
                     </Col>
-                </Row>            </Row>
+                </Row>
+            </Row>
             <Row className="align-items-center">
                 <Col/>
                 <Col xs={7}>{playertable.gameStatus == "ENDED" ? (

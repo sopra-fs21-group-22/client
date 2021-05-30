@@ -317,17 +317,11 @@ function Layout6players({
                 }}>
                     History
                 </Button>
-                <Col hidden={displayGameLog}>
+                <Col hidden={displayGameLog} style={{width: 300}}>
                     <GameMovesPopUp gamemoves={reversedGameMoves} height={200} width={300}/>
                 </Col>
-                <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 330, marginTop: 10}}
+                <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 300, marginTop: 10}}
                      hidden={!displayGameLog}>
-                    <Toast show={false} onClose={() => setShowChatToast(false)} delay={2000} autohide>
-                        <Toast.Header>
-                            <strong className="mr-auto">{newMessageData.name}</strong>
-                        </Toast.Header>
-                        <Toast.Body>{newMessageData.content}</Toast.Body>
-                    </Toast>
                 </Col>
             </Row>        </Row>
         <Row className="align-items-center">
