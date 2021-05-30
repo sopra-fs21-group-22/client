@@ -807,7 +807,7 @@ export default function OpponentDeckWide({
                 <b>{hitOrMissedMessage}</b></h>
             </>
             <>
-                <p hidden={notificationImageHidden} id="notification-image"><Image src={notificationImage}/></p>
+                <p hidden={notificationImageHidden} id="notification-for-image"><Image className="notification-image" src={notificationImage}/></p>
             </>
             <>
                 <p hidden={messageHidden} id="notification2"><b>{notificationmessage}</b></p>
