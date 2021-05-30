@@ -129,6 +129,20 @@
     animation-duration: 0.9s;
 }
 
+#notification-image{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation-name: fadeIn;
+    animation-duration: 0.9s;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    font-weight: bold;
+    height: 150px;
+}
+
 #notification2{
     position: absolute;
     display: flex;
