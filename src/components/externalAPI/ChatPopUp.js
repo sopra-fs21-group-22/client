@@ -5,11 +5,19 @@ import ChatInput from "./ChatInput";
 
 function ChatPopUp({player, playertable, height, width}) {
 
+    console.log("playertable: ", playertable)
     const chat = playertable.chat.messages;
     const messages = chat.map((m) =>
-        <p key={m.id}>{m.name + ": " + m.content + "\n"}</p>
+        <p style={isPlayerDead(m.name) ? ({color:"gray"}) : ({color:"black"}) } key={m.id}>{m.name + ": " + m.content + "\n"}</p>
     );
 
+    function isPlayerDead(userName){
+        for(let player of playertable.players){
+            if (player.user === userName){
+                return (player.bullets === 0);
+            }
+        }
+    }
 
     return (
         <Card className="overflow-auto" style={{backgroundColor: "none", opacity: 0.8, maxHeight: height, maxWidth: width}}>
