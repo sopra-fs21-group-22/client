@@ -62,3 +62,6 @@ Information about Bootstrap-components can be found [here](https://react-bootstr
 >E. Heggli, M. Mylaeus, R. Bommeli, R. Bättig, Y. Meister
 
 ## License
+
+Licensed under GNU General Public License v3.0
+- See [License](LICENSE)

@@ -24,6 +24,7 @@ import "../styling/lobby_styling.css";
 import {authApi} from "../../../helpers/api";
 import {synthesizeSpeech} from "../../../components/externalAPI/synthesizeSpeech";
 import LayoutSwitcher from "../../../components/game/LayoutSwitcher";
+import GameMovesPopUp from "../../../components/game/GameMovesPopUp";
 
 function Layout7players({
                             playertable,
@@ -52,7 +53,8 @@ function Layout7players({
                             endOfGame,
                             winnerMessage,
                             show_characterDisplay,
-                            updateShow_characterDisplay
+                            updateShow_characterDisplay,
+                            reversedGameMoves
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -103,7 +105,7 @@ function Layout7players({
         <Popover id="popover-basic" style={{backgroundColor: "none"}}>
             <Popover.Title as="h3">Game Moves Log</Popover.Title>
             <Popover.Content>
-                <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={200} width={500}/>
+            <GameMovesPopUp gamemoves={reversedGameMoves} height={200} width={500}/>
             </Popover.Content>
         </Popover>
     );
@@ -356,7 +358,7 @@ function Layout7players({
             <Col>
                 <OverlayTrigger trigger="click" placement="top" overlay={popover}>
                     <Button variant="outline-dark" size="lg" style={{height: 50, marginRight: 10}}>
-                        Game
+                        History
                     </Button>
                 </OverlayTrigger>
                 <br/><br/>

@@ -53,6 +53,7 @@ function Lobby({
     const [playeramount, setPlayeramount] = useState();
     const [toomanycards, setToomanycards] = useState("loading");
     const [timer, setTimer] = useState(100);
+    const [reversedGameMoves, setReversedGameMoves] = useState();
     const interval = useInterval(async () => {
         //repeating requests to keep player_table and player up to date
 
@@ -66,6 +67,7 @@ function Lobby({
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
         setToomanycards(currp.hand.playCards.length - currp.bullets);
+        setReversedGameMoves(currPt.gameMoves.reverse());
 
         if (currPlayer_table != null && currPlayer != null) {
             correctOrder();
@@ -574,7 +576,8 @@ function Lobby({
                                         player={!currPlayer ? 0 : currPlayer}
                                         roleinformation={role_information} newGameMoves={newGameMoves}
                                         muteChat={muteChat} endOfGame={endOfGame} winnerMessage={winnerMessage}
-                                        show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}/>
+                                        show_characterDisplay={show_characterDisplay} updateShow_characterDisplay={updateShow_characterDisplay}
+                                        reversedGameMoves={reversedGameMoves}/>
 
                         {/*<OverlayTrigger trigger="click" overlay={role_information} rootClose>*/}
                         {/*    <Button id="custombutton">Show role information</Button>*/}

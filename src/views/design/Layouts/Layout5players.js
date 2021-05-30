@@ -24,6 +24,7 @@ import "../styling/lobby_styling.css";
 import {authApi} from "../../../helpers/api";
 import {synthesizeSpeech} from "../../../components/externalAPI/synthesizeSpeech";
 import LayoutSwitcher from "../../../components/game/LayoutSwitcher";
+import GameMovesPopUp from "../../../components/game/GameMovesPopUp";
 
 function Layout5players({
                             playertable,
@@ -52,7 +53,8 @@ function Layout5players({
                             endOfGame,
                             winnerMessage,
                             show_characterDisplay,
-                            updateShow_characterDisplay
+                            updateShow_characterDisplay,
+                            reversedGameMoves
                         }) {
     const interval = useInterval(async () => {
         /* console.log(`${playerList[0].user}layoutversion: ${playerList[0].bullets}`);
@@ -261,7 +263,7 @@ function Layout5players({
                 <Col hidden={displayChat}>
                     <ChatPopUp chatMessages={chat} player={player} playertable={playertable} height={300} width={300}/>
                 </Col>
-                <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10}}
+                <Col style={{backgroundColor: "none", opacity: 0.8, marginBottom: 10, marginTop: 10, width: 320}}
                      hidden={!displayChat}>
 
                     <Toast show={newMessage && show} onClose={() => setShow(false)} delay={2000} autohide>
@@ -296,21 +298,16 @@ function Layout5players({
                     <Button variant="outline-dark" size="lg" style={{height: 50, marginTop: 50, marginLeft: 10}} onClick={() => {
                         setDisplayGameLog(!displayGameLog)
                     }}>
-                        Game
+                        History
                     </Button>
-                    <Col hidden={displayGameLog}>
-                        <ChatPopUp player={player} playertable={playertable} height={200} width={300}/>
+                    <Col hidden={displayGameLog} style={{width: 300}}>
+                        <GameMovesPopUp gamemoves={reversedGameMoves} height={200} width={320}/>
                     </Col>
-                    <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 330, marginTop: 10}}
+                    <Col style={{backgroundColor: "none", opacity: 0.8, minWidth: 300, marginTop: 10}}
                          hidden={!displayGameLog}>
-                        <Toast show={newMessage && showChatToast} onClose={() => setShowChatToast(false)} delay={2000} autohide>
-                            <Toast.Header>
-                                <strong className="mr-auto">{newMessageData.name}</strong>
-                            </Toast.Header>
-                            <Toast.Body>{newMessageData.content}</Toast.Body>
-                        </Toast>
                     </Col>
-                </Row>            </Row>
+                </Row>
+            </Row>
             <Row className="align-items-center">
                 <Col/>
                 <Col xs={7}>{playertable.gameStatus == "ENDED" ? (
