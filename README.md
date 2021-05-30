@@ -59,7 +59,18 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Illustrations
 
-First the user needs to register and login. The users are then pushed to the GameDashboard. Once they decide to join a lobby, they are redirected to the WaitingRoom in which they can start the game and finally end up in the lobby. For the rest of the game everything stays in the lobby. Here all the decks (amount depending on the player amount), the discard and deck piles as well as the chat and game log/history are rendered. Screenshots can be found in the report. Hooks are for example set in the lobby and passed down to all components, which need the information. They are also used to make certain modals visible on click or assigned the user's special cards. Bootstrap serves as library from which all kinds of components, such as modals, buttons, grid layouts and carousels are used. Additionally, popovers serve as information for the users as they show up whenever the cursor hovers over them.
+First the user needs to register and login. The users are then pushed to the GameDashboard. Once they decide to join a lobby, they are redirected to the WaitingRoom in which they can start the game and finally end up in the lobby. For the rest of the game everything stays in the lobby. Here all the decks (amount depending on the player amount), the discard and deck piles as well as the chat and game log/history are rendered. Hooks are for example set in the lobby and passed down to all components, which need the information. They are also used to make certain modals visible on click or assigned the user's special cards. Bootstrap serves as library from which all kinds of components, such as modals, buttons, grid layouts and carousels are used. Additionally, popovers serve as information for the users as they show up whenever the cursor hovers over them.
+
+![006](006.JPG)
+![007](007.JPG)
+![008](008.JPG)
+![001](001.JPG)
+![002](002.JPG)
+![003](003.JPG)
+![004](004.JPG)
+![005](005.JPG)
+![009](009.JPG)
+![010](010.JPG)
 
 ## Roadmap
 - CSS Wizard to make it look even more classy
