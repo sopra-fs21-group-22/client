@@ -472,7 +472,7 @@ export default function PlayerDeck({
         for (let i=0; i<newGameMoves.length; i++){
             if (newGameMoves[i].card == "CATBALOU" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action=="USE"){
                 setMessageHidden(false);
-                setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} discarded one of your cards`);
+                setNotificationMessage(`${(searchPlayerById(newGameMoves[i].usingPlayer).user).toUpperCase()} THREW AWAY ONE OF YOUR CARDS`);
                 return true;
             }
         }
@@ -486,7 +486,7 @@ export default function PlayerDeck({
         for (let i=0; i<newGameMoves.length; i++){
             if (newGameMoves[i].card == "PANIC" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action!="DISCARD"){
                 setMessageHidden(false);
-                setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} stole one of your cards`);
+                setNotificationMessage(`${(searchPlayerById(newGameMoves[i].usingPlayer).user).toUpperCase()} STOLE ONE OF YOUR CARDS`);
                 return true;
             }
         }
@@ -500,7 +500,7 @@ export default function PlayerDeck({
         for (let i=0; i<newGameMoves.length; i++){
             if (newGameMoves[i].card == "BANG" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action!="DISCARD"){
                 setMessageHidden(false);
-                setNotificationMessage(`Player ${searchPlayerById(newGameMoves[i].usingPlayer).user} banged you`);
+                setNotificationMessage(`${(searchPlayerById(newGameMoves[i].usingPlayer).user).toUpperCase()} SHOT YOU`);
                 return true;
             }
         }
@@ -514,7 +514,7 @@ export default function PlayerDeck({
         for (let i=0; i<newGameMoves.length; i++){
             if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == player.id && newGameMoves[i].action=="FAIL"){
                 setMessageHidden(false);
-                setNotificationMessage(`You shot back`);
+                setNotificationMessage(`YOU SHOT BACK`);
                 return true;
             }
         }
@@ -601,18 +601,18 @@ export default function PlayerDeck({
     return (
         <div style={{marginBottom: 5}}>
             <>
-                <h hidden={hitOrMissedNoteHidden} id="notification">
+                <h hidden={messageHidden ? hitOrMissedNoteHidden:true} id="notification">
                 <b>{hitOrMissedMessage}</b></h>
             </>
             <>
-                <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>
+                <p hidden={notificationImageHidden} id="notification-for-image"><Image className="notification-image" src={notificationImage}/></p>
             </>
             <>
                 <p hidden={messageHidden} id="notification2"><b>{notificationmessage}</b></p>
             </>
             <>
                 <p hidden={savedByBeerMessageHidden} id="notification2">
-                <b>Saved by beer, Cheers!</b></p>
+                <b>SAVED BY BEER, CHEERS!</b></p>
             </>
             <>
                 {player.bullets === 0 ? (

@@ -672,7 +672,7 @@ export default function OpponentDeckWide({
         for (let i=0; i<newGameMoves.length; i++){
             if (newGameMoves[i].card == "INDIANS" && newGameMoves[i].targetPlayer == opponent.id && newGameMoves[i].action=="FAIL"){
                 setMessageHidden(false);
-                setNotificationMessage(`The opponent shot back`);
+                setNotificationMessage(`${opponent.user.toUpperCase()} SHOT BACK`);
                 return true;
             }
         }
@@ -686,7 +686,7 @@ export default function OpponentDeckWide({
         for (let i=0; i<newGameMoves.length; i++){
             if (newGameMoves[i].card == "BEER" && newGameMoves[i].usingPlayer == opponent.id && newGameMoves[i].action=="SUCCESS"){
                 setMessageHidden(false);
-                setNotificationMessage(`Saved by beer, Cheers!`);
+                setNotificationMessage(`SAVED BY BEER, CHEERS!`);
                 return true;
             }
         }
@@ -807,7 +807,7 @@ export default function OpponentDeckWide({
                 <b>{hitOrMissedMessage}</b></h>
             </>
             <>
-                <p hidden={notificationImageHidden} id="notification"><Image src={notificationImage} ></Image></p>
+                <p hidden={notificationImageHidden} id="notification-for-image"><Image className="notification-image" src={notificationImage}/></p>
             </>
             <>
                 <p hidden={messageHidden} id="notification2"><b>{notificationmessage}</b></p>

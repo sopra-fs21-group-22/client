@@ -160,7 +160,8 @@ function WaitingRoom({
     }
 
     const quick_guide_tip = (
-        <Tooltip id="guide-tooltip">Already read the <b>"Quick Guide"?</b> It helps understanding the game in just a few steps!</Tooltip>
+        <Tooltip id="guide-tooltip">Already read the <b>"Quick Guide"?</b> It helps understanding the game in just a few
+            steps!</Tooltip>
     )
 
     return (
@@ -170,7 +171,7 @@ function WaitingRoom({
             <br/><br/>
 
             {(!currPlayer_table || !currPlayer || currPlayer_table.gameStatus === "ENDED") ? (
-                <span style={{textAlign: "center"}}><Spinner/><br/><b>Loading...</b></span>
+                <p style={{textAlign: "center"}}><Spinner/><br/><b>Loading...</b></p>
             ) : (
                 <>
                     {currPlayer_table.gameStatus === "ONGOING" ? (
@@ -231,10 +232,15 @@ function WaitingRoom({
                                     <span style={{border: "solid", padding: "10px"}}>
                                         <b>{currPlayer_table.players.length}/7</b> players are in this lobby, at least four are necessary!
                                     </span>
-                                ) : (
+                                ) : (currPlayer_table.players.length === 7 ? (
                                     <span style={{border: "solid", padding: "10px"}}>
-                                        <b>{currPlayer_table.players.length}/7</b> players are in this lobby
+                                        <b>{currPlayer_table.players.length}/7</b> players are in this lobby, the lobby is full!
                                     </span>
+                                    ) : (
+                                        <span style={{border: "solid", padding: "10px"}}>
+                                            <b>{currPlayer_table.players.length}/7</b> players are in this lobby
+                                        </span>
+                                    )
                                 )}
                             </p>
 
@@ -258,7 +264,7 @@ function WaitingRoom({
                         Quick Guide
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body  id="chosen-role_modal_body" centered>
+                <Modal.Body id="chosen-role_modal_body" centered>
                     <QuickGuide/>
                 </Modal.Body>
                 <Modal.Footer id="chosen-role_modal_footer">

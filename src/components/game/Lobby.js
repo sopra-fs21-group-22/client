@@ -67,7 +67,7 @@ function Lobby({
         let currPt = new PlayerTable(playertable_response.data);
         updatePlayer_table(currPt);
         setToomanycards(currp.hand.playCards.length - currp.bullets);
-        setReversedGameMoves(currPt.gameMoves.reverse());
+        setReversedGameMoves(currPt.gameMoves.slice().reverse());
 
         if (currPlayer_table != null && currPlayer != null) {
             correctOrder();
@@ -412,9 +412,7 @@ function Lobby({
         <>
             <Container fluid className="background_container">
                 {!orderArray || !currPlayer || !currPlayer_table ? (
-                    <>
-                        <p style={{textAlign: "center"}}><Spinner/><br></br><b>Loading...</b></p>
-                    </>
+                    <p style={{textAlign: "center"}}><Spinner/><br></br><b>Loading...</b></p>
                     /* ) : ( currPlayer_table.gameStatus == "ENDED" ? (
                         <>
                         <h1>Game Over</h1>

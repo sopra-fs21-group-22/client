@@ -129,6 +129,22 @@
     animation-duration: 0.9s;
 }
 
+#notification-for-image{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation-name: fadeIn;
+    animation-duration: 0.9s;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    font-weight: bold;
+}
+.notification-image{
+    height: 150px;
+}
+
 #notification2{
     position: absolute;
     display: flex;
@@ -140,7 +156,7 @@
     color: black;
     font-weight: bold;
     opacity: 1;
-    font-size: 30px;
+    font-size: 50px;
     animation-name: fadeIn;
     animation-duration: 0.9s;
 }
